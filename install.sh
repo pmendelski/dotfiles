@@ -160,6 +160,22 @@ function main() {
     return 0
 }
 
+function printHelp() {
+    echo "NAME"
+    echo "  dotfiles - Ubuntu dotfiles. Source: https://github.com/mendlik/dotfiles"
+    echo ""
+    echo "SYNOPSIS"
+    echo "  ./install.sh [OPTION]..."
+    echo ""
+    echo "OPTIONS"
+    echo "  -u, --update   Update dotfiles from its source"
+    echo "  -v, --verbose  Print additional logs"
+    echo "  -s, --silent   Disable logs. Except confirmations."
+    echo "  -n, --nocolor  Disable colors"
+    echo "  -h, --help     Print help"
+    echo ""
+}
+
 while (("$#")); do
     case $1 in
         --force|-f)
@@ -174,6 +190,10 @@ while (("$#")); do
         --verbose|-v)
             verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
             ;;
+        --help|-h)
+            printHelp
+            exit 0;
+            ;;
         --update|-u)
             git pull --rebase origin master
             ;;
@@ -182,7 +202,8 @@ while (("$#")); do
             break
             ;;
         -?*) # Unidentified option.
-            printf 'WARN: Unknown option: %s\n' "$1" >&2
+            println "Unknown option: $1"
+            println "Try --help option"
             exit 1;
             ;;
     esac
