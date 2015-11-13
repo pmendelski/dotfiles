@@ -1,0 +1,48 @@
+# Git configuration options
+# https://git-scm.com/book/tr/v2/Customizing-Git-Git-Configuration
+# http://git-scm.com/docs/git-config.html
+
+# Rewrites GitHub repo addresses
+[url "git@github.com:"]
+    insteadOf = "gh:"
+    pushInsteadOf = "git://github.com"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+    pushInsteadOf = "https://github.com/"
+[url "git@gist.github.com:"]
+    insteadOf = "gst:"
+    pushInsteadOf = "gist:"
+    pushInsteadOf = "git://gist.github.com/"
+    pushInsteadOf = "https://gist.github.com/"
+
+[include]
+    # For username / github token / etc
+    path = ~/.gitconfig_local
+
+# Linux merge tool
+[merge]
+    tool = meld
+
+# Colors
+[color]
+    ui = always
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    commit = green bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[color "diff-highlight"]
+    oldNormal = "red bold"
+    oldHighlight = "red bold 52"
+    newNormal = "green bold"
+    newHighlight = "green bold 22"

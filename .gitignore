@@ -1,0 +1,10 @@
+# working files
+.vim/tmp/swaps/*
+.vim/tmp/undo/*
+.vim/tmp/backups/*
+
+# git credentials file
+.*_local
+
+# backup files
+.backup
