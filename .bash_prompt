@@ -171,9 +171,9 @@ function PROMPT_COMMAND() {
         fi;
         local status="";
         status+="if [ ! \$? -o \$? -eq 0 ]; then "
-        status+="echo \"$COLOR_GREEN|\"; "
+        status+="echo \"$COLOR_GREEN+\"; "
         status+="else "
-        status+="echo \"$COLOR_RED|\"; "
+        status+="echo \"$COLOR_RED-\"; "
         status+="fi"
         status="\$($status)"
         echo $status
