@@ -3,7 +3,8 @@
 # This script symlinks all the dotfiles to home directory.
 # It is safe to run multiple times and will prompt you about anything unclear.
 
-cd "$(dirname "$BASH_SOURCE")"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$DIR"
 
 # Go to the end of file for some interesting code
 
@@ -107,15 +108,27 @@ printDebug() {
 ####################################################
 
 function main() {
+    local -r backupDir="$DIR/../.dotfiles.bak"
 
-    function list() {
+    function listSymlinks() {
         local -a files=(
             $(find . -maxdepth 1 -type f -name ".*")
             ".vim"
         )
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
-            grep -v .gitignore | \
+            grep -v \.tpl$ | \
+            sort \
+        ))
+        echo "${files[@]}"
+    }
+
+    function listTemplates() {
+        local -a files=(
+            $(find . -maxdepth 1 -type f -name ".*\.tpl")
+        )
+        files=($(\
+            printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
             sort \
         ))
         echo "${files[@]}"
@@ -126,26 +139,24 @@ function main() {
     }
 
     function backupAndRemove() {
-        [ ! -d .backup ] && mkdir .backup
-        cp -r $targetFile .backup/
+        [ ! -d "$backupDir" ] && mkdir "$backupDir"
+        cp -rfP $targetFile "$backupDir/"
         printDebug "Created backup: $targetFile"
         rm -rf "$targetFile"
         printDebug "Removed: $targetFile"
     }
 
-    local -a sourceFiles="$(list)"
+    local -a sourceFiles="$(listSymlinks)"
     local sourceFile=''
     local targetFile=''
 
-    [ -d .backup ] && rm -rf .backup
-
     for sourceFile in ${sourceFiles[@]}; do
         targetFile="$HOME/$sourceFile"
-        fullSourceFile="$(pwd)/$sourceFile"
+        fullSourceFile="$DIR/$sourceFile"
         if [ ! -e "$targetFile" ]; then
             link $fullSourceFile $targetFile
         elif [ "$(readlink "$targetFile")" == "$fullSourceFile" ]; then
-            printInfo "Already linked: $sourceFile"
+            printInfo "Symbolic link already created: $sourceFile"
         elif [ $force != 0 ]; then
             link $fullSourceFile $targetFile
         else
@@ -157,6 +168,24 @@ function main() {
             fi
         fi
     done
+
+    sourceFiles="$(listTemplates)"
+    for sourceFile in ${sourceFiles[@]}; do
+        targetFile="$(echo "$HOME/$sourceFile" | sed -e "s|\.tpl$||")"
+        fullSourceFile="$DIR/$sourceFile"
+        if [ ! -e "$targetFile" ]; then
+            # Expand variables
+            echo -e "$(eval "echo -e \"`<$fullSourceFile`\"")" > "$targetFile"
+            printSuccess "Change options in template config file: $targetFile"
+        else
+            printInfo "Template config already created: $(basename "$targetFile")"
+        fi
+    done
+
+    if [ -d "$backupDir" ]; then
+        printInfo "Created backup folder: $backupDir"
+    fi
+
     return 0
 }
 

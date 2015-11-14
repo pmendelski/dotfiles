@@ -1,0 +1,3 @@
+#!/bin/bash
+
+declare PROMPT_DEFAULT_USERHOST=\"$USER@$HOSTNAME\"

@@ -109,20 +109,39 @@ function PROMPT_COMMAND() {
             echo '(unknown)' \
         )";
         branchName="$(trim ${branchName})"
+        local gitStatus="$branchName"
 
-        ## fast dirty check of git repo with timeout 0.5s
-        local dirty="";
-        dirty="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+        ## check uncommited
+        local uncommitted="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+            git diff-index --cached --quiet HEAD --ignore-submodules || \
+            echo \~ \
+        ")"
+        [ $? -gt 0 ] && uncommitted="?" # timouted
+
+        ## check unindexed
+        local unindexed="";
+        unindexed="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
             git diff --no-ext-diff --quiet --ignore-submodules --exit-code || \
             echo \* \
         ")"
-        if [ $? -gt 0 ]; then
-            # dirty check timeouted
-            dirty="?"
-        fi
+        [ $? -gt 0 ] && unindexed="?" # timouted
 
-        local gitStatus="[$branchName$dirty]"
-        if [ "$dirty" ]; then
+        ## check untracked
+        local untracked="";
+        untracked="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+            [ -z \"$(git ls-files . --exclude-standard --others)\" ] || \
+            echo + \
+        ")"
+        [ $? -gt 0 ] && untracked="?" # timouted
+
+        if [ "$uncommitted" = "?" -o "$unindexed" = "?" -o "$untracked" = "?" ]; then
+            [ -z "$uncommitted" ] && [[ "$untracked$unindexed" == *"?" ]] && uncommitted="_";
+            [ -z "$unindexed" ] && [ "$untracked" = "?" ] && unindexed="_";
+            # [ -z "$untracked" ] && untracked="_";
+        fi
+        gitStatus="$gitStatus$uncommitted$unindexed$untracked"
+        gitStatus="[$gitStatus]"
+        if [ "$untracked" -o "$unindexed" -o "$uncommitted" ]; then
             gitStatus="$COLOR_MAGENTA_BOLD$gitStatus"
         else
             gitStatus="$COLOR_MAGENTA$gitStatus"
