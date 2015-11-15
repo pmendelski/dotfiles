@@ -1,0 +1,185 @@
+# Your snippets
+#
+# Atom snippets allow you to enter a simple prefix in the editor and hit tab to
+# expand the prefix into a larger code block with templated values.
+#
+# You can create a new snippet in this file by typing "snip" and then hitting
+# tab.
+#
+# An example CoffeeScript snippet to expand log to console.log:
+#
+# '.source.coffee':
+#   'Console log':
+#     'prefix': 'log'
+#     'body': 'console.log $1'
+#
+# Each scope (e.g. '.source.coffee' above) can only be declared once.
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# https://atom.io/docs/latest/using-atom-basic-customization#cson
+
+'.source.js':
+  # Funtion snippets
+  # All start with 'f'.
+  'Function':
+    'prefix': 'f'
+    'body': '''
+    function(${1}) {
+    \t${2:// body...}
+    }
+    '''
+  'Named Function':
+    'prefix': 'fn'
+    'body': '''
+    function ${1:funName}(${2}) {
+    \t${3:// body...}
+    }
+    '''
+  'Arrow function':
+    'prefix': 'far'
+    'body': '''
+    (${1}) -> {
+    \t${2:// body...}
+    }
+    '''
+  'Function call':
+    'prefix': 'fc'
+    'body': '''
+    ${1:funName}.call(${2:context}, ${3:arguments});$4
+    '''
+  'Function apply':
+    'prefix': 'fa'
+    'body': '''
+    ${1:funName}.apply(${2:context}, ${3:arguments});$4
+    '''
+  'Callback Function':
+    'prefix': 'fc'
+    'body': '''
+    function(err, ${1}) {
+    \t${2:if (err) return callback(err);}
+    \t${3:// body...}
+    }
+    '''
+  'Callback Function with next':
+    'prefix': 'fcn'
+    'body': '''
+    function(err, ${1}) {
+    \t${2:if (err) return next(err);}
+    \t${3:// body...}
+    }
+    '''
+  # Console snippets.
+  # All start with 'c'.
+  # https://developer.mozilla.org/en-US/docs/Web/API/Console
+  'Console assert':
+    'prefix': 'ca'
+    'body': 'console.assert($1, $2);$3'
+  'Console count':
+    'prefix': 'cc'
+    'body': 'console.count($1);$2'
+  'Console dir':
+    'prefix': 'cd'
+    'body': 'console.dir($1);$2'
+  'Console error':
+    'prefix': 'ce'
+    'body': "console.error('$1');$2"
+  'Console group':
+    'prefix': 'cg'
+    'body': 'console.group($1);$2'
+  'Console groupCollapsed':
+    'prefix': 'cgc'
+    'body': 'console.groupCollapsed($1);$2'
+  'Console groupEnd':
+    'prefix': 'cge'
+    'body': 'console.groupEnd();$1'
+  'Console info':
+    'prefix': 'ci'
+    'body': "console.info('$1');$2"
+  'Console log':
+    'prefix': 'cl'
+    'body': "console.log('$1');$2"
+  'Console table':
+    'prefix': 'ctbl'
+    'body': 'console.table($1);$2'
+  'Console time':
+    'prefix': 'ct'
+    'body': "console.time('$1');$2"
+  'Console timeEnd':
+    'prefix': 'cte'
+    'body': "console.timeEnd('$1');$2"
+  'Console timeStamp':
+    'prefix': 'cte'
+    'body': "console.timeStamp('$1');$2"
+  'Console trace':
+    'prefix': 'ct'
+    'body': "console.trace('$1');$2"
+  'Console warn':
+    'prefix': 'cw'
+    'body': "console.warn('$1');$2"
+  # CommonJS snippets
+  # All start with 'f'.
+  'Module exports':
+    'prefix': 'me'
+    'body': 'module.exports = ${1:function() {}};$2'
+  'New module':
+    'prefix': 'mn'
+    'body': '''
+    'use strict';
+    ${1}
+    module.exports = ${2:function() {}};$3
+    '''
+  # Miscallenious snippets
+  'Use strict':
+    'prefix': 'us'
+    'body': '''
+    'use strict';
+
+    $1
+    '''
+  'Alert':
+    'prefix': 'al'
+    'body': "alert(${1:'Hello!'});"
+  'Try Catch':
+    'prefix': 'try'
+    'body': '''
+    try {
+    \t${1}
+    } catch (e) {
+    \t${2}
+    }${3}
+    '''
+  # BDD snippets
+  'New BDD test file':
+    'prefix': 'bdd'
+    'body': '''
+    'use strict';
+    ${1}
+    desc('${2:Description}', function() {
+    \t${3: /// body...}
+    });
+    '''
+  'Describe':
+    'prefix': 'desc'
+    'body': '''
+    desc('${1:Description}', function() {
+    \t${2: /// body...}
+    });${3}
+    '''
+  'It':
+    'prefix': 'it'
+    'body': '''
+    it('${1:Description}', function(${2}) {
+    \t${3: /// body...}
+    });${4}
+    '''
+  'It pedning':
+    'prefix': 'it'
+    'body': '''
+    it('${1:Description}');${2}
+    '''
+  # Chaijs expect snippets
+  'Expect equal':
+    'prefix': 'ee'
+    ''

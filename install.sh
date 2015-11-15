@@ -114,6 +114,12 @@ function main() {
         local -a files=(
             $(find . -maxdepth 1 -type f -name ".*")
             ".vim"
+            # ubuntu branch
+            $(find .atom -type f)
+            $(find .sublime -type f)
+            $(find .config -type f)
+            ".local/share/file-manager/actions"
+            ".conky"
         )
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
@@ -136,7 +142,8 @@ function main() {
     }
 
     function link() {
-        execute "ln -fs $1 $2" "$1 → $2"
+        # execute "ln -fs $1 $2" "$1 → $2"
+        printSuccess "$1 → $2"
     }
 
     function backupAndRemove() {
@@ -207,7 +214,14 @@ function printHelp() {
     echo "  -n, --nocolor  Disable colors"
     echo "  -h, --help     Print help"
     echo ""
-}
+}    function backupAndRemove() {
+        [ ! -d "$backupDir" ] && \
+            mkdir "$backupDir" && \
+            cp -rfP $targetFile "$backupDir/" && \
+            printDebug "Created backup: $targetFile" && \
+            rm -rf "$targetFile" && \
+            printDebug "Removed: $targetFile"
+    }
 
 while (("$#")); do
     case $1 in

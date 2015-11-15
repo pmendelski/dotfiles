@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Action
+TargetToolbar=true
+TargetLocation=true
+Icon[en_US]=/opt/atom/resources/app.asar.unpacked/resources/atom.png
+Icon[en]=/opt/atom/resources/app.asar.unpacked/resources/atom.png
+Icon[C]=/opt/atom/resources/app.asar.unpacked/resources/atom.png
+Tooltip[en_US]=Open Sublime here
+Tooltip[en]=Open Sublime here
+Tooltip[C]=Open Sublime here
+ToolbarLabel[en_US]=Atom
+ToolbarLabel[en]=Atom
+ToolbarLabel[C]=Atom
+Name[en_US]=Atom
+Name[en]=Atom
+Name[C]=Atom
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Exec=/opt/atom/atom %d/%b
+Name[en_US]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile

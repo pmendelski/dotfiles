@@ -1,0 +1,24 @@
+[Desktop Entry]
+Type=Action
+TargetToolbar=true
+TargetLocation=true
+Icon[en_US]=/usr/share/icons/qnapi.png
+Icon[en]=/usr/share/icons/qnapi.png
+Icon[C]=/usr/share/icons/qnapi.png
+Tooltip[en_US]=Download subtitles
+Tooltip[en]=Download subtitles
+Tooltip[C]=Download subtitles
+ToolbarLabel[en_US]=QNapi
+ToolbarLabel[en]=QNapi
+ToolbarLabel[C]=QNapi
+Name[en_US]=QNapi
+Name[en]=QNapi
+Name[C]=QNapi
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Exec=qnapi %f
+Name[en_US]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile
+ExecutionMode=Terminal

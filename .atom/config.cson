@@ -1,0 +1,28 @@
+"*":
+  welcome:
+    showOnStartup: false
+  editor:
+    invisibles: {}
+    tabLength: 3
+    showInvisibles: true
+    showIndentGuide: true
+    fontSize: 15
+  linter:
+    showErrorPanel: false
+    lintOnFly: false
+    showErrorTabLine: true
+  minimap:
+    plugins:
+      "git-diff": true
+      linter: true
+      "highlight-selected": true
+  "custom-title":
+    template: "<% if (projectName) { %><%= projectName %><% if (gitHead) { %> [<%= gitHead %>]<% } %><% } %> <% if (relativeFilePath && projectName) { print('»') } %> <%= relativeFilePath %>"
+  react: {}
+  "linter-jshint":
+    disableWhenNoJshintrcFileInPath: true
+  "linter-jscs":
+    onlyConfig: true
+  "linter-eslint":
+    disableWhenNoEslintrcFileInPath: true
+    useGlobalEslint: true

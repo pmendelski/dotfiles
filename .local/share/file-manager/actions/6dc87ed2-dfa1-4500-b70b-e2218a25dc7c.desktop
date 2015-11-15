@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Action
+Icon[en_US]=/opt/sublime_text/Icon/256x256/sublime-text.png
+Icon[en]=/opt/sublime_text/Icon/256x256/sublime-text.png
+Icon[C]=/opt/sublime_text/Icon/256x256/sublime-text.png
+Tooltip[en_US]=Sublime
+Tooltip[en]=Sublime
+Tooltip[C]=Sublime
+ToolbarLabel[en_US]=Sublime
+ToolbarLabel[en]=Sublime
+ToolbarLabel[C]=Sublime
+Name[en_US]=Sublime
+Name[en]=Sublime
+Name[C]=Sublime
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Exec=sublime %d/%b
+Name[en_US]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile
