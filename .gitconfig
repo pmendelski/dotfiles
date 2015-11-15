@@ -46,3 +46,16 @@
     oldHighlight = "red bold 52"
     newNormal = "green bold"
     newHighlight = "green bold 22"
+
+# Minimal list of custom commands
+[alias]
+    g = log --graph --pretty=custom     # Show custom graph
+    l = log --pretty=custom             # Show custom log
+    c = shortlog --summary --numbered   # List contributors
+[pretty]
+    custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(blue)(%an)"
+    #                     |        │            │            │             └─ author name
+    #                     │        │            │            └─ message
+    #                     │        │            └─ date (relative)
+    #                     │        └─ decorations (branch, heads or tags)
+    #                     └─ hash (abbreviated)

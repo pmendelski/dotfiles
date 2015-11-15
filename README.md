@@ -38,6 +38,17 @@ can have their local equivalents with suffix `_local`.
 
 For example in order to add you custom alias just create file `~/.bash_aliases_local` and define your alias.
 
+## Acknowledgements
+
+Inspiration and code was taken from many sources, including:
+
+* [Paul Irish's](https://github.com/paulirish)
+  [dotfiles](https://github.com/paulirish/dotfiles)
+* [Mathias Bynens'](https://github.com/mathiasbynens)
+  [dotfiles](https://github.com/mathiasbynens/dotfiles)
+* [Cătălin Mariș'](https://github.com/alrra)
+  [dotfiles](https://github.com/alrra/dotfiles)
+
 ## License
 
 [MIT](LICENSE) © Paweł‚ Mendelski
