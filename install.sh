@@ -142,8 +142,7 @@ function main() {
     }
 
     function link() {
-        # execute "ln -fs $1 $2" "$1 → $2"
-        printSuccess "$1 → $2"
+        execute "ln -fs $1 $2" "$1 → $2"
     }
 
     function backupAndRemove() {
@@ -154,7 +153,7 @@ function main() {
             mkdir -p "$destDir"
         cp -rfP "$targetFile" "$destDir" && \
             printDebug "Created backup: $targetFile" && \
-            # rm -rf "$targetFile" && \
+            rm -rf "$targetFile" && \
             printDebug "Removed: $targetFile"
     }
 
