@@ -1,0 +1,6 @@
+"*":
+  core: {}
+  editor:
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true

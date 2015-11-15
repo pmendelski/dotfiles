@@ -119,6 +119,7 @@ function main() {
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
             grep -v \.tpl$ | \
             grep -v \.gitignore | \
+            grep -v \.editorconfig | \
             sort \
         ))
         echo "${files[@]}"
@@ -199,6 +200,11 @@ function main() {
     return 0
 }
 
+function update() {
+    local banchName="$(git rev-parse --abbrev-ref HEAD)"
+    git pull --rebase origin $banchName
+}
+
 function printHelp() {
     echo "NAME"
     echo "  dotfiles - Ubuntu dotfiles. Source: https://github.com/mendlik/dotfiles"
@@ -234,7 +240,7 @@ while (("$#")); do
             exit 0;
             ;;
         --update|-u)
-            git pull --rebase origin master
+            update
             ;;
         --) # End of all options.
             shift
