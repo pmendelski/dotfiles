@@ -94,59 +94,68 @@ function PROMPT_COMMAND() {
     }
 
     function gitStatus() {
-        # check if we're in a git repo. (fast)
+        local result
+        local branchName
+        local dirty=""
+        local timeout=""
+        # Check if we're in a git repo
         git rev-parse --is-inside-work-tree &>/dev/null || return
 
-        # check for what branch we're on. (fast)
-        #   if HEAD isn’t a symbolic ref (typical branch),
-        #   then get a tracking remote branch or tag
-        #   otherwise get the short SHA for the latest commit
-        #   lastly just give up.
-        local branchName="$(\
+        # Check what branch we're on
+        branchName="$(\
             git symbolic-ref --quiet --short HEAD 2> /dev/null || \
             git describe --all --exact-match HEAD 2> /dev/null || \
             git rev-parse --short HEAD 2> /dev/null || \
             echo '(unknown)' \
         )";
         branchName="$(trim ${branchName})"
-        local gitStatus="$branchName"
 
-        ## check uncommited
-        local uncommitted="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
-            git diff-index --cached --quiet HEAD --ignore-submodules || \
-            echo \~ \
-        ")"
-        [ $? -gt 0 ] && uncommitted="?" # timouted
+        # Check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+            # Ensure the index is up to date.
+			# git update-index --really-refresh -q &>/dev/null;
 
-        ## check unindexed
-        local unindexed="";
-        unindexed="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
-            git diff --no-ext-diff --quiet --ignore-submodules --exit-code || \
-            echo \* \
-        ")"
-        [ $? -gt 0 ] && unindexed="?" # timouted
+            # Check uncommited changes (slow)
+            dirty+="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+                git diff-index --cached --quiet HEAD --ignore-submodules || \
+                echo \~ \
+            ")"
+            [ $? -gt 0 ] && timeout+="~"
 
-        ## check untracked
-        local untracked="";
-        untracked="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
-            [ -z \"$(git ls-files . --exclude-standard --others)\" ] || \
-            echo + \
-        ")"
-        [ $? -gt 0 ] && untracked="?" # timouted
+            # Check unindexed files (slow)
+            dirty+="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+                git diff --no-ext-diff --quiet --ignore-submodules --exit-code || \
+                echo \* \
+            ")"
+            [ $? -gt 0 ] && timeout+="*"
 
-        if [ "$uncommitted" = "?" -o "$unindexed" = "?" -o "$untracked" = "?" ]; then
-            [ -z "$uncommitted" ] && [[ "$untracked$unindexed" == *"?" ]] && uncommitted="_";
-            [ -z "$unindexed" ] && [ "$untracked" = "?" ] && unindexed="_";
-            # [ -z "$untracked" ] && untracked="_";
-        fi
-        gitStatus="$gitStatus$uncommitted$unindexed$untracked"
-        gitStatus="[$gitStatus]"
-        if [ "$untracked" -o "$unindexed" -o "$uncommitted" ]; then
-            gitStatus="$COLOR_MAGENTA_BOLD$gitStatus"
+            # Check for untracked files
+            dirty+="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+                [ -z \"$(git ls-files . --exclude-standard --others)\" ] || \
+                echo + \
+            ")"
+            [ $? -gt 0 ] && timeout+="+"
+
+            # Check for stashed changes
+            dirty+="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
+                [ -z \"$(git stash list)\" ] || \
+                echo ^ \
+            ")"
+            [ $? -gt 0 ] && timeout+="^"
+
+            [ "$timeout" ] && dirty+="($timeout)"
         else
-            gitStatus="$COLOR_MAGENTA$gitStatus"
+            dirty="@git"
         fi
-        echo "$gitStatus";
+
+        result="[$branchName$dirty]"
+        if [ "$dirty" ]; then
+            result="$COLOR_MAGENTA_BOLD$result"
+        else
+            result="$COLOR_MAGENTA$result"
+        fi
+
+        echo "$result";
     }
 
     function terminalTitle() {
@@ -156,9 +165,7 @@ function PROMPT_COMMAND() {
         title+="${title:+: }"
         title="$(stripNonPrintable $title)"
         title+="$(pwd)"
-        if [ "$@" ]; then
-            title+=" $(stripNonPrintable $@)"
-        fi
+        [ "$@" ] && title+=" $(stripNonPrintable $@)"
         title="\[\e]0;$title\007\]"
         echo "$title"
     }
@@ -185,9 +192,7 @@ function PROMPT_COMMAND() {
     }
 
     function cmdStatus() {
-        if [ $PROMPT_STATUS -eq 0 ]; then
-            return;
-        fi;
+        [ $PROMPT_STATUS -eq 0 ] && return;
         local status="";
         status+="if [ ! \$? -o \$? -eq 0 ]; then "
         status+="echo \"$COLOR_GREEN+\"; "

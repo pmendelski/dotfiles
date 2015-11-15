@@ -108,7 +108,7 @@ printDebug() {
 ####################################################
 
 function main() {
-    local -r backupDir="$DIR/../.dotfiles.bak"
+    local -r backupDir="$HOME/.dotfiles.bak"
 
     function listSymlinks() {
         local -a files=(
@@ -118,6 +118,7 @@ function main() {
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
             grep -v \.tpl$ | \
+            grep -v \.gitignore | \
             sort \
         ))
         echo "${files[@]}"
@@ -139,11 +140,12 @@ function main() {
     }
 
     function backupAndRemove() {
-        [ ! -d "$backupDir" ] && mkdir "$backupDir"
-        cp -rfP $targetFile "$backupDir/"
-        printDebug "Created backup: $targetFile"
-        rm -rf "$targetFile"
-        printDebug "Removed: $targetFile"
+        [ ! -d "$backupDir" ] && \
+            mkdir "$backupDir" && \
+            cp -rfP $targetFile "$backupDir/" && \
+            printDebug "Created backup: $targetFile" && \
+            rm -rf "$targetFile" && \
+            printDebug "Removed: $targetFile"
     }
 
     local -a sourceFiles="$(listSymlinks)"
@@ -175,7 +177,9 @@ function main() {
         fullSourceFile="$DIR/$sourceFile"
         if [ ! -e "$targetFile" ]; then
             # Expand variables
-            echo -e "$(eval "echo -e \"`<$fullSourceFile`\"")" > "$targetFile"
+            sed -e "s/\$USER/$USER/" \
+                -e "s/\$HOSTNAME/$HOSTNAME/" "$fullSourceFile" \
+                > "$targetFile"
             printSuccess "Change options in template config file: $targetFile"
         else
             printInfo "Template config already created: $(basename "$targetFile")"
@@ -183,7 +187,7 @@ function main() {
     done
 
     if [ -d "$backupDir" ]; then
-        printInfo "Created backup folder: $backupDir"
+        printWarn "Created backup folder: $backupDir"
     fi
 
     return 0
