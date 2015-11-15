@@ -116,7 +116,6 @@ function main() {
             ".vim"
             # ubuntu branch
             $(find .atom -type f)
-            $(find .sublime -type f)
             $(find .config -type f)
             ".local/share/file-manager/actions"
             ".conky"
@@ -142,7 +141,10 @@ function main() {
     }
 
     function link() {
-        execute "ln -fs $1 $2" "$1 → $2"
+         local destDir="$(dirname "$2")"
+         [ ! -d "$destDir" ] && \
+             mkdir -p "$destDir"
+         execute "ln -fs $1 $2" "$1 → $2"
     }
 
     function backupAndRemove() {
@@ -216,14 +218,7 @@ function printHelp() {
     echo "  -n, --nocolor  Disable colors"
     echo "  -h, --help     Print help"
     echo ""
-}    function backupAndRemove() {
-        [ ! -d "$backupDir" ] && \
-            mkdir "$backupDir" && \
-            cp -rfP $targetFile "$backupDir/" && \
-            printDebug "Created backup: $targetFile" && \
-            rm -rf "$targetFile" && \
-            printDebug "Removed: $targetFile"
-    }
+}
 
 while (("$#")); do
     case $1 in
