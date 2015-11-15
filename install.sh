@@ -141,10 +141,13 @@ function main() {
 
     function backupAndRemove() {
         [ ! -d "$backupDir" ] && \
-            mkdir "$backupDir" && \
-            cp -rfP $targetFile "$backupDir/" && \
+            mkdir "$backupDir"
+        local destDir="$(dirname "$targetFile" | sed -e "s|$HOME|$backupDir|")"
+        [ ! -d "$destDir" ] && \
+            mkdir -p "$destDir"
+        cp -rfP "$targetFile" "$destDir" && \
             printDebug "Created backup: $targetFile" && \
-            rm -rf "$targetFile" && \
+            # rm -rf "$targetFile" && \
             printDebug "Removed: $targetFile"
     }
 
