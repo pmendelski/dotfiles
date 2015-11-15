@@ -23,6 +23,10 @@
 [merge]
     tool = meld
 
+# By default pull with --rebase
+[pull]
+    rebase = true
+
 # Colors
 [color]
     ui = always

@@ -124,6 +124,7 @@ function main() {
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
             grep -v \.tpl$ | \
             grep -v \.gitignore | \
+            grep -v \.editorconfig | \
             sort \
         ))
         echo "${files[@]}"
@@ -141,10 +142,10 @@ function main() {
     }
 
     function link() {
-         local destDir="$(dirname "$2")"
-         [ ! -d "$destDir" ] && \
-             mkdir -p "$destDir"
-         execute "ln -fs $1 $2" "$1 → $2"
+        local destDir="$(dirname "$2")"
+        [ ! -d "$destDir" ] && \
+            mkdir -p "$destDir"
+        execute "ln -fs $1 $2" "$1 → $2"
     }
 
     function backupAndRemove() {
@@ -204,6 +205,11 @@ function main() {
     return 0
 }
 
+function update() {
+    local banchName="$(git rev-parse --abbrev-ref HEAD)"
+    git pull --rebase origin $banchName
+}
+
 function printHelp() {
     echo "NAME"
     echo "  dotfiles - Ubuntu dotfiles. Source: https://github.com/mendlik/dotfiles"
@@ -239,7 +245,7 @@ while (("$#")); do
             exit 0;
             ;;
         --update|-u)
-            git pull --rebase origin master
+            update
             ;;
         --) # End of all options.
             shift

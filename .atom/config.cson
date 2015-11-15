@@ -1,12 +1,6 @@
 "*":
   welcome:
     showOnStartup: false
-  editor:
-    invisibles: {}
-    tabLength: 3
-    showInvisibles: true
-    showIndentGuide: true
-    fontSize: 15
   linter:
     showErrorPanel: false
     lintOnFly: false
@@ -26,3 +20,10 @@
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
     useGlobalEslint: true
+  core: {}
+  editor:
+    invisibles: {}
+    tabLength: 3
+    showInvisibles: true
+    showIndentGuide: true
+    fontSize: 15
