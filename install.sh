@@ -136,6 +136,9 @@ function main() {
     }
 
     function link() {
+        local destDir="$(dirname "$2")"
+        [ ! -d "$destDir" ] && \
+            mkdir -p "$destDir"
         execute "ln -fs $1 $2" "$1 → $2"
     }
 
