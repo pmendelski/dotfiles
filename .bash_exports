@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Node.js
-export NODE_REPL_HISTORY="~/.node_history"; # Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY="$HOME/.node_history"; # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_SIZE="32768";      # Allow 32^3 entries; the default is 1000.
 export NODE_REPL_MODE="sloppy";             # Use sloppy mode by default, matching web browsers.
 
@@ -42,4 +42,4 @@ export SBT_HOME="$(update-alternatives --get-selections | grep -e "^sbt " | tr -
 
 # Custom Globals
 export EDITOR="vim"                         # Make vim the default editor.
-export DEV="~/Development"
+export DEV="$HOME/Development"
