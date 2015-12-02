@@ -22,6 +22,7 @@ declare PROMPT_DEFAULT_USERHOST=""      # Add it to ~/.bash_exports_local
 declare PROMPT_GIT_TIMEOUT="0.5s"       # Git status check timeout
 declare PROMPT_TIMESTAMP="0"            # Add timestamp to prompt (date format)
 declare -i PROMPT_NEWLINE=40            # Break command line after 40 characters (-1=never)
+declare -i PROMPT_GIT=1                 # Show GIT status
 declare -i PROMPT_COLORS=1              # Use colors
 declare -i PROMPT_STATUS=0              # Show last command result status
 declare -i PROMPT_SIMPLE=0              # Fallback to simple prompt
@@ -94,9 +95,10 @@ function PROMPT_COMMAND() {
     }
 
     function gitStatus() {
+        [ $PROMPT_GIT -eq 0 ] && return;
         local result
         local branchName
-        local gitDir="$(git rev-parse --git-dir)"
+        local gitDir="$(git rev-parse --git-dir 2>/dev/null)"
         local dirty=""
         local timeout=""
         # Check if we're in a git repo
