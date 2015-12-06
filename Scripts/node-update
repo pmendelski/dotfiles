@@ -1,0 +1,14 @@
+#!/bin/bash
+
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+for FILE in $(ls /usr/local/lib/node_modules); do
+	if [ "$FILE" != "npm" ] && [ "$FILE" != "n" ]; then
+		echo "Updating global dependency: $FILE"
+		sudo rm -rf "/usr/lib/node_modules/$FILE"
+		sudo npm install -g $FILE
+	fi
+done;
+

@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+# Simple script that will wake you up ;)
+#
+# Puts the computer on standby and automatically wakes it up at specified time and plays some music.
+#
+# Takes a 24hour time HH:MM as its argument
+# Example:
+# wakeup 9:30
+# wakeup 18:45
+# wakeup 18:45 2016-02-05
+# wakeup 14:23 && echo "Finished"
+
+# ------------------------------------------------------
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+source $DIR/wakeup_audacious

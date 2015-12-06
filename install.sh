@@ -119,6 +119,7 @@ function main() {
             $(find .config -type f)
             ".local/share/file-manager/actions"
             ".conky"
+            "Scripts"
         )
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
