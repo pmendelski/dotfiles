@@ -38,7 +38,7 @@ colorscheme molotov
 
 " Misc {{{
 set esckeys             " allow cursor keys in insert mode
-set lazyredraw          " faster
+" set lazyredraw          " faster but console resizing doesn't work
 set mouse=a             " enable mouse in all in all modes
 set nocompatible        " some compatybility issues
 set shell=/bin/sh       " use /bin/sh for executing shell commands
@@ -54,11 +54,12 @@ filetype indent on      " load filetype-specific indent files
 filetype plugin on      " load filetype-specific plugins
 set autoindent          " copy indent from last line when starting new line
 set backspace=indent,eol,start
-" set expandtab           " use spaces for tabs
+set expandtab           " use spaces for tabs
 set shiftwidth=4
 set softtabstop=4       " number of spaces in tab when editing
 set tabstop=4           " number of visual spaces per TAB
-set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:< " mapping for white characters
+" set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:< " secure mapping for white characters
+set listchars=eol:¬,tab:¦\ ,trail:•,extends:»,precedes:« " secure mapping for white characters
 set list                " by default present whitecharacters
 " }}}
 
@@ -153,9 +154,21 @@ set undodir=~/.vim/tmp/undo
     " JSON {{{
     augroup filetype_json
         autocmd!
-        au BufRead,BufNewFile *.json set ft=json syntax=javaScript
+        au BufRead,BufNewFile *.json setlocal ft=json syntax=javascript
+        au BufRead,BufNewFile *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2 " smaller tabs for json files
     augroup END
     " }}}
+
+    " YAML {{{
+    augroup tiletype_yaml
+        autocmd!
+        " smaller tabs for yaml files
+        autocmd FileType yaml setlocal tabstop=2
+        autocmd FileType yaml setlocal softtabstop=2
+        autocmd FileType yaml setlocal shiftwidth=2
+    augroup END
+    " }}}
+
 " }}}
 
 " Plugins {{{
@@ -178,16 +191,27 @@ set undodir=~/.vim/tmp/undo
         set statusline+=%{SyntasticStatuslineFlag()}
         set statusline+=%*
         let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_auto_loc_list = 0
         let g:syntastic_check_on_open = 1
         let g:syntastic_check_on_wq = 1
-        let g:syntastic_error_symbol = '✗'
-        let g:syntastic_warning_symbol = '⚠'
+        let g:syntastic_error_symbol = '>>'
+        let g:syntastic_warning_symbol = '>>'
         let g:syntastic_javascript_checkers = ['eslint']
         let g:syntastic_ruby_checkers = ['mri', 'rubocop']
     augroup END
     " }}}
-
+    
+    " IndentLine.vim {{{
+    augroup syntastic_config
+        let g:indentLine_enabled=1
+        let g:indentLine_char='¦'
+        let g:indentLine_color_term=239
+        let g:indentLine_concealcursor=0
+        let g:indentLine_leadingSpaceChar='.'
+        let g:indentLine_leadingSpaceEnabled=1
+    augroup END
+    " }}}
+    
 " }}}"
 
 " vim:foldmethod=marker:foldlevel=0
