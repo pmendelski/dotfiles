@@ -54,7 +54,7 @@ filetype indent on      " load filetype-specific indent files
 filetype plugin on      " load filetype-specific plugins
 set autoindent          " copy indent from last line when starting new line
 set backspace=indent,eol,start
-" set expandtab           " use spaces for tabs
+set expandtab           " use spaces for tabs
 set shiftwidth=4
 set softtabstop=4       " number of spaces in tab when editing
 set tabstop=4           " number of visual spaces per TAB
@@ -153,9 +153,22 @@ set undodir=~/.vim/tmp/undo
     " JSON {{{
     augroup filetype_json
         autocmd!
-        au BufRead,BufNewFile *.json set ft=json syntax=javaScript
+        au BufRead,BufNewFile *.json setlocal ft=json syntax=javaScript
+        " smaller tabs for json files
+        au BufRead,BufNewFile *.json setlocal tabstop=2 shiftwidth=2 softtab=2
     augroup END
     " }}}
+
+    " YAML {{{
+    augroup tiletype_yaml
+        autocmd!
+        " smaller tabs for yaml files
+        autocmd FileType yaml setlocal tabstop=2
+        autocmd FileType yaml setlocal softtab=2
+        autocmd FileType yaml setlocal shiftwidth=2
+    augroup END
+    " }}}
+
 " }}}
 
 " Plugins {{{

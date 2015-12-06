@@ -1,8 +1,12 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by file type specific settings.
 {
-	"hot_exit": false,
-	"remember_open_files": false,
-	"word_wrap": true,
-	"draw_white_space": "all"
+    "hot_exit": false,
+    "remember_open_files": true,
+    "word_wrap": true,
+    "draw_white_space": "all",
+    "tab_size": 4,
+    "translate_tabs_to_spaces": false,
+    "detect_indentation": true,
+    "use_tab_stops": true
 }

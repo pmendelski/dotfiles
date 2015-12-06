@@ -27,3 +27,4 @@
     showInvisibles: true
     showIndentGuide: true
     fontSize: 16
+    softTabs: false
