@@ -96,6 +96,7 @@ function PROMPT_COMMAND() {
 
     function gitStatus() {
         [ $PROMPT_GIT -eq 0 ] && return;
+        [[ "$(pwd)" =~ ^"~/.local/share/Trash"(/|$) ]] && return;
         local result
         local branchName
         local gitDir="$(git rev-parse --git-dir 2>/dev/null)"
@@ -139,7 +140,7 @@ function PROMPT_COMMAND() {
 
             # Check for untracked files
             dirty+="$(timeout $PROMPT_GIT_TIMEOUT sh -c "\
-                [ -z \"$(git ls-files . --exclude-standard --others)\" ] || \
+                [ -z \"$(git ls-files . --exclude-standard --others | head -n 1)\" ] || \
                 echo + \
             ")"
             [ $? -gt 0 ] && timeout+="+"

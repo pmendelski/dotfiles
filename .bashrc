@@ -20,6 +20,8 @@ for file in ~/.bash_{prompt,exports,aliases,functions}; do
     [ -r "${file}_local" ] && source "${file}_local"
 done
 unset file
+# Added Scripts folder too look for executable bash scripts
+export PATH="$PATH:$HOME/Scripts"
 
 # Bash History
 HISTTIMEFORMAT='%FT%T  '     # timestamps for later analysis. www.debian-administration.org/users/rossen/weblog/1
