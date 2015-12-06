@@ -1,3 +1,0 @@
-[submodule ".vim/bundle/indentLine"]
-	path = .vim/bundle/indentLine
-	url = git@github.com:Yggdroot/indentLine.git
