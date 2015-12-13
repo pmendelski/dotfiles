@@ -1,35 +1,78 @@
 # Git configuration options
+# https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig
 # https://git-scm.com/book/tr/v2/Customizing-Git-Git-Configuration
 # http://git-scm.com/docs/git-config.html
-
-# Rewrites GitHub repo addresses
-[url "git@github.com:"]
-    insteadOf = "gh:"
-    pushInsteadOf = "git://github.com"
-    pushInsteadOf = "github:"
-    pushInsteadOf = "git://github.com/"
-    pushInsteadOf = "https://github.com/"
-[url "git@gist.github.com:"]
-    insteadOf = "gst:"
-    pushInsteadOf = "gist:"
-    pushInsteadOf = "git://gist.github.com/"
-    pushInsteadOf = "https://gist.github.com/"
 
 [include]
     # For username / github token / etc
     path = ~/.gitconfig_local
 
-# Linux merge tool
 [merge]
+    # Linux UI merge tool
     tool = meld
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
 
-# By default pull with --rebase
 [pull]
+    # By default pull with --rebase
     rebase = true
+
+[push]
+    # Push the current branch to its upstream branch.
+    # Refuses to push if the upstream branch's name is different from the local one.
+    # Use `git config --global push.default matching` in case of problems with older git.
+    default = simple
+    # Make `git push` push relevant annotated tags when pushing branches out.
+    followTags = true
+
+[apply]
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
+
+[core]
+    # Use custom `.gitignore` and `.gitattributes`
+    excludesfile = ~/.gitignore
+    attributesfile = ~/.gitattributes
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    # [default] trailing-space: looks for spaces at the end of a line
+    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+    # Make `git rebase` safer on OS X
+    # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+    trustctime = false
+    # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+    # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+    precomposeunicode = false
+
+[diff]
+    # Detect copies as well as renames
+    renames = copies
+
+[diff "bin"]
+    # Use `hexdump` to diff binary files
+    textconv = hexdump -v -C
+
+
+# URL shorthands
+[url "git@github.com:"]
+    insteadOf = "gh:"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+    insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+    insteadOf = "gst:"
+    pushInsteadOf = "gist:"
+    pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+    insteadOf = "gist:"
 
 # Colors
 [color]
-    ui = always
+    ui = auto
 [color "branch"]
     current = yellow reverse
     local = yellow
@@ -53,9 +96,73 @@
 
 # Minimal list of custom commands
 [alias]
-    g = log --graph --pretty=custom     # Show custom graph
+    # Custom log
+    lg = log --graph --pretty=custom    # Show custom graph
     l = log --pretty=custom             # Show custom log
-    c = shortlog --summary --numbered   # List contributors
+
+    # View the current working tree status using the short format
+    s = status -s
+
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered
+
+    # Reverting all local an indexed changes to last commit
+    # https://www.atlassian.com/git/tutorials/undoing-changes/git-clean
+    undo = !git reset --hard && git clean -f
+
+    # Create a patch from your current state (local + index)
+    # http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged
+    patch = !git diff HEAD --binary
+
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+
+    # Commit all changes
+    ca = !git add -A && git commit -av
+
+    # Amend the currently staged files to the latest commit
+	amend = commit --amend --reuse-message=HEAD
+
+    # Interactive rebase with the given number of latest commits
+	irebase = "!r() { git rebase -i HEAD~$1; }; r"
+
+    # Find branches containing commit
+	fb = "!f() { git branch -a --contains $1; }; f"
+	# Find tags containing commit
+	ft = "!f() { git describe --always --contains $1; }; f"
+	# Find commits by source code
+	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	# Find commits by commit message
+	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+    # Remove the old tag with this name and tag the latest commit with it.
+    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+    # Remove branches that have already been merged with master
+    # a.k.a. ‘delete merged’
+    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+    # Merge GitHub pull request on top of the current branch or,
+    # if a branch name is specified, on top of the specified branch
+    mpr = "!f() { \
+        declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
+        declare branch=\"${2:-$currentBranch}\"; \
+        if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+            git fetch origin refs/pull/$1/head:pr/$1 && \
+            git checkout -B $branch && \
+            git rebase $branch pr/$1 && \
+            git checkout -B $branch && \
+            git merge pr/$1 && \
+            git branch -D pr/$1 && \
+            git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
+        fi \
+    }; f"
+
 [pretty]
     custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(blue)(%an)"
     #                     |        │            │            │             └─ author name
