@@ -20,8 +20,10 @@ for file in ~/.bash_{prompt,exports,aliases,functions}; do
     [ -r "${file}_local" ] && source "${file}_local"
 done
 unset file
-# Added Scripts folder too look for executable bash scripts
-export PATH="$PATH:$HOME/Scripts"
+# Added Scripts and .bin folder too look for executable bash scripts
+# Scripts folder is for user custom scipts
+# .bin is used in .bash_aliases
+export PATH="$PATH:$HOME/.bin:$HOME/Scripts"
 
 # Bash History
 HISTTIMEFORMAT='%FT%T  '     # timestamps for later analysis. www.debian-administration.org/users/rossen/weblog/1
@@ -31,7 +33,7 @@ HISTFILESIZE=$((2 * HISTSIZE))
 shopt -s histappend          # append to the history file, don't overwrite it
 # Save and reload the history after each command finishes
 # The only downside with this is on the readline will go over all history not just this bash session.
-# PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Better `cd`
 shopt -s nocaseglob          # Case-insensitive globbing (used in pathname expansion)

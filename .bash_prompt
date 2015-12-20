@@ -24,7 +24,7 @@ declare PROMPT_TIMESTAMP="0"            # Add timestamp to prompt (date format)
 declare -i PROMPT_NEWLINE=40            # Break command line after 40 characters (-1=never)
 declare -i PROMPT_GIT=1                 # Show GIT status
 declare -i PROMPT_COLORS=1              # Use colors
-declare -i PROMPT_STATUS=0              # Show last command result status
+declare -i PROMPT_STATUS=1              # Show last command result status
 declare -i PROMPT_SIMPLE=0              # Fallback to simple prompt
 
 function PROMPT_COMMAND() {
@@ -204,9 +204,9 @@ function PROMPT_COMMAND() {
         [ $PROMPT_STATUS -eq 0 ] && return;
         local status="";
         status+="if [ ! \$? -o \$? -eq 0 ]; then "
-        status+="echo \"$COLOR_GREEN+\"; "
+        status+="echo \"$COLOR_RESET\"; "
         status+="else "
-        status+="echo \"$COLOR_RED-\"; "
+        status+="echo \"$COLOR_RED\"; "
         status+="fi"
         status="\$($status)"
         echo $status
@@ -224,8 +224,8 @@ function PROMPT_COMMAND() {
         if [ $PROMPT_NEWLINE -gt -1 -a $(stripNonPrintable "$PS1" | wc -c) -gt $PROMPT_NEWLINE ]; then
             PS1+="\n"
         fi
-        PS1+="\$ "
-        PS1="$(cmdStatus)$(timestamp)$PS1"
+        PS1+="$(cmdStatus)\$$COLOR_RESET "
+        PS1="$(timestamp)$PS1"
         if [ $PROMPT_COLORS -eq 0 ]; then
             PS1="$(stripNonPrintable "$PS1")"
         fi

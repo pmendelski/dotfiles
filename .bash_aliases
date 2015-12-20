@@ -42,6 +42,9 @@ alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
 
+# Colorized replacements
+alias mvn="mvn-color"
+
 # Simplified HTTP methods
 if [ -x "$(command -v lwp-request)" ]; then
     for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
@@ -60,7 +63,7 @@ if [ -x "$(command -v xclip)" ]; then
 fi
 
 # Alert notification for long running commands. Use like so:
-#   sleep 10; alert
+#   sleep 10; notify
 if [ -x "$(command -v notify-send)" ]; then
-    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+    alias notify='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
