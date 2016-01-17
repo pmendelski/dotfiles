@@ -1,4 +1,4 @@
-# vim tmp files
-.vim/tmp/swaps/*
-.vim/tmp/undo/*
-.vim/tmp/backups/*
+# tmp locations
+.vim/tmp/**/*
+.bash/tmp/**/*
+.zsh/tmp/**/*

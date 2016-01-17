@@ -9,7 +9,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
 cd "$DIR"
 
 # Terminal utilities
-source ".bin/lib/terminal.sh"
+source ".bash/util/terminal.sh"
 # Default flags
 declare -i nocolor=0
 declare -i silent=0

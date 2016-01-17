@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "$DIR/terminal_colors.sh"
+source "$BASH_DIR/util/colors.sh"
 
 # Default flags
 declare -i nocolor=0
@@ -51,7 +50,7 @@ println() {
 
 printColor() {
     if [ $nocolor = 0 ]; then
-        print "$1$2${FORMAT_RESET}"
+        print "$1$2${PR_RESET}"
     else
         print "$2"
     fi
@@ -62,23 +61,23 @@ printlnColor() {
 }
 
 printQuestion() {
-    printColor $COLOR_YELLOW "  [?] $1"
+    printColor $PR_YELLOW "  [?] $1"
 }
 
 printSuccess() {
-    printlnColor $COLOR_GREEN "  [ok] $1"
+    printlnColor $PR_GREEN "  [ok] $1"
 }
 
 printError() {
-    printlnColor $COLOR_RED "  [error] $1"
+    printlnColor $PR_RED "  [error] $1"
 }
 
 printWarn() {
-    printlnColor $COLOR_MAGENTA "  [warn] $1"
+    printlnColor $PR_MAGENTA "  [warn] $1"
 }
 
 printInfo() {
-    printlnColor $COLOR_CYAN "  $1"
+    printlnColor $PR_CYAN "  $1"
 }
 
 printDebug() {

@@ -23,7 +23,7 @@
   core: {}
   editor:
     invisibles: {}
-    tabLength: 3
+    tabLength: 4
     showInvisibles: true
     showIndentGuide: true
     fontSize: 16
