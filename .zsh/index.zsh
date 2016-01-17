@@ -17,6 +17,16 @@ function loadZsh() {
     for file ($DIR/lib/*.zsh); do
         source $file
     done
+    # Load bash plugins
+    if [ -z $bash_plugins ]; then
+        for file in $BASHDIR/plugins/*.sh; do
+            source $file
+        done
+    else
+        for plugin in ${bash_plugins[@]}; do
+            [ -r "$BASHDIR/plugins/$plugin.sh" ] && source $BASHDIR/plugins/$plugin.sh
+        done
+    fi
     source "$DIR/prompt.zsh"
 
     # Load zsh-syntax-highlighting.

@@ -6,11 +6,11 @@ if hash mvn 2>/dev/null; then
     # Wrapper function for mvn command.
     mvnc() {
         local -r ESC=$(printf '\033')
-        local -r COLOR_RESET="$ESC[0m"
-        local -r COLOR_RED_BOLD="$ESC[1;31m"
-        local -r COLOR_GREEN_BOLD="$ESC[1;32m"
-        local -r COLOR_YELLOW_BOLD="$ESC[1;33m"
-        local -r COLOR_BLUE_BOLD="$ESC[1;34m"
+        local -r COLOR_RESET="${ESC}[0m"
+        local -r COLOR_RED_BOLD="${ESC}[1;31m"
+        local -r COLOR_GREEN_BOLD="${ESC}[1;32m"
+        local -r COLOR_YELLOW_BOLD="${ESC}[1;33m"
+        local -r COLOR_BLUE_BOLD="${ESC}[1;34m"
 
         local -r INFO_STYLE="${COLOR_BLUE_BOLD}"
         local -r WARN_STYLE="${COLOR_YELLOW_BOLD}"
