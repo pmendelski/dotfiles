@@ -15,6 +15,7 @@ declare -i nocolor=0
 declare -i silent=0
 declare -i verbose=0
 declare -i force=0
+declare -i dryrun=0
 
 ####################################################
 # Main logic
@@ -27,7 +28,7 @@ function main() {
         local -a files=(
             $(find . -maxdepth 1 -type f -name ".*")
             ".vim"
-            # ubuntu branch
+            # personal branch
             $(find .atom -type f)
             $(find .config -type f)
             ".local/share/file-manager/actions"
@@ -57,22 +58,35 @@ function main() {
 
     function link() {
         local destDir="$(dirname "$2")"
-        [ ! -d "$destDir" ] && \
+        if [ dryrun = 0 ]; then
+            [ ! -d "$destDir" ] && \
             mkdir -p "$destDir"
-        execute "ln -fs $1 $2" "$1 → $2"
+            execute "ln -fs $1 $2" "$1 → $2"
+        else
+            printSuccess "link: $1 → $2"
+        fi
     }
 
     function backupAndRemove() {
-        [ ! -d "$backupDir" ] && \
-            mkdir "$backupDir"
-        local destDir="$(dirname "$targetFile" | sed -e "s|$HOME|$backupDir|")"
-        [ ! -d "$destDir" ] && \
-            mkdir -p "$destDir"
-        cp -rfP "$targetFile" "$destDir" && \
-            printDebug "Created backup: $targetFile" && \
-            rm -rf "$targetFile" && \
-            printDebug "Removed: $targetFile"
+        if [ dryrun = 0 ]; then
+            [ ! -d "$backupDir" ] && \
+                mkdir "$backupDir"
+            local destDir="$(dirname "$targetFile" | sed -e "s|$HOME|$backupDir|")"
+            [ ! -d "$destDir" ] && \
+                mkdir -p "$destDir"
+            cp -rfP "$targetFile" "$destDir" && \
+                printDebug "Created backup: $targetFile" && \
+                rm -rf "$targetFile" && \
+                printDebug "Removed: $targetFile"
+        else
+            printSuccess "backupAndRemove: $targetFile → $destDir"
+        fi
     }
+
+    printInfo "Updating gitsubmodules"
+    [ dryrun = 0 ] && \
+        git submodule update --init --recursive && \
+        printSuccess "Updated git submodules"
 
     local -a sourceFiles="$(listSymlinks)"
     local sourceFile=''
@@ -103,9 +117,11 @@ function main() {
         fullSourceFile="$DIR/$sourceFile"
         if [ ! -e "$targetFile" ]; then
             # Expand variables
-            sed -e "s/\$USER/$USER/" \
-                -e "s/\$HOSTNAME/$HOSTNAME/" "$fullSourceFile" \
-                > "$targetFile"
+            if [ dryrun = 0 ]; then
+                sed -e "s/\$USER/$USER/" \
+                    -e "s/\$HOSTNAME/$HOSTNAME/" "$fullSourceFile" \
+                    > "$targetFile"
+            fi
             printSuccess "Change options in template config file: $targetFile"
         else
             printInfo "Template config already created: $(basename "$targetFile")"
@@ -142,6 +158,9 @@ function printHelp() {
 
 while (("$#")); do
     case $1 in
+        --dryrun|-d)
+            dryrun=1
+            ;;
         --force|-f)
             force=1
             ;;

@@ -13,6 +13,10 @@
     # Include summaries of merged commits in newly created merge commit messages
     log = true
 
+[mergetool]
+    # No backup files (rm *.orig)
+    keepBackup = false
+
 [pull]
     # By default pull with --rebase
     rebase = true

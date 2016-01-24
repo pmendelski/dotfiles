@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$BASH_DIR/util/colors.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/colors.sh"
 
 # Default flags
 declare -i nocolor=0
