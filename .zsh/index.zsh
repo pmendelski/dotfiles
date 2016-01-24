@@ -30,10 +30,10 @@ function loadZsh() {
     source "$DIR/prompt.zsh"
 
     # Load zsh-syntax-highlighting.
-    source $DIR/vendor/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source $DIR/bundle/syntax-highlighting/zsh-syntax-highlighting.zsh
 
     # Load zsh-autosuggestions.
-    source $DIR/vendor/zsh-autosuggestions/autosuggestions.zsh
+    source $DIR/bundle/autosuggestions/autosuggestions.zsh
 
     # Enable autosuggestions automatically.
     zle-line-init() {

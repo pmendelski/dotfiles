@@ -29,6 +29,9 @@
 
 " }}}
 
+runtime bundle/pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+
 " Colors {{{
 set t_Co=256            " terminal compatybility
 syntax enable           " enable syntax processing
@@ -173,8 +176,6 @@ set undodir=~/.vim/tmp/undo
 
 " Plugins {{{
 
-    execute pathogen#infect()
-
     " CtrlP.vim {{{
     augroup ctrlp_config
         autocmd!
@@ -200,7 +201,7 @@ set undodir=~/.vim/tmp/undo
         let g:syntastic_ruby_checkers = ['mri', 'rubocop']
     augroup END
     " }}}
-    
+
     " IndentLine.vim {{{
     augroup syntastic_config
         let g:indentLine_enabled=1
@@ -211,7 +212,7 @@ set undodir=~/.vim/tmp/undo
         let g:indentLine_leadingSpaceEnabled=1
     augroup END
     " }}}
-    
+
 " }}}"
 
 " vim:foldmethod=marker:foldlevel=0
