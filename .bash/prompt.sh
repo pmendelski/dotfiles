@@ -205,11 +205,11 @@ function rebuildPrompts() {
         fi
         local gray blue reset cyan magenta
         if [ $PROMPT_COLORS != 0 ]; then
-            local gray=$(unprintable $PR_GRAY_INT_BOLD)
-            local blue=$(unprintable $PR_BLUE_BOLD)
-            local reset=$(unprintable $PR_RESET)
-            local cyan=$(unprintable $PR_CYAN_BOLD)
-            local magenta=$(unprintable $PR_MAGENTA)
+            local gray=$PR_GRAY_INT_BOLD
+            local blue=$PR_BLUE_BOLD
+            local reset=$PR_RESET
+            local cyan=$PR_CYAN_BOLD
+            local magenta=$PR_MAGENTA
         fi
         local tab="\011"
         local PS4="+ ";
