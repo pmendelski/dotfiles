@@ -48,8 +48,10 @@ function __promptUserAtHost() {
 function __promptDebianChroot() {
     local exit=$?
     local chroot=""
+    local prefix=${1-"("}
+    local suffix=${2-")"}
     if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-        chroot="($(cat /etc/debian_chroot))"
+        chroot="$prefix$(cat /etc/debian_chroot)$suffix"
     fi
     echo $chroot
     return $exit
@@ -57,7 +59,9 @@ function __promptDebianChroot() {
 
 function __promptGitStatus() {
     local exit=$?
-    [ $PROMPT_GIT -eq 0 ] && return $exit
+    local prefix=${1-"("}
+    local suffix=${2-")"}
+
     # branch status
     local branchStatus="$(git_branch_status)"
     [ -z "$branchStatus" ] && return $exit # no git repository
@@ -78,72 +82,48 @@ function __promptGitStatus() {
     local upstreamStatus="$(git_upstream_status)"
     [ "$upstreamStatus" = "=" ] && upstreamStatus=""
 
-    # suffix
-    local suffix=""
-    [ -z "${dirtyStatus}" ] || suffix+="${dirtyStatus}"
-    [ -z "${stashStatus}" ] || suffix+=" s${stashStatus}"
-    [ -z "${upstreamStatus}" ] || suffix+=" u${upstreamStatus}"
+    # dirty markers
+    local markers=""
+    [ -z "${dirtyStatus}" ] || markers+="${dirtyStatus}"
+    [ -z "${stashStatus}" ] || markers+=" s${stashStatus}"
+    [ -z "${upstreamStatus}" ] || markers+=" u${upstreamStatus}"
 
-    echo "(${branchStatus}${suffix})"
+    echo "$prefix${branchStatus}${markers}$suffix"
     return $exit
 }
 
 function __promptTimestamp() {
     local exit=$?
+    local format=${1-$PROMPT_TIMESTAMP}
+    local prefix=${2-"["}
+    local suffix=${3-"]"}
     local ts=""
-    if [ "$PROMPT_TIMESTAMP" = "0" ]; then
+    if [ "$format" = "0" ]; then
         ts=""
-    elif [ "$PROMPT_TIMESTAMP" = "1" ]; then
+    elif [ "$format" = "1" ]; then
         ts="$(date +"%T.%3N")"
-    elif [ "$PROMPT_TIMESTAMP" = "2" ]; then
+    elif [ "$format" = "2" ]; then
         ts="$(date +"%T")"
-    elif [ "$PROMPT_TIMESTAMP" = "3" ]; then
+    elif [ "$format" = "3" ]; then
         ts="$(date +"%F %T")"
-    elif [ "$PROMPT_TIMESTAMP" = "4" ]; then
+    elif [ "$format" = "4" ]; then
         ts="$(date +"%F %T.%3N")"
-    elif [ ! -z "$PROMPT_TIMESTAMP" ]; then
-        ts="$(date +"$PROMPT_TIMESTAMP")"
+    elif [ ! -z "$format" ]; then
+        ts="$(date +"$format")"
     fi
 
-    [ -z "$ts" ] || echo "[$ts]"
+    [ -z "$ts" ] || echo "$prefix$ts$suffix"
     return $exit;
 }
 
 function __promptTimer() {
     local exit=$?
+    local treshold=${1-$PROMPT_TIMER}
+    local prefix=${2-"["}
+    local suffix=${3-"]"}
     [ ! $__PROMPT_TIMER_DIFF ] || [ "$__PROMPT_TIMER_DIFF" -lt "0" ] && return $exit
-    [ $PROMPT_TIMER -lt 0 ] || [ $__PROMPT_TIMER_DIFF -gt "$PROMPT_TIMER" ] && \
-        echo "[$(epochDiffMin $__PROMPT_TIMER_DIFF)]"
-    return $exit
-}
-
-function __promptBreakPs1() {
-    local exit=$?
-    [ -z $PROMPT_NEWLINE ] && return $exit
-    [ "$PROMPT_NEWLINE" = "" ] && return $exit
-    local psLength=$(stripNonPrintable "$1" | wc -c)
-    if [[ "$PROMPT_NEWLINE" = *"%" ]] && hash tput 2>/dev/null; then
-        local cols="$(tput cols)"
-        local percent=${PROMPT_NEWLINE/\%/\/100}
-        [ $(( $cols * $percent )) -lt $(( $psLength % $cols )) ] && echo "\n"
-    elif [ $psLength -gt $PROMPT_NEWLINE ]; then
-        echo "\n"
-    fi
-    return $exit
-}
-
-function __promptNonBreakableConcat() {
-    local exit=$?
-    if [ -z $PROMPT_NEWLINE ] || ! hash tput 2>/dev/null; then
-        echo "$1$2"
-        return $exit
-    fi
-    local a=$(stripNonPrintable "${1##*\\n}" | wc -c)
-    local b=$(stripNonPrintable "${2%%\\n*}" | wc -c)
-    local cols=$(tput cols)
-    [[ $(( $a + $b )) -gt $cols ]] && \
-        echo "$1\n$2" || \
-        echo "$1$2"
+    [ $treshold -lt 0 ] || [ $__PROMPT_TIMER_DIFF -gt "$treshold" ] && \
+        echo "$prefix$(epochDiffMin $__PROMPT_TIMER_DIFF)$suffix"
     return $exit
 }
 
@@ -175,14 +155,14 @@ function rebuildPrompts() {
         local PS1=""
         PS1+="$(terminalTitle)"
         [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
+        [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer $PROMPT_TIMER)"
         [ $PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
-        [ $PROMPT_COLORS != 0 ] && PS1+="\$(__promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\")"
+        [ $PROMPT_COLORS != 0 ] && PS1+="\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)"
         PS1+="\$(__promptDebianChroot)"
         PS1+="\$(__promptUserAtHost)"
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
         [ $PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
-        [ $PROMPT_STATUS != 0 ] && PS1+="\$([ \$? != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" ||  echo \"$__PROMPT_COLOR_RESET\")"
+        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)"
         [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
         PS1+="\$$__PROMPT_COLOR_RESET "
         echo "$PS1";
@@ -211,14 +191,14 @@ function rebuildPrompts() {
     }
 
     if [ $PROMPT_COLORS -gt 0 ]; then
-        __PROMPT_PWD_COLOR=$(unprintable $PR_BLUE_BOLD)
-        __PROMPT_ROOT_COLOR=$(unprintable $PR_RED_BOLD)
-        __PROMPT_USERHOST_COLOR=$(unprintable $PR_GREEN_BOLD)
-        __PROMPT_REPO_COLOR=$(unprintable $PR_MAGENTA_BOLD)
-        __PROMPT_TIMESTAMP_COLOR=$(unprintable $PR_GRAY_INT_BOLD)
-        __PROMPT_TIMER_COLOR=$(unprintable $PR_GRAY_INT_BOLD)
-        __PROMPT_CMD_ERR_COLOR=$(unprintable $PR_RED_BOLD)
-        __PROMPT_COLOR_RESET=$(unprintable $PR_RESET)
+        : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
+        : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
+        : ${__PROMPT_USERHOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
+        : ${__PROMPT_REPO_COLOR:=$(unprintable $PR_MAGENTA_BOLD)}
+        : ${__PROMPT_TIMESTAMP_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
+        : ${__PROMPT_TIMER_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
+        : ${__PROMPT_CMD_ERR_COLOR:=$(unprintable $PR_RED_BOLD)}
+        : ${__PROMPT_COLOR_RESET:=$(unprintable $PR_RESET)}
     else
         unset __PROMPT_PWD_COLOR
         unset __PROMPT_ROOT_COLOR
@@ -235,7 +215,7 @@ function rebuildPrompts() {
     export PS4="$(buildPS4)"    # Debug prompt string  (when using `set -x`)
 }
 
-function promptStopTimer() {
+function promptPreCmd() {
     local exit=$?
     unset __PROMPT_TIMER_DIFF
     [ ! $__PROMPT_TIMER_START ] && return $exit
@@ -246,7 +226,7 @@ function promptStopTimer() {
     return $exit
 }
 
-function promptStartTimer {
+function promptPreExec {
     local exit=$?
     # http://stackoverflow.com/questions/1862510/how-can-the-last-commands-wall-time-be-put-in-the-bash-prompt
     __PROMPT_TIMER_START=${__PROMPT_TIMER_START:-$(epoch)}
@@ -254,12 +234,12 @@ function promptStartTimer {
     return $exit
 }
 
-function __define_toggle_opt() {
+function __prompt_define_opt() {
     local funcname=$1
     local varname=$2
     local default=$3
     # Setup default value
-    eval $varname=\${$varname:=$default}
+    eval $varname=\${$varname-$default}
     # Setup toggle function
     eval "$(echo "
     function $funcname() {
@@ -279,50 +259,37 @@ function __define_toggle_opt() {
 
 # Prompt Config
 ## Fallback to simple prompt
-__define_toggle_opt prompt_simple PROMPT_SIMPLE 0
+__prompt_define_opt prompt_simple PROMPT_SIMPLE 0
 ## Break command line after prompt
-__define_toggle_opt prompt_newline PROMPT_NEWLINE 0
+__prompt_define_opt prompt_newline PROMPT_NEWLINE 0
 ## Add it to ~/.bash_exports (sample: PROMPT_DEFAULT_USERHOST="mendlik@dell")
-__define_toggle_opt prompt_default_userhost PROMPT_DEFAULT_USERHOST ""
+__prompt_define_opt prompt_default_userhost PROMPT_DEFAULT_USERHOST ""
 ## Use colors
-__define_toggle_opt prompt_colors PROMPT_COLORS 1
+__prompt_define_opt prompt_colors PROMPT_COLORS 1
 ## Show GIT status
-__define_toggle_opt prompt_git PROMPT_GIT $(hash git 2>/dev/null && echo 1)
+__prompt_define_opt prompt_git PROMPT_GIT $(hash git 2>/dev/null && echo 1)
 ## Show last command result status
-__define_toggle_opt prompt_status PROMPT_STATUS 1
+__prompt_define_opt prompt_status PROMPT_STATUS 1
 ## Add timestamp to prompt (date format)
-__define_toggle_opt prompt_timestamp PROMPT_TIMESTAMP 0
+__prompt_define_opt prompt_timestamp PROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
-__define_toggle_opt prompt_timer PROMPT_TIMER 5000
+__prompt_define_opt prompt_timer PROMPT_TIMER 5000
 ## Long running cmd notification (-1=all, 0=never, x>0=mesure those above x ms)
-__define_toggle_opt prompt_notify PROMPT_NOTIFY 5000
+__prompt_define_opt prompt_notify PROMPT_NOTIFY 5000
+
+
+# Prompt constants
+: ${__PROMPT_UNPRINTABLE_PREFIX:="\["}
+: ${__PROMPT_UNPRINTABLE_SUFFIX:="\]"}
+: ${__PROMPT_TITLE_PREFIX:="\[\e]0;"}
+: ${__PROMPT_TITLE_SUFFIX:="\007\]"}
 
 if [ -n "$BASH_VERSION" ]; then
-    # Prompt constants
-    __PROMPT_UNPRINTABLE_PREFIX="\["
-    __PROMPT_UNPRINTABLE_SUFFIX="\]"
-    __PROMPT_TITLE_PREFIX="\[\e]0;"
-    __PROMPT_TITLE_SUFFIX="\007\]"
     # Initial prompt build
     rebuildPrompts
     # Timer mechanism
-    trap 'promptStartTimer' DEBUG
-    export PROMPT_COMMAND="promptStopTimer; $PROMPT_COMMAND"
-elif [ -n "$ZSH_VERSION" ]; then
-    # Prompt constants
-    __PROMPT_UNPRINTABLE_PREFIX="%{"
-    __PROMPT_UNPRINTABLE_SUFFIX="%}"
-    __PROMPT_TITLE_PREFIX="%{\e]0;"
-    __PROMPT_TITLE_SUFFIX="\007%}"
-    # Initial prompt build
-    rebuildPrompts
-    # Timer mechanism
-    autoload -U add-zsh-hook
-    add-zsh-hook preexec promptStartTimer
-    add-zsh-hook precmd promptStopTimer
-    # add-zsh-hook precmd promptSaveStatus
-else
-    echo "Unrecognized shell - prompt not installed"
+    trap 'promptPreExec' DEBUG
+    export PROMPT_COMMAND="promptPreCmd; $PROMPT_COMMAND"
 fi
 
 # Default PS1 - just in case of emergency ;)
