@@ -127,6 +127,16 @@ function __promptTimer() {
     return $exit
 }
 
+function __promptShlvl() {
+    local exit=$?
+    local treshold=${1-$PROMPT_SHLVL}
+    local prefix=${2-""}
+    local suffix=${3-"\\"}
+    [ $treshold -lt 0 ] || [ $SHLVL -gt $treshold ] && \
+        echo "$prefix$SHLVL$suffix"
+    return $exit
+}
+
 function rebuildPrompts() {
 
     function unprintable() {
@@ -154,8 +164,8 @@ function rebuildPrompts() {
         fi
         local PS1=""
         PS1+="$(terminalTitle)"
-        [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer $PROMPT_TIMER)"
+        [ $PROMPT_SHLVL != 0 ] && PS1+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl)"
+        [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
         [ $PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
         [ $PROMPT_COLORS != 0 ] && PS1+="\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)"
         PS1+="\$(__promptDebianChroot)"
@@ -192,6 +202,7 @@ function rebuildPrompts() {
 
     if [ $PROMPT_COLORS -gt 0 ]; then
         : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
+        : ${__PROMPT_SHLVL_COLOR:=$(unprintable $PR_YELLOW_BOLD)}
         : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
         : ${__PROMPT_USERHOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
         : ${__PROMPT_REPO_COLOR:=$(unprintable $PR_MAGENTA_BOLD)}
@@ -201,6 +212,7 @@ function rebuildPrompts() {
         : ${__PROMPT_COLOR_RESET:=$(unprintable $PR_RESET)}
     else
         unset __PROMPT_PWD_COLOR
+        unset __PROMPT_SHLVL_COLOR
         unset __PROMPT_ROOT_COLOR
         unset __PROMPT_USERHOST_COLOR
         unset __PROMPT_REPO_COLOR
@@ -276,6 +288,8 @@ __prompt_define_opt prompt_timestamp PROMPT_TIMESTAMP 0
 __prompt_define_opt prompt_timer PROMPT_TIMER 5000
 ## Long running cmd notification (-1=all, 0=never, x>0=mesure those above x ms)
 __prompt_define_opt prompt_notify PROMPT_NOTIFY 5000
+## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x sublevels)
+__prompt_define_opt prompt_shlvl PROMPT_SHLVL 1
 
 
 # Prompt constants

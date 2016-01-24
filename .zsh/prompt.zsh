@@ -9,6 +9,7 @@ __PROMPT_TITLE_SUFFIX="\007%}"
 # Defaults - move some data to rprompt
 : ${PROMPT_GIT:=0}
 : ${PROMPT_TIMER:=0}
+: ${PROMPT_SHLVL:=0}
 
 source $BASH_DIR/prompt.sh
 
@@ -29,6 +30,7 @@ rebuildRightPrompt() {
         [ $RPROMPT_STATUS != 0 ] && rprompt+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"${__PROMPT_CMD_ERR_COLOR}err:\$cmdstatus \"; exit \$cmdstatus)"
         [ $RPROMPT_GIT != 0 ] && rprompt+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
         [ $RPROMPT_TIMESTAMP != 0 ] && rprompt+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
+        [ $RPROMPT_SHLVL != 0 ] && rprompt+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl $RPROMPT_SHLVL \"/\" \"\")"
         rprompt+="$__PROMPT_COLOR_RESET"
         echo "$rprompt";
     }
@@ -70,6 +72,8 @@ __rprompt_define_opt rprompt_status RPROMPT_STATUS 1
 __rprompt_define_opt rprompt_timestamp RPROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
 __rprompt_define_opt rprompt_timer RPROMPT_TIMER -1
+## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x ms)
+__rprompt_define_opt rprompt_shlvl RPROMPT_SHLVL 1
 
 
 rebuildRightPrompt
