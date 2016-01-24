@@ -180,6 +180,13 @@ while (("$#")); do
         --update|-u)
             update
             ;;
+        --update-master)
+            git checkout personal && \
+                git pull --rebase origin personal && \
+                git checkout master && \
+                git merge personal && \
+                git push origin master
+            ;;
         --) # End of all options.
             shift
             break
