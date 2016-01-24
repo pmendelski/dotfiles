@@ -19,8 +19,28 @@ function __promptIsRoot() {
 
 function __promptPwd() {
     local exit=$?
+    if [ $PWD = $HOME ]; then
+        echo "~"
+        return $exit
+    fi
+    if [ $PWD = "/" ]; then
+        echo "/"
+        return $exit
+    fi
+    local mode=${1-$PROMPT_PWD}
+    local result=""
     local homeShort="~"
-    echo "${PWD/#$HOME/$homeShort}"
+    if [ $mode = 1 ]; then
+        # First letters: ~/D/n/project
+        result="$(dirname $PWD | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename $PWD)"
+    elif [ $mode = 2 ]; then
+        # First letters with dots: .../D/n/project
+        result="$(dirname $PWD | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename $PWD)"
+        result="$(echo $result | sed -re "s|((/[^/]+){3,})((/[^/]+){3})$|...\3|")"
+    else
+        result="${PWD/#$HOME/$homeShort}"
+    fi
+    echo "$result";
     return $exit
 }
 
@@ -272,6 +292,8 @@ function __prompt_define_opt() {
 # Prompt Config
 ## Fallback to simple prompt
 __prompt_define_opt prompt_simple PROMPT_SIMPLE 0
+## Setup pwd mode (0-"~/Desktop/Project", 1-"~/a/b/c/project", 2-".../x/y/z/project")
+__prompt_define_opt prompt_pwd PROMPT_PWD 2
 ## Break command line after prompt
 __prompt_define_opt prompt_newline PROMPT_NEWLINE 0
 ## Add it to ~/.bash_exports (sample: PROMPT_DEFAULT_USERHOST="mendlik@dell")
