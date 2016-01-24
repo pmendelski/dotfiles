@@ -8,7 +8,7 @@ Dotfiles I use every day and copy where ever I can.
 
 Installation guidelines:
 
-* Please before installing make sure you understand [install.sh](install.sh#L105) file.
+* Please before installing make sure you understand [install.sh](install.sh#L24-L136) file.
 * Installation is interactive so don't be afraid of your local dotfiles
 * All overridden files are backed up in `.dotfiles.bak` directory
 
@@ -42,12 +42,12 @@ For example in order to add you custom alias just create file `~/.bash_aliases_l
 
 Inspiration and code was taken from many sources, including:
 
-* [Paul Irish's](https://github.com/paulirish)
-  [dotfiles](https://github.com/paulirish/dotfiles)
 * [Mathias Bynens'](https://github.com/mathiasbynens)
   [dotfiles](https://github.com/mathiasbynens/dotfiles)
 * [Cătălin Mariș'](https://github.com/alrra)
   [dotfiles](https://github.com/alrra/dotfiles)
+* [Mark H. Nichols](https://github.com/zanshin)
+  [dotfiles](http://zanshin.net/2013/02/02/zsh-configuration-from-the-ground-up/)
 
 ## License
 

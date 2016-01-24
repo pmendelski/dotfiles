@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# To change default shell use:
+#    chsh -s $(which zsh)
+# ... and relogin
+
+
 # Load local zsh dotfiles
 for file in ~/.bash_{exports,aliases,functions}; do
     [ -r "$file" ] && source "$file"

@@ -14,3 +14,6 @@ export GREP_OPTIONS="--color=auto";         # Always enable colored `grep` outpu
 # Custom Globals
 export EDITOR="vim"                         # Make vim the default editor.
 export DEV="$HOME/Development"
+
+# Added by wine
+export WINEARCH=win32
