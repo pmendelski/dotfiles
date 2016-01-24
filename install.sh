@@ -26,11 +26,11 @@ function main() {
 
     function listSymlinks() {
         local -a files=(
-            $(find . -maxdepth 1 -type f -name ".*")
+            $(find . -maxdepth 1 -type f -name ".*" 2>/dev/null)
             ".vim"
             # personal branch
-            $(find .atom -type f)
-            $(find .config -type f)
+            $(find .atom -type f 2>/dev/null)
+            $(find .config -type f 2>/dev/null)
             ".local/share/file-manager/actions"
             ".conky"
             "Scripts"
@@ -47,7 +47,7 @@ function main() {
 
     function listTemplates() {
         local -a files=(
-            $(find . -maxdepth 1 -type f -name ".*\.tpl")
+            $(find . -maxdepth 1 -type f -name ".*\.tpl" 2>/dev/null)
         )
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
@@ -186,6 +186,7 @@ while (("$#")); do
                 git checkout master && \
                 git merge personal && \
                 git push origin master
+            exit
             ;;
         --) # End of all options.
             shift
