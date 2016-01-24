@@ -5,6 +5,8 @@ __PROMPT_UNPRINTABLE_PREFIX="%{"
 __PROMPT_UNPRINTABLE_SUFFIX="%}"
 __PROMPT_TITLE_PREFIX="%{\e]0;"
 __PROMPT_TITLE_SUFFIX="\007%}"
+__PROMPT_PS2=0
+__PROMPT_PS4=0
 
 # Defaults - move some data to rprompt
 : ${PROMPT_GIT:=0}
@@ -13,15 +15,7 @@ __PROMPT_TITLE_SUFFIX="\007%}"
 
 source $BASH_DIR/prompt.sh
 
-# Initial prompt build
-rebuildPrompts
-
-# Timer mechanism
-autoload -U add-zsh-hook
-add-zsh-hook preexec promptPreExec
-add-zsh-hook precmd promptPreCmd
-
-rebuildRightPrompt() {
+rebuildPrompts2() {
 
     buildRprompt() {
         [ $PROMPT_SIMPLE -eq 1 ] || [ $RPROMPT_ENABLED = 0 ] && return
@@ -35,7 +29,44 @@ rebuildRightPrompt() {
         echo "$rprompt";
     }
 
-    export RPROMPT="$(buildRprompt)"    # Prompt string
+    buildPS4() {
+        if [ $PROMPT_SIMPLE -eq 1 ]; then
+            echo "+ "
+            return;
+        fi
+        local gray blue reset cyan magenta
+        if [ $PROMPT_COLORS != 0 ]; then
+            local gray=$PR_GRAY_INT_BOLD
+            local blue=$PR_BLUE_BOLD
+            local reset=$PR_RESET
+            local cyan=$PR_CYAN_BOLD
+            local magenta=$PR_MAGENTA
+        fi
+        local tab="\011"
+        local PS4="+ ";
+        PS4+="$gray%D{%H:%M:%S} "
+        PS4+="$blue%x$reset:$cyan%I"
+        PS4+="$reset$tab$magenta%N$gray()$reset:$tab"
+        PS4+="$reset"
+        echo "$PS4";
+    }
+
+    buildPS2() {
+        if [ $PROMPT_SIMPLE -eq 1 ]; then
+            echo "> "
+            return;
+        fi
+        local reset cyan
+        if [ $PROMPT_COLORS != 0 ]; then
+            local reset=$PR_RESET
+            local cyan=$PR_CYAN_BOLD
+        fi
+        echo "$cyan(%_)>$reset ";
+    }
+
+    export RPROMPT="$(buildRprompt)"
+    export PS2="$(buildPS2)"
+    export PS4="$(buildPS4)"
 }
 
 function __rprompt_define_opt() {
@@ -57,7 +88,7 @@ function __rprompt_define_opt() {
         else
             $varname=\$1
         fi
-        rebuildRightPrompt
+        rebuildPrompts2
     }")"
 }
 
@@ -76,4 +107,10 @@ __rprompt_define_opt rprompt_timer RPROMPT_TIMER -1
 __rprompt_define_opt rprompt_shlvl RPROMPT_SHLVL 1
 
 
-rebuildRightPrompt
+# Initial prompt build
+rebuildPrompts
+
+# Timer mechanism
+autoload -U add-zsh-hook
+add-zsh-hook preexec promptPreExec
+add-zsh-hook precmd promptPreCmd

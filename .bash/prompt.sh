@@ -213,7 +213,7 @@ function rebuildPrompts() {
         fi
         local tab="\011"
         local PS4="+ ";
-        PS4+="$gray\$(date +"%T.%3N") "
+        PS4+="$gray\D{%H:%M:%S} "
         PS4+="$blue\${BASH_SOURCE/#\$HOME/\~}$reset:$cyan\${LINENO}"
         PS4+="$reset$tab\${FUNCNAME[0]:+$magenta\${FUNCNAME[0]}$gray()$reset:$tab }"
         PS4+="$reset"
@@ -243,8 +243,11 @@ function rebuildPrompts() {
     fi
 
     export PS1="$(buildPS1)"    # Prompt string
-    export PS2="> "             # Subshell prompt string
-    export PS4="$(buildPS4)"    # Debug prompt string  (when using `set -x`)
+    [ $__PROMPT_PS2 != 0 ] && export PS2="> "             # Subshell prompt string
+    [ $__PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"    # Debug prompt string  (when using `set -x`)
+
+    # Make it extensible
+    type rebuildPrompts2 2>/dev/null 1>/dev/null && rebuildPrompts2
 }
 
 function promptPreCmd() {
@@ -275,7 +278,8 @@ function __prompt_define_opt() {
     # Setup toggle function
     eval "$(echo "
     function $funcname() {
-        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
+        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')        # Make it extensible
+        type rebuildPrompts2 2>&1 1>/dev/null && rebuildPrompts2
         if [ -z \$a ]; then
             [ \$$varname = 0 ] && $varname=1 || $varname=0;
         elif [ "\$a" == "TRUE" ] || [ "\$a" == "T" ] || [ "\$a" == "1" ]; then
@@ -315,6 +319,8 @@ __prompt_define_opt prompt_shlvl PROMPT_SHLVL 1
 
 
 # Prompt constants
+: ${__PROMPT_PS2:=1}
+: ${__PROMPT_PS4:=1}
 : ${__PROMPT_UNPRINTABLE_PREFIX:="\["}
 : ${__PROMPT_UNPRINTABLE_SUFFIX:="\]"}
 : ${__PROMPT_TITLE_PREFIX:="\[\e]0;"}
