@@ -27,7 +27,7 @@ function loadZsh() {
             [ -r "$BASHDIR/plugins/$plugin.sh" ] && source $BASHDIR/plugins/$plugin.sh
         done
     fi
-    source "$DIR/prompt.zsh"
+    source "$BASHDIR/prompt.sh"
 
     # Load zsh-syntax-highlighting.
     source $DIR/vendor/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

@@ -42,7 +42,7 @@ function define_colors() {
             [ "$format" = "NORMAL" ] && \
                 format="" || \
                 format="_$format"
-            eval PR${format}_${color}="'\e[${format_val};${color_val}m'";
+            eval PR_${color}${format}="'\e[${format_val};${color_val}m'";
         done
     done
 }
@@ -50,7 +50,7 @@ function define_colors() {
 define_colors
 unset -f define_colors
 
-function ls_colors() {
+function lscolors() {
     local color color_val format format_val tabs filter;
     filter=${1-"normal"};
     filter=$(echo "$filter" | tr '[:lower:]' '[:upper:]')
@@ -62,13 +62,13 @@ function ls_colors() {
             [ "$format" = "NORMAL" ] && \
                 format="" || \
                 format="_$format"
-            eval value="\${PR${format}_${color}}"
-            printf "${value}%-20s   %s $PR_RESET\n" "PR${format}_${color}" "\\e[${format_val};${color_val}m"
+            eval value="\${PR_${color}${format}}"
+            printf "${value}%-20s   %s $PR_RESET\n" "PR_${color}${format}" "\\e[${format_val};${color_val}m"
         done
     done
 }
 
-function ls_color_codes() {
+function lscolorcodes() {
     for clfg in {30..37} {90..97} 39 ; do
         #Formatting
         for attr in 0 1 2 4 5 7 ; do

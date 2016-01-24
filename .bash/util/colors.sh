@@ -31,7 +31,7 @@ declare -rgA PR_FORMAT=(
     # ["DIM"]="2"
 )
 
-function define_colors() {
+function defineColors() {
     local color color_val format format_val
     for color in "${!PR_COLORS[@]}"; do
         color_val=${PR_COLORS[${color}]}
@@ -40,10 +40,10 @@ function define_colors() {
             [ "$format" = "NORMAL" ] && \
                 format="" || \
                 format="_$format"
-            eval PR${format}_${color}="'\e[${format_val};${color_val}m'";
+            eval PR_${color}${format}="'\e[${format_val};${color_val}m'";
         done
     done
 }
 
-define_colors
-unset -f define_colors
+defineColors
+unset -f defineColors

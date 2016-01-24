@@ -60,5 +60,5 @@ fi
 # Alert notification for long running commands. Use like so:
 #   sleep 10; notify
 if [ -x "$(command -v notify-send)" ]; then
-    alias notify='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(\history | tail -n 1 | sed -e '\''s/^\s*[0-9]\+  [0-9-]\+ [0-9:]\+  //;s/\s*[;&|]\s*notify\(\s\+.*\)\{0,1\}\s*$//'\'')"'
+    alias notify='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(\history | tail -n 1 | sed -e '\''s/^\s*[0-9]\+  \([0-9]\{4,\}-[0-9]\{2\}-[0-9]\{2\}\s\+[0-9]\{2\}\(:[0-9]\{2\}\)\{1,2\}\s\+\)\{0,1\}//;s/\s*[;&|]\s*notify\(\s\+.*\)\{0,1\}\s*$//'\'')"'
 fi
