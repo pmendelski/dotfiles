@@ -184,7 +184,7 @@ while (("$#")); do
             git checkout personal && \
                 git pull --rebase origin personal && \
                 git checkout master && \
-                git merge personal && \
+                git merge personal -m "Udating master from personal" && \
                 git push origin master
             exit
             ;;
