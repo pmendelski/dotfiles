@@ -88,9 +88,9 @@ function __promptGitStatus() {
 
     # dirty status
     local dirtyStatus=""
-    git_has_staged_changes && dirtyStatus+="+"
-    git_has_unstaged_changes && dirtyStatus+="*"
-    git_has_untracked_files && dirtyStatus+="%"
+    git_has_staged_changes && dirtyStatus+="$__PROMPT_GIT_STAGED_CHANGES"
+    git_has_unstaged_changes && dirtyStatus+="$__PROMPT_GIT_UNSTAGED_CHANGES"
+    git_has_untracked_files && dirtyStatus+="$__PROMPT_GIT_UNTRACKED_FILES"
 
     # stash status
     local stashStatus="$(git_stash_size)"
@@ -325,6 +325,10 @@ __prompt_define_opt prompt_shlvl PROMPT_SHLVL 1
 : ${__PROMPT_UNPRINTABLE_SUFFIX:="\]"}
 : ${__PROMPT_TITLE_PREFIX:="\[\e]0;"}
 : ${__PROMPT_TITLE_SUFFIX:="\007\]"}
+
+: ${__PROMPT_GIT_STAGED_CHANGES:="+"}
+: ${__PROMPT_GIT_UNSTAGED_CHANGES:="*"}
+: ${__PROMPT_GIT_UNTRACKED_FILES:="%"}
 
 if [ -n "$BASH_VERSION" ]; then
     # Initial prompt build
