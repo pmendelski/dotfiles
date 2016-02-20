@@ -22,7 +22,7 @@ rebuildPrompts2() {
         [ $PROMPT_SIMPLE -eq 1 ] || [ $RPROMPT_ENABLED = 0 ] && return
         local rprompt=""
         [ $RPROMPT_TIMER != 0 ] && rprompt+="$__PROMPT_TIMER_COLOR\$(__promptTimer $RPROMPT_TIMER)"
-        [ $RPROMPT_STATUS != 0 ] && rprompt+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"${__PROMPT_CMD_ERR_COLOR}[err:\$cmdstatus]\"; exit \$cmdstatus)"
+        [ $RPROMPT_STATUS != 0 ] && rprompt+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"${__PROMPT_CMD_ERR_COLOR}[err:\$cmdstatus]${__PROMPT_COLOR_RESET}\"; exit \$cmdstatus)"
         [ $RPROMPT_GIT != 0 ] && rprompt+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
         [ $RPROMPT_TIMESTAMP != 0 ] && rprompt+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
         [ $RPROMPT_SHLVL != 0 ] && rprompt+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl $RPROMPT_SHLVL \"/\" \"\")"

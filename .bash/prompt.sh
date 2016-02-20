@@ -190,11 +190,12 @@ function rebuildPrompts() {
         [ $PROMPT_COLORS != 0 ] && PS1+="\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)"
         PS1+="\$(__promptDebianChroot)"
         PS1+="\$(__promptUserAtHost)"
+        [ $PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_COLOR_RESET"
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
         [ $PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
-        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)"
         [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        PS1+="\$$__PROMPT_COLOR_RESET "
+        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\$$__PROMPT_COLOR_RESET \" || echo \"$__PROMPT_COLOR_RESET\$$__PROMPT_COLOR_RESET \"; exit \$cmdstatus)"
+        [ $PROMPT_STATUS == 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
         echo "$PS1";
     }
 

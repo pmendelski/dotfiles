@@ -1,10 +1,4 @@
 "*":
-  core:
-    disabledPackages: [
-      "linter-htmlhint"
-    ]
-  "custom-title":
-    template: "<% if (projectName) { %><%= projectName %><% if (gitHead) { %> [<%= gitHead %>]<% } %><% } %> <% if (relativeFilePath && projectName) { print('»') } %> <%= relativeFilePath %>"
   editor:
     fontSize: 16
     invisibles: {}
