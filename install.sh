@@ -27,7 +27,7 @@ function main() {
     function listSymlinks() {
         local -a files=(
             $(find . -maxdepth 1 -type f -name ".*" 2>/dev/null)
-            ".vim"
+            $(find . -maxdepth 1 -mindepth 1 -type d ! -name ".git" 2>/dev/null)
             # personal branch
             $(find .atom -type f 2>/dev/null)
             $(find .config -type f 2>/dev/null)
@@ -58,7 +58,7 @@ function main() {
 
     function link() {
         local destDir="$(dirname "$2")"
-        if [ dryrun = 0 ]; then
+        if [ $dryrun = 0 ]; then
             [ ! -d "$destDir" ] && \
             mkdir -p "$destDir"
             execute "ln -fs $1 $2" "$1 → $2"
@@ -68,7 +68,7 @@ function main() {
     }
 
     function backupAndRemove() {
-        if [ dryrun = 0 ]; then
+        if [ $dryrun = 0 ]; then
             [ ! -d "$backupDir" ] && \
                 mkdir "$backupDir"
             local destDir="$(dirname "$targetFile" | sed -e "s|$HOME|$backupDir|")"
@@ -84,7 +84,7 @@ function main() {
     }
 
     printInfo "Updating gitsubmodules"
-    [ dryrun = 0 ] && \
+    [ $dryrun = 0 ] && \
         git submodule update --init --recursive && \
         printSuccess "Updated git submodules"
 
@@ -117,7 +117,7 @@ function main() {
         fullSourceFile="$DIR/$sourceFile"
         if [ ! -e "$targetFile" ]; then
             # Expand variables
-            if [ dryrun = 0 ]; then
+            if [ $dryrun = 0 ]; then
                 sed -e "s/\$USER/$USER/" \
                     -e "s/\$HOSTNAME/$HOSTNAME/" "$fullSourceFile" \
                     > "$targetFile"
