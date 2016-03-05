@@ -6,7 +6,7 @@
 --  Version : v0.1
 --  License : Distributed under the terms of GNU GPL version 2 or later
 --
---  This version is a modification of lunatico_rings.lua wich is modification of conky_orange.lua 
+--  This version is a modification of lunatico_rings.lua wich is modification of conky_orange.lua
 --
 --  conky_orange.lua:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
 --  lunatico_rings.lua:  http://gnome-look.org/content/show.php?content=142884
@@ -295,12 +295,12 @@ gauge = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 },
 {
-    name='downspeedf',             arg='wlan0',                     max_value='dynamic',
+    name='downspeedf',             arg='eth0',   arg_fallback='wlan0',                  max_value='dynamic',
     x=70,                          y=760,
     graph_radius=54,
     graph_thickness=7,
     graph_start_angle=180,
-    graph_unit_angle=270,          graph_unit_thickness=270, 
+    graph_unit_angle=270,          graph_unit_thickness=270,
     graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
     graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
     hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
@@ -316,7 +316,7 @@ gauge = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 },
 {
-    name='upspeedf',               arg='wlan0',                     max_value='dynamic',
+    name='upspeedf',               arg='eth0',   arg_fallback='wlan0',                     max_value='dynamic',
     x=70,                          y=760,
     graph_radius=42,
     graph_thickness=7,
@@ -380,7 +380,7 @@ function draw_gauge_ring(display, data, value)
         max_value = data['max_value_dynamic']
         if max_value > 0 then
 	        graph_unit_angle = graph_unit_angle / max_value
-	        graph_unit_thickness = graph_unit_thickness / max_value 
+	        graph_unit_thickness = graph_unit_thickness / max_value
         end
     end
 
@@ -476,13 +476,18 @@ end
 --
 function go_gauge_rings(display)
     local function load_gauge_rings(display, data)
-        local str, value = '', 0
+        local str, value = 0
         str = string.format('${%s %s}',data['name'], data['arg'])
         str = conky_parse(str)
         value = tonumber(str)
+        if value == 0 and data['arg_fallback'] ~= nil then
+            str = string.format('${%s %s}',data['name'], data['arg_fallback'])
+            str = conky_parse(str)
+            value = tonumber(str)
+        end
         draw_gauge_ring(display, data, value)
     end
-    
+
     for i in pairs(gauge) do
     	pcall(function () load_gauge_rings(display, gauge[i]) end)
     end
@@ -491,16 +496,16 @@ end
 -------------------------------------------------------------------------------
 --                                                                         MAIN
 function conky_main()
-    if conky_window == nil then 
+    if conky_window == nil then
         return
     end
 
     local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     local display = cairo_create(cs)
-    
+
     local updates = conky_parse('${updates}')
     update_num = tonumber(updates)
-    
+
     if update_num > 5 then
         go_gauge_rings(display)
     end
@@ -509,4 +514,3 @@ function conky_main()
     cairo_destroy(display)
 
 end
-
