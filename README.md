@@ -13,7 +13,7 @@ Installation guidelines:
 * All overridden files are backed up in `.dotfiles.bak` directory
 
 ```sh
-cd
+cd ~
 git clone git@github.com:mendlik/dotfiles.git .dotfiles
 cd .dotfiles
 ./install.sh

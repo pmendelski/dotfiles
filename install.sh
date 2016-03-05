@@ -27,7 +27,9 @@ function main() {
     function listSymlinks() {
         local -a files=(
             $(find . -maxdepth 1 -type f -name ".*" 2>/dev/null)
-            $(find . -maxdepth 1 -mindepth 1 -type d ! -name ".git" 2>/dev/null)
+            ".bash"
+            ".zsh"
+            ".vim"
             # personal branch
             $(find .atom -type f 2>/dev/null)
             $(find .config -type f 2>/dev/null)
@@ -47,7 +49,7 @@ function main() {
 
     function listTemplates() {
         local -a files=(
-            $(find . -maxdepth 1 -type f -name ".*\.tpl" 2>/dev/null)
+            $(find . -type f -name "*\.tpl" 2>/dev/null)
         )
         files=($(\
             printf "%s\n" "${files[@]}" | sed -e "s|^\./||" | \
@@ -63,7 +65,7 @@ function main() {
             mkdir -p "$destDir"
             execute "ln -fs $1 $2" "$1 → $2"
         else
-            printSuccess "link: $1 → $2"
+            printSuccess "[dryrun] link: $1 → $2"
         fi
     }
 
@@ -79,14 +81,14 @@ function main() {
                 rm -rf "$targetFile" && \
                 printDebug "Removed: $targetFile"
         else
-            printSuccess "backupAndRemove: $targetFile → $destDir"
+            printSuccess "[dryrun] backupAndRemove: $targetFile → $destDir"
         fi
     }
 
     printInfo "Updating gitsubmodules"
     [ $dryrun = 0 ] && \
         git submodule update --init --recursive && \
-        printSuccess "Updated git submodules"
+        printSuccess "[dryrun] Updated git submodules"
 
     local -a sourceFiles="$(listSymlinks)"
     local sourceFile=''
@@ -119,10 +121,13 @@ function main() {
             # Expand variables
             if [ $dryrun = 0 ]; then
                 sed -e "s/\$USER/$USER/" \
-                    -e "s/\$HOSTNAME/$HOSTNAME/" "$fullSourceFile" \
+                    -e "s/\$HOSTNAME/$HOSTNAME/" \
+                    -e "s/\$HOME/$HOME/" \
+                    "$fullSourceFile" \
                     > "$targetFile"
+            else
+                printSuccess "[dryrun] template file resolved: $fullSourceFile → $targetFile"
             fi
-            printSuccess "Change options in template config file: $targetFile"
         else
             printInfo "Template config already created: $(basename "$targetFile")"
         fi
@@ -152,6 +157,7 @@ function printHelp() {
     echo "  -v, --verbose  Print additional logs"
     echo "  -s, --silent   Disable logs. Except confirmations."
     echo "  -n, --nocolor  Disable colors"
+    echo "  -d, --dryrun   Dry run"
     echo "  -h, --help     Print help"
     echo ""
 }

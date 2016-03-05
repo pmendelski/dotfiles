@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=/home/mendlik/.conky/conky_run.sh
+Exec=$HOME/.conky/conky_run.sh
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
