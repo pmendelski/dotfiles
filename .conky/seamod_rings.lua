@@ -232,7 +232,7 @@ gauge = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 },
 {
-    name='fs_used_perc',           arg='/media/mendlik/storage',                     max_value=100,
+    name='fs_used_perc',           arg='/media/mendlik/storage', skip_on_zero=1, max_value=100,
     x=70,                          y=570,
     graph_radius=65,
     graph_thickness=7,
@@ -484,6 +484,9 @@ function go_gauge_rings(display)
             str = string.format('${%s %s}',data['name'], data['arg_fallback'])
             str = conky_parse(str)
             value = tonumber(str)
+        end
+        if value == 0 and data['skip_on_zero'] == 1 then
+            return
         end
         draw_gauge_ring(display, data, value)
     end

@@ -96,8 +96,8 @@ ${alignr}${diskiograph 33,183 666666 666666}
 ${offset 190}${font Ubuntu:size=10,weight:bold}${color5}DISKS${alignr}free          used         total
 ${offset 205}${font Ubuntu:size=10,weight:normal}${color1}/${color2}${alignr}  ${fs_free /}   ${fs_used /}   ${fs_size /}
 ${offset 205}${font Ubuntu:size=10,weight:normal}${color1}/home${color2}${alignr}  ${fs_free /home}   ${fs_used /home}   ${fs_size /home}
-${offset 205}${font Ubuntu:size=10,weight:normal}${color1}/storage${color2}${alignr}  ${fs_free /media/mendlik/storage}   ${fs_used /media/mendlik/storage}   ${fs_size /media/mendlik/storage}
-${voffset 5}
+${if_existing /media/mendlik/storage}${offset 205}${font Ubuntu:size=10,weight:normal}${color1}/storage${color2}${alignr}  ${fs_free /media/mendlik/storage}   ${fs_used /media/mendlik/storage}   ${fs_size /media/mendlik/storage}${endif}
+${voffset 4}
 
 # Network data (my desktop have only LAN). ETHERNET ring is mostly useless but looks pretty, main info is in the graphs
 ${voffset 70}
