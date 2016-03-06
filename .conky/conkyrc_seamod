@@ -1,38 +1,27 @@
-#==============================================================================
-#                               conkyrc_seamod
-# Date    : 05/02/2012
-# Author  : SeaJey
-# Version : v0.1
-# License : Distributed under the terms of GNU GPL version 2 or later
-#
-# This version is a modification of conkyrc_lunatico wich is modification of conkyrc_orange
-#
-# conkyrc_orange:    http://gnome-look.org/content/show.php?content=137503&forumpage=0
-# conkyrc_lunatico:  http://gnome-look.org/content/show.php?content=142884
-#==============================================================================
-
-background yes
 update_interval 1
-
 cpu_avg_samples 1
 net_avg_samples 2
 temperature_unit celsius
 
-double_buffer yes
-no_buffers yes
-text_buffer_size 2048
-
+# Window size
 gap_x 30
 gap_y 60
 minimum_size 450 500
 maximum_width 450
+
+# Window transparency and placement
 own_window yes
-own_window_type override
+own_window_class Conky
+own_window_colour white
+own_window_type desktop
 own_window_transparent yes
-own_window_argb_visual yes
-own_window_type normal
-own_window_class conky-semi
-own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+own_window_argb_visual no
+own_window_argb_value 0
+own_window_hints undecorated,skip_taskbar,skip_pager,below
+background no
+double_buffer yes
+text_buffer_size 2048
+
 border_inner_margin 0
 border_outer_margin 0
 alignment tr
@@ -68,7 +57,8 @@ lua_draw_hook_post main
 TEXT
 ${voffset 10}
 $alignr ${font Ubuntu:size=10,weight:normal}${color3}$sysname $kernel
-$alignr ${font Ubuntu:size=10,weight:normal}${color3}${exec whoami}@$nodename
+# Genereates warning: "getcwd() failed"
+$alignr ${font Ubuntu:size=10,weight:normal}${color3}${pre_exec whoami}@$nodename
 $alignr ${font Ubuntu:size=10,weight:normal}${color3}Uptime: $uptime
 
 # Showing CPU Graph
