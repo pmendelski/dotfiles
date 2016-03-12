@@ -87,7 +87,7 @@ function main() {
 
     printInfo "Updating gitsubmodules"
     [ $dryrun = 0 ] && \
-        git submodule update --init --recursive && \
+        git submodule update --init --recursive || \
         printSuccess "[dryrun] Updated git submodules"
 
     local -a sourceFiles="$(listSymlinks)"
@@ -97,7 +97,6 @@ function main() {
     for sourceFile in ${sourceFiles[@]}; do
         targetFile="$HOME/$sourceFile"
         fullSourceFile="$DIR/$sourceFile"
-        echo "readlink: $(readlink "$targetFile") $fullSourceFile $sourceFile"
         if [ ! -e "$targetFile" ]; then
             link $fullSourceFile $targetFile
         elif [ "$(readlink "$targetFile")" == "$fullSourceFile" ]; then
