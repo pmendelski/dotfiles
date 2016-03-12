@@ -1,0 +1,24 @@
+[Desktop Entry]
+Type=Action
+TargetToolbar=true
+ToolbarLabel[en_US]=Terminal
+ToolbarLabel[en]=Terminal
+ToolbarLabel[C]=Terminal
+Name[en_US]=Terminal
+Name[en]=Terminal
+Name[C]=Terminal
+Profiles=profile-zero;
+TargetLocation=true
+Icon[en_US]=gnome-terminal
+Icon[en]=gnome-terminal
+Icon[C]=gnome-terminal
+Tooltip[en_US]=Open terminal in file base directory
+Tooltip[en]=Open terminal in file base directory
+Tooltip[C]=Open terminal in file base directory
+
+[X-Action-Profile profile-zero]
+Name[en_US]=Default profile
+Name[en]=Default profile
+Name[C]=Default profile
+Exec=terminator 
+MimeTypes=!inode/directory;*;

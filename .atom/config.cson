@@ -1,4 +1,5 @@
 "*":
+  core: {}
   editor:
     fontSize: 16
     invisibles: {}

@@ -97,6 +97,7 @@ function main() {
     for sourceFile in ${sourceFiles[@]}; do
         targetFile="$HOME/$sourceFile"
         fullSourceFile="$DIR/$sourceFile"
+        echo "readlink: $(readlink "$targetFile") $fullSourceFile $sourceFile"
         if [ ! -e "$targetFile" ]; then
             link $fullSourceFile $targetFile
         elif [ "$(readlink "$targetFile")" == "$fullSourceFile" ]; then
