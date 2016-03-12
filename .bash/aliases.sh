@@ -47,9 +47,9 @@ alias editor="$EDITOR"
 alias e="$EDITOR"
 
 # Simplified HTTP methods
-if [ -x "$(command -v lwp-request)" ]; then
+if [ -x "$(command -v httpie)" ]; then
     for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
-        alias "$method"="lwp-request -m '$method'"
+        alias "$method"="http $method"
     done
 elif [ -x "$(command -v curl)" ]; then
     for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
