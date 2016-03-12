@@ -243,7 +243,7 @@ function gauge_rings(display)
         if data['if_expr'] ~= nil then
             local expr = string.format('${%s}1${else}0${endif}', data['if_expr'])
             expr = conky_parse(expr)
-            print('if_expr', data['if_expr'], expr)
+            -- print('if_expr', data['if_expr'], expr)
             if tonumber(expr) == 0 then return end
         end
         local value = string.format('${%s}', data['value'])
