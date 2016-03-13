@@ -46,6 +46,10 @@ alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
 
+
+alias dailyepigram="fortune | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
+alias asciitext="figlet -f slant"
+
 # Simplified HTTP methods
 if [ -x "$(command -v httpie)" ]; then
     for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
