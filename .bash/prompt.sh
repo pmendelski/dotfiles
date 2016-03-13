@@ -1,5 +1,4 @@
 #!/bin/bash -x
-# Default bashrc: /etc/skel/.bashrc
 
 # This prompt inspired by:
 #   https://github.com/alrra/dotfiles/blob/master/shell/bash_prompt

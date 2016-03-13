@@ -1,4 +1,6 @@
 #!/bin/bash
+
+# Default bashrc: /etc/skel/.bashrc
 # ~/.bashrc: executed by bash for non-login shells.
 # https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/
 # http://serverfault.com/questions/261802/profile-vs-bash-profile-vs-bashrc
