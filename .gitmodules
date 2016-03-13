@@ -10,9 +10,6 @@
 [submodule "vim-syntastic"]
 	path = .vim/bundle/syntastic
 	url = git@github.com:scrooloose/syntastic.git
-[submodule "zsh-autosuggestions"]
-	path = .zsh/bundle/autosuggestions
-	url = git@github.com:tarruda/zsh-autosuggestions.git
 [submodule "zsh-completions"]
 	path = .zsh/bundle/completions
 	url = git@github.com:zsh-users/zsh-completions.git
