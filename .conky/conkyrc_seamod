@@ -74,7 +74,7 @@ ${offset 205}${font Ubuntu:size=10,weight:normal}${color3}${top name 5}${alignr}
 #Showing memory part with TOP 5
 ${voffset 90}
 ${offset 190}${font Ubuntu:size=10,weight:bold}${color5}SWAP $swapperc%${alignr}$swap/$swapmax
-${offset 190}${font Ubuntu:size=10,weight:bold}${color5}MEM $memperc%${alignr}$mem/$memmax
+${offset 190}${font Ubuntu:size=10,weight:bold}${color5}RAM $memperc%${alignr}$mem/$memmax
 ${offset 205}${font Ubuntu:size=10,weight:normal}${color4}${top_mem name 1}${alignr}${top_mem mem 1}%
 ${offset 205}${font Ubuntu:size=10,weight:normal}${color1}${top_mem name 2}${alignr}${top_mem mem 2}%
 ${offset 205}${font Ubuntu:size=10,weight:normal}${color2}${top_mem name 3}${alignr}${top_mem mem 3}%
