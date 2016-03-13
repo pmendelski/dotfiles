@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Prompt constants
+__PROMPT_SIMPLE="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD%n@%m$PR_RESET:$PR_BLUE_BOLD%~$PR_RESET\$ "
+__PROMPT_SIMPLE_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
 __PROMPT_UNPRINTABLE_PREFIX="%{"
 __PROMPT_UNPRINTABLE_SUFFIX="%}"
 __PROMPT_TITLE_PREFIX="%{\e]0;"

@@ -1,4 +1,5 @@
 #!/bin/bash -x
+# Default bashrc: /etc/skel/.bashrc
 
 # This prompt inspired by:
 #   https://github.com/alrra/dotfiles/blob/master/shell/bash_prompt
@@ -176,9 +177,9 @@ function rebuildPrompts() {
     function buildPS1() {
         if [ $PROMPT_SIMPLE -eq 1 ]; then
             if [ ! $PROMPT_COLORS -eq 0 ]; then
-                echo '${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+                echo "$__PROMPT_SIMPLE"
             else
-                echo '${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+                echo "$__PROMPT_SIMPLE_NO_COLORS"
             fi
             return;
         fi
@@ -222,6 +223,8 @@ function rebuildPrompts() {
     }
 
     if [ $PROMPT_COLORS -gt 0 ]; then
+        : ${__PROMPT_SIMPLE_USER_HOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
+        : ${__PROMPT_SIMPLE_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
         : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
         : ${__PROMPT_SHLVL_COLOR:=$(unprintable $PR_YELLOW_BOLD)}
         : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
@@ -248,7 +251,7 @@ function rebuildPrompts() {
     [ $__PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"    # Debug prompt string  (when using `set -x`)
 
     # Make it extensible
-    type rebuildPrompts2 2>/dev/null 1>/dev/null && rebuildPrompts2
+    type "rebuildPrompts2" >/dev/null 2>&1 && rebuildPrompts2
 }
 
 function promptPreCmd() {
@@ -279,8 +282,9 @@ function __prompt_define_opt() {
     # Setup toggle function
     eval "$(echo "
     function $funcname() {
-        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')        # Make it extensible
-        type rebuildPrompts2 2>&1 1>/dev/null && rebuildPrompts2
+        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
+        # Make it extensible
+        type \"rebuildPrompts2\" >/dev/null 2>&1 && rebuildPrompts2
         if [ -z \$a ]; then
             [ \$$varname = 0 ] && $varname=1 || $varname=0;
         elif [ "\$a" == "TRUE" ] || [ "\$a" == "T" ] || [ "\$a" == "1" ]; then
@@ -320,6 +324,9 @@ __prompt_define_opt prompt_shlvl PROMPT_SHLVL 1
 
 
 # Prompt constants
+: ${__PROMPT_SIMPLE:="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD\u@\h$PR_RESET:$PR_BLUE_BOLD\w$PR_RESET\$ "}
+: ${__PROMPT_SIMPLE_NO_COLORS:="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "}
+
 : ${__PROMPT_PS2:=1}
 : ${__PROMPT_PS4:=1}
 : ${__PROMPT_UNPRINTABLE_PREFIX:="\["}
