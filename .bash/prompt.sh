@@ -194,8 +194,8 @@ function rebuildPrompts() {
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
         [ $PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
         [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\$$__PROMPT_COLOR_RESET \" || echo \"$__PROMPT_COLOR_RESET\$$__PROMPT_COLOR_RESET \"; exit \$cmdstatus)"
-        [ $PROMPT_STATUS == 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
+        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\$$__PROMPT_COLOR_RESET \" || echo \"$__PROMPT_COLOR_RESET\$$__PROMPT_COLOR_RESET \"; exit \$cmdstatus)"
+        [ $PROMPT_STATUS = 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
         echo "$PS1";
     }
 
@@ -286,9 +286,9 @@ function __prompt_define_opt() {
         type \"rebuildPrompts2\" >/dev/null 2>&1 && rebuildPrompts2
         if [ -z \$a ]; then
             [ \$$varname = 0 ] && $varname=1 || $varname=0;
-        elif [ "\$a" == "TRUE" ] || [ "\$a" == "T" ] || [ "\$a" == "1" ]; then
+        elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
             $varname=1
-        elif [ "\$a" == "FALSE" ] || [ "\$a" == "F" ] || [ "\$a" == "0" ]; then
+        elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
             $varname=0
         else
             $varname=\$1

@@ -84,9 +84,9 @@ function __rprompt_define_opt() {
         local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
         if [ -z \$a ]; then
             [ \$$varname = 0 ] && $varname=1 || $varname=0;
-        elif [ "\$a" == "TRUE" ] || [ "\$a" == "T" ] || [ "\$a" == "1" ]; then
+        elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
             $varname=1
-        elif [ "\$a" == "FALSE" ] || [ "\$a" == "F" ] || [ "\$a" == "0" ]; then
+        elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
             $varname=0
         else
             $varname=\$1

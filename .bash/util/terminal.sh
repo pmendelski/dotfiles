@@ -36,12 +36,12 @@ printResult() {
         && printSuccess "$2" \
         || printError "$2"
 
-    [ "$3" == "true" ] && [ $1 -ne 0 ] \
+    [ "$3" = "true" ] && [ $1 -ne 0 ] \
         && exit
 }
 
 print() {
-    [ $silent == 0 ] && printf "$1"
+    [ $silent = 0 ] && printf "$1"
 }
 
 println() {
