@@ -16,15 +16,33 @@ case $- in
     *) return;;
 esac
 
-# Load local dotfiles
-for file in ~/.bash_{prompt,exports,aliases,functions}; do
-    [ -r "$file" ] && source "$file"
-done
-unset file
+function init_bash() {
+    # Load local dotfiles
+    for file in ~/.bash_{prompt,exports,aliases,functions}; do
+        [ -r "$file" ] && source "$file"
+    done
+    unset file
 
-# Load dotfiles
-# bash_plugins=(jvm mvn-color) # ...load them all
-source "$HOME/.bash/index.sh"
+    # Load dotfiles
+    # bash_plugins=(jvm mvn-color) # ...load them all
+    source "$HOME/.bash/index.sh"
 
-# Scripts folder is for user custom scipts
-export PATH="$PATH:$HOME/Scripts"
+    # Scripts folder is for user custom scipts
+    export PATH="$PATH:$HOME/Scripts"
+
+    # Say hello
+    shhello
+}
+
+function init_zsh() {
+    exec zsh
+}
+
+# Sometimes 'chsh -s $(whish zsh)' is not an option
+[ -r "~/.shell" ] && source "~/.shell"
+: ${ZSH_FORCE:=0}
+if [ $SHLVL -gt 1 ] && [ $ZSH_FORCE = 1 ]; then
+    init_bash
+else
+    init_zsh
+fi

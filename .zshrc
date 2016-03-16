@@ -19,3 +19,6 @@ source ~/.zsh/index.zsh
 
 # Scripts folder is for user custom scipts
 export PATH="$PATH:$HOME/Scripts"
+
+# Say hello
+shhello
