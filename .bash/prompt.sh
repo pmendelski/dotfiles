@@ -187,14 +187,14 @@ function rebuildPrompts() {
         [ $PROMPT_SHLVL != 0 ] && PS1+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl)"
         [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
         [ $PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
-        [ $PROMPT_COLORS != 0 ] && PS1+="\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)"
+        [ $PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX"
         PS1+="\$(__promptDebianChroot)"
         PS1+="\$(__promptUserAtHost)"
         [ $PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_COLOR_RESET"
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
         [ $PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
         [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\$$__PROMPT_COLOR_RESET \" || echo \"$__PROMPT_COLOR_RESET\$$__PROMPT_COLOR_RESET \"; exit \$cmdstatus)"
+        [ $PROMPT_STATUS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX\$$__PROMPT_COLOR_RESET "
         [ $PROMPT_STATUS = 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
         echo "$PS1";
     }
@@ -226,13 +226,13 @@ function rebuildPrompts() {
         : ${__PROMPT_SIMPLE_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
         : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
         : ${__PROMPT_SHLVL_COLOR:=$(unprintable $PR_YELLOW_BOLD)}
-        : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
-        : ${__PROMPT_USERHOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
         : ${__PROMPT_REPO_COLOR:=$(unprintable $PR_MAGENTA_BOLD)}
         : ${__PROMPT_TIMESTAMP_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
         : ${__PROMPT_TIMER_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
-        : ${__PROMPT_CMD_ERR_COLOR:=$(unprintable $PR_RED_BOLD)}
         : ${__PROMPT_COLOR_RESET:=$(unprintable $PR_RESET)}
+        : ${__PROMPT_CMD_ERR_COLOR:=$(unprintable $PR_RED_BOLD)}
+        : ${__PROMPT_USERHOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
+        : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
     else
         unset __PROMPT_PWD_COLOR
         unset __PROMPT_SHLVL_COLOR
