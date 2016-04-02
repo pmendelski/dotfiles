@@ -98,17 +98,17 @@ function __rprompt_define_opt() {
 
 # Right Prompt Config
 ## Show right prompt
-__rprompt_define_opt rprompt_enabled __RPROMPT_ENABLED 1
+__rprompt_define_opt prompt_rprompt_enabled __RPROMPT_ENABLED 1
 ## Show GIT status
-__rprompt_define_opt rprompt_git __RPROMPT_GIT $(hash git 2>/dev/null && echo 1)
+__rprompt_define_opt prompt_rprompt_git __RPROMPT_GIT $(hash git 2>/dev/null && echo 1)
 ## Show last command result status
-__rprompt_define_opt rprompt_status __RPROMPT_STATUS 1
+__rprompt_define_opt prompt_rprompt_status __RPROMPT_STATUS 1
 ## Add timestamp to prompt (date format)
-__rprompt_define_opt rprompt_timestamp __RPROMPT_TIMESTAMP 0
+__rprompt_define_opt prompt_rprompt_timestamp __RPROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
-__rprompt_define_opt rprompt_timer __RPROMPT_TIMER -1
+__rprompt_define_opt prompt_rprompt_timer __RPROMPT_TIMER -1
 ## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x ms)
-__rprompt_define_opt rprompt_shlvl __RPROMPT_SHLVL 1
+__rprompt_define_opt prompt_rprompt_shlvl __RPROMPT_SHLVL 1
 
 
 # Initial prompt build
