@@ -41,8 +41,8 @@ function init_zsh() {
 # Sometimes 'chsh -s $(whish zsh)' is not an option
 [ -r "~/.shell" ] && source "~/.shell"
 : ${ZSH_FORCE:=0}
-if [ $SHLVL -gt 1 ] && [ $ZSH_FORCE = 1 ]; then
-    init_bash
-else
+if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
     init_zsh
+else
+    init_bash
 fi

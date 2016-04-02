@@ -187,14 +187,14 @@ function rebuildPrompts() {
         [ $__PROMPT_SHLVL != 0 ] && PS1+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl)"
         [ $__PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
         [ $__PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
-        [ $__PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX"
+        [ $__PROMPT_COLORS != 0 ] && PS1+="\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)"
         PS1+="\$(__promptDebianChroot)"
         PS1+="\$(__promptUserAtHost)"
         [ $__PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_COLOR_RESET"
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
         [ $__PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
         [ $__PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $__PROMPT_STATUS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX\$$__PROMPT_COLOR_RESET "
+        [ $__PROMPT_STATUS != 0 ] && PS1+="\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)\$$__PROMPT_COLOR_RESET "
         [ $__PROMPT_STATUS = 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
         echo "$PS1";
     }
