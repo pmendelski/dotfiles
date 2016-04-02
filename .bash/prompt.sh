@@ -27,7 +27,7 @@ function __promptPwd() {
         echo "/"
         return $exit
     fi
-    local mode=${1-$PROMPT_PWD}
+    local mode=${1-$__PROMPT_PWD}
     local result=""
     local homeShort="~"
     if [ $mode = 1 ]; then
@@ -114,7 +114,7 @@ function __promptGitStatus() {
 
 function __promptTimestamp() {
     local exit=$?
-    local format=${1-$PROMPT_TIMESTAMP}
+    local format=${1-$__PROMPT_TIMESTAMP}
     local prefix=${2-"["}
     local suffix=${3-"]"}
     local ts=""
@@ -138,7 +138,7 @@ function __promptTimestamp() {
 
 function __promptTimer() {
     local exit=$?
-    local treshold=${1-$PROMPT_TIMER}
+    local treshold=${1-$__PROMPT_TIMER}
     local prefix=${2-"["}
     local suffix=${3-"]"}
     [ ! $__PROMPT_TIMER_DIFF ] || [ "$__PROMPT_TIMER_DIFF" -lt "0" ] && return $exit
@@ -149,7 +149,7 @@ function __promptTimer() {
 
 function __promptShlvl() {
     local exit=$?
-    local treshold=${1-$PROMPT_SHLVL}
+    local treshold=${1-$__PROMPT_SHLVL}
     local prefix=${2-""}
     local suffix=${3-"\\"}
     [ $treshold -lt 0 ] || [ $SHLVL -gt $treshold ] && \
@@ -174,38 +174,38 @@ function rebuildPrompts() {
     }
 
     function buildPS1() {
-        if [ $PROMPT_SIMPLE -eq 1 ]; then
-            if [ ! $PROMPT_COLORS -eq 0 ]; then
-                echo "$__PROMPT_SIMPLE"
+        if [ $__PROMPT_SIMPLE -eq 1 ]; then
+            if [ ! $__PROMPT_COLORS -eq 0 ]; then
+                echo "$__PROMPT_BASIC"
             else
-                echo "$__PROMPT_SIMPLE_NO_COLORS"
+                echo "$__PROMPT_BASIC_NO_COLORS"
             fi
             return;
         fi
         local PS1=""
         PS1+="$(terminalTitle)"
-        [ $PROMPT_SHLVL != 0 ] && PS1+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl)"
-        [ $PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
-        [ $PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
-        [ $PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX"
+        [ $__PROMPT_SHLVL != 0 ] && PS1+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl)"
+        [ $__PROMPT_TIMER != 0 ] && PS1+="$__PROMPT_TIMER_COLOR\$(__promptTimer)"
+        [ $__PROMPT_TIMESTAMP != 0 ] && PS1+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
+        [ $__PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\$?; __promptIsRoot && echo \"$__PROMPT_ROOT_COLOR\" || echo \"$__PROMPT_USERHOST_COLOR\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX"
         PS1+="\$(__promptDebianChroot)"
         PS1+="\$(__promptUserAtHost)"
-        [ $PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_COLOR_RESET"
+        [ $__PROMPT_COLORS != 0 ] && PS1+="$__PROMPT_COLOR_RESET"
         PS1+="$__PROMPT_PWD_COLOR\$(__promptPwd)"
-        [ $PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
-        [ $PROMPT_NEWLINE != 0 ] && PS1+="\n"
-        [ $PROMPT_STATUS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX\$$__PROMPT_COLOR_RESET "
-        [ $PROMPT_STATUS = 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
+        [ $__PROMPT_GIT != 0 ] && PS1+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
+        [ $__PROMPT_NEWLINE != 0 ] && PS1+="\n"
+        [ $__PROMPT_STATUS != 0 ] && PS1+="$__PROMPT_UNPRINTABLE_PREFIX\$(declare cmdstatus=\${?:-0}; [ \$cmdstatus != 0 ] && echo \"$__PROMPT_CMD_ERR_COLOR\" || echo \"$__PROMPT_COLOR_RESET\"; exit \$cmdstatus)$__PROMPT_UNPRINTABLE_SUFFIX\$$__PROMPT_COLOR_RESET "
+        [ $__PROMPT_STATUS = 0 ] && PS1+="$__PROMPT_COLOR_RESET\$ "
         echo "$PS1";
     }
 
     function buildPS4() {
-        if [ $PROMPT_SIMPLE -eq 1 ]; then
+        if [ $__PROMPT_SIMPLE -eq 1 ]; then
             echo "+ "
             return;
         fi
         local gray blue reset cyan magenta
-        if [ $PROMPT_COLORS != 0 ]; then
+        if [ $__PROMPT_COLORS != 0 ]; then
             local gray=$PR_GRAY_INT_BOLD
             local blue=$PR_BLUE_BOLD
             local reset=$PR_RESET
@@ -221,7 +221,7 @@ function rebuildPrompts() {
         echo "$PS4";
     }
 
-    if [ $PROMPT_COLORS -gt 0 ]; then
+    if [ $__PROMPT_COLORS -gt 0 ]; then
         : ${__PROMPT_SIMPLE_USER_HOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
         : ${__PROMPT_SIMPLE_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
         : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
@@ -253,18 +253,20 @@ function rebuildPrompts() {
     type "rebuildPrompts2" >/dev/null 2>&1 && rebuildPrompts2
 }
 
-function promptPreCmd() {
+function __promptPreCmd() {
     local exit=$?
     unset __PROMPT_TIMER_DIFF
     [ ! $__PROMPT_TIMER_START ] && return $exit
     __PROMPT_TIMER_DIFF=$(($(epoch) - $__PROMPT_TIMER_START))
     unset __PROMPT_TIMER_START
-    [ $PROMPT_NOTIFY -lt 0 ] || [ $__PROMPT_TIMER_DIFF -gt $(($PROMPT_NOTIFY)) ] && \
+    [ $__PROMPT_NOTIFY -lt 0 ] || [ $__PROMPT_TIMER_DIFF -gt $(($__PROMPT_NOTIFY)) ] && {
+        [ $exit = 0 ] # Reassign ?
         notify "Time: $(epochDiffMin $__PROMPT_TIMER_DIFF)"
+    }
     return $exit
 }
 
-function promptPreExec {
+function __promptPreExec {
     local exit=$?
     # http://stackoverflow.com/questions/1862510/how-can-the-last-commands-wall-time-be-put-in-the-bash-prompt
     __PROMPT_TIMER_START=${__PROMPT_TIMER_START:-$(epoch)}
@@ -293,38 +295,39 @@ function __prompt_define_opt() {
         else
             $varname=\$1
         fi
+        echo \"$varname=\$$varname\"
         rebuildPrompts
     }")"
 }
 
 # Prompt Config
 ## Fallback to simple prompt
-__prompt_define_opt prompt_simple PROMPT_SIMPLE 0
+__prompt_define_opt prompt_simple __PROMPT_SIMPLE 0
 ## Setup pwd mode (0-"~/Desktop/Project", 1-"~/a/b/c/project", 2-".../x/y/z/project")
-__prompt_define_opt prompt_pwd PROMPT_PWD 2
+__prompt_define_opt prompt_pwd __PROMPT_PWD 2
 ## Break command line after prompt
-__prompt_define_opt prompt_newline PROMPT_NEWLINE 0
+__prompt_define_opt prompt_newline __PROMPT_NEWLINE 0
 ## Add it to ~/.bash_exports (sample: PROMPT_DEFAULT_USERHOST="mendlik@dell")
 __prompt_define_opt prompt_default_userhost PROMPT_DEFAULT_USERHOST ""
 ## Use colors
-__prompt_define_opt prompt_colors PROMPT_COLORS 1
+__prompt_define_opt prompt_colors __PROMPT_COLORS 1
 ## Show GIT status
-__prompt_define_opt prompt_git PROMPT_GIT $(hash git 2>/dev/null && echo 1)
+__prompt_define_opt prompt_git __PROMPT_GIT $(hash git 2>/dev/null && echo 1)
 ## Show last command result status
-__prompt_define_opt prompt_status PROMPT_STATUS 1
+__prompt_define_opt prompt_status __PROMPT_STATUS 1
 ## Add timestamp to prompt (date format)
-__prompt_define_opt prompt_timestamp PROMPT_TIMESTAMP 0
+__prompt_define_opt prompt_timestamp __PROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
-__prompt_define_opt prompt_timer PROMPT_TIMER 5000
+__prompt_define_opt prompt_timer __PROMPT_TIMER 5000
 ## Long running cmd notification (-1=all, 0=never, x>0=mesure those above x ms)
-__prompt_define_opt prompt_notify PROMPT_NOTIFY 5000
+__prompt_define_opt prompt_notify __PROMPT_NOTIFY 5000
 ## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x sublevels)
-__prompt_define_opt prompt_shlvl PROMPT_SHLVL 1
+__prompt_define_opt prompt_shlvl __PROMPT_SHLVL 1
 
 
 # Prompt constants
-: ${__PROMPT_SIMPLE:="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD\u@\h$PR_RESET:$PR_BLUE_BOLD\w$PR_RESET\$ "}
-: ${__PROMPT_SIMPLE_NO_COLORS:="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "}
+: ${__PROMPT_BASIC:="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD\u@\h$PR_RESET:$PR_BLUE_BOLD\w$PR_RESET\$ "}
+: ${__PROMPT_BASIC_NO_COLORS:="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "}
 
 : ${__PROMPT_PS2:=1}
 : ${__PROMPT_PS4:=1}
@@ -341,8 +344,8 @@ if [ -n "$BASH_VERSION" ]; then
     # Initial prompt build
     rebuildPrompts
     # Timer mechanism
-    trap 'promptPreExec' DEBUG
-    export PROMPT_COMMAND="promptPreCmd; $PROMPT_COMMAND"
+    trap '__promptPreExec' DEBUG
+    export __PROMPT_COMMAND="__promptPreCmd; $__PROMPT_COMMAND"
 fi
 
 # Default PS1 - just in case of emergency ;)

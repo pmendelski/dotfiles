@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Prompt constants
-__PROMPT_SIMPLE="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD%n@%m$PR_RESET:$PR_BLUE_BOLD%~$PR_RESET\$ "
-__PROMPT_SIMPLE_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
+__PROMPT_BASIC="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD%n@%m$PR_RESET:$PR_BLUE_BOLD%~$PR_RESET\$ "
+__PROMPT_BASIC_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
 __PROMPT_UNPRINTABLE_PREFIX="%{"
 __PROMPT_UNPRINTABLE_SUFFIX="%}"
 __PROMPT_TITLE_PREFIX="%{\e]0;"
@@ -12,33 +12,33 @@ __PROMPT_PS2=0
 __PROMPT_PS4=0
 
 # Defaults - disable some info in left to enable it in rprompt
-: ${PROMPT_GIT:=0}
-: ${PROMPT_TIMER:=0}
-: ${PROMPT_SHLVL:=0}
+: ${__PROMPT_GIT:=0}
+: ${__PROMPT_TIMER:=0}
+: ${__PROMPT_SHLVL:=0}
 
 source $BASH_DIR/prompt.sh
 
 rebuildPrompts2() {
 
     buildRprompt() {
-        [ $PROMPT_SIMPLE -eq 1 ] || [ $RPROMPT_ENABLED = 0 ] && return
+        [ $__PROMPT_SIMPLE -eq 1 ] || [ $__RPROMPT_ENABLED = 0 ] && return
         local rprompt=""
-        [ $RPROMPT_TIMER != 0 ] && rprompt+="$__PROMPT_TIMER_COLOR\$(__promptTimer $RPROMPT_TIMER)"
-        [ $RPROMPT_STATUS != 0 ] && rprompt+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"${__PROMPT_CMD_ERR_COLOR}[err:\$cmdstatus]${__PROMPT_COLOR_RESET}\"; exit \$cmdstatus)"
-        [ $RPROMPT_GIT != 0 ] && rprompt+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
-        [ $RPROMPT_TIMESTAMP != 0 ] && rprompt+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
-        [ $RPROMPT_SHLVL != 0 ] && rprompt+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl $RPROMPT_SHLVL \"/\" \"\")"
+        [ $__RPROMPT_TIMER != 0 ] && rprompt+="$__PROMPT_TIMER_COLOR\$(__promptTimer $__RPROMPT_TIMER)"
+        [ $__RPROMPT_STATUS != 0 ] && rprompt+="\$(declare cmdstatus=\$?; [ \$cmdstatus != 0 ] && echo \"${__PROMPT_CMD_ERR_COLOR}[err:\$cmdstatus]${__PROMPT_COLOR_RESET}\"; exit \$cmdstatus)"
+        [ $__RPROMPT_GIT != 0 ] && rprompt+="$__PROMPT_REPO_COLOR\$(__promptGitStatus)"
+        [ $__RPROMPT_TIMESTAMP != 0 ] && rprompt+="$__PROMPT_TIMESTAMP_COLOR\$(__promptTimestamp)"
+        [ $__RPROMPT_SHLVL != 0 ] && rprompt+="$__PROMPT_SHLVL_COLOR\$(__promptShlvl $__RPROMPT_SHLVL \"/\" \"\")"
         rprompt+="$__PROMPT_COLOR_RESET"
         echo "$rprompt";
     }
 
     buildPS4() {
-        if [ $PROMPT_SIMPLE -eq 1 ]; then
+        if [ $__PROMPT_SIMPLE -eq 1 ]; then
             echo "+ "
             return;
         fi
         local gray blue reset cyan magenta
-        if [ $PROMPT_COLORS != 0 ]; then
+        if [ $__PROMPT_COLORS != 0 ]; then
             local gray=$PR_GRAY_INT_BOLD
             local blue=$PR_BLUE_BOLD
             local reset=$PR_RESET
@@ -55,12 +55,12 @@ rebuildPrompts2() {
     }
 
     buildPS2() {
-        if [ $PROMPT_SIMPLE -eq 1 ]; then
+        if [ $__PROMPT_SIMPLE -eq 1 ]; then
             echo "> "
             return;
         fi
         local reset cyan
-        if [ $PROMPT_COLORS != 0 ]; then
+        if [ $__PROMPT_COLORS != 0 ]; then
             local reset=$PR_RESET
             local cyan=$PR_CYAN_BOLD
         fi
@@ -91,23 +91,24 @@ function __rprompt_define_opt() {
         else
             $varname=\$1
         fi
+        echo \"$varname=\$$varname\"
         rebuildPrompts2
     }")"
 }
 
 # Right Prompt Config
 ## Show right prompt
-__rprompt_define_opt rprompt_enabled RPROMPT_ENABLED 1
+__rprompt_define_opt rprompt_enabled __RPROMPT_ENABLED 1
 ## Show GIT status
-__rprompt_define_opt rprompt_git RPROMPT_GIT $(hash git 2>/dev/null && echo 1)
+__rprompt_define_opt rprompt_git __RPROMPT_GIT $(hash git 2>/dev/null && echo 1)
 ## Show last command result status
-__rprompt_define_opt rprompt_status RPROMPT_STATUS 1
+__rprompt_define_opt rprompt_status __RPROMPT_STATUS 1
 ## Add timestamp to prompt (date format)
-__rprompt_define_opt rprompt_timestamp RPROMPT_TIMESTAMP 0
+__rprompt_define_opt rprompt_timestamp __RPROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
-__rprompt_define_opt rprompt_timer RPROMPT_TIMER -1
+__rprompt_define_opt rprompt_timer __RPROMPT_TIMER -1
 ## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x ms)
-__rprompt_define_opt rprompt_shlvl RPROMPT_SHLVL 1
+__rprompt_define_opt rprompt_shlvl __RPROMPT_SHLVL 1
 
 
 # Initial prompt build
@@ -115,5 +116,5 @@ rebuildPrompts
 
 # Timer mechanism
 autoload -U add-zsh-hook
-add-zsh-hook preexec promptPreExec
-add-zsh-hook precmd promptPreCmd
+add-zsh-hook preexec __promptPreExec
+add-zsh-hook precmd __promptPreCmd
