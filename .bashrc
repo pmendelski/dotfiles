@@ -18,7 +18,7 @@ esac
 
 function init_bash() {
     # Load local dotfiles
-    for file in ~/.bash_{prompt,exports,aliases,functions}; do
+    for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
         [ -r "$file" ] && source "$file"
     done
     unset file
@@ -31,7 +31,7 @@ function init_bash() {
     export PATH="$PATH:$HOME/Scripts"
 
     # Say hello
-    shhello
+    sayhello
 }
 
 function init_zsh() {
@@ -39,7 +39,7 @@ function init_zsh() {
 }
 
 # Sometimes 'chsh -s $(whish zsh)' is not an option
-[ -r "~/.shell" ] && source "~/.shell"
+[ -r "$HOME/.shell" ] && source "$HOME/.shell"
 : ${ZSH_FORCE:=0}
 if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
     init_zsh

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function shhello() {
+function sayhello() {
     last $USER | grep "$(date +"%a %b %_d")" | grep -v ":0 \+:0" | grep -qv "$(tty | sed "s:/dev/::").* still logged in"
     if [ $? -ne 0 ]; then
         echo "$PR_BLUE_BOLD"

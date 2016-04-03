@@ -6,10 +6,10 @@
 
 
 # Load local zsh dotfiles
-for file in ~/.bash_{exports,aliases,functions}; do
+for file in $HOME/.bash_{exports,aliases,functions}; do
     [ -r "$file" ] && source "$file"
 done
-for file in ~/.zsh_{exports,prompt,aliases,functions}; do
+for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
     [ -r "$file" ] && source "$file"
 done
 unset file
@@ -21,4 +21,4 @@ source ~/.zsh/index.zsh
 export PATH="$PATH:$HOME/Scripts"
 
 # Say hello
-shhello
+sayhello
