@@ -1,7 +1,10 @@
 "*":
+  "atom-import-sort": {}
+  "autoupdate-packages":
+    lastUpdateTimestamp: 1466848312238
   core: {}
   editor:
-    fontSize: 16
+    fontSize: 15
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true

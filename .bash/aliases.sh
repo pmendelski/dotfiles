@@ -46,9 +46,13 @@ alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
 
+# File/Directory Sizes
+alias ducks='du -cksh * | sort -hr'
+alias ducks15='du -cksh * | sort -hr | head -n 15'
 
 alias dailyepigram="fortune | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
 alias asciitext="figlet -f slant"
+alias asciitextln="echo && asciitext"
 
 # Simplified HTTP methods
 if [ -x "$(command -v httpie)" ]; then

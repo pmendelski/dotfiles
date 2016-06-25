@@ -16,10 +16,6 @@ function loadZsh() {
     for file ($DIR/func/*.zsh); do
         source $file
     done
-    # Load zsh lib
-    for file ($DIR/lib/*.zsh); do
-        source $file
-    done
     # Load bash plugins
     if [ -z $bash_plugins ]; then
         for file in $BASHDIR/plugins/*.sh; do
@@ -30,6 +26,10 @@ function loadZsh() {
             [ -r "$BASHDIR/plugins/$plugin.sh" ] && source $BASHDIR/plugins/$plugin.sh
         done
     fi
+    # Load zsh lib
+    for file ($DIR/lib/*.zsh); do
+        source $file
+    done
     source "$DIR/prompt.zsh"
     source "$DIR/bundles.zsh"
 }

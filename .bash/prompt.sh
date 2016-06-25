@@ -245,9 +245,9 @@ function rebuildPrompts() {
         unset __PROMPT_COLOR_RESET
     fi
 
-    export PS1="$(buildPS1)"    # Prompt string
-    [ $__PROMPT_PS2 != 0 ] && export PS2="> "             # Subshell prompt string
-    [ $__PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"    # Debug prompt string  (when using `set -x`)
+    export PS1="$(buildPS1)"                            # Prompt string
+    [ $__PROMPT_PS2 != 0 ] && export PS2="> "           # Subshell prompt string
+    [ $__PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"  # Debug prompt string  (when using `set -x`)
 
     # Make it extensible
     type "rebuildPrompts2" >/dev/null 2>&1 && rebuildPrompts2

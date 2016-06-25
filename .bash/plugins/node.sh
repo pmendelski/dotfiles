@@ -7,4 +7,4 @@ export NODE_REPL_MODE="sloppy";             # Use sloppy mode by default, matchi
 
 # Added by NVM
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

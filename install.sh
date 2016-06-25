@@ -121,7 +121,7 @@ function main() {
             # Expand variables
             if [ $dryrun = 0 ]; then
                 sed -e "s/\$USER/$USER/" \
-                    -e "s/\$HOSTNAME/$HOSTNAME/" \
+                    -e "s/\$HOSTNAME/${HOSTNAME:=$HOST}/" \
                     -e "s/\$HOME/$HOME/" \
                     "$fullSourceFile" \
                     > "$targetFile"
