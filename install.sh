@@ -85,7 +85,7 @@ function main() {
         fi
     }
 
-    printInfo "Updating gitsubmodules"
+    # printInfo "Updating gitsubmodules"
     [ $dryrun = 0 ] && \
         git submodule update --init --recursive || \
         printSuccess "[dryrun] Updated git submodules"
@@ -120,9 +120,9 @@ function main() {
         if [ ! -e "$targetFile" ]; then
             # Expand variables
             if [ $dryrun = 0 ]; then
-                sed -e "s/\$USER/$USER/" \
-                    -e "s/\$HOSTNAME/${HOSTNAME:=$HOST}/" \
-                    -e "s/\$HOME/$HOME/" \
+                sed -e "s|\$USER|$USER|" \
+                    -e "s|\$HOSTNAME|${HOSTNAME:=$HOST}|" \
+                    -e "s|\$HOME|$HOME|" \
                     "$fullSourceFile" \
                     > "$targetFile"
             else

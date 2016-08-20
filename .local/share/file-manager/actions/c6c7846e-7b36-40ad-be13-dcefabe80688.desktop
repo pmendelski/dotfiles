@@ -22,3 +22,4 @@ Name[en_US]=Default profile
 Name[en]=Default profile
 Name[C]=Default profile
 ExecutionMode=Terminal
+Basenames=*.avi;*.mp4;*.mkv;

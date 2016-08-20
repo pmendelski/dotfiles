@@ -5,10 +5,14 @@
 # https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/
 # http://serverfault.com/questions/261802/profile-vs-bash-profile-vs-bashrc
 
-# Non-Login Shell Startup Files:
+# Login Shell Startup Files:
 # 1. /etc/profile
-# 2. ~/.bash_profile OR ~/.bash_login OR ~/.profile
+# 2. ~/.bash_profile OR ~/.bash_login OR ~/.profile (~/.bash_profile sources ~/.bashrc)
 # 3. ~/.bash_logout
+
+# Non-Login Shell Startup Files:
+# 1. /etc/bash.bashrc
+# 2. ~/.bashrc
 
 # If not running interactively just exit
 case $- in

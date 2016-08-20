@@ -16,5 +16,9 @@ LSCOLORS="Gxfxcxdxbxegedabagacad"
 # http://zsh.sourceforge.net/Guide/zshguide04.html
 WORDCHARS=''
 
+# prevent percentage showing up
+# if output doesn't end with a newline
+PROMPT_EOL_MARK=''
+
 # Default PS1
 PS1="%n@%m:%~%# "

@@ -30,7 +30,7 @@ function loadZsh() {
     for file ($DIR/lib/*.zsh); do
         source $file
     done
-    source "$DIR/prompt.zsh"
+    # source "$DIR/prompt.zsh"
     source "$DIR/bundles.zsh"
 }
 

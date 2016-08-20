@@ -8,9 +8,6 @@ BASH_TMP_DIR="$BASH_DIR/tmp"
 export LANG="en_US.UTF-8";                  # Prefer US English and use UTF-8.
 export LC_ALL="en_US.UTF-8";
 
-# Other Settings
-export GREP_OPTIONS="--color=auto";         # Always enable colored `grep` output.
-
 # Custom Globals
 export EDITOR="vim"                         # Make vim the default editor.
 export DEV="$HOME/Development"

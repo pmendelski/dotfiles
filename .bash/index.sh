@@ -25,7 +25,6 @@ function loadBash() {
             [ -r "$DIR/plugins/$plugin.sh" ] && source $DIR/plugins/$plugin.sh
         done
     fi
-
-    source "$DIR/prompt.sh"
+    # source "$DIR/prompt.sh"
 }
 loadBash;
