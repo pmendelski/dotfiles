@@ -11,7 +11,7 @@ source ~/.zsh/index.zsh
 
 # Load prompt
 autoload -U promptinit && promptinit
-[ -x "$(prompt -l | tail -1 | tr ' ' '\n' | grep -q myprompt)" ] \
+prompt -l | tail -1 | tr ' ' '\n' | grep -q custom \
     && prompt custom
 
 sayhello

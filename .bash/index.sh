@@ -33,7 +33,7 @@ function loadBash() {
     [ -n "$BASH_VERSION" ] && loadBashFiles "$DIR/config"
     loadBashFiles "$DIR/func"
     loadBashFiles "$DIR/plugins" $bash_plugins
-    [ -n "$BASH_VERSION" ] && source "$DIR/prompts/custom.sh"
+    [ -n "$BASH_VERSION" ] && source "$DIR/prompts/custom.sh" "pure"
 }
 
 loadBash
