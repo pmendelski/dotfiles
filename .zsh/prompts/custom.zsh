@@ -1,23 +1,5 @@
 #!/bin/zsh
 
-# Prompt constants
-__PROMPT_BASIC="${debian_chroot:+($debian_chroot)}$COLOR_GREEN_BOLD%n@%m$COLOR_RESET:$COLOR_BLUE_BOLD%~$COLOR_RESET\$ "
-__PROMPT_BASIC_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
-__PROMPT_UNPRINTABLE_PREFIX="%{"
-__PROMPT_UNPRINTABLE_SUFFIX="%}"
-__PROMPT_TITLE_PREFIX="%{\e]0;"
-__PROMPT_TITLE_SUFFIX="\007%}"
-__PROMPT_GIT_UNTRACKED_FILES="%%"
-__PROMPT_PS2=0
-__PROMPT_PS4=0
-
-# Defaults - disable some info in left to enable it in rprompt
-: ${__PROMPT_GIT:=0}
-: ${__PROMPT_TIMER:=0}
-: ${__PROMPT_SHLVL:=0}
-
-source $BASH_DIR/prompts/custom.sh
-
 rebuildPrompts2() {
 
     buildRprompt() {
@@ -110,8 +92,24 @@ __rprompt_define_opt prompt_rprompt_timer __RPROMPT_TIMER -1
 ## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x)
 __rprompt_define_opt prompt_rprompt_shlvl __RPROMPT_SHLVL 1
 
+# Prompt constants
+__PROMPT_BASIC="${debian_chroot:+($debian_chroot)}$COLOR_GREEN_BOLD%n@%m$COLOR_RESET:$COLOR_BLUE_BOLD%~$COLOR_RESET\$ "
+__PROMPT_BASIC_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
+__PROMPT_UNPRINTABLE_PREFIX="%{"
+__PROMPT_UNPRINTABLE_SUFFIX="%}"
+__PROMPT_TITLE_PREFIX="%{\e]0;"
+__PROMPT_TITLE_SUFFIX="\007%}"
+__PROMPT_GIT_UNTRACKED_FILES="%%"
+__PROMPT_PS2=0
+__PROMPT_PS4=0
+
+# Defaults - disable some info in left to enable it in rprompt
+: ${__PROMPT_GIT:=0}
+: ${__PROMPT_TIMER:=0}
+: ${__PROMPT_SHLVL:=0}
 
 # Initial prompt build
+source $BASH_DIR/prompts/custom.sh
 rebuildPrompts
 
 # Timer mechanism
