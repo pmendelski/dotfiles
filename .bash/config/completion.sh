@@ -14,4 +14,5 @@ fi
 # List options alomst like in zsh
 # http://superuser.com/questions/288714/bash-autocomplete-like-zsh
 bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
+# Select first option automatically
+# bind 'TAB:menu-complete'

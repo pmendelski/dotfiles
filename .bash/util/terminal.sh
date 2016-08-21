@@ -50,7 +50,7 @@ println() {
 
 printColor() {
     if [ $nocolor = 0 ]; then
-        print "$1$2${PR_RESET}"
+        print "$1$2${COLOR_RESET}"
     else
         print "$2"
     fi
@@ -61,23 +61,23 @@ printlnColor() {
 }
 
 printQuestion() {
-    printColor $PR_YELLOW "  [?] $1"
+    printColor $COLOR_YELLOW "  [?] $1"
 }
 
 printSuccess() {
-    printlnColor $PR_GREEN "  [ok] $1"
+    printlnColor $COLOR_GREEN "  [ok] $1"
 }
 
 printError() {
-    printlnColor $PR_RED "  [error] $1"
+    printlnColor $COLOR_RED "  [error] $1"
 }
 
 printWarn() {
-    printlnColor $PR_MAGENTA "  [warn] $1"
+    printlnColor $COLOR_MAGENTA "  [warn] $1"
 }
 
 printInfo() {
-    printlnColor $PR_CYAN "  $1"
+    printlnColor $COLOR_CYAN "  $1"
 }
 
 printDebug() {

@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/zsh
 
 # Prompt constants
-__PROMPT_BASIC="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD%n@%m$PR_RESET:$PR_BLUE_BOLD%~$PR_RESET\$ "
+__PROMPT_BASIC="${debian_chroot:+($debian_chroot)}$COLOR_GREEN_BOLD%n@%m$COLOR_RESET:$COLOR_BLUE_BOLD%~$COLOR_RESET\$ "
 __PROMPT_BASIC_NO_COLORS="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "
 __PROMPT_UNPRINTABLE_PREFIX="%{"
 __PROMPT_UNPRINTABLE_SUFFIX="%}"
@@ -16,7 +16,7 @@ __PROMPT_PS4=0
 : ${__PROMPT_TIMER:=0}
 : ${__PROMPT_SHLVL:=0}
 
-source $BASH_DIR/prompt.sh
+source $BASH_DIR/prompts/custom.sh
 
 rebuildPrompts2() {
 
@@ -39,11 +39,11 @@ rebuildPrompts2() {
         fi
         local gray blue reset cyan magenta
         if [ $__PROMPT_COLORS != 0 ]; then
-            local gray=$PR_GRAY_INT_BOLD
-            local blue=$PR_BLUE_BOLD
-            local reset=$PR_RESET
-            local cyan=$PR_CYAN_BOLD
-            local magenta=$PR_MAGENTA
+            local gray=$COLOR_GRAY_INT_BOLD
+            local blue=$COLOR_BLUE_BOLD
+            local reset=$COLOR_RESET
+            local cyan=$COLOR_CYAN_BOLD
+            local magenta=$COLOR_MAGENTA
         fi
         local tab="\011"
         local PS4="+ ";
@@ -61,8 +61,8 @@ rebuildPrompts2() {
         fi
         local reset cyan
         if [ $__PROMPT_COLORS != 0 ]; then
-            local reset=$PR_RESET
-            local cyan=$PR_CYAN_BOLD
+            local reset=$COLOR_RESET
+            local cyan=$COLOR_CYAN_BOLD
         fi
         echo "$cyan(%_)>$reset ";
     }
@@ -107,7 +107,7 @@ __rprompt_define_opt prompt_rprompt_status __RPROMPT_STATUS 1
 __rprompt_define_opt prompt_rprompt_timestamp __RPROMPT_TIMESTAMP 0
 ## Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
 __rprompt_define_opt prompt_rprompt_timer __RPROMPT_TIMER -1
-## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x ms)
+## Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x)
 __rprompt_define_opt prompt_rprompt_shlvl __RPROMPT_SHLVL 1
 
 

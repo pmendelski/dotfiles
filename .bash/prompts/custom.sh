@@ -165,12 +165,19 @@ function rebuildPrompts() {
     }
 
     function terminalTitle() {
-        local title=""
-        title+="\$(__promptDebianChroot)"
-        title+="\$(__promptUserAtHost)"
-        title+="\$(__promptPwd)"
-        title="$__PROMPT_TITLE_PREFIX$title$__PROMPT_TITLE_SUFFIX"
-        echo "$title"
+        case "$TERM" in
+            xterm*|rxvt*)
+                local title=""
+                title+="\$(__promptDebianChroot)"
+                title+="\$(__promptUserAtHost)"
+                title+="\$(__promptPwd)"
+                title="$__PROMPT_TITLE_PREFIX$title$__PROMPT_TITLE_SUFFIX"
+                echo "$title"
+                ;;
+            *)
+                echo ""
+                ;;
+        esac
     }
 
     function buildPS1() {
@@ -206,11 +213,11 @@ function rebuildPrompts() {
         fi
         local gray blue reset cyan magenta
         if [ $__PROMPT_COLORS != 0 ]; then
-            local gray=$PR_GRAY_INT_BOLD
-            local blue=$PR_BLUE_BOLD
-            local reset=$PR_RESET
-            local cyan=$PR_CYAN_BOLD
-            local magenta=$PR_MAGENTA
+            local gray=$COLOR_GRAY_INT_BOLD
+            local blue=$COLOR_BLUE_BOLD
+            local reset=$COLOR_RESET
+            local cyan=$COLOR_CYAN_BOLD
+            local magenta=$COLOR_MAGENTA
         fi
         local tab="\011"
         local PS4="+ ";
@@ -222,17 +229,17 @@ function rebuildPrompts() {
     }
 
     if [ $__PROMPT_COLORS -gt 0 ]; then
-        : ${__PROMPT_SIMPLE_USER_HOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
-        : ${__PROMPT_SIMPLE_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
-        : ${__PROMPT_PWD_COLOR:=$(unprintable $PR_BLUE_BOLD)}
-        : ${__PROMPT_SHLVL_COLOR:=$(unprintable $PR_YELLOW_BOLD)}
-        : ${__PROMPT_REPO_COLOR:=$(unprintable $PR_MAGENTA_BOLD)}
-        : ${__PROMPT_TIMESTAMP_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
-        : ${__PROMPT_TIMER_COLOR:=$(unprintable $PR_GRAY_INT_BOLD)}
-        : ${__PROMPT_COLOR_RESET:=$(unprintable $PR_RESET)}
-        : ${__PROMPT_CMD_ERR_COLOR:=$(unprintable $PR_RED_BOLD)}
-        : ${__PROMPT_USERHOST_COLOR:=$(unprintable $PR_GREEN_BOLD)}
-        : ${__PROMPT_ROOT_COLOR:=$(unprintable $PR_RED_BOLD)}
+        : ${__PROMPT_SIMPLE_USER_HOST_COLOR:=$(unprintable $COLOR_GREEN_BOLD)}
+        : ${__PROMPT_SIMPLE_PWD_COLOR:=$(unprintable $COLOR_BLUE_BOLD)}
+        : ${__PROMPT_PWD_COLOR:=$(unprintable $COLOR_BLUE_BOLD)}
+        : ${__PROMPT_SHLVL_COLOR:=$(unprintable $COLOR_YELLOW_BOLD)}
+        : ${__PROMPT_REPO_COLOR:=$(unprintable $COLOR_MAGENTA_BOLD)}
+        : ${__PROMPT_TIMESTAMP_COLOR:=$(unprintable $COLOR_GRAY_INT_BOLD)}
+        : ${__PROMPT_TIMER_COLOR:=$(unprintable $COLOR_GRAY_INT_BOLD)}
+        : ${__PROMPT_COLOR_RESET:=$(unprintable $COLOR_RESET)}
+        : ${__PROMPT_CMD_ERR_COLOR:=$(unprintable $COLOR_RED_BOLD)}
+        : ${__PROMPT_USERHOST_COLOR:=$(unprintable $COLOR_GREEN_BOLD)}
+        : ${__PROMPT_ROOT_COLOR:=$(unprintable $COLOR_RED_BOLD)}
     else
         unset __PROMPT_PWD_COLOR
         unset __PROMPT_SHLVL_COLOR
@@ -326,7 +333,7 @@ __prompt_define_opt prompt_shlvl __PROMPT_SHLVL 1
 
 
 # Prompt constants
-: ${__PROMPT_BASIC:="${debian_chroot:+($debian_chroot)}$PR_GREEN_BOLD\u@\h$PR_RESET:$PR_BLUE_BOLD\w$PR_RESET\$ "}
+: ${__PROMPT_BASIC:="${debian_chroot:+($debian_chroot)}$COLOR_GREEN_BOLD\u@\h$COLOR_RESET:$COLOR_BLUE_BOLD\w$COLOR_RESET\$ "}
 : ${__PROMPT_BASIC_NO_COLORS:="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "}
 
 : ${__PROMPT_PS2:=1}

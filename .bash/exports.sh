@@ -14,3 +14,5 @@ export DEV="$HOME/Development"
 
 # Added by wine
 export WINEARCH=win32
+
+export PATH="$PATH:$BASH_DIR/scripts"

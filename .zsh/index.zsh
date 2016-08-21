@@ -1,36 +1,40 @@
 #!/bin/zsh
 
-function loadZsh() {
-    local -r BASHDIR="$HOME/.bash"
-    local -r DIR="$HOME/.zsh"
+function loadZshFiles() {
+    local -r DIR="$1"
+    local -r NAMES=$2
+    [ ! -d "$DIR" ] && return;
 
-    source "$BASHDIR/exports.sh"
-    source "$DIR/exports.zsh"
-    source "$BASHDIR/aliases.sh"
-    source "$DIR/aliases.zsh"
-    # Load bash functions (functions are shared)
-    for file ($BASHDIR/func/*.sh); do
-        source $file
-    done
-    # Load zsh functions
-    for file ($DIR/func/*.zsh); do
-        source $file
-    done
-    # Load bash plugins
-    if [ -z $bash_plugins ]; then
-        for file in $BASHDIR/plugins/*.sh; do
+    if [ -z $NAMES ]; then
+        for file in $DIR/*.zsh; do
             source $file
         done
     else
-        for plugin in ${bash_plugins[@]}; do
-            [ -r "$BASHDIR/plugins/$plugin.sh" ] && source $BASHDIR/plugins/$plugin.sh
+        for plugin in ${NAMES[@]}; do
+            [ ${plugin:0:1} -ne "!" ] \
+                && [ -r "$DIR/$plugin.zsh" ] \
+                && source $DIR/$plugin.zsh
         done
     fi
-    # Load zsh lib
-    for file ($DIR/lib/*.zsh); do
-        source $file
+}
+
+function loadLocalZshDotFiles() {
+    for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
+        [ -r "$file" ] && source "$file"
     done
-    # source "$DIR/prompt.zsh"
+    unset file
+}
+
+function loadZsh() {
+    source "$HOME/.bash/index.sh"
+    local -r DIR="$HOME/.zsh"
+    source "$DIR/exports.zsh"
+    source "$DIR/aliases.zsh"
+    loadLocalZshDotFiles
+    loadZshFiles "$DIR/config"
+    loadZshFiles "$DIR/func"
+    loadZshFiles "$DIR/plugins"
+    source "$DIR/prompts/basic.zsh"
     source "$DIR/bundles.zsh"
 }
 

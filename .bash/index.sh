@@ -1,30 +1,39 @@
 #!/bin/bash
 
-function loadBash() {
-    declare -r DIR="$HOME/.bash"
+function loadBashFiles() {
+    local -r DIR="$1"
+    local -r NAMES=$2
+    [ ! -d "$DIR" ] && return;
 
-    # Load dotfiles
-    source "$DIR/exports.sh"
-    source "$DIR/aliases.sh"
-
-    # Load functions
-    for file in $DIR/func/*.sh; do
-        source $file
-    done
-    # Load lib
-    for file in $DIR/lib/*.sh; do
-        source $file
-    done
-    # Load plugins
-    if [ -z $bash_plugins ]; then
-        for file in $DIR/plugins/*.sh; do
+    if [ -z $NAMES ]; then
+        for file in $DIR/*.sh; do
             source $file
         done
     else
-        for plugin in ${bash_plugins[@]}; do
-            [ -r "$DIR/plugins/$plugin.sh" ] && source $DIR/plugins/$plugin.sh
+        for plugin in ${NAMES[@]}; do
+            [ ${plugin:0:1} -ne "!" ] \
+                && [ -r "$DIR/$plugin.sh" ] \
+                && source $DIR/$plugin.sh
         done
     fi
-    # source "$DIR/prompt.sh"
 }
-loadBash;
+
+function loadLocalBashDotFiles() {
+    for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
+        [ -r "$file" ] && source "$file"
+    done
+    unset file
+}
+
+function loadBash() {
+    local -r DIR="$HOME/.bash"
+    source "$DIR/exports.sh"
+    source "$DIR/aliases.sh"
+    loadLocalBashDotFiles
+    [ -n "$BASH_VERSION" ] && loadBashFiles "$DIR/config"
+    loadBashFiles "$DIR/func"
+    loadBashFiles "$DIR/plugins" $bash_plugins
+    [ -n "$BASH_VERSION" ] && source "$DIR/prompts/custom.sh"
+}
+
+loadBash

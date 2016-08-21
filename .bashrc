@@ -21,32 +21,17 @@ case $- in
 esac
 
 function init_bash() {
-    # Load local dotfiles
-    for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
-        [ -r "$file" ] && source "$file"
-    done
-    unset file
-
-    # Load dotfiles
-    # bash_plugins=(jvm mvn-color) # ...load them all
+    # bash_plugins=(jvm mvn-color !less)
+    # ... or load them all
     source "$HOME/.bash/index.sh"
-
-    # Scripts folder is for user custom scipts
-    export PATH="$PATH:$HOME/Scripts"
-
-    # Say hello
     sayhello
-}
-
-function init_zsh() {
-    exec zsh
 }
 
 # Sometimes 'chsh -s $(whish zsh)' is not an option
 [ -r "$HOME/.shell" ] && source "$HOME/.shell"
 : ${ZSH_FORCE:=0}
 if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
-    init_zsh
+    exec zsh
 else
     init_bash
 fi

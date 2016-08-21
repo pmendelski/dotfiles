@@ -14,16 +14,16 @@ function lscolors() {
     local color color_val format format_val filter;
     filter=${1-"normal"};
     filter=$(echo "$filter" | tr '[:lower:]' '[:upper:]')
-    for color in $(echo ${!PR_COLORS[@]} | tr ' ' '\n' | sort); do
-        color_val=${PR_COLORS[${color}]}
-        for format in $(echo ${!PR_FORMAT[@]} | tr ' ' '\n' | sort); do
-            format_val=${PR_FORMAT[${format}]}
+    for color in $(echo ${!COLOR_COLORS[@]} | tr ' ' '\n' | sort); do
+        color_val=${COLOR_COLORS[${color}]}
+        for format in $(echo ${!COLOR_FORMATS[@]} | tr ' ' '\n' | sort); do
+            format_val=${COLOR_FORMATS[${format}]}
             [ $filter != "ALL" ] && [ $filter != $format ] && continue
             [ "$format" = "NORMAL" ] && \
                 format="" || \
                 format="_$format"
-            eval value="\${PR_${color}${format}}"
-            printf "${value}%-20s   %s $PR_RESET\n" "PR_${color}${format}" "\\e[${format_val};${color_val}m"
+            eval value="\${COLOR_${color}${format}}"
+            printf "${value}%-20s   %s $COLOR_RESET\n" "COLOR_${color}${format}" "\\e[${format_val};${color_val}m"
         done
     done
 }
