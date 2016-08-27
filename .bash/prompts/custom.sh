@@ -28,6 +28,7 @@ function __promptPwd() {
     local prefix=${2-$__PROMPT_PWD_BEFORE}
     local suffix=${3-$__PROMPT_PWD_AFTER}
     if [ $PWD = $HOME ]; then
+        [ "$__PROMPT_PWD_SKIP_HOME" = 1 ] && return $exit
         echo -ne "${prefix}~${suffix}"
         return $exit
     fi
@@ -173,9 +174,22 @@ function __promptShlvl() {
     return $exit
 }
 
-function __promptNewLine() {
+function __promptNewLinePreCmd() {
     local exit=$?
     [ $__PROMPT_CMD_COUNTER != 1 ] && echo -e "\n$(__promptUnprintable $COLOR_RESET)"
+    return $exit
+}
+
+function __promptNewLine() {
+    local exit=$?
+    case "$__PROMPT_NEWLINE" in
+        2)
+            [ "$PWD" != "$HOME" ] && echo -e "\n$(__promptUnprintable $COLOR_RESET)"
+            ;;
+        *)
+            echo -e "\n$(__promptUnprintable $COLOR_RESET)"
+            ;;
+    esac
     return $exit
 }
 
@@ -191,7 +205,7 @@ function rebuildPrompts() {
             return;
         fi
         local PS1=''
-        [ $__PROMPT_NEWLINE_PRECMD != 0 ] && PS1+='$(__promptNewLine)'
+        [ $__PROMPT_NEWLINE_PRECMD != 0 ] && PS1+='$(__promptNewLinePreCmd)'
         [ $__PROMPT_SHLVL != 0 ] && PS1+='$(__promptShlvl)'
         [ $__PROMPT_TIMESTAMP != 0 ] && PS1+='$(__promptTimestamp)'
         PS1+='$(__promptDebianChroot)'
@@ -199,7 +213,7 @@ function rebuildPrompts() {
         PS1+='$(__promptPwd)'
         [ $__PROMPT_GIT != 0 ] && PS1+='$(__promptGitStatus)'
         [ $__PROMPT_TIMER != 0 ] && PS1+='$(__promptTimer)'
-        [ $__PROMPT_NEWLINE != 0 ] && PS1+='\n'
+        [ $__PROMPT_NEWLINE != 0 ] && PS1+='$(__promptNewLine)'
         PS1+='$(declare cmdstatus=${?:-0}; [ $cmdstatus != 0 ] && echo "$__PROMPT_CMD_ERROR" || echo "$__PROMPT_CMD_SUCCESS"; exit $cmdstatus)'
         echo "$PS1"
     }

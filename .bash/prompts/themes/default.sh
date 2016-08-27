@@ -21,11 +21,13 @@ __prompt_define_opt prompt_simple __PROMPT_SIMPLE 0
 : ${__PROMPT_TITLE_SUFFIX:="\007"}
 
 ################################################################################
-# Line feeds
+# Line break
 ################################################################################
 # Break command line after prompt
+#   0 - no line break, 1 - line break, 2 - line break skip home
 __prompt_define_opt prompt_newline __PROMPT_NEWLINE 0
 # Break command line before prompt
+#   0 - no line break, 1 - line break
 __prompt_define_opt prompt_newline_precmd __PROMPT_NEWLINE_PRECMD 0
 
 ################################################################################

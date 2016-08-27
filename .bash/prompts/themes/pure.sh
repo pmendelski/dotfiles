@@ -1,11 +1,12 @@
 #!/bin/bash -x
 
 # Line feed
-__PROMPT_NEWLINE=1
+__PROMPT_NEWLINE=2
 __PROMPT_NEWLINE_PRECMD=1
 
 # PWD
 __PROMPT_PWD_MODE=0
+__PROMPT_PWD_SKIP_HOME=1
 __PROMPT_PWD_BEFORE="$(__promptUnprintable $COLOR_BLUE)"
 __PROMPT_PWD_AFTER="$(__promptUnprintable $COLOR_RESET)"
 
@@ -18,11 +19,11 @@ __PROMPT_GIT_BEFORE=" $(__promptUnprintable $COLOR_MAGENTA_BOLD)"
 __PROMPT_GIT_AFTER="$(__promptUnprintable $COLOR_RESET)"
 
 # Timer
-__PROMPT_TIMER_BEFORE=" $(__promptUnprintable $COLOR_GRAY)"
+__PROMPT_TIMER_BEFORE=" $(__promptUnprintable $COLOR_GRAY_INT)"
 __PROMPT_TIMER_AFTER="$(__promptUnprintable $COLOR_RESET)"
 
 # Timestamp
-__PROMPT_TIMESTAMP_BEFORE=" $(__promptUnprintable $COLOR_GRAY)["
+__PROMPT_TIMESTAMP_BEFORE=" $(__promptUnprintable $COLOR_GRAY_INT)["
 __PROMPT_TIMESTAMP_AFTER="]$(__promptUnprintable $COLOR_RESET)"
 
 # CMD sign

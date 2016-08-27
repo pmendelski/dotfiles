@@ -1,10 +1,11 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1472057673160
+    lastUpdateTimestamp: 1472284812216
   core: {}
   editor:
     invisibles: {}
+    preferredLineLength: 100
     showIndentGuide: true
     showInvisibles: true
     softTabs: false
