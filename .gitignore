@@ -2,3 +2,4 @@
 .vim/tmp/**/*
 .bash/tmp/**/*
 .zsh/tmp/**/*
+.tmux/tmp/**/*

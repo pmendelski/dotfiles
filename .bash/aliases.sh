@@ -46,6 +46,10 @@ alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
 
+# Tmux
+alias ta='tmux attach'
+alias tls='tmux ls'
+
 # File/Directory Sizes
 alias ducks='du -cksh * | sort -hr'
 alias ducks15='du -cksh * | sort -hr | head -n 15'

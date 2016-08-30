@@ -30,6 +30,7 @@ function main() {
             ".bash"
             ".zsh"
             ".vim"
+            ".tmux"
             # personal branch
             $(find .atom -type f 2>/dev/null)
             $(find .config -type f 2>/dev/null)

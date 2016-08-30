@@ -250,7 +250,7 @@ function rebuildPrompts() {
 
 function __promptTerminalTitle() {
     case "$TERM" in
-        xterm*|rxvt*)
+        screen*|xterm*|rxvt*)
             local title=''
             title+=$(__promptDebianChroot "" "")
             title+=$(__promptUserAtHost "" ":")
@@ -289,7 +289,7 @@ function __promptPreCmd() {
 }
 
 function __promptPreExec {
-    local command="${1:-unknown}"
+    local command="${2:-unknown}"
     [ "$command" != "__promptPreCmd" ] && __promptTerminalTitle ${command}
     __promptStartTimer
 }
@@ -331,7 +331,7 @@ if [ -n "$BASH_VERSION" ]; then
     # Initial prompt build
     rebuildPrompts
     # Timer mechanism
-    trap '__promptPreExec $BASH_COMMAND' DEBUG
+    trap '__promptPreExec $BASH_COMMAND $BASH_COMMAND' DEBUG
     export PROMPT_COMMAND="__promptPreCmd; $__PROMPT_COMMAND"
 fi
 

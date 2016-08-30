@@ -1,0 +1,10 @@
+pane	0	1	:zsh	1	:*	1	:/home/mendlik/Development	0	zsh	:
+pane	0	1	:zsh	1	:*	2	:/home/mendlik/Development	1	zsh	:
+pane	1	1	:zsh	1	:*	1	:/home/mendlik	0	zsh	:
+pane	1	1	:zsh	1	:*	2	:/home/mendlik	0	zsh	:
+pane	1	1	:zsh	1	:*	3	:/home/mendlik/Development	1	zsh	:
+pane	1	2	:zsh	0	:-	1	:/home/mendlik	1	zsh	:
+window	0	1	1	:*	e01e,207x61,0,0{103x61,0,0,1,103x61,104,0,3}
+window	1	1	1	:*	ae35,207x61,0,0[207x39,0,0,10,207x21,0,40{103x21,0,40,6,103x21,104,40,11}]
+window	1	2	0	:-	b621,207x61,0,0,4
+state	1	
