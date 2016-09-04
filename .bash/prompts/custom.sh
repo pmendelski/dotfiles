@@ -170,6 +170,7 @@ function __promptShlvl() {
     local prefix=${2-$__PROMPT_SHLVL_BEFORE}
     local suffix=${3-$__PROMPT_SHLVL_AFTER}
     [ $treshold -lt 0 ] || [ $SHLVL -gt $treshold ] && \
+        [[ ! $TERM =~ ^screen ]] && \
         echo -ne "$prefix$SHLVL$suffix"
     return $exit
 }

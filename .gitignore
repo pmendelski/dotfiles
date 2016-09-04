@@ -3,3 +3,4 @@
 .bash/tmp/**/*
 .zsh/tmp/**/*
 .tmux/tmp/**/*
+.conky/tmp/**/*
