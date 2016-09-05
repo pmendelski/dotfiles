@@ -31,7 +31,7 @@ function formatbytes() {
 function conkynet {
     local iface=`ifconfig -s | tail -n +2 | tr -s ' ' | cut -d' ' -f1,4 | sort -n -k2 | tail -n 1 | cut -d' ' -f1`
     local currepoch=`date +%s%3N`
-    local currbytes=`cat /proc/net/dev | grep $iface | tr -s ' ' | cut -d' ' -f2,10`
+    local currbytes=`cat /proc/net/dev | tail -n +3 | grep $iface | tr -s ' ' | sed 's| *||' | cut -d' ' -f2,10`
     local downbytes=`echo $currbytes | cut -d' ' -f1`
     local upbytes=`echo $currbytes | cut -d' ' -f2`
     local downspeed=0
