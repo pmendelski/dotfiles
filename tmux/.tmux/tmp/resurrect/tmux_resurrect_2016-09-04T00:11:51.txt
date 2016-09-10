@@ -1,4 +1,0 @@
-pane	0	1	:bash	1	:*	1	:/home/mendlik/Development/node/eslint-config-coditorium	0	zsh	:
-pane	0	1	:bash	1	:*	2	:/home/mendlik/.dotfiles/.conky	1	bash	:/bin/bash ./conky_run.sh
-window	0	1	1	:*	2e15,180x57,0,0{40x57,0,0,0,139x57,41,0,1}
-state	0	

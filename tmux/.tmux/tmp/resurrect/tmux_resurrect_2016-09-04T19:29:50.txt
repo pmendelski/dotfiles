@@ -1,4 +1,0 @@
-pane	0	1	:node	1	:*	1	:/home/mendlik/Development/node/blogen	0	zsh	:
-pane	0	1	:node	1	:*	2	:/home/mendlik/Development/node/blogen-test/test1	1	node	:node /home/mendlik/.nvm/versions/node/v6.3.1/bin/blogen serve
-window	0	1	1	:*	e10d,186x59,0,0{86x59,0,0,1,99x59,87,0,2}
-state	0	

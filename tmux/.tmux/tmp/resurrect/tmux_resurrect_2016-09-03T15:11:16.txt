@@ -1,4 +1,0 @@
-pane	0	1	:[tmux]	1	:*	1	:/home/mendlik/Development/node/eslint-config-coditorium	0	zsh	:
-pane	0	1	:[tmux]	1	:*	2	:/home/mendlik/Development/node/nodejs-file-server	1	zsh	:
-window	0	1	1	:*	29f6,180x59,0,0{90x59,0,0,0,89x59,91,0,1}
-state	0	
