@@ -763,3 +763,7 @@ npm install git+ssh://git@bitbucket.org/coditorium/eslint-config-coditorium.git\
 : 1473501069:0;cd .dotfiles
 : 1473501072:0;git status
 : 1473501098:0;git commit -am "Fixing tmp locations in gitignore"
+: 1473501102:0;git push
+: 1473501197:0;git status
+: 1473501266:0;git add .
+: 1473501270:0;git commit -am "Fixing tmp locations in gitignore"
