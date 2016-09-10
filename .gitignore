@@ -1,6 +1,6 @@
 # tmp locations
-.vim/tmp/**/*
-.bash/tmp/**/*
-.zsh/tmp/**/*
-.tmux/tmp/**/*
-.conky/tmp/**/*
+vim/.vim/tmp/**/*
+bash/.bash/tmp/**/*
+zsh/.zsh/tmp/**/*
+tmux/.tmux/tmp/**/*
+distros/common/.conky/tmp/**/*
