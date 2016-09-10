@@ -1,0 +1,40 @@
+{
+  "name":           "coffeelint",
+  "description":    "Lint your CoffeeScript",
+  "version":        "0.5.7",
+  "homepage" :      "http://www.coffeelint.org",
+  "keywords" :      ["lint", "coffeescript", "coffee-script"],
+  "author" :        "Matthew Perpick <clutchski@gmail.com>",
+  "main" : "./lib/coffeelint.js",
+  "repository" :    {
+    "type": "git",
+    "url": "git://github.com/clutchski/coffeelint.git"
+  },
+  "bin" : {
+    "coffeelint": "./bin/coffeelint"
+  },
+  "dependencies": {
+    "optimist" : ">=0.2.8",
+    "coffee-script" : ">=1.6.0",
+    "glob" : ">=3.1.9"
+  },
+  "devDependencies" : {
+    "vows" : ">=0.6.0",
+    "underscore": ">=1.4.4"
+  },
+  "licenses":[{
+    "type": "MIT",
+    "url": "http://github.com/clutchski/coffeelint/raw/master/LICENSE"
+  }],
+  "scripts": {
+    "pretest": "npm run compile",
+    "test": "vows --spec test/*.coffee test/*.litcoffee",
+    "posttest": "npm run lint",
+    "prepublish": "npm run compile",
+    "install": "[ -e lib/commandline.js ] || npm run compile",
+    "lint": "npm run compile && ./bin/coffeelint -f test/fixtures/coffeelint.json src/*.coffee test/*.coffee test/*.litcoffee",
+    "lint-csv": "npm run compile && ./bin/coffeelint --csv -f test/fixtures/coffeelint.json src/*.coffee test/*.coffee",
+    "lint-jslint": "npm run compile && ./bin/coffeelint --jslint -f test/fixtures/coffeelint.json src/*.coffee test/*.coffee",
+    "compile": "coffee -c -o lib src"
+  }
+}

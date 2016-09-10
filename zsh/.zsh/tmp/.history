@@ -1,0 +1,761 @@
+: 1470590227:0;ll
+: 1470590240:0;cd Development
+: 1470590242:0;ll
+: 1471166375:0;history | grep 50
+: 1471686322:0;echo $fpath
+: 1471686347:0;echo $fpath | sed 's| |\n|g'
+: 1471686521:0;exit
+: 1471686627:0;omz_urlencode "https://github.com/sindresorhus/pure abc?asd=qwe 2143"
+: 1471686826:0;exit
+: 1471686968:0;>
+: 1471686990:0;exit
+: 1471687069:0;sudo su
+: 1471687756:0;cd .dotfiles
+: 1471687761:0;git status
+: 1471687870:0;exit
+: 1471761211:0;echo "abc"
+: 1471761371:0;echo "ZSH"
+: 1471761416:0;echo "QWE"
+: 1471761653:0;zsh -v
+: 1471761665:0;zsh --version
+: 1471761689:0;echo "$ZSH_VERSION"
+: 1471765020:0;echo "${HOST}"
+: 1471765025:0;echo "${HOST:0:1}"
+: 1471765447:0;exit
+: 1471765853:0;cd .dotfiles
+: 1471765859:0;cd .zsh/fpath
+: 1471765902:0;ln -s async.zsh async
+: 1471765908:0;cd
+: 1471767001:0;exit
+: 1471767009:0;cd Development
+: 1471767010:0;ll
+: 1471767019:0;cd ../.dotfiles
+: 1471767020:0;ll
+: 1471769003:0;sudo su
+: 1471769031:0;exit
+: 1471769188:0;ll
+: 1471769224:0;lscolor
+: 1471769228:0;lscolors
+: 1471769232:0;lscolorcodes
+: 1471769292:0;exit
+: 1471769299:0;lscolors
+: 1471769329:0;exit
+: 1471769332:0;lscolors
+: 1471769335:0;exit
+: 1471769982:0;prompt -l
+: 1471770030:0;exit
+: 1471770398:0;exxit
+: 1471770401:0;exit
+: 1471771330:0;cd Development
+: 1471771331:0;ll
+: 1471771348:0;exit
+: 1471771361:0;cd Development
+: 1471771363:0;ll
+: 1471771429:0;exit
+: 1471771463:0;cd Development
+: 1471771594:0;exit
+: 1471771608:0;cd Development
+: 1471771624:0;exit
+: 1471771869:0;cd Development
+: 1471771870:0;ll
+: 1471772022:0;exit
+: 1471772029:0;cd Development
+: 1471772032:0;ll
+: 1471772033:0;exit
+: 1471772041:0;cd ..
+: 1471772169:0;exit
+: 1471772175:0;cd ..
+: 1471772272:0;prompt -l
+: 1471772279:0;prompt -l | head -1
+: 1471772283:0;prompt -l | tail -1
+: 1471772297:0;prompt -l | tail -1 | grep ' '
+: 1471772327:0;prompt -l | tail -1 | tr ' ' '\n'
+: 1471772338:0;prompt -l | tail -1 | tr ' ' '\n' | grep fire
+: 1471772357:0;bash grep
+: 1471772361:0;man grep
+: 1471772386:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q fire
+: 1471772388:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q fire2
+: 1471772391:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q fire
+: 1471772397:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q fire && echo "ok"
+: 1471772400:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q fire2 && echo "ok"
+: 1471772474:0;exit
+: 1471772495:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q myprompt
+: 1471772536:0;exit
+: 1471772634:0;prompt -l
+: 1471772644:0;prompt off
+: 1471772807:0;exit
+: 1471772840:0;cd .dotfiles/.zsh/fpath
+: 1471772869:0;ln -s ../prompts/basic.zsh setup_basic_prompt
+: 1471772882:0;ln -s ../prompts/custom.zsh setup_custom_prompt
+: 1471772886:0;cd
+: 1471772889:0;prompt -l
+: 1471772919:0;cd .dotfiles/.zsh/fpath
+: 1471772934:0;mv setup_basic_prompt prompt_basic_setup
+: 1471772946:0;mv setup_custom_prompt prompt_custom_setup
+: 1471772951:0;prompt -l
+: 1471772957:0;exit
+: 1471772967:0;prompt -l
+: 1471772992:0;prompt custom
+: 1471772999:0;exit
+: 1471773016:0;prompt custom
+: 1471773019:0;prompt basic
+: 1471773065:0;exit
+: 1471773313:0;prompt custom
+: 1471773321:0;exit
+: 1471773410:0;ll
+: 1471773414:0;prompt custom
+: 1471810004:0;print custom
+: 1471810013:0;prompt custom
+: 1471810841:0;cd .zsh
+: 1471810842:0;ll
+: 1471810867:0;cd fpath
+: 1471810876:0;ln -s ../prompts/basic.zsh setup_basic_prompt
+: 1471810927:0;prompt -l
+: 1471810934:0;prompt custom
+: 1471811005:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q custom
+: 1471811033:0;man prompt
+: 1471811040:0;prompt
+: 1471811089:0;prompt -l
+: 1471811131:0;[ -x "$(prompt -l | tail -1 | tr ' ' '\n' | grep -q custom)" ] && echo "ok" || echo "no"
+: 1471811165:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q custom
+: 1471811168:0;prompt -l | tail -1 | tr ' ' '\n' | grep custom
+: 1471811249:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q custom && echo 'ok' || echo 'no'
+: 1471811256:0;prompt -l | tail -1 | tr ' ' '\n' | grep -q custom2 && echo 'ok' || echo 'no'
+: 1471811391:0;cd .dotfiles
+: 1471811437:0;[ 0 = 1 ]
+: 1471811441:0;[ 1 = 1 ]
+: 1471811450:0;sleep 6
+: 1471811485:0;echo $__PROMPT_CMD_COUNTER
+: 1471811586:0;bash
+: 1471811597:0;echo '\n\n'
+: 1471811783:0;man echo
+: 1471812049:0;echo " "
+: 1471812220:0;bash
+: 1471812294:0;git add .
+: 1471812311:0;git commit -am "Implemented pure prompt"
+: 1471812313:0;git push
+: 1471896446:0;echo "$(echo '\n')"
+: 1471896450:0;echo
+: 1471896456:0;echo "$(echo '\\n')"
+: 1471897461:0;x="\n"
+: 1471897466:0;echo "$x"
+: 1471897512:0;echo $PS1
+: 1471897612:0;man echo
+: 1471897637:0;echo $PS1
+: 1471898121:0;echo "\n"
+: 1471898126:0;echo "$x"
+: 1471898135:0;x="\n"
+: 1471898136:0;echo "$x"
+: 1471898156:0;x="$(echo '\n')"
+: 1471898158:0;echo "$x"
+: 1471898168:0;x="$(echo '\\n')"
+: 1471898170:0;echo "$x"
+: 1471898203:0;echo $PS1
+: 1472057788:0;echo $(echo "  ABC")
+: 1472057795:0;echo '$(echo "  ABC")'
+: 1472057804:0;echo "$(echo '  ABC')"
+: 1472057981:0;__promptNewLine
+: 1472058210:0;echo $PS1
+: 1472058633:0;[ 1 = 0 ]
+: 1472058664:0;echo "$(echo '  ABC')"
+: 1472058698:0;__promptNewLine
+: 1472058787:0;echo "$(__promptNewLine)"
+: 1472058803:0;echo
+: 1472058806:0;echo "$(__promptNewLine)"
+: 1472058819:0;echo ">$(__promptNewLine)<"
+: 1472059357:0;bash
+: 1472060253:0;cd Development
+: 1472060254:0;ll
+: 1472060526:0;[ 0 = 1]
+: 1472060531:0;[ 0 = 1 ]
+: 1472060535:0;[ 1 = 1 ]
+: 1472060538:0;bash
+: 1472060582:0;[ 1 = 1 ]
+: 1472060585:0;[ 0 = 1 ]
+: 1472060588:0;bash
+: 1472060648:0;[ 0 = 1 ]
+: 1472060650:0;[ 1 = 1 ]
+: 1472060655:0;sleep 5
+: 1472060677:0;[ 1 = 0 ]; sleep 5
+: 1472060725:0;sleep 5 && false
+: 1472060733:0;bash
+: 1472060843:0;[ 1 = 0 ]; sleep 5
+: 1472060849:0;[ 1 = 1 ]
+: 1472060924:0;[ 1 = 0 ]
+: 1472061025:0;[ 1 = 1 ]
+: 1472061058:0;[ 1 = 0 ]
+: 1472061174:0;true
+: 1472061180:0;true || false
+: 1472061186:0;true && false
+: 1472061206:0;[ 1 = 1 ] || [ 1 = 0 ]
+: 1472061210:0;[ 1 = 1 ] && [ 1 = 0 ]
+: 1472061221:0;[ 1 = 0 ]
+: 1472061442:0;[ 1 = 1 ]
+: 1472061445:0;true && false
+: 1472061448:0;true && true
+: 1472061455:0;true && true || false
+: 1472061466:0;true && (true || false)
+: 1472061993:0;gitk
+: 1472062084:0;man print
+: 1472062674:0;echo $PS1
+: 1472062740:0;gitk
+: 1472062884:0;man print
+: 1472062994:0;man echo
+: 1472063011:0;gitk
+: 1472063017:0;sleep 2
+: 1472063053:0;gitk
+: 1472065323:0;bash
+: 1472065969:0;gitk
+: 1472065975:0;sleep 2
+: 1472066066:0;gitk
+: 1472066132:0;bash
+: 1472067340:0;gitk
+: 1472067347:0;sleep 2
+: 1472067393:0;bash
+: 1472067950:0;gitk
+: 1472067983:0;bash
+: 1472068658:0;printf '%m'
+: 1472068664:0;printf "%m"
+: 1472068674:0;printf -Pn "%m"
+: 1472068681:0;man printf
+: 1472068925:0;x=""
+: 1472068937:0;${x+>$x<}
+: 1472068952:0;echo "${x+>$x<}"
+: 1472068959:0;echo "${x:+>$x<}"
+: 1472068972:0;x="a"
+: 1472068973:0;echo "${x:+>$x<}"
+: 1472069003:0;man printf
+: 1472069013:0;bash
+: 1472069336:0;root
+: 1472069726:0;sudo su
+: 1472069731:0;bash
+: 1472069749:0;root
+: 1472069755:0;bash
+: 1472070502:0;sleep 5
+: 1472070515:0;bash
+: 1472070562:0;cd .dotfiles
+: 1472070564:0;ll
+: 1472070569:0;git status
+: 1472070577:0;git add .
+: 1472070600:0;git commit -am "Final prompt improvements"
+: 1472070606:0;git push
+: 1472070628:0;ll
+: 1472070692:0;cd ..
+: 1472070700:0;cat .gitconfig_local
+: 1472070710:0;vim .gitconfig_local
+: 1472070735:0;cat .gitconfig_local
+: 1472070790:0;cd Development/linux/dotfiles
+: 1472070796:0;git fetch
+: 1472286259:0;cd Desktop
+: 1472286261:0;ll
+: 1472286327:0;sleep 5
+: 1472286347:0;lscolors
+: 1472286419:0;sleep 5
+: 1472286485:0;bash
+: 1472286499:0;cd .dotfiles
+: 1472286502:0;git status
+: 1472286592:0;git add .
+: 1472286612:0;git commit -am "Even purer prompt"
+: 1472288062:0;cd .dotfiles
+: 1472288067:0;git push
+: 1472411968:0;cd .dotfiles
+: 1472411983:0;git push
+: 1472412157:0;cd ..
+: 1472412163:0;cd Development/
+: 1472412164:0;ll
+: 1472412178:0;mkdir noddejs
+: 1472412183:0;rm -r noddejs
+: 1472412191:0;mkdir node
+: 1472412192:0;cd node
+: 1472412396:0;cd Development
+: 1472412399:0;cd node
+: 1472412407:0;git clone git@bitbucket.org:pmendelski/blogen.git
+: 1472412426:0;cd blogen
+: 1472412814:0;node -v
+: 1472412903:0;cd Development/node/blogen
+: 1472412945:0;node -v
+: 1472413560:0;node -v
+: 1472413571:0;node -v > .nvmrc
+: 1472413574:0;cd ..
+: 1472413583:0;cd blogen
+: 1472413605:0;ncu
+: 1472413638:0;ncu -a
+: 1472413646:0;ncu
+: 1472413656:0;ll
+: 1472413661:0;npm install
+: 1472413806:0;npm run test
+: 1472414209:0;sudo apt-get install tmux
+: 1472414360:0;tmux
+: 1472414605:0;tmux -l
+: 1472414612:0;tmux ls
+: 1472414632:0;tmux attach -t 0
+: 1472414707:0;cd
+: 1472414710:0;cd .dotfiles
+: 1472414732:0;touch .tmux.conf
+: 1472414913:0;tmux -v
+: 1472414921:0;tmux --version
+: 1472414932:0;tmux --version
+: 1472414938:0;man tmux
+: 1472414974:0;tmuv version
+: 1472414978:0;tmux version
+: 1472415246:0;ln -s .tmux.conf ~/.tmux.conf
+: 1472415249:0;tmux
+: 1472415280:0;ll .t*
+: 1472415287:0;rm .tmux.conf
+: 1472415290:0;man ln
+: 1472415321:0;ln -s .tmux.conf .dotfiles/.tmux.conf
+: 1472415336:0;ln -s .dotfiles/.tmux.conf .tmux.conf
+: 1472415337:0;ll
+: 1472415342:0;ll .t*
+: 1472415346:0;tmux
+: 1472415364:0;cat .tmux.conf
+: 1472415397:0;tmux
+: 1472415489:0;tmux ls
+: 1472415496:0;man tmux
+: 1472415568:0;tmux kill-session -a
+: 1472415571:0;tmux ls
+: 1472415576:0;man tmux
+: 1472415607:0;tmux
+: 1472415671:0;tmux ls
+: 1472415679:0;ps aux | grep tmux
+: 1472415687:0;kill -9 24072
+: 1472415689:0;tmux ls
+: 1472415696:0;tmux
+: 1472415769:0;ll
+: 1472415788:0;ll
+: 1472415807:0;__promptNewLine
+: 1472417053:0;tmux ls
+: 1472417060:0;tmux attach -t 0
+: 1472417070:0;ll
+: 1472417082:0;ls
+: 1472417083:0;ll
+: 1472418117:0;echo "$colour135 abc"
+: 1472418197:0;sleep 5
+: 1472418796:0;cd .dotfiles
+: 1472418797:0;ll
+: 1472418801:0;git status
+: 1472418813:0;git submodule add --help
+: 1472418897:0;git submodule add tmux-plugin-manager https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
+: 1472418919:0;git submodule add --name tmux-plugin-manager https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
+: 1472419023:0;git submodule add --name tmux-plugin-manager git@github.com:tmux-plugins/tpm.git .tmux/plugins/tpm
+: 1472419034:0;git status
+: 1472419063:0;git reset HEAD .tmux/plugins/tpm
+: 1472419068:0;git submodule add --name tmux-plugin-manager git@github.com:tmux-plugins/tpm.git .tmux/plugins/tpm
+: 1472419082:0;git submodule add --name tmux-plugin-manager git@github.com:tmux-plugins/tpm.git .tmux/plugins/tpm --force
+: 1472419093:0;git submodule add --force --name tmux-plugin-manager git@github.com:tmux-plugins/tpm.git .tmux/plugins/tpm
+: 1472419615:0;ln -s .dotfiles/.tmux .tmux
+: 1472419621:0;ll .tmux*
+: 1472419673:0;echo "http://google.com"
+: 1472419920:0;bash
+: 1472483802:0;tmux ls
+: 1472483807:0;tmux
+: 1472483811:0;ll
+: 1472484158:0;tmux ls
+: 1472484161:0;man tmux
+: 1472484209:0;tmux kill-session -t 0
+: 1472484211:0;tmux ls
+: 1472484216:0;tmux
+: 1472485209:0;cd .dotfiles
+: 1472485248:0;git submodule add --name tmux-continuum git@github.com:tmux-plugins/tmux-continuum.git .tmux/plugins/tmux-continuum
+: 1472485291:0;git submodule add --name tmux-resurrect git@github.com:tmux-plugins/tmux-resurrect.git .tmux/plugins/tmux-resurrect
+: 1472485436:0;tmux ls
+: 1472485439:0;tmux
+: 1472485482:0;tmux ls
+: 1472485488:0;ll .tmux*
+: 1472485497:0;ll .tmux
+: 1472485499:0;ll .tmux/*
+: 1472485527:0;tmux
+: 1472485534:0;ll
+: 1472485759:0;man tmux
+: 1472485945:0;tmux list-sessions -F '#{session_name} #{session_attached,yes,}' | awk '$2=="yes" {print $1}\
+'
+: 1472485954:0;tmux list-sessions -F '#{session_name} #{session_attached,yes,}' | awk '$2=="yes" {print $1}'
+: 1472485958:0;tmux list-sessions -F '#{session_name} #{session_attached,yes,}'
+: 1472485967:0;tmux list-sessions -F '#{session_name}'
+: 1472485970:0;tmux list-sessions
+: 1472486063:0;tmux list-sessionsctm
+: 1472486064:0;tm
+: 1472486684:0;ta
+: 1472486687:0;ll
+: 1472486818:0;tls
+: 1472486835:0;tmux kill-session -t 0
+: 1472486838:0;tmux
+: 1472486845:0;sleep 1
+: 1472486850:0;ll
+: 1472486874:0;echo $TERM
+: 1472486893:0;cd Development
+: 1472486895:0;ll
+: 1472486999:0;tls
+: 1472487004:0;tmux kill-session -t 0
+: 1472487006:0;tmux
+: 1472487008:0;l
+: 1472487009:0;ll
+: 1472487012:0;sleep 2
+: 1472487077:0;ta
+: 1472487084:0;ll
+: 1472487091:0;sleep 2
+: 1472487305:0;tmux kill-session -t 0
+: 1472487314:0;ta
+: 1472487317:0;tmux
+: 1472487322:0;sleep 2
+: 1472487327:0;sleep 1
+: 1472488481:0;sleep 2
+: 1472488488:0;tmux kill-session -t 0
+: 1472488491:0;tls
+: 1472488493:0;tmux
+: 1472488684:0;ls
+: 1472488692:0;cd Development
+: 1472488719:0;ll
+: 1472488737:0;echo "zzz"
+: 1472489136:0;echo $TMUX_PANE
+: 1472489254:0;tmux
+: 1472489257:0;sleep 2
+: 1472489368:0;tmux kill-session -t 0
+: 1472489371:0;tmux
+: 1472489374:0;sleep 2
+: 1472489381:0;sleep 2
+: 1472489405:0;man tmux
+: 1472489419:0;tmux
+: 1472489423:0;echo $TMUX_PANE
+: 1472489467:0;cd Development
+: 1472489474:0;tmux
+: 1472489480:0;sleep 2
+: 1472489589:0;tmux kill-session -t 0
+: 1472489593:0;tmux
+: 1472489598:0;sleep 2
+: 1472489663:0;tmux rename-window "abc"
+: 1472489692:0;tmux kill-session -t 0
+: 1472489697:0;tmux kill-session -t 1
+: 1472489701:0;tls
+: 1472489705:0;tmux
+: 1472489711:0;tmux rename-window "abc"
+: 1472489853:0;printf '\033kWINDOW_NAME\033\\'
+: 1472490131:0;tmux
+: 1472490145:0;sleep 2
+: 1472490151:0;ll
+: 1472490154:0;cd Development
+: 1472490501:0;tmt 1
+: 1472490508:0;tat 1
+: 1472490558:0;ll
+: 1472490563:0;ll
+: 1472490698:0;ll
+: 1472490718:0;cd Development
+: 1472490724:0;l
+: 1472491277:0;tmux
+: 1472491356:0;cat ~/.tmux/plugins/install.sh
+: 1472535852:0;cd .dotfiles
+: 1472535856:0;git status
+: 1472535859:0;git addd .
+: 1472535862:0;git add .
+: 1472535873:0;git commit -am "Progress with tmux"
+: 1472535878:0;git push
+: 1472792833:0;curl http://articles.scaleme.pl/F1B2B0DC/89237/744x419/centercrop
+: 1472792841:0;curl -http://articles.scaleme.pl/F1B2B0DC/89237/744x419/centercrop
+: 1472792845:0;curl -H http://articles.scaleme.pl/F1B2B0DC/89237/744x419/centercrop
+: 1472792859:0;curl -vI http://articles.scaleme.pl/F1B2B0DC/89237/744x419/centercrop
+: 1472793826:0;cd .dotfiles
+: 1472793830:0;tmux
+: 1472895394:0;git clone git@bitbucket.org:pmendelski/nodejs-file-server.git
+: 1472895404:0;cd nodejs-file-server
+: 1472895496:0;git checkout -b "project-seed"
+: 1472895510:0;git push -u
+: 1472895540:0;git push -u origin
+: 1472895553:0;git push -u origin project-seed
+: 1472895607:0;npm init
+: 1472895653:0;git commit -am "init"
+: 1472895659:0;git push -u origin project-seed
+: 1472895666:0;git status
+: 1472895670:0;git add .
+: 1472895680:0;git commit -a --amend --no-edit
+: 1472895686:0;git status
+: 1472895693:0;git commit -a --amend --no-edit
+: 1472895709:0;git push -u origin project-seed
+: 1472895723:0;git add .
+: 1472895728:0;git commit -a --amend --no-edit
+: 1472895733:0;git push -u origin project-seed
+: 1472895831:0;git commmit -am 'init'
+: 1472895836:0;git commit -am 'init'
+: 1472895841:0;git l
+: 1472895847:0;git push -u origin project-seed
+: 1472895878:0;git checkout master
+: 1472895882:0;git checkout -b master
+: 1472895907:0;touch README.md
+: 1472895911:0;git commit -am 'init'
+: 1472895921:0;git push -u origin master
+: 1472896083:0;git checkout project-seed
+: 1472896326:0;npm install -s koa@2
+: 1472896335:0;npm install --save koa@2
+: 1472896355:0;ncu
+: 1472896360:0;ncu -u
+: 1472896365:0;ncu
+: 1472896370:0;ncu -a
+: 1472896373:0;ncu
+: 1472896377:0;npm install
+: 1472896876:0;ncu
+: 1472896885:0;npm install -g eslint
+: 1472897272:0;npm install --save-dev eslint-plugin-babel
+: 1472897571:0;babel-node ./index.js
+: 1472897792:0;npm bin
+: 1472898001:0;babel-node ./index.js
+: 1472898745:0;DEBUG=koa* babel-node ./index.js
+: 1472899229:0;git clone git@bitbucket.org:pmendelski/eslint-config-coditorium.git
+: 1472899233:0;cd eslint-config-coditorium
+: 1472899277:0;npm init
+: 1472900374:0;npm link
+: 1472900417:0;npm link eslint-config-coditorium
+: 1472900922:0;npm install --save-dev eslint
+: 1472901175:0;npm install --save-dev js-yaml
+: 1472901495:0;npm install --save-dev yamljs
+: 1472902435:0;node ./src/index.js
+: 1472902720:0;npm install --save-dev eslint-plugin-babel
+: 1472902732:0;npm install --save-dev eslint-plugin-import
+: 1472902763:0;npm install --save-dev babel-eslint
+: 1472902832:0;npm install
+: 1472902965:0;npm install --save-dev eslint-ciibbfug-airbnb
+: 1472902973:0;npm install --save-dev eslint-config-airbnb
+: 1472904065:0;npm install --save-dev rimraf
+: 1472904079:0;npm run build
+: 1472904144:0;npm i
+: 1472904155:0;npm run build
+: 1472904236:0;npm i
+: 1472904240:0;npm run build
+: 1472904420:0;npm install --save-dev mkdirp
+: 1472904428:0;npm run build
+: 1472904549:0;npm run lint
+: 1472904672:0;tmux
+: 1472904685:0;cd ../nodejs-file-server
+: 1472904698:0;npm link
+: 1472904711:0;npm link eslint-config-coditorium
+: 1472904752:0;rm /home/mendlik/.nvm/versions/node/v6.3.1/lib/node_modules/eslint-config-coditorium
+: 1472904754:0;npm link
+: 1472904951:0;eslint
+: 1472904958:0;npm run eslint
+: 1472904966:0;npm run lint
+: 1472905323:0;npm run build
+: 1472905404:0;npm install --save-dev eslint-config-airbnb-base
+: 1472905423:0;rm -r node_modules
+: 1472905425:0;npm run build
+: 1472905432:0;npm i
+: 1472905472:0;npm run build
+: 1472905823:0;npm i
+: 1472905847:0;npm install -save eslint-config-airbnb
+: 1472905863:0;ncu
+: 1472905868:0;ncu -a
+: 1472905872:0;npmm i
+: 1472905875:0;npm i
+: 1472905962:0;rm -r node_modules
+: 1472905968:0;rm /home/mendlik/.nvm/versions/node/v6.3.1/lib/node_modules/eslint-config-coditorium
+: 1472905971:0;npm link
+: 1472905975:0;npm i
+: 1472906008:0;npm link eslint-config-coditorium
+: 1472906013:0;npm run lint
+: 1472906027:0;eslint -h
+: 1472906048:0;eslint --print-config
+: 1472906075:0;eslint --print-config .
+: 1472906153:0;npm run lint
+: 1472906223:0;ll node_modules
+: 1472906230:0;ll node_modules/eslint-config-coditorium
+: 1472906238:0;ll node_modules/eslint-config-coditorium/
+: 1472906277:0;npm run lint
+: 1472906456:0;npm install eslint-plugin-babel
+: 1472906462:0;npm run lint
+: 1472906518:0;git add .
+: 1472906523:0;git commit -am 'init'
+: 1472906532:0;git push origin master
+: 1472906584:0;rm -r node_modules
+: 1472906610:0;npm install --save-dev \
+\
+npm install git+ssh://git@bitbucket.org/coditorium/eslint-config-coditorium.git\
+
+: 1472906753:0;npm i
+: 1472906780:0;npm run lint
+: 1472906863:0;npm install --save-dev git+ssh://git@bitbucket.org/coditorium/eslint-config-coditorium.git
+: 1472906896:0;npm run lint
+: 1472907529:0;npm run test
+: 1472907656:0;git commit -am 'Added sample tests'
+: 1472907661:0;git push origin master
+: 1472907670:0;npm install --save-dev git+ssh://git@bitbucket.org/coditorium/eslint-config-coditorium.git
+: 1472907686:0;npm run lint
+: 1472907697:0;eslint --print-config .
+: 1472907717:0;./node_modules/.bin/eslint --print-config .
+: 1472914742:0;awk '{if(l1){print ($2-l1)/1024"kB/s",($10-l2)/1024"kB/s"} else{l1=$2; l2=$10;}}' <(grep wlan0 /proc/net/dev) <(sleep 1; grep wlan0 /proc/net/dev)
+: 1472914758:0;awk '{if(l1){print ($2-l1)/1024"kB/s",($10-l2)/1024"kB/s"} else{l1=$2; l2=$10;}}' <(grep wlan0 /proc/net/dev) <(grep wlan0 /proc/net/dev)
+: 1472914766:0;grep wlan0 /proc/net/dev
+: 1472914788:0;cat /proc/net/dev
+: 1472914943:0;ifconfig -s | tail -n +2 | tr -s ' ' | cut -d' ' -f1,4 | sort -n -k2 | tail -n 1 | cut -d' ' -f1
+: 1472914956:0;cat /proc/net/dev | grep wlp2s0
+: 1472915022:0;man conky
+: 1472915078:0;conky -s '${upspeedf wlp2s0}'
+: 1472915083:0;man conky
+: 1472915293:0;date +%s
+: 1472915389:0;cat /proc/net/dev | grep wlp2s0
+: 1472915394:0;cat /proc/net/dev | head -n 1
+: 1472915402:0;cat /proc/net/dev
+: 1472915483:0;cat /proc/net/dev | grep wlp2s0
+: 1472915499:0;cat /proc/net/dev | grep wlp2s0 | tr -u
+: 1472915502:0;ma tr
+: 1472915504:0;man tr
+: 1472915526:0;cat /proc/net/dev | grep wlp2s0 | tr -s ' '
+: 1472915546:0;cat /proc/net/dev | grep wlp2s0 | tr -s ' ' | cut -d' ' -f2,10
+: 1472916073:0;cd
+: 1472916075:0;cd .con
+: 1472916080:0;cd .conky
+: 1472916086:0;./conky_net.sh
+: 1472916120:0;$((  1 + 2 / 3 ))
+: 1472916126:0;((  1 + 2 / 3 ))
+: 1472916174:0;echo $((  1 + 2 / 3 ))
+: 1472916181:0;echo $((  (1 + 2) / 3 ))
+: 1472916214:0;./conky_net.sh
+: 1472916379:0;echo $(( (1 + 2) / 3 ))
+: 1472916382:0;./conky_net.sh
+: 1472916434:0;echo $__CONKY_NET_LAST_DOWNLOAD_BYTES
+: 1472916452:0;./conky_net.sh
+: 1472917954:0;man bc
+: 1472918460:0;echo $(( 2/2 ))
+: 1472918462:0;echo $(( 2/2.0 ))
+: 1472918470:0;echo $(( 1/2.0 ))
+: 1472918526:0;./conky_net.sh
+: 1472918643:0;echo $((3.0 / 5.0))
+: 1472918660:0;echo '3.0 / 5.0' | bc
+: 1472918668:0;echo $(echo '3.0 / 5.0' | bc)
+: 1472918674:0;echo $(echo 'scale=2;3.0 / 5.0' | bc)
+: 1472918816:0;man bc
+: 1472918855:0;./conky_net.sh
+: 1472919521:0;date +%s%3N
+: 1472921074:0;ps aux | grep conky
+: 1472921083:0;kill 4583
+: 1472921086:0;ps aux | grep conky
+: 1472921099:0;kill 4743
+: 1472921110:0;./conky_run.sh
+: 1473001910:0;echo $(echo "scale=2; 2048 / 1024" | bc)
+: 1473001941:0;echo $(echo "scale=2; 100 / 1024" | bc)
+: 1473001988:0;[[ "abc" == node* ]]
+: 1473001992:0;[[ "abc" == a* ]]
+: 1473001994:0;[[ "abc" == .* ]]
+: 1473001998:0;[[ ".a" == .* ]]
+: 1473002091:0;echo $(echo "scale=2; 100 / 1024" | bc)
+: 1473002093:0;echo $(echo "scale=2; 100 / 1024" | bc -l)
+: 1473002098:0;man bc
+: 1473002680:0;cd .conky
+: 1473002686:0;./conky_net.sh
+: 1473002816:0;[[ ".a" == .* ]]
+: 1473002823:0;[[ "0.a" == 0.* ]]
+: 1473002829:0;[[ "0a" == 0.* ]]
+: 1473002833:0;[[ "0a" == 0.?* ]]
+: 1473002837:0;[[ "0a" == 0.\?* ]]
+: 1473002842:0;[[ "0a" == 0.* ]]
+: 1473003185:0;cd ...
+: 1473003187:0;cd ..
+: 1473003190:0;cd .dotfiles
+: 1473003193:0;ggit status
+: 1473003195:0;git status
+: 1473003305:0;cd .dotfiles
+: 1473003307:0;git status
+: 1473003318:0;git dif help
+: 1473003322:0;git diff help
+: 1473003329:0;git diff help -- .gitignore
+: 1473003334:0;git status
+: 1473003337:0;git add .
+: 1473003359:0;git commit -am "Finally added beeter net speed to conky"
+: 1473003364:0;git push
+: 1473003435:0;npm run test
+: 1473003862:0;npmbin eslint -h
+: 1473004458:0;tmux
+: 1473005580:0;cd
+: 1473005603:0;cd Development/node/blogen/src/lib/init
+: 1473005605:0;ncu
+: 1473005844:0;npm -h
+: 1473007021:0;cd
+: 1473007024:0;cd Development
+: 1473007031:0;cd node/blogen
+: 1473007040:0;npm link
+: 1473007055:0;cd ..
+: 1473007073:0;mkdir blogen-test
+: 1473007076:0;cd blogen
+: 1473007081:0;cd ../blogen-test
+: 1473007088:0;mkdir test1
+: 1473007093:0;cd test1
+: 1473007100:0;npm init -y
+: 1473007115:0;npm link blogen
+: 1473007132:0;npm init
+: 1473007140:0;blogen init
+: 1473007236:0;ll
+: 1473007253:0;blogen watch --open
+: 1473007323:0;blogen watch
+: 1473007684:0;npm i
+: 1473007710:0;blogen watch
+: 1473007744:0;npm i
+: 1473007759:0;blogen watch
+: 1473007775:0;blogen watch --open
+: 1473008885:0;blogen watch
+: 1473009108:0;blogen build
+: 1473009199:0;blogen watch
+: 1473009344:0;blogen build
+: 1473009538:0;blogen serve
+: 1473010149:0;blogen build
+: 1473010157:0;blogen serve
+: 1473010356:0;blogen watch
+: 1473010677:0;blogen build -p
+: 1473010694:0;blogen serve --open
+: 1473010721:0;blogen build -p -vv
+: 1473010896:0;blogen build -p
+: 1473010909:0;blogen serve --open
+: 1473010972:0;blogen build -p && blogen serve
+: 1473011637:0;blogen build -p
+: 1473011747:0;blogen serve --open
+: 1473011827:0;git status
+: 1473011831:0;git add .
+: 1473011843:0;git commit -am "After a long long break"
+: 1473011846:0;git push
+: 1473012209:0;cd Development/node/blogen
+: 1473012213:0;vim
+: 1473012225:0;vim src/index.js
+: 1473012254:0;vim src/cli/wrapper.js
+: 1473012460:0;tmux
+: 1473012463:0;cd
+: 1473012468:0;cd Development/node/blogen
+: 1473012472:0;tmux
+: 1473012494:0;vim src/cli/wrapper.js
+: 1473012520:0;ll
+: 1473090044:0;cd .conky
+: 1473090079:0;./conky_net.sh
+: 1473090173:0;ifconfig -s
+: 1473090189:0;cat /proc/net/dev
+: 1473090227:0;cat /proc/net/dev | grep lo | tr -s ' ' | cut -d' ' -f2,10
+: 1473090236:0;cat /proc/net/dev | grep lo | tr -s ' '
+: 1473090264:0;cat /proc/net/dev | tail -n -2
+: 1473090271:0;cat /proc/net/dev | head -n -2
+: 1473090275:0;cat /proc/net/dev | head -n 2
+: 1473090277:0;cat /proc/net/dev | head -2
+: 1473090281:0;cat /proc/net/dev | head -n 2
+: 1473090283:0;cat /proc/net/dev | head -n -2
+: 1473090290:0;cat /proc/net/dev | head -n 2
+: 1473090292:0;cat /proc/net/dev | head -n -2
+: 1473090298:0;cat /proc/net/dev | tail -n -2
+: 1473090302:0;cat /proc/net/dev | tail -n 2
+: 1473090369:0;cat /proc/net/dev | tail -n +2
+: 1473090382:0;cat /proc/net/dev | tail +2
+: 1473090385:0;cat /proc/net/dev | tail -n +2
+: 1473090388:0;cat /proc/net/dev | tail -n -2
+: 1473090393:0;cat /proc/net/dev
+: 1473090421:0;cat /proc/net/dev | tail -n +2
+: 1473090424:0;cat /proc/net/dev | tail -n +3
+: 1473090459:0;cat /proc/net/dev | tail -n +3 | grep lo
+: 1473090464:0;cat /proc/net/dev | tail -n +3 | grep lo | tr ' '
+: 1473090469:0;cat /proc/net/dev | tail -n +3 | grep lo | tr -d ' '
+: 1473090537:0;cat /proc/net/dev | tail -n +3 | grep lo | sed 's| *|| '
+: 1473090543:0;cat /proc/net/dev | tail -n +3 | grep lo | sed 's| *||'
+: 1473090604:0;cat /proc/net/dev | tail -n +3 | grep lo | tr -s ' ' | sed 's| *||' | cut -d' ' -f2,10
+: 1473090698:0;cd .dotfiles
+: 1473090699:0;ll
+: 1473090702:0;git status
+: 1473090708:0;git add .
+: 1473090730:0;git commit -am "Improved conky net and tmux"
+: 1473090735:0;git push
+: 1473500813:0;ls
+: 1473500814:0;ll
+: 1473500834:0;cd .dotfiles
+: 1473500835:0;ll
+: 1473500839:0;git status
+: 1473500856:0;git add .
+: 1473500889:0;git commit -am "Split features into seaparate folders"

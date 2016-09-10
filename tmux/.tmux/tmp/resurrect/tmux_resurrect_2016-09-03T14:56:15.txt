@@ -1,0 +1,4 @@
+pane	0	1	:zsh	1	:*	1	:/home/mendlik/Development/node/eslint-config-coditorium	0	zsh	:
+pane	0	1	:zsh	1	:*	2	:/home/mendlik/Development/node/nodejs-file-server	1	zsh	:
+window	0	1	1	:*	e88c,207x61,0,0{104x61,0,0,0,102x61,105,0,1}
+state	0	

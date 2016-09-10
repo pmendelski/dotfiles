@@ -1,0 +1,452 @@
+#1471765510
+history
+#1471765531
+echo $BASH_TMP_DIR 
+#1471765610
+cd .dotfiles
+#1471765613
+git status
+#1471765748
+git status | grep keep
+#1471765797
+git status | grep tmp
+#1471765814
+echo "xxx"
+#1471765850
+zsh
+#1471767415
+rebuildPrompts 
+#1471767491
+bash ~/.dotfiles/.bash/prompt_bak.sh 
+#1471767514
+epoch
+#1471767607
+bash ~/.dotfiles/.bash/prompt_bak.sh 
+#1471767648
+cd .dotfiles
+#1471767720
+echo ~/.bash_exports 
+#1471767725
+cat ~/.bash_exports 
+#1471767827
+cd Development/
+#1471767829
+cd linux/
+#1471767831
+ll
+#1471767849
+cd ubuntu-essentials/
+#1471767851
+ll
+#1471767858
+cd
+#1471768164
+cd Development/
+#1471768165
+ll
+#1471768171
+sudo su 
+#1471768177
+root
+#1471768706
+ll
+#1471768777
+echo $USER
+#1471768784
+[[ "${USER}" == *"root" ]]
+#1471768799
+[[ "${USER}" == *"root" ]] && echo "yes" || echo "no"
+#1471768766
+echo $USER
+#1471768769
+root
+#1471768896
+exit
+#1471768900
+sudo su
+#1471768996
+zsh
+#1471769338
+lscolor
+#1471769344
+lscolors 
+#1471769958
+zsh
+#1471771093
+emacs
+#1471771179
+zsh
+#1471771351
+cd Development/
+#1471771353
+ll
+#1471771355
+cd ..
+#1471771357
+zsh
+#1471772036
+cd Development/
+#1471772038
+zsh
+#1471772617
+prompt -l
+#1471772623
+zsh
+#1471772959
+prompt -l
+#1471772965
+zsh
+#1471773069
+cd .dotfiles
+#1471773072
+git status
+#1471773075
+git addd .
+#1471773078
+git add .
+#1471773099
+git commit -am "Refreshing config files and project structure"
+#1471773102
+git push
+#1471773121
+[ 0 = 1 ]
+#1471773299
+zsh
+#1471773326
+git add .
+#1471773342
+git commit -am "Removing buggy rprompt from zsh"
+#1471773405
+zsh
+#1471800185
+echo $__PROMPT_NEWLINE
+#1471800361
+ll
+#1471800536
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800577
+[ $__PROMPT_NEWLINE_BEFORE_FIRST = 0 ] && echo "ok" || echo "false"
+#1471800582
+[ $__PROMPT_NEWLINE_BEFORE_FIRST == 0 ] && echo "ok" || echo "false"
+#1471800594
+[ "$__PROMPT_NEWLINE_BEFORE_FIRST" == "0" ] && echo "ok" || echo "false"
+#1471800603
+[ "$__PROMPT_NEWLINE_BEFORE_FIRST" = "0" ] && echo "ok" || echo "false"
+#1471800635
+[ -z $__PROMPT_NEWLINE_BEFORE_FIRST ] && echo "ok" || echo "false"
+#1471800641
+[ -n $__PROMPT_NEWLINE_BEFORE_FIRST ] && echo "ok" || echo "false"
+#1471800690
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800750
+[ $__PROMPT_NEWLINE_BEFORE = 2 ] && echo "\n" || __PROMPT_NEWLINE_BEFORE=2
+#1471800770
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800812
+echo $PS1
+#1471800869
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800871
+echo $PS1
+#1471800917
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800919
+echo $PS1
+#1471800939
+echo $__PROMPT_NEWLINE_BEFORE
+#1471800976
+echo $PS1
+#1471800988
+[ $__PROMPT_NEWLINE_BEFORE = 2 ] && echo '\n' || __PROMPT_NEWLINE_BEFORE=2
+#1471800993
+echo $__PROMPT_NEWLINE_BEFORE
+#1471801623
+[ -z "$__PROMPT_CMD_COUNTER" ]         && : ${__PROMPT_CMD_COUNTER:=0}         || ((__PROMPT_CMD_COUNTER++))
+#1471801636
+echo $__PROMPT_
+#1471801644
+echo $__PROMPT_CMD_COUNTER 
+#1471801647
+[ -z "$__PROMPT_CMD_COUNTER" ]         && : ${__PROMPT_CMD_COUNTER:=0}         || ((__PROMPT_CMD_COUNTER++))
+#1471801649
+echo $__PROMPT_CMD_COUNTER 
+#1471802014
+echo "\n"
+#1471802018
+echo -n "\n"
+#1471802022
+echo -e "\n"
+#1471802042
+echo -e
+#1471802127
+man echo
+#1471802303
+ll
+#1471802355
+echo $__PROMPT_CMD_COUNTER 
+#1471802457
+((__PROMPT_CMD_COUNTER++))
+#1471802460
+echo $__PROMPT_CMD_COUNTER 
+#1471802462
+((__PROMPT_CMD_COUNTER++))
+#1471802463
+echo $__PROMPT_CMD_COUNTER 
+#1471802465
+((__PROMPT_CMD_COUNTER++))
+#1471802467
+echo $__PROMPT_CMD_COUNTER 
+#1471803027
+ll
+#1471803032
+rm Scripts 
+#1471803033
+ll
+#1471803042
+cd .dotfiles
+#1471802768
+cd .dotfiles
+#1471802823
+[ 0 = 1 ]
+#1471803106
+ll
+#1471803111
+cd Development/
+#1471803112
+ll
+#1471803115
+cd linux/
+#1471803120
+cd ubuntu-essentials/
+#1471803138
+lscolors 
+#1471803170
+cd Development/linux/ubuntu-essentials/
+#1471803171
+ll
+#1471803224
+cd Development/linux/ubuntu-essentials/
+#1471803518
+sleep 3
+#1471803524
+sleep 5
+#1471803770
+[ 0 = 1 ]
+#1471803779
+[ 1 = 1 ]
+#1471803906
+zsh
+#1471806976
+cd Development/
+#1471807114
+cd .dotfiles
+#1471807566
+echo $PS1
+#1471807569
+echo -e $PS1
+#1471807821
+printf "abc"
+#1471807893
+for i [1..10]; do echo "$i"; done;
+#1471807897
+for i [1 .. 10]; do echo "$i"; done;
+#1471807903
+for i [ 1..10 ]; do echo "$i"; done;
+#1471807926
+for i in [ 1..10 ]; do echo "$i"; done;
+#1471807934
+for i in [1..10]; do echo "$i"; done;
+#1471808037
+for i in {1..10}; do echo "$i"; done;
+#1471808048
+for i in {1..10}; do echo "$i" >/dev/null; done;
+#1471808056
+time for i in {1..10}; do echo "$i" >/dev/null; done;
+#1471808066
+time for i in {1..100000}; do echo "$i" >/dev/null; done;
+#1471808087
+time for i in {1..100000}; do printf "$i" >/dev/null; done;
+#1471808118
+print 123
+#1471808274
+man echo
+#1471808313
+man printf
+#1471808811
+cd Development/
+#1471809092
+echo "$COLOR_BLUE abc"
+#1471809113
+echo $COLOR_BLUE
+#1471809754
+asd as 
+#1471809755
+asd as
+#1471809755
+asd 
+#1471809880
+echo "\001$COLOR_BLUE\002abc\001$COLOR_RESET\002"
+#1471809886
+echo -e "\001$COLOR_BLUE\002abc\001$COLOR_RESET\002"
+#1471810236
+zsh
+#1471809937
+man cat
+#1471809949
+
+#1471809989
+[ 1 = 1 ]
+#1471809993
+zsh
+#1471811318
+chsh -s $(which zsh)
+#1471811592
+exit
+#1472059394
+echo $PS1
+#1472059416
+__promptNewLine
+#1472059507
+exit
+#1472059545
+ecit
+#1472059548
+bash
+#1472059872
+cd Development/
+#1472059878
+cd ..
+#1472059881
+cd .dotfiles
+#1472059897
+gitk 
+#1472060010
+bash
+#1472060094
+exit
+#1472060189
+cd Development/
+#1472060191
+exit
+#1472060546
+[ 1 = 0 ]
+#1472060548
+[ 1 = 1 ]
+#1472060591
+[ 1 = 0 ]
+#1472060593
+exit
+#1472060735
+[ 1 = 0 ]
+#1472060737
+[ 1 = 1 ]
+#1472060745
+sleep 5 && false
+#1472065343
+gitk
+#1472065394
+exit
+#1472065516
+gitk
+#1472065591
+exit
+#1472065649
+echo $BASH_VERSION 
+#1472065662
+echo $PS1
+#1472065753
+gitk
+#1472065792
+exit
+#1472065807
+gitk
+#1472065840
+exit
+#1472065889
+gitk
+#1472066158
+echo $PS1
+#1472066279
+exit
+#1472066295
+echo $PS1
+#1472066469
+gitk
+#1472066503
+exit
+#1472066635
+echo man
+#1472066638
+man echo
+#1472066723
+gitk
+#1472067122
+exit
+#1472067126
+gitk
+#1472067161
+exit
+#1472067164
+gitk
+#1472067545
+exit
+#1472067778
+cat .bashrc 
+#1472067812
+for i in [1..10]; do echo ">>> $i"; done;
+#1472067817
+for i in 1..10; do echo ">>> $i"; done;
+#1472067822
+for i in (1..10); do echo ">>> $i"; done;
+#1472067827
+for i in ( 1..10 ); do echo ">>> $i"; done;
+#1472067833
+for i in [ 1..10 ]; do echo ">>> $i"; done;
+#1472067840
+for i in 1 .. 10 ; do echo ">>> $i"; done;
+#1472067902
+exit
+#1472067936
+gitk
+#1472067943
+[ 1= 1 ]
+#1472067945
+[ 1 = 1 ]
+#1472067947
+exit
+#1472068174
+gitk
+#1472068178
+exit
+#1472068462
+gitk
+#1472068544
+exit
+#1472069016
+gitk
+#1472069020
+exit
+#1472069734
+root
+#1472069740
+sudo su
+#1472069744
+exit
+#1472069779
+echo $SHLVL
+#1472069781
+exit
+#1472069758
+root
+#1472069784
+exit
+#1472070520
+sleep 5
+#1472070528
+exit
+#1472286490
+cd Development/
+#1472286493
+exit
+#1472419926
+man tmux

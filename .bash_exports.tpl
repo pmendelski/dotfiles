@@ -1,3 +1,0 @@
-#!/bin/bash
-
-export PROMPT_DEFAULT_USERHOST="$USER@$HOSTNAME"
