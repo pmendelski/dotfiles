@@ -1,5 +1,7 @@
 # tmp locations
-vim/.vim/tmp/**/*
+vim/.vim/tmp/backups/**/*
+vim/.vim/tmp/swaps/**/*
+vim/.vim/tmp/undo/**/*
 bash/.bash/tmp/**/*
 zsh/.zsh/tmp/**/*
 tmux/.tmux/tmp/**/*
