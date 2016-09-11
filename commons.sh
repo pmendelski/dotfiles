@@ -33,7 +33,7 @@ function __link() {
     if [ $dryrun = 0 ]; then
         [ ! -d "$destDir" ] && \
         mkdir -p "$destDir"
-        execute "ln -fs $PWD/$1 $2" "symlink: $2 → $(__pwd)$1"
+        execute "ln -fs $1 $2" "symlink: $2 → $(__pwd)$1"
     else
         printSuccess "[dryrun] symlink: $2 → $(__pwd)$1"
     fi
@@ -88,10 +88,9 @@ function __setupTemplate() {
 }
 
 function __setupSymlink() {
-    local -r linkFrom="$1"
+    local -r linkFrom="$PWD/$1"
     local -r linkTo="$HOME/$1"
     if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
-        echo "x1 $linkTo"
         __link $linkFrom $linkTo
     elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
         printInfo "Symbolic link already created: $linkFrom"

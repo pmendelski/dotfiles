@@ -3,4 +3,4 @@ vim/.vim/tmp/**/*
 bash/.bash/tmp/**/*
 zsh/.zsh/tmp/**/*
 tmux/.tmux/tmp/**/*
-distros/common/.conky/tmp/**/*
+_distros/common/.conky/tmp/**/*
