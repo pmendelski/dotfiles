@@ -2,7 +2,7 @@
 
 # Constant values
 declare -r PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
-declare -r DISTROS_DIR_NAME="distros"
+declare -r DISTROS_DIR="$PROJECT_ROOT/_distros"
 declare -r BACKUP_DIR="$HOME/.dotfiles.bak"
 
 # Source terminal utilities
@@ -14,6 +14,11 @@ declare -i silent=0
 declare -i verbose=0
 declare -i yes=0
 declare -i dryrun=0
+
+# Some stats to gather
+declare backups=""
+declare skipped=""
+declare templates=""
 
 # Private functions
 
@@ -36,21 +41,24 @@ function __link() {
 
 function __backupAndRemove() {
     local -r file="$1"
+    local -r destDir="$(dirname "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
+    local -r backupLocation="$(echo "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
     if [ $dryrun = 0 ]; then
         if [ ! -d "$BACKUP_DIR" ]; then
             mkdir "$BACKUP_DIR"
             printWarn "Created backup directory: $BACKUP_DIR"
         fi
-        local destDir="$(dirname "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
         [ ! -d "$destDir" ] && \
             mkdir -p "$destDir"
         cp -rfP "$file" "$destDir" && \
             printDebug "Created backup: $file" && \
             rm -rf "$file" && \
             printDebug "Removed: $file"
+        printSuccess "backup: $file → $backupLocation"
     else
-        printSuccess "[dryrun] backupAndRemove: $file → $destDir"
+        printSuccess "[dryrun] backup: $file → $backupLocation"
     fi
+    backups+="$backupLocation\n"
 }
 
 function __resolveTemplateVariables() {
@@ -72,15 +80,18 @@ function __setupTemplate() {
         else
             printSuccess "[dryrun] template: $(__pwd)${templateFile} → $targetFile"
         fi
+        templates+="$(__pwd)${templateFile} → $targetFile\n"
     else
         printInfo "Template config skipped. File already exists: $targetFile"
+        skipped+="template: $(__pwd)${templateFile}\n"
     fi
 }
 
 function __setupSymlink() {
     local -r linkFrom="$1"
     local -r linkTo="$HOME/$1"
-    if [ ! -e "$linkTo" ]; then
+    if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
+        echo "x1 $linkTo"
         __link $linkFrom $linkTo
     elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
         printInfo "Symbolic link already created: $linkFrom"
@@ -92,6 +103,7 @@ function __setupSymlink() {
             __link $linkFrom $linkTo
         else
             printWarn "Omitted: $linkFrom"
+            skipped+="link: $(__pwd)$linkFrom\n"
         fi
     fi
 }
@@ -121,7 +133,7 @@ function setupFiles() {
 
 function setupBasic() {
     printInfo "Installling basic dotfiles"
-    for dir in $(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name $DISTROS_DIR_NAME); do
+    for dir in $(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*'); do
         cd $dir
         setupFiles $(ls -A)
     done
@@ -129,17 +141,17 @@ function setupBasic() {
 
 function setupDistroCommon() {
     printInfo "Installling distro common configuration files"
-    cd "$PROJECT_ROOT/$DISTROS_DIR_NAME/common"
+    cd "$DISTROS_DIR/common"
     source 'setup.sh'
 }
 
 function setupDistro() {
     local distro="$(__distroName)"
     if [ ! -z "$distro" ]; then
-        if [ -e "$PROJECT_ROOT/$DISTROS_DIR_NAME/$distro" ]; then
+        if [ -e "$DISTROS_DIR/$distro" ]; then
             setupDistroCommon
             printInfo "Installling distro $distro"
-            cd "$PROJECT_ROOT/$DISTROS_DIR_NAME/$distro"
+            cd "$DISTROS_DIR/$distro"
             source 'setup.sh'
         else
             printInfo "No distro specific configuration found. Distro name: $distro"
@@ -150,4 +162,6 @@ function setupDistro() {
 function install() {
     setupBasic
     setupDistro
+    [ -n "$templates" ] && \
+        printWarn "Check template configurations. Templates:\n$templates"
 }
