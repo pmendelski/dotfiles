@@ -70,8 +70,8 @@ function __resolveTemplateVariables() {
 }
 
 function __setupTemplate() {
-    local -r targetFile="$(echo "$1" | sed -e "s|\.tpl$||")"
-    local -r templateFile="$1"
+    local -r targetFile="$HOME/$(echo "$1" | sed -e "s|\.tpl$||")"
+    local -r templateFile="$PWD/$1"
     if [ ! -e "$targetFile" ]; then
         # Expand variables
         if [ $dryrun = 0 ]; then
