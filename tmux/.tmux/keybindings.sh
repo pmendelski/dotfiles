@@ -19,6 +19,9 @@ bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 
+# synchronize all panes in a window
+bind y setw synchronize-panes
+
 # Reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
 

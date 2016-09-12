@@ -51,6 +51,7 @@ TMUX basics:
 |---------------|--------
 | `C-a t`       | **big clock** |
 | `C-a ?`       | **show keybindings** |
+| `C-a y`       | **sync all panes** |
 | `C-a :`       | **prompt** |
 
 ## Copy and paste
@@ -67,6 +68,11 @@ Copy and paste using [vi bindings](https://awhan.wordpress.com/2010/06/20/copy-p
 | `C-a [`       | **copy** |
 | `C-a ]`       | **paste** |
 | `C-a =`       | **select buffer** to paste |
+
+## Scrolling up and Down
+
+1. `C-a [` enter copy mode
+2. `<Arrow>` scroll
 
 # Credentials
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
