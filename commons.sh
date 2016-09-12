@@ -2,6 +2,8 @@
 
 # Constant values
 declare -r PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
+declare -r PROJECT_BASENAME="$(basename $PROJECT_ROOT)"
+declare -r PARENT_PROJECT_DIR="$(dirname $PROJECT_ROOT)"
 declare -r DISTROS_DIR="$PROJECT_ROOT/_distros"
 declare -r BACKUP_DIR="$HOME/.dotfiles.bak"
 
@@ -22,10 +24,8 @@ declare templates=""
 
 # Private functions
 
-function __pwd() {
-    local -r dir="${PWD:${#PROJECT_ROOT}}"
-    local -r dirWithoutLeadingSlash="${dir:1}"
-    [ -n "$dirWithoutLeadingSlash" ] && echo "$dirWithoutLeadingSlash/"
+function __shorten() {
+    echo $1 | sed -e "s|$PROJECT_ROOT|$PROJECT_BASENAME|" -e "s|$HOME|~|"
 }
 
 function __link() {
@@ -33,9 +33,9 @@ function __link() {
     if [ $dryrun = 0 ]; then
         [ ! -d "$destDir" ] && \
         mkdir -p "$destDir"
-        execute "ln -fs $1 $2" "symlink: $2 → $(__pwd)$1"
+        execute "ln -fs $1 $2" "symlink: $(__shorten $2) → $(__shorten $1)"
     else
-        printSuccess "[dryrun] symlink: $2 → $(__pwd)$1"
+        printSuccess "[dryrun] symlink: $(__shorten $2) → $(__shorten $1)"
     fi
 }
 
@@ -53,12 +53,12 @@ function __backupAndRemove() {
         cp -rfP "$file" "$destDir" && \
             printDebug "Created backup: $file" && \
             rm -rf "$file" && \
-            printDebug "Removed: $file"
-        printSuccess "backup: $file → $backupLocation"
+            printDebug "Removed: $(__shorten $file)"
+        printSuccess "backup: $(__shorten $file) → $(__shorten $backupLocation)"
     else
-        printSuccess "[dryrun] backup: $file → $backupLocation"
+        printSuccess "[dryrun] backup: $(__shorten $file) → $(__shorten $backupLocation)"
     fi
-    backups+="$backupLocation\n"
+    backups+="$(__shorten $backupLocation)\n"
 }
 
 function __resolveTemplateVariables() {
@@ -70,48 +70,50 @@ function __resolveTemplateVariables() {
 }
 
 function __setupTemplate() {
-    local -r targetFile="$HOME/$(echo "$1" | sed -e "s|\.tpl$||")"
-    local -r templateFile="$PWD/$1"
+    local -r templateFile="$1"
+    local -r targetFile="$(echo "$2" | sed -e "s|\.tpl$||")"
     if [ ! -e "$targetFile" ]; then
         # Expand variables
         if [ $dryrun = 0 ]; then
             __resolveTemplateVariables $templateFile > "$targetFile"
-            printSuccess "template: $(__pwd)${templateFile} → $targetFile"
+            printSuccess "template: $(__shorten $templateFile) → $(__shorten $targetFile)"
         else
-            printSuccess "[dryrun] template: $(__pwd)${templateFile} → $targetFile"
+            printSuccess "[dryrun] template: $(__shorten $templateFile) → $(__shorten $targetFile)"
         fi
-        templates+="$(__pwd)${templateFile} → $targetFile\n"
+        templates+="$(__shorten $templateFile) → $(__shorten $targetFile)\n"
     else
-        printInfo "Template config skipped. File already exists: $targetFile"
-        skipped+="template: $(__pwd)${templateFile}\n"
+        printInfo "Template config skipped. File already exists: $(__shorten $targetFile)"
+        skipped+="template: $(__shorten ${templateFile})\n"
     fi
 }
 
 function __setupSymlink() {
-    local -r linkFrom="$PWD/$1"
-    local -r linkTo="$HOME/$1"
+    local -r linkFrom="$1"
+    local -r linkTo="$2"
     if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
         __link $linkFrom $linkTo
     elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
-        printInfo "Symbolic link already created: $linkFrom"
+        printInfo "Symbolic link already created: $(__shorten $linkTo) → $(__shorten $linkFrom)"
     elif [ $yes != 0 ]; then
         __link $linkFrom $linkTo
     else
-        if askForConfirmation "'$linkTo' already exists, do you want to overwrite it?"; then
+        if askForConfirmation "'$(__shorten $linkTo)' already exists, do you want to overwrite it?"; then
             __backupAndRemove $linkTo
             __link $linkFrom $linkTo
         else
-            printWarn "Omitted: $linkFrom"
-            skipped+="link: $(__pwd)$linkFrom\n"
+            printWarn "Omitted: $(__shorten $linkFrom)"
+            skipped+="link: $(__shorten $linkFrom)\n"
         fi
     fi
 }
 
 function __setupFile() {
     local -r file="$1"
+    local -r sourceFile="$PWD/$1"
+    local -r targetFile="$HOME/$1"
     [[ "$file" == *.tpl ]] && \
-        __setupTemplate "$file" || \
-        __setupSymlink "$file"
+        __setupTemplate "$sourceFile" "$targetFile" || \
+        __setupSymlink "$sourceFile" "$targetFile"
 }
 
 function __distroName() {
