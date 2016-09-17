@@ -1,8 +1,7 @@
 #!/bin/bash
 
 function sayhello() {
-    last $USER | grep "$(date +"%a %b %_d")" | grep -v ":0 \+:0" | grep -qv "$(tty | sed "s:/dev/::").* still logged in"
-    if [ $? -ne 0 ] && [ -x "$(command -v dailyepigram)" ]; then
+    if $(command -v dailyepigram >/dev/null); then
         echo "$COLOR_BLUE_BOLD"
         dailyepigram
         echo "$COLOR_GREEN_BOLD"
@@ -10,5 +9,17 @@ function sayhello() {
         echo "User: $USER@${HOSTNAME:-$HOST}"
         echo "Time: `date`"
         echo "$COLOR_RESET"
+    fi
+}
+
+function dailyhello() {
+    local -r datefile="$BASH_TMP_DIR/sayhello"
+    local -r today=$(date +"%Y%m%d")
+    local lastdate=0;
+    [ -s "$datefile" ] && lastdate=`cat $datefile`
+
+    if [ "$today" -gt "$lastdate" ]; then
+        echo "$today" > "$datefile"
+        sayhello
     fi
 }

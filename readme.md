@@ -2,7 +2,7 @@
 
 My [dotfiles](https://dotfiles.github.io/).
 
-**Warning:** These dotfiles were tested on [Ubuntu](http://www.ubuntu.com/).
+**Warning:** dotfiles tested on [Ubuntu](http://www.ubuntu.com/).
 
 ## Installation
 
@@ -21,14 +21,15 @@ For more options please see:
 ./install.sh -h
 ```
 
-## Local configuration files
+## Details
 
-All bash configuration files like `.bash_exports`, `.bash_prompt`, `.bash_aliases`, `.bash_functions`
-can have their local equivalents with suffix `_local`.
+- [bash](./bash/readme.md)
+- [zsh](./zsh/readme.md)
+- [tmux](./tmux/readme.md)
+- [git](./git/readme.md)
+- [vim](./vim/readme.md)
 
-For example in order to add you custom alias just create file `~/.bash_aliases_local` and define your alias.
-
-## Acknowledgements
+## Credits
 
 Inspiration and code was taken from many sources, including:
 

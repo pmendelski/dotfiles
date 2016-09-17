@@ -111,6 +111,7 @@ function __setupFile() {
     local -r file="$1"
     local -r sourceFile="$PWD/$1"
     local -r targetFile="$HOME/$1"
+    [ "$(basename $file)" == "readme.md" ] && return
     [[ "$file" == *.tpl ]] && \
         __setupTemplate "$sourceFile" "$targetFile" || \
         __setupSymlink "$sourceFile" "$targetFile"

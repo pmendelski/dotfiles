@@ -14,4 +14,4 @@ autoload -U promptinit && promptinit
 prompt -l | tail -1 | tr ' ' '\n' | grep -q custom \
     && prompt custom
 
-sayhello
+dailyhello

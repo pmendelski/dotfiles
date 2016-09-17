@@ -24,7 +24,7 @@ function init_bash() {
     # bash_plugins=(jvm mvn-color !less)
     # ... or load them all
     source "$HOME/.bash/index.sh"
-    sayhello
+    dailyhello
 }
 
 # Sometimes 'chsh -s $(whish zsh)' is not an option

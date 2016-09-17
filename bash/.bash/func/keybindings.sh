@@ -1,7 +1,7 @@
 #!/bin/bash
 # Changes Ubuntu keybindings that clash with IntelliJ Idea (and probably other Jetbrain products).
 
-_KEYBINDINGS=(
+_INTELLIJ_KEYBINDINGS=(
     # Settings dialog
     "org.gnome.desktop.wm.keybindings.toggle-shaded <Alt><Super>s"
     # Navigation
@@ -17,9 +17,9 @@ _KEYBINDINGS=(
     "org.gnome.settings-daemon.plugins.media-keys.screensaver <Control><Super>l"
 )
 
-keybindings() {
+intellij-keybindings() {
     local binding schema key value
-    for binding in "${_KEYBINDINGS[@]}" ; do
+    for binding in "${_INTELLIJ_KEYBINDINGS[@]}" ; do
         schema=${binding% *}
         key=${schema##*.}
         schema=${binding%.*}
@@ -36,9 +36,9 @@ keybindings() {
     done
 }
 
-keybindings-reset() {
+intellij-keybindings-reset() {
     local binding schema key value prevalue
-    for binding in "${_KEYBINDINGS[@]}" ; do
+    for binding in "${_INTELLIJ_KEYBINDINGS[@]}" ; do
         schema=${binding% *}
         key=${schema##*.}
         schema=${binding%.*}

@@ -44,5 +44,7 @@ bind-key T swap-window -t 1
 bind k confirm kill-window
 bind K confirm kill-server
 
-# Automatically copy to system clipboard
+# More like vim
+setw -g mode-keys vi
+bind -t vi-copy v begin-selection
 bind -t vi-copy y copy-pipe "xclip -sel clip -i"
