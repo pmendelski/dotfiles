@@ -29,8 +29,8 @@
 
 " }}}
 
-runtime bundle/pathogen/autoload/pathogen.vim
-execute pathogen#infect()
+runtime bundles/pathogen/autoload/pathogen.vim
+execute pathogen#infect('bundles/{}')
 
 " Colors {{{
 set t_Co=256            " terminal compatybility

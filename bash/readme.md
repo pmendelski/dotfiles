@@ -1,20 +1,6 @@
-# Dotfiles / BASH
-
-## Bash startup files [loading order](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/)
-
-### Login Shell Startup Files:
-
-1. `/etc/profile`
-2. `~/.bash_profile` OR `~/.bash_login` OR `~/.profile` (~/.bash_profile sources ~/.bashrc)
-3. `~/.bash_logout`
-
-### Non-Login Shell Startup Files:
-
-1. `/etc/bash.bashrc`
-2. `~/.bashrc`
+# [dotfiles](../) - bash
 
 ## Structure
-
 ```
 bash
 ├── .bash
@@ -38,6 +24,21 @@ bash
 ```
 
 All files and directories in `bash` folder are symlinked to `$HOME` (except readme related files).
+
+## Bash startup files [loading order](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/)
+
+Login Shell Startup Files:
+```
+1. /etc/profile
+2. ~/.bash_profile or ~/.bash_login or ~/.profile`
+3. ~/.bash_logout
+```
+
+Non-Login Shell Startup Files:
+```
+1. /etc/bash.bashrc
+2. ~/.bashrc`
+```
 
 ## Local configuration files
 

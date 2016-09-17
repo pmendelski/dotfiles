@@ -20,11 +20,11 @@
 	path = .zsh/bundles/autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
 [submodule "tmux-plugin-manager"]
-	path = .tmux/plugins/tpm
+	path = .tmux/bundles/tpm
 	url = git@github.com:tmux-plugins/tpm.git
 [submodule "tmux-continuum"]
-	path = .tmux/plugins/tmux-continuum
+	path = .tmux/bundles/tmux-continuum
 	url = git@github.com:tmux-plugins/tmux-continuum.git
 [submodule "tmux-resurrect"]
-	path = .tmux/plugins/tmux-resurrect
+	path = .tmux/bundles/tmux-resurrect
 	url = git@github.com:tmux-plugins/tmux-resurrect.git

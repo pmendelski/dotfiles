@@ -35,7 +35,7 @@ function __loadZsh() {
     __loadZshFiles "$DIR/func"
     __loadZshFiles "$DIR/plugins"
     source "$DIR/prompts/basic.zsh"
-    source "$DIR/bundles/load.zsh"
+    source "$DIR/bundles/install.zsh"
 }
 
 __loadZsh

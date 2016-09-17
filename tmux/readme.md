@@ -1,4 +1,4 @@
-# Dotfiles / TMUX
+# [dotfiles](../) - tmux
 
 TMUX basics:
 
@@ -21,47 +21,47 @@ TMUX basics:
 
 | Keybinding    | Action |
 |---------------|--------
-| `'P K`       | **kill** session |
-| `'P $`       | **rename** session |
-| `'P s`       | **list** sessions |
+| `C-a K`       | **kill** session |
+| `C-a $`       | **rename** session |
+| `C-a s`       | **list** sessions |
 
 ## Windows
 
 | Keybinding    | Action |
 |---------------|--------|
-| `'P c`       | **create** new window |
-| `'P k`       | **kill** window |
-| `'P ,`       | **rename** window |
-| `'P T`       | **move** window to first the top |
-| `'P w`       | **list** windows |
-| `'P <num>`   | **go to <num>** window |
-| `'P l`       | **go to last** active window |
-| `'P n`       | **go to next** window |
-| `'P p`       | **go to previous** window |
+| `C-a c`       | **create** new window |
+| `C-a k`       | **kill** window |
+| `C-a ,`       | **rename** window |
+| `C-a T`       | **move** window to first the top |
+| `C-a w`       | **list** windows |
+| `C-a <num>`   | **go to <num>** window |
+| `C-a l`       | **go to last** active window |
+| `C-a n`       | **go to next** window |
+| `C-a p`       | **go to previous** window |
 
 ## Panes
 
 | Keybinding    | Action |
 |---------------|--------|
-| `'P |`       | **split** vertically |
-| `'P -`       | **split** horizontally |
+| `C-a |`       | **split** vertically |
+| `C-a -`       | **split** horizontally |
 | `C-d`         | **kill** pane |
 | `A-<Arrow>`   | **change** pane |
-| `'P z`       | **maximize/minimize** pane in same window |
-| `'P !`       | **move to a separate window** |
-| `'P A-<Arrow>` | **resize** current pane |
-| `'P C-o`     | **cycle** location of panes |
-| `'P C-{`     | **swap with previous** |
-| `'P C-}`     | **swap with next** |
+| `C-a z`       | **maximize/minimize** pane in same window |
+| `C-a !`       | **move to a separate window** |
+| `C-a A-<Arrow>` | **resize** current pane |
+| `C-a C-o`     | **cycle** location of panes |
+| `C-a C-{`     | **swap with previous** |
+| `C-a C-}`     | **swap with next** |
 
 ## Misc
 
 | Keybinding    | Action |
 |---------------|--------
-| `'P t`       | **big clock** |
-| `'P ?`       | **show keybindings** |
-| `'P y`       | **sync all panes** |
-| `'P :`       | **prompt** |
+| `C-a t`       | **big clock** |
+| `C-a ?`       | **show keybindings** |
+| `C-a y`       | **sync all panes** |
+| `C-a :`       | **prompt** |
 
 
 ## Copy mode
@@ -88,12 +88,6 @@ Copy and paste using [vi bindings](https://awhan.wordpress.com/2010/06/20/copy-p
 2. `v` start visual selection (like in vim), move to selection
 3. `y` copy selection to tmux buffer or to system clipboard
 4. `C-S-v` paste last buffer or `C-a =` to select specific buffer
-
-| Keybinding    | Action |
-|---------------|--------
-| `C-a [`       | **copy mode start** |
-| `C-a ]`       | **copy  mode exit** |
-| `C-a =`       | **select buffer** to paste |
 
 # Credits
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/

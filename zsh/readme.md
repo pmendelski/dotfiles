@@ -1,28 +1,30 @@
-# Dotfiles / ZSH
+# [dotfiles](../) - zsh
 
 Zsh configuration extends [bash configuration](../bash/readme.md).
 
 ## ZSH startup files [loading order](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/)
 
-### Login Shell Startup Files:
+Login Shell Startup Files:
+```
+1. /etc/zshenv
+2. ~/.zshenv
+3. /etc/zprofile
+4. ~/.zprofile
+5. /etc/zshrc
+6. ~/.zshrc
+7. /etc/zlogin
+8. ~/.zlogin
+9. ~/.zlogout
+10. /etc/zlogout
+```
 
-1. `/etc/zshenv`
-2. `~/.zshenv`
-3. `/etc/zprofile`
-4. `~/.zprofile`
-5. `/etc/zshrc`
-6. `~/.zshrc`
-7. `/etc/zlogin`
-8. `~/.zlogin`
-9. `~/.zlogout`
-10. `/etc/zlogout`
-
-### Non-Login Shell Startup Files:
-
-1. `/etc/zshenv`
-2. `~/.zshenv`
-3. `/etc/zshrc`
-4. `~/.zshrc`
+Non-Login Shell Startup Files:
+```
+/etc/zshenv
+~/.zshenv
+/etc/zshrc
+~/.zshrc
+```
 
 ## Structure
 

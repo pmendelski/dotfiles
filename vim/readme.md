@@ -1,1 +1,1 @@
-# Dotfiles / VIM
+# [dotfiles](../) - vim

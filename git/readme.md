@@ -1,1 +1,1 @@
-# Dotfiles / GIT
+# [dotfiles](../) - git

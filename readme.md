@@ -23,11 +23,11 @@ For more options please see:
 
 ## Details
 
-- [bash](./bash/readme.md)
-- [zsh](./zsh/readme.md)
-- [tmux](./tmux/readme.md)
-- [git](./git/readme.md)
-- [vim](./vim/readme.md)
+- [bash](./bash)
+- [zsh](./zsh)
+- [tmux](./tmux)
+- [git](./git)
+- [vim](./vim)
 
 ## Credits
 
