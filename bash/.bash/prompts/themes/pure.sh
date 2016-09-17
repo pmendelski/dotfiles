@@ -20,11 +20,11 @@ __PROMPT_GIT_AFTER="$(__promptUnprintable $COLOR_RESET)"
 
 # Timer
 __PROMPT_TIMER_BEFORE=" $(__promptUnprintable $COLOR_GRAY_INT)"
-__PROMPT_TIMER_AFTER="$(__promptUnprintable $COLOR_RESET)"
+__PROMPT_TIMER_AFTER="$(__promptUnprintable $COLOR_RESET) "
 
 # Timestamp
-__PROMPT_TIMESTAMP_BEFORE=" $(__promptUnprintable $COLOR_GRAY_INT)["
-__PROMPT_TIMESTAMP_AFTER="]$(__promptUnprintable $COLOR_RESET)"
+__PROMPT_TIMESTAMP_BEFORE="$(__promptUnprintable $COLOR_GRAY_INT)["
+__PROMPT_TIMESTAMP_AFTER="]$(__promptUnprintable $COLOR_RESET) "
 
 # CMD sign
 __PROMPT_CMD_ERROR="$(__promptUnprintable $COLOR_RED)\$$(__promptUnprintable $COLOR_RESET) "
