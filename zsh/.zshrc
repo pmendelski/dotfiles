@@ -10,8 +10,9 @@ zsh_plugins=(!nvmrc) # Skip nvmrc. It's too slow
 source ~/.zsh/index.zsh
 
 # Load prompt
+: ${ZSH_PROMPT:=flexi}
 autoload -U promptinit && promptinit
-prompt -l | tail -1 | tr ' ' '\n' | grep -q custom \
-    && prompt custom
+prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
+    && prompt $ZSH_PROMPT
 
 dailyhello

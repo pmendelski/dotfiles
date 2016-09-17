@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Directories
-BASH_DIR="$HOME/.bash"
-BASH_TMP_DIR="$BASH_DIR/tmp"
+export BASH_DIR="$HOME/.bash"
+export BASH_TMP_DIR="$BASH_DIR/tmp"
+export FLEXI_PROMPT_DIR="$BASH_DIR/prompts/flexi"
 
 # Internationalization
 export LANG="en_US.UTF-8";                  # Prefer US English and use UTF-8.

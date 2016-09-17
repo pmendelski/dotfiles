@@ -1,23 +1,23 @@
 [submodule "vim-pathogen"]
-	path = .vim/bundle/pathogen
+	path = .vim/bundles/pathogen
 	url = git@github.com:tpope/vim-pathogen.git
 [submodule "vim-ctrlp"]
-	path = .vim/bundle/ctrlp
+	path = .vim/bundles/ctrlp
 	url = git@github.com:kien/ctrlp.vim.git
 [submodule "vim-indentline"]
-	path = .vim/bundle/indentline
+	path = .vim/bundles/indentline
 	url = git@github.com:Yggdroot/indentLine.git
 [submodule "vim-syntastic"]
-	path = .vim/bundle/syntastic
+	path = .vim/bundles/syntastic
 	url = git@github.com:scrooloose/syntastic.git
 [submodule "zsh-completions"]
-	path = .zsh/bundle/completions
+	path = .zsh/bundles/completions
 	url = git@github.com:zsh-users/zsh-completions.git
 [submodule "zsh-syntax-highlighting"]
-	path = .zsh/bundle/syntax-highlighting
+	path = .zsh/bundles/syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
 [submodule "zsh-autosuggestions"]
-	path = .zsh/bundle/autosuggestions
+	path = .zsh/bundles/autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
 [submodule "tmux-plugin-manager"]
 	path = .tmux/plugins/tpm

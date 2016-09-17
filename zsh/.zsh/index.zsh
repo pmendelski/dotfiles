@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-function loadZshFiles() {
+function __loadZshFiles() {
     local -r DIR="$1"
     local -r NAMES=$2
     [ ! -d "$DIR" ] && return;
@@ -18,24 +18,24 @@ function loadZshFiles() {
     fi
 }
 
-function loadLocalZshDotFiles() {
+function __loadLocalZshDotFiles() {
     for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
         [ -r "$file" ] && source "$file"
     done
     unset file
 }
 
-function loadZsh() {
+function __loadZsh() {
     source "$HOME/.bash/index.sh"
     local -r DIR="$HOME/.zsh"
     source "$DIR/exports.zsh"
     source "$DIR/aliases.zsh"
-    loadLocalZshDotFiles
-    loadZshFiles "$DIR/config"
-    loadZshFiles "$DIR/func"
-    loadZshFiles "$DIR/plugins"
+    __loadLocalZshDotFiles
+    __loadZshFiles "$DIR/config"
+    __loadZshFiles "$DIR/func"
+    __loadZshFiles "$DIR/plugins"
     source "$DIR/prompts/basic.zsh"
-    source "$DIR/bundles.zsh"
+    source "$DIR/bundles/load.zsh"
 }
 
-loadZsh
+__loadZsh

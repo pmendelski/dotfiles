@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function loadBashFiles() {
+function __loadBashFiles() {
     local -r DIR="$1"
     local -r NAMES=$2
     [ ! -d "$DIR" ] && return;
@@ -15,25 +15,50 @@ function loadBashFiles() {
                 && [ -r "$DIR/$plugin.sh" ] \
                 && source $DIR/$plugin.sh
         done
+        unset plugin
     fi
+    unset file
 }
 
-function loadLocalBashDotFiles() {
+function __loadLocalBashDotFiles() {
     for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
         [ -r "$file" ] && source "$file"
     done
     unset file
 }
 
-function loadBash() {
+function bashChangePrompt() {
+    local -r defaultPrompt="${BASH_PROMPT:-flexi}"
+    local -r promptName="${1:-defaultPrompt}"
+    local promptFile="$theme"
+    [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName.sh"
+    [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName/prompt.sh"
+    if [ -f "$promptFile" ]; then
+        source "$promptFile"
+        if [ -z "$__LOAD_BASH_PROMPT_NEXT_CHANGE" ]; then
+            __LOAD_BASH_PROMPT_NEXT_CHANGE="1"
+        else
+            echo "Switched to prompt: $promptFile"
+            echo "To save prompt set: \$BASH_PROMPT=\"$promptName\""
+        fi
+    else
+        echo "Could not locate prompt: $promptName"
+        echo "Checked locations:"
+        echo "  $promptName"
+        echo "  $BASH_DIR/prompts/$promptName.sh"
+        echo "  $BASH_DIR/prompts/$promptName/prompts.sh"
+    fi
+}
+
+function __loadBash() {
     local -r DIR="$HOME/.bash"
     source "$DIR/exports.sh"
     source "$DIR/aliases.sh"
-    loadLocalBashDotFiles
-    [ -n "$BASH_VERSION" ] && loadBashFiles "$DIR/config"
-    loadBashFiles "$DIR/func"
-    loadBashFiles "$DIR/plugins" $bash_plugins
-    [ -n "$BASH_VERSION" ] && source "$DIR/prompts/custom.sh" "pure"
+    __loadLocalBashDotFiles
+    [ -n "$BASH_VERSION" ] && __loadBashFiles "$DIR/config"
+    __loadBashFiles "$DIR/func"
+    __loadBashFiles "$DIR/plugins" $bash_plugins
+    [ -n "$BASH_VERSION" ] && bashChangePrompt
 }
 
-loadBash
+__loadBash

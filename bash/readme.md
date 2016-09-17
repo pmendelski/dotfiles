@@ -1,6 +1,6 @@
 # Dotfiles / BASH
 
-## Bash startup files loading order
+## Bash startup files [loading order](https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/)
 
 ### Login Shell Startup Files:
 
@@ -16,7 +16,7 @@
 ## Structure
 
 ```
-.dotfiles
+bash
 ├── .bash
 │   ├── config      # Basic bash configuration
 │   ├── func        # Sourced functions
@@ -37,6 +37,8 @@
 └── .wgetrc         # Config for `wget` command
 ```
 
+All files and directories in `bash` folder are symlinked to `$HOME` (except readme related files).
+
 ## Local configuration files
 
 All bash configuration files like `.bash_exports`, `.bash_prompt`, `.bash_aliases`, `.bash_functions`
@@ -54,10 +56,24 @@ Example:
 - `bash_plugins=(!less)` - loads all plugins except less
 - `bash_plugins=(jvm mvn-color)` - enables jvm, mvn-color
 
-# Prompt
+## Prompt
 
-By default the **usd prompt** is being used. It's a simplified version of the [pure prompt](https://github.com/sindresorhus/pure) made for bash shell.
 
-**Usd Prompt**
+### Prompt setup
 
-If you want to change the prompt just change the variable `BASH_PROMPT` to different one.
+If you want to change the prompt just change the variable `BASH_PROMPT` to different one
+or use command `bashChangePrompt "promptName"`. Executing the command will apply changes immediately.
+
+Prompts:
+- `flexi` - It's the default prompt ([details](#flexi-prompt)).
+- `basic` - Typical ubuntu prompt.
+
+### Flexi Prompt
+
+**Flexi prompt** is used by default. It's a flexible prompt setup that can be easily extend using themes.
+
+Themes can be changed using variable `FLEXI_PROMPT_THEME` or using command `flexiPromptTheme <themeName>`. Executing the command will apply changes immediately.
+
+Themes:
+- `pure` - It's the default theme. It's the default theme. Similar to [pure prompt](https://github.com/sindresorhus/pure).
+- `basic` - less controversial theme.
