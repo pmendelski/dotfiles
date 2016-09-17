@@ -12,6 +12,7 @@ source "commons.sh"
 function update() {
     local banchName="$(git rev-parse --abbrev-ref HEAD)"
     git pull --rebase origin $banchName
+    git submodule update ---init
 }
 
 function printHelp() {
@@ -56,14 +57,7 @@ while (("$#")); do
             ;;
         --update|-u)
             update
-            ;;
-        --update-master)
-            git checkout personal && \
-                git pull --rebase origin personal && \
-                git checkout master && \
-                git merge personal -m "Udating master from personal" && \
-                git push origin master
-            exit
+            exit 0;
             ;;
         --) # End of all options.
             shift
