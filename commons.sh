@@ -141,6 +141,11 @@ function setupBasic() {
     done
 }
 
+function setupSubmodules() {
+    printInfo "Installling submodules"
+    git submodule update --init
+}
+
 function setupDistroCommon() {
     printInfo "Installling distro common configuration files"
     cd "$DISTROS_DIR/common"
@@ -162,6 +167,7 @@ function setupDistro() {
 }
 
 function install() {
+    setupSubmodules
     setupBasic
     setupDistro
     [ -n "$templates" ] && \
