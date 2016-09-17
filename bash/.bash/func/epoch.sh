@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# epoch - Epoch in milliseconds
+#
+# Usage:
+#
+#   epoch - prints milliseconds since 1970-01-01 00:00:00 UTC
+#
 epoch() {
     date +%s%3N
 }

@@ -1,4 +1,4 @@
-# bash
+# Bash
 
 ## Structure
 ```
