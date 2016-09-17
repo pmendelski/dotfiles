@@ -1,4 +1,4 @@
-# [dotfiles](../) - bash
+# bash
 
 ## Structure
 ```
@@ -8,9 +8,9 @@ bash
 │   ├── func        # Sourced functions
 │   ├── plugins     # Pluggable bash extensions
 │   ├── prompts     # Prompts configuration
-│   ├── scripts     # Custom scipts addded to path
+│   ├── scripts     # Custom scripts added to path
 │   ├── tmp         # All bash temporary files
-│   ├── util        # Some utils to be sourced by other scripts
+│   ├── util        # Some utilities to be sourced by other scripts
 │   ├── aliases.sh  # Bash aliases
 │   ├── exports.sh  # Bash exports
 │   └── index.sh    # Entry point for advanced bash config

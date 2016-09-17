@@ -1,15 +1,15 @@
-# [dotfiles](../) - tmux
+# tmux
 
-TMUX basics:
+## TMUX basics:
 
 - Every tmux process is called a session.
 - Session have multiple windows.
 - Windows have multiple panes.
 - Every pane is like a separate terminal.
 
-# Keybindings
+## Keybindings
 
-## Base bindings
+### Base keybindings
 
 | Keybinding    | Action |
 |---------------|--------
@@ -17,7 +17,7 @@ TMUX basics:
 | `C-[`         | **Copy Mode** enters so called copy mode |
 | `:`           | **Command mode** |
 
-## Sessions
+### Sessions
 
 | Keybinding    | Action |
 |---------------|--------
@@ -25,7 +25,7 @@ TMUX basics:
 | `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
 
-## Windows
+### Windows
 
 | Keybinding    | Action |
 |---------------|--------|
@@ -39,7 +39,7 @@ TMUX basics:
 | `C-a n`       | **go to next** window |
 | `C-a p`       | **go to previous** window |
 
-## Panes
+### Panes
 
 | Keybinding    | Action |
 |---------------|--------|
@@ -54,7 +54,7 @@ TMUX basics:
 | `C-a C-{`     | **swap with previous** |
 | `C-a C-}`     | **swap with next** |
 
-## Misc
+### Misc
 
 | Keybinding    | Action |
 |---------------|--------

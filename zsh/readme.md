@@ -1,4 +1,4 @@
-# [dotfiles](../) - zsh
+# zsh
 
 Zsh configuration extends [bash configuration](../bash/readme.md).
 
