@@ -148,16 +148,14 @@
 	# Alases for `git status`
 	####################################
 	# Shorter version
-	st = status
-	# Status with short format
 	statusshort = status -s
-	sts = status -s
+	st = status -s
 
 	####################################
 	# Alases for `git commit`
 	####################################
 	# Shorter version
-	cm = commit
+	cm = commit -av
 	cp = cherry-pick
 	# Commit all changes
 	commitall = !git add -A && git commit -av
@@ -169,7 +167,8 @@
 	amendall = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	ana = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	# Change author of the last commit
-	changeauthor = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
+	amendauthor = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
+	anu = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
 
 	####################################
 	# Alases for `git add`
@@ -235,19 +234,19 @@
 	####################################
 	# Customized alias for grep
 	findfile = grep -Iin
-	ff = grep -Iin
+	fnf = grep -Iin
 	# Find branches containing commit
 	findbranch = "!f() { git branch -a --contains $1; }; f"
-	fb = "!f() { git branch -a --contains $1; }; f"
+	fnb = "!f() { git branch -a --contains $1; }; f"
 	# Find tags containing commit
 	findtags = "!f() { git describe --always --contains $1; }; f"
-	ft = "!f() { git describe --always --contains $1; }; f"
+	fnt = "!f() { git describe --always --contains $1; }; f"
 	# Find commits by content
 	findcommit = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	fnc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 	# Find commits by commit message
 	findcommitbymsg = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-	fcm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+	fncm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
 	####################################
 	# Alases for listings

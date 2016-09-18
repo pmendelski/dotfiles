@@ -11,21 +11,40 @@ logfiles            => log --pretty=custom --numstat --decorate --name-status
 logdiff             => log --pretty=custom  --numstat
 ```
 
-## Shorter versions of common commands
+## Alias prefixes
+
+- `log` (`lg`) - [Log aliases](#log-aliases)
+- `status` (`st`) - [Log aliases](#status-aliases)
+- `commit` (`cm`) - [Log aliases](#commit-aliases)
+- `add` (`ad`) - [Add aliases](#add-aliases)
+- `fetch` (`fe`) - [Fetch aliases](#tetch-aliases)
+- `checkout` (`co`) - [Checkout aliases](#checkout-aliases)
+- `diff` (`df`) - [Diff aliases](#diff-aliases)
+- `undo` (`un`) - [Undo aliases](#undo-aliases)
+- `rebase` (`rb`) - [Rebase aliases](#rebase-aliases)
+- `squash` (`sq`) - [Squash aliases](#squash-aliases)
+- `tag` (`tg`) - [Tag aliases](#tag-aliases)
+- `find` (`fn`) - [Find aliases](#find-aliases)
+
+## Aliases
+
+### Shorter versions of common commands
 
 ```
-git lg = git log --pretty
-git st = git status -s
-git cl = git clone
-git co = git checkout
-git cm = git commit
-git cp = git cherry-pick
-git fe = git fetch
-git df = git diff
-git rb = git rebase
+lg = log --pretty
+st = status -s
+cl = clone
+co = checkout
+cm = commit -av
+cp = cherry-pick
+fe = fetch
+df = diff
+rb = rebase
 ```
 
-## Alases for `git log`
+### Log aliases
+
+Prefix: `log` (`lg`)
 
 - **`git logpretty`** (`lg`) - Pretty log
 - **`git loggraph`** (`lgg`) - Pretty log + graph
@@ -33,39 +52,51 @@ git rb = git rebase
 - **`git logdiff`** (`lgd`) - Pretty log + diff
 
 
-## Alases for `git status`
+### Status aliases
+
+Prefix: `status` (`st`)
 
 - **`git st`** (`st`) - Shorter version of `git status`
 - **`git statusshort`** (`sts`) - Shorter version of `git status -s`
 
 
-## Alases for `git commit`
+### Commit aliases
 
-- **`git cm`** - Shorter version `git commit`
+Prefix: `commit` (`cm`), `amend` (`an`)
+
+- **`git cm`** - Shorter version `git commit -av`
 - **`git commitall`** (`cma`) - Stage all and commit all
 - **`git amend [$MSG]`** (`an`) - Amend changes. If no message is specified message from last commit is used.
 - **`git amendall [$MSG]`** (`ana`) - Stage all and amend changes. If no message is specified message from last commit is used.
-- **`git changeauthor [$NAME $EMAIL]`** - Change last commit author (if not specified name and email is taken from git config)
+- **`git amendauthor [$NAME $EMAIL]`** (`anu`) - Change last commit author (if not specified name and email is taken from git config)
 
 
-## Alases for `git add`
+### Add aliases
+
+Prefix: `add` (`ad`)
 
 - **`git addall`** (`ada`) - Add all
 
 
-## Alases for `git fetch`
+### Fetch aliases
+
+Prefix: `fetch` (`fe`)
 
 - **`git fe`** - Shorter version of `git fetch`
 - **`git fetchmaster`** (`fem`) - Fetch remote master
 - **`git fetchbranch [$BRANCH]`** (`feb`) - Fetch remote branch. If no $BRANCH is specified the current branch will be fetched.
 
 
-## Alases for `git checkout`
+### Checkout aliases
+
+Prefix: `checkout` (`co`)
 
 - **`git co`** - Shorter version of `git checkout`
 - **`git checkoutmaster`** (`com`) - Checkout master
 
-## Alases for `git diff`
+### Diff aliases
+
+Prefix: `diff` (`df`)
 
 - **`git diffwords`** (`df`) - Diff words only. No pluses and minuses. Easier to read.
 - **`git diffall`** (`dfa`) - Diff all with head
@@ -73,38 +104,52 @@ git rb = git rebase
 - **`git diffpatch`** (`dfp`) - Diff all including binaries. Could be used as patch file and applied with `git apply <filename>`
 
 
-## Alases for [undoing changes](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean)
+### [undo](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean) aliases
+
+Prefix: `undo` (`un`)
 
 - **`git undo`** (`un`) - Undo all
 - **`git undotracked`** (`unt`) - Undo tracked changes
 - **`git undountracked`** (`unu`) - Undo untracked changes
 
 
-## Alases for `git rebase`
+### Rebase aliases
+
+Prefix: `rebase` (`rb`)
 
 - **`git rb`** - Shorter version for `git rebase`
 - **`git rebaseremote [$BRANCH]`** (`rbr`) - Rebase remote $BRANCH
 - **`git rebaseremotemaster`** (`rbrm`) - Rebase remote master
+
+
+### Squash aliases
+
+Prefix: `squash` (`sq`)
+
 - **`git squash [$COMMITS] [$MSG]`** (`sq`) - Squash last $COMMITS commits with $MSG. Defaults: COMMITS=1, MSG=last commit msg.
 - **`git squashi [$COMMITS]`** (`sqi`) - Interactively squash last $COMMITS commits. Defaults: COMMITS=1.
 
 
-## Alases for `git tag`
+### Tag aliases
 
-- **`git taglast`** - Show last tag
-- **`git tagretag`** - Drop last tag and retag latest commit
+Prefix: `tag` (`tg`)
 
-
-## Alases for finding things
-
-- **`git findfile $PHRASE`** (`ff`) - Find files by content
-- **`git findbranch $COMMIT`** (`fb`) - Find branches by commit
-- **`git findtags $COMMIT`** (`ft`) - Find tags by commit
-- **`git findcommit $PHRASE`** (`fc`) - Find commits by phrase
-- **`git findcommitbymsg $MSG`** (`fcm`) - Find commits by message
+- **`git taglast`** (`tgl`) - Show last tag
+- **`git tagretag`** (`tgr`) - Drop last tag and retag latest commit
 
 
-## Alases for listings
+### Find aliases
+
+Prefix: `find` (`fn`)
+
+- **`git findfile $PHRASE`** (`fnf`) - Find files by content
+- **`git findbranch $COMMIT`** (`fnb`) - Find branches by commit
+- **`git findtags $COMMIT`** (`fnt`) - Find tags by commit
+- **`git findcommit $PHRASE`** (`fnc`) - Find commits by phrase
+- **`git findcommitbymsg $MSG`** (`fncm`) - Find commits by message
+
+
+### Listing aliases
 
 - **`git tags`** - List tags
 - **`git branches`** - List branches
