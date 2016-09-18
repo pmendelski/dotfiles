@@ -2,7 +2,7 @@
 
 ## Alases for `git log`
 
-- `git logpretty` (`lg`) - Pretty log
+- **`git logpretty`** (`lg`) - Pretty log
 - `git loggraph` (`lgg`) - Pretty log + graph
 - `git logfiles` (`lgf`) - Pretty log + files
 - `git logdiff` (`lgd`) - Pretty log + diff
