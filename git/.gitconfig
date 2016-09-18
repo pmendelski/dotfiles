@@ -124,6 +124,11 @@
 
 [alias]
 	####################################
+	# Unmatched shorter versions
+	####################################
+	cl = clone
+
+	####################################
 	# Alases for `git log`
 	####################################
 	# Pretty printed log
@@ -153,6 +158,7 @@
 	####################################
 	# Shorter version
 	cm = commit
+	cp = cherry-pick
 	# Commit all changes
 	commitall = !git add -A && git commit -av
 	cma = !git add -A && git commit -av

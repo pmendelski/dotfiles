@@ -13,7 +13,17 @@ logdiff             => log --pretty=custom  --numstat
 
 ## Shorter versions of common commands
 
-
+```
+git lg = git log --pretty
+git st = git status -s
+git cl = git clone
+git co = git checkout
+git cm = git commit
+git cp = git cherry-pick
+git fe = git fetch
+git df = git diff
+git rb = git rebase
+```
 
 ## Alases for `git log`
 
