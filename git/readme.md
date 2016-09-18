@@ -1,33 +1,5 @@
 # Git
 
-To find out what an alias does just execute `git aliases | grep "^<alias>"`.
-
-Example:
-```
-git aliases | grep "^log"
-logpretty           => log --pretty=custom
-loggraph            => log --graph --pretty=custom
-logfiles            => log --pretty=custom --numstat --decorate --name-status
-logdiff             => log --pretty=custom  --numstat
-```
-
-## Alias prefixes
-
-- `log` (`lg`) - [Log aliases](#log-aliases)
-- `status` (`st`) - [Log aliases](#status-aliases)
-- `commit` (`cm`) - [Log aliases](#commit-aliases)
-- `add` (`ad`) - [Add aliases](#add-aliases)
-- `fetch` (`fe`) - [Fetch aliases](#tetch-aliases)
-- `checkout` (`co`) - [Checkout aliases](#checkout-aliases)
-- `diff` (`df`) - [Diff aliases](#diff-aliases)
-- `undo` (`un`) - [Undo aliases](#undo-aliases)
-- `rebase` (`rb`) - [Rebase aliases](#rebase-aliases)
-- `squash` (`sq`) - [Squash aliases](#squash-aliases)
-- `tag` (`tg`) - [Tag aliases](#tag-aliases)
-- `find` (`fn`) - [Find aliases](#find-aliases)
-
-## Aliases
-
 ### Shorter versions of common commands
 
 ```
@@ -41,6 +13,42 @@ fe = fetch
 df = diff
 rb = rebase
 ```
+
+
+## Alias prefixes
+
+All aliases with similar functionality are prefixed for easier usage. List of alias prefixes:
+
+| Prefix    | Abbrev    | Aliases                               |
+| ---       | ---       | ---                                   |
+| `log`     | `lg`      | [Log aliases](#log-aliases)           |
+| `status`  | `st`      | [Log aliases](#status-aliases)        |
+| `commit`  | `cm`      | [Log aliases](#commit-aliases)        |
+| `add`     | `ad`      | [Add aliases](#add-aliases)           |
+| `fetch`   | `fe`      | [Fetch aliases](#tetch-aliases)       |
+| `checkout`| `co`      | [Checkout aliases](#checkout-aliases) |
+| `diff`    | `df`      | [Diff aliases](#diff-aliases)         |
+| `undo`    | `un`      | [Undo aliases](#undo-aliases)         |
+| `rebase`  | `rb`      | [Rebase aliases](#rebase-aliases)     |
+| `squash`  | `sq`      | [Squash aliases](#squash-aliases)     |
+| `tag`     | `tg`      | [Tag aliases](#tag-aliases)           |
+| `find`    | `fn`      | [Find aliases](#find-aliases)         |
+
+
+## Alias implementation
+
+To find out what an alias does just execute `git aliases | grep "^<alias>"`.
+
+Example:
+```
+git aliases | grep "^log"
+logpretty           => log --pretty=custom
+loggraph            => log --graph --pretty=custom
+logfiles            => log --pretty=custom --numstat --decorate --name-status
+logdiff             => log --pretty=custom  --numstat
+```
+
+## Aliases
 
 ### Log aliases
 
@@ -104,7 +112,7 @@ Prefix: `diff` (`df`)
 - **`git diffpatch`** (`dfp`) - Diff all including binaries. Could be used as patch file and applied with `git apply <filename>`
 
 
-### [undo](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean) aliases
+### [Undo](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean) aliases
 
 Prefix: `undo` (`un`)
 
