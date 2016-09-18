@@ -157,11 +157,11 @@
 	commitall = !git add -A && git commit -av
 	cma = !git add -A && git commit -av
 	# Amend the currently staged files to the latest commit
-	amend = !git commit --amend --no-edit
-	an = !git commit --amend --no-edit
+	amend = "!f() { git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	an = "!f() { git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	# Amend all
-	amendall = !git add -A && git commit -a --amend --no-edit
-	ana = !git add -A && git commit -a --amend --no-edit
+	amendall = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	ana = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	# Change author of the last commit
 	changeauthor = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
 
@@ -180,9 +180,9 @@
 	# Fetch master
 	fetchmaster = !git fetch $(git remote show) master
 	fem = !git fetch $(git remote show) master
-	# Fetch current branch
-	fetchcurrent = !git fetch $(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} | sed 's!/! !')
-	fec = !git fetch $(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} | sed 's!/! !')
+	# Fetch branch
+	fetchbranch = "!f() { git fetch $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	feb = "!f() { git fetch $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
 
 	####################################
 	# Alases for `git checkout`
@@ -237,8 +237,8 @@
 	findtags = "!f() { git describe --always --contains $1; }; f"
 	ft = "!f() { git describe --always --contains $1; }; f"
 	# Find commits by content
-	findcommitbycontent = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-	fct = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	findcommit = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 	# Find commits by commit message
 	findcommitbymsg = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 	fcm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
@@ -261,6 +261,14 @@
 	####################################
 	# Alases for squashing commits
 	####################################
+	# Shorter version
+	rb = rebase
+	# Rebase remote branch
+	rebaseremote = "!f() { git rebase $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	rbr = "!f() { git rebase $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	# Rebase remote master
+	rebaseremote = "!f() { git rebase $(git remote show) master; }; f"
+	rbr = "!f() { git rebase $(git remote show) master; }; f"
 	# Autmatically rebase with the given number of latest commits
 	squash = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
 	sq = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
@@ -274,7 +282,7 @@
 	# Show last tag
 	taglast = describe --tags --abbrev=0
 	# Remove the old tag with this name and tag the latest commit with it.
-	tagrename = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
+	tagretag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
 
 	####################################
 	# Alases for combo actions

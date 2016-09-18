@@ -335,6 +335,7 @@ function flexiPromptTheme() {
     local themeFile="$theme"
     [ ! -f "$themeFile" ] && themeFile="$FLEXI_PROMPT_DIR/themes/$theme.sh"
     if [ -f "$themeFile" ]; then
+        __flexiPromptSetupDefaults
         source "$themeFile"
         __flexiRebuildPrompts
         if [ -z "$__FLEXI_PROMPT_NEXT_THEME_CHANGE" ]; then
