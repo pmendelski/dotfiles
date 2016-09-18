@@ -38,13 +38,12 @@
 	autosquash = true
 
 [pull]
-	# By default pull with --rebase
+	# pull with --rebase
 	rebase = true
 
 [push]
-	# Push the current branch to its upstream branch.
+	# `git push` without remote and branch will push the current branch to its upstream branch.
 	# Refuses to push if the upstream branch's name is different from the local one.
-	# Use `git config --global push.default matching` in case of problems with older git.
 	default = simple
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
@@ -124,174 +123,193 @@
 
 [alias]
 	####################################
-	# Unmatched shorter versions
+	# Unmatched aliases
 	####################################
 	cl = clone
 
 	####################################
-	# Alases for `git log`
+	# aliases for `git log`
 	####################################
 	# Pretty printed log
 	logpretty = log --pretty=custom
-	lg = log --pretty=custom
-	# Show pretty printed log with branch graph
+	lg = !git logpretty
+	# Show pretty printed commit log with branch graph
 	loggraph = log --graph --pretty=custom
-	lgg = log --graph --pretty=custom
-	# Show pretty printed log with files
+	lgg = !git loggraph
+	# Show pretty printed commit log with files
 	logfiles = log --pretty=custom --numstat --decorate --name-status
-	lgf = log --pretty=custom --numstat --decorate --name-status
-	# Show pretty printed log with diff
-	logdiff = log --pretty=custom  --numstat
-	lgd = log --pretty=custom -u
+	lgf = !git logfiles
+	# Show pretty printed commit log with diffs.
+	# So much better than git blame.
+	# http://blog.andrewray.me/a-better-git-blame/
+	logdiff = log -M --follow --stat --pretty=custom -p --color-words
+	lgd = !git logdiff
 
 	####################################
-	# Alases for `git status`
+	# aliases for `git status`
 	####################################
 	# Shorter version
 	statusshort = status -s
-	st = status -s
+	st = !git statusshort
 
 	####################################
-	# Alases for `git commit`
+	# aliases for `git commit`
 	####################################
 	# Shorter version
 	cm = commit -av
 	cp = cherry-pick
 	# Commit all changes
 	commitall = !git add -A && git commit -av
-	cma = !git add -A && git commit -av
+	cma = !git commitall
 	# Amend the currently staged files to the latest commit
 	amend = "!f() { git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
-	an = "!f() { git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	an = !git amend
 	# Amend all
 	amendall = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
-	ana = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	ana = !git amendall
 	# Change author of the last commit
 	amendauthor = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
-	anu = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
+	anu = !git amendauthor
 
 	####################################
-	# Alases for `git add`
+	# aliases for `git add`
 	####################################
 	# Add all
 	addall = !git add -A
-	ada = !git add -A
+	ada = !git addall
 
 	####################################
-	# Alases for `git fetch`
+	# aliases for `git fetch`
 	####################################
 	# Shorter version
 	fe = fetch
 	# Fetch master
 	fetchmaster = !git fetch $(git remote show) master
-	fem = !git fetch $(git remote show) master
+	fem = !git fetchmaster
 	# Fetch branch
 	fetchbranch = "!f() { git fetch $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
-	feb = "!f() { git fetch $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	feb = !git fetchbranch
 
 	####################################
-	# Alases for `git checkout`
+	# aliases for `git checkout`
 	####################################
 	# Shorter version
 	co = checkout
 	# Checkout master
 	checkoutmaster = checkout master
-	com = checkout master
+	com = !git checkoutmaster
 
 	####################################
-	# Alases for diff
+	# aliases for diff
 	# http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged
 	####################################
 	# Diff words only - easier to see changes
 	diffwords = diff --color-words
-	df = diff --color-words
+	df = !git diffwords
 	# Diff all tracked and untracked
 	diffall = !git diff HEAD --color-words
-	dfa = !git diff HEAD --color-words
+	dfa = !git diffall
 	# Diff tracked only
 	difftracked = !git diff --cached --color-words
-	dft = !git diff --cached --color-words
+	dft = !git difftracked
 	# Create a diff with binaries. Could be used with `git apply `
 	diffpatch = !git diff HEAD --binary
-	dfp = !git diff HEAD --binary
+	dfp = !git diffpatch
 
 	####################################
-	# Alases for undoing changes
+	# aliases for undoing changes
 	# https://www.atlassian.com/git/tutorials/undoing-changes/git-clean
 	####################################
 	# Reverting all local and indexed changes
 	undo = !git reset --hard && git clean -xf
-	un = !git reset --hard && git clean -xf
+	un = !git undo
 	# Reverting all indexed changes
 	undotracked = reset --hard
-	unt = reset --hard
+	unt = !git undotracked
 	# Dropping all untracked files and directories
 	undountracked = clean -xf
-	unu = clean -xf
+	unu = !git undountracked
 
 	####################################
-	# Alases for finding things
+	# Finding aliases
 	####################################
 	# Customized alias for grep
 	findfile = grep -Iin
-	fnf = grep -Iin
+	fnf = !git findfile
 	# Find branches containing commit
 	findbranch = "!f() { git branch -a --contains $1; }; f"
-	fnb = "!f() { git branch -a --contains $1; }; f"
+	fnb = !git findbranch
 	# Find tags containing commit
 	findtags = "!f() { git describe --always --contains $1; }; f"
-	fnt = "!f() { git describe --always --contains $1; }; f"
+	fnt = !git findtags
 	# Find commits by content
-	findcommit = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-	fnc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+	findcommit = "!f() { git log --pretty=custom --decorate -S$1 -i; }; f"
+	fnc = !git findcommit
 	# Find commits by commit message
-	findcommitbymsg = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-	fncm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+	findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
+	fncm = !git findcommitbymsg
 
 	####################################
-	# Alases for listings
+	# Listings aliases
 	####################################
 	tags = tag -l
 	branches = branch -a
 	remotes = remote -v
+	contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
 	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'
 
 	####################################
-	# Alases for contribution
-	####################################
-	# List contributors with number of commits
-	contributors = shortlog --summary --numbered
-	showorigin = "!sh -c 'for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
-
-	####################################
-	# Alases for squashing commits
+	# Rebase aliases
 	####################################
 	# Shorter version
 	rb = rebase
 	# Rebase remote branch
 	rebaseremote = "!f() { git rebase $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
-	rbr = "!f() { git rebase $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	rbr = !git rebaseremote
 	# Rebase remote master
-	rebaseremote = "!f() { git rebase $(git remote show) master; }; f"
-	rbr = "!f() { git rebase $(git remote show) master; }; f"
-	# Autmatically rebase with the given number of latest commits
-	squash = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
-	sq = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
-	# Interactive rebase with the given number of latest commits
-	squashi = "!f() { git rebase -i HEAD~$1; }; f"
-	sqi = "!f() { git rebase -i HEAD~$1; }; f"
+	rebaseremotemaster = "!f() { git rebase $(git remote show) master; }; f"
+	rbrm = !git rebaseremotemaster
 
 	####################################
-	# Alases for git tag
+	# Squash aliases
+	####################################
+	# Autmatically rebase with the given number of latest commits
+	squash = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
+	sq = !git squash
+	# Interactive rebase with the given number of latest commits
+	squashi = "!f() { git rebase -i HEAD~$1; }; f"
+	sqi = !git squashi
+
+	####################################
+	# Tag aliases
 	####################################
 	# Show last tag
 	taglast = describe --tags --abbrev=0
+	tgl = !git taglast
 	# Remove the old tag with this name and tag the latest commit with it.
 	tagretag = "!f() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; f"
+	tgr = !git tagretag
 
 	####################################
-	# Alases for combo actions
+	# Combo aliases
 	####################################
+	# git switch name - git fetch remote $1 && git checkout $1 && git pull
+	# fir pushf - git push -force
+
+	####################################
+	# Other aliases
+	####################################
+	# List contributors with number of commits
+	showorigin = "!sh -c 'for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
+	# Initialize git commit
+	start = !git init && git add . && git commit -am \"Initial commit\"
+	# Fix .gitignore
+    fixgitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
+	#Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
+    issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
+	# Check if any file in repo has whitespace errors
+    # As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
+    check-whitespace = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’
 	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"

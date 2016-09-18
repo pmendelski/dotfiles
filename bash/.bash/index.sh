@@ -29,7 +29,7 @@ function __loadLocalBashDotFiles() {
 
 function bashChangePrompt() {
     local -r defaultPrompt="${BASH_PROMPT:-flexi}"
-    local -r promptName="${1:-defaultPrompt}"
+    local -r promptName="${1:-$defaultPrompt}"
     local promptFile="$theme"
     [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName.sh"
     [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName/prompt.sh"

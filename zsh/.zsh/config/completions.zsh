@@ -30,6 +30,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}   # Use LS_COLORS in autocompletion
 zstyle ':completion:*:*:*:*:*' menu select
 
+
 # Process autocompletion
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
@@ -47,3 +48,6 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
     operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
     rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
     usbmux uucp vcsa wwwrun xfs '_*'
+
+# Fix git checkout autocompletion - add local name proposition for origin/feature/sth -> feature/sth
+zstyle :completion::complete:git-checkout:argument-rest:headrefs command "git for-each-ref --format='%(refname)' refs/remotes 2>/dev/null | cut -d '/' -f4-"

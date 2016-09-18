@@ -56,7 +56,7 @@ logdiff             => log --pretty=custom  --numstat
 git logpretty   - (`lg`) Pretty log
 git loggraph    - (`lgg`) Pretty log + graph
 git logfiles    - (`lgf`) Pretty log + files
-git logdiff     - (`lgd`) Pretty log + diff
+git logdiff     - (`lgd`) Pretty log + diff. Better than `git blame`!
 ```
 
 ### Status aliases
@@ -149,8 +149,9 @@ git findcommitbymsg $MSG - (`fncm`) Find commits by message
 ### Listing aliases
 
 ```
-git tags     - List tags
-git branches - List branches
-git remotes  - List remotes
-git aliases  - List aliases
+git tags         - List tags
+git branches     - List branches
+git remotes      - List remotes
+git aliases      - List aliases
+git contributors - List contributors
 ```
