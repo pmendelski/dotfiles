@@ -52,13 +52,12 @@ logdiff             => log --pretty=custom  --numstat
 
 ### Log aliases
 
-Prefix: `log` (`lg`)
-
-- **`git logpretty`** (`lg`) - Pretty log
-- **`git loggraph`** (`lgg`) - Pretty log + graph
-- **`git logfiles`** (`lgf`) - Pretty log + files
-- **`git logdiff`** (`lgd`) - Pretty log + diff
-
+```
+git logpretty   - (`lg`) Pretty log
+git loggraph    - (`lgg`) Pretty log + graph
+git logfiles    - (`lgf`) Pretty log + files
+git logdiff     - (`lgd`) Pretty log + diff
+```
 
 ### Status aliases
 
