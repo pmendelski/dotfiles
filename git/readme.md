@@ -2,16 +2,23 @@
 
 ## Alases for `git log`
 
-- `git logpretty` (`lg`) - Pretty log            | `git log --pretty=custom` |
-- `git loggraph` (`lgg`) - Pretty log + graph    | `git log --pretty=custom --graph` |
-- `git logfiles` (`lgf`) - Pretty log + files    | `git log --pretty=custom --numstat --decorate` |
-- `git logdiff` (`lgd`) - Pretty log + diff     | `git log --pretty=custom -u` |
+- `git logpretty` (`lg`) - Pretty log
+- `git loggraph` (`lgg`) - Pretty log + graph
+- `git logfiles` (`lgf`) - Pretty log + files
+- `git logdiff` (`lgd`) - Pretty log + diff
 
 ```
 git logpretty   ==  git lg      ==  git log --pretty=custom
 git loggraph    ==  git lgg     ==  git log --pretty=custom --graph
 git logfiles    ==  git lgf     ==  git log --pretty=custom --numstat --decorate
 git logdiff     ==  git lgd     ==  git log --pretty=custom -u
+```
+
+```
+git logpretty   (lg)    Pretty log            git log --pretty=custom
+git loggraph    (lgg)   Pretty log + graph    git log --pretty=custom --graph
+git logfiles    (lgf)   Pretty log + files    git log --pretty=custom --numstat --decorate
+git logdiff     (lgd)   Pretty log + diff     git log --pretty=custom -u
 ```
 
 | Alias                 | Description           | Original |
