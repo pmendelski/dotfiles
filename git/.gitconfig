@@ -22,7 +22,7 @@
 	# Linux UI merge tool
 	tool = meld
 	# Include summaries of merged commits in newly created merge commit messages
-	log = true
+	# log = true
 
 [mergetool]
 	# No backup files (rm *.orig)
@@ -128,7 +128,7 @@
 	cl = clone
 
 	####################################
-	# aliases for `git log`
+	# Log aliases
 	####################################
 	# Pretty printed log
 	logpretty = log --pretty=custom
@@ -146,14 +146,14 @@
 	lgd = !git logdiff
 
 	####################################
-	# aliases for `git status`
+	# Status aliases
 	####################################
 	# Shorter version
 	statusshort = status -s
 	st = !git statusshort
 
 	####################################
-	# aliases for `git commit`
+	# Commit aliases
 	####################################
 	# Shorter version
 	cm = commit -av
@@ -162,24 +162,24 @@
 	commitall = !git add -A && git commit -av
 	cma = !git commitall
 	# Amend the currently staged files to the latest commit
-	amend = "!f() { git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	amend = "!f() { git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	an = !git amend
 	# Amend all
-	amendall = "!f() { git add -A && git commit -a --amend $([ -n "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	amendall = "!f() { git add -A && git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
 	ana = !git amendall
 	# Change author of the last commit
 	amendauthor = "!f() { git commit --amend --author \"${1:-$(git config --get user.name)} <${2:-$(git config --get user.email)}>\" -C HEAD; }; f"
 	anu = !git amendauthor
 
 	####################################
-	# aliases for `git add`
+	# Add aliases
 	####################################
 	# Add all
 	addall = !git add -A
 	ada = !git addall
 
 	####################################
-	# aliases for `git fetch`
+	# Fetch aliases
 	####################################
 	# Shorter version
 	fe = fetch
@@ -191,16 +191,19 @@
 	feb = !git fetchbranch
 
 	####################################
-	# aliases for `git checkout`
+	# Checkout aliases
 	####################################
 	# Shorter version
 	co = checkout
 	# Checkout master
 	checkoutmaster = checkout master
 	com = !git checkoutmaster
+	# Checkout and pull changes
+	checkoutsynced = "!f() { git checkout ${1:-master} && git pull; } f"
+	cos = !git checkoutsynced
 
 	####################################
-	# aliases for diff
+	# Diff aliases
 	# http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged
 	####################################
 	# Diff words only - easier to see changes
@@ -217,7 +220,7 @@
 	dfp = !git diffpatch
 
 	####################################
-	# aliases for undoing changes
+	# Undo aliases
 	# https://www.atlassian.com/git/tutorials/undoing-changes/git-clean
 	####################################
 	# Reverting all local and indexed changes
@@ -248,6 +251,8 @@
 	# Find commits by commit message
 	findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
 	fncm = !git findcommitbymsg
+	# Find alias implementation
+	findalias = "!f() { git aliases | GREP_COLORS=\"mt=0;36\" grep --color=always \"^\\w*$1\\w*\" | GREP_COLORS=\"mt=01;34\" grep --color=auto \"=>\"; }; f"
 
 	####################################
 	# Listings aliases
@@ -264,21 +269,26 @@
 	# Shorter version
 	rb = rebase
 	# Rebase remote branch
-	rebaseremote = "!f() { git rebase $(git remote show) ${1:-$(git symbolic-ref --short HEAD)}; }; f"
+	rebaseremote = "!f() { git rebase $(git remote show)/${1:-$(git symbolic-ref --short HEAD)}; }; f"
 	rbr = !git rebaseremote
 	# Rebase remote master
-	rebaseremotemaster = "!f() { git rebase $(git remote show) master; }; f"
+	rebaseremotemaster = "!f() { git rebase $(git remote show)/master; }; f"
 	rbrm = !git rebaseremotemaster
 
 	####################################
 	# Squash aliases
 	####################################
+	# For internal usage
+	commitsaheadofupstream = !git rev-list --count --left-right @{upstream}...HEAD | cut -f2
+	commitsonbranch = !git rev-list --count HEAD
 	# Autmatically rebase with the given number of latest commits
-	squash = "!f(){ git reset --soft HEAD~${1:-1} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1})}\"; };f"
+	squash = "!f(){ git reset --soft HEAD~${1:-$(git commitsaheadofupstream)} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1} | awk '{print (NR > 1) ? \"# \" $0 : $0 \"\\n\" }')}\"; };f"
 	sq = !git squash
+	squashall = !git squash $(git commitsonbranch)
 	# Interactive rebase with the given number of latest commits
-	squashi = "!f() { git rebase -i HEAD~$1; }; f"
+	squashi = "!f() { git rebase -i $([ ! -z "$1" ] && echo \"HEAD~$1\"); }; f"
 	sqi = !git squashi
+	squashiall = "!f() { git rebase -i --root; }; f"
 
 	####################################
 	# Tag aliases
@@ -291,45 +301,29 @@
 	tgr = !git tagretag
 
 	####################################
-	# Combo aliases
+	# Github aliases
 	####################################
-	# git switch name - git fetch remote $1 && git checkout $1 && git pull
-	# fir pushf - git push -force
+	githubfetchpr = "!sh -c 'git fetch origin pull/$0/head:pr/$0'"
+	githubpr = "!sh -c 'git fetch origin pull/$0/head:pr/$0 && git checkout pr/$0 && git pull'"
+
+
 
 	####################################
 	# Other aliases
 	####################################
-	# List contributors with number of commits
-	showorigin = "!sh -c 'for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
-	# Initialize git commit
+	# Show what is going on origin branches
+	showorigin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
+	# Initialize git repo
 	start = !git init && git add . && git commit -am \"Initial commit\"
 	# Fix .gitignore
     fixgitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
-	#Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
+	# Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
     issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
 	# Check if any file in repo has whitespace errors
     # As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
-    check-whitespace = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
+    checkwhitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
 	# Remove branches that have already been merged with master
-	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
-	# Merge GitHub pull request on top of the current branch or,
-	# if a branch name is specified, on top of the specified branch
-	mpr = "!f() { \
-		declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-		declare branch=\"${2:-$currentBranch}\"; \
-		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-			git fetch origin refs/pull/$1/head:pr/$1 && \
-			git checkout -B $branch && \
-			git rebase $branch pr/$1 && \
-			git checkout -B $branch && \
-			git merge pr/$1 && \
-			git branch -D pr/$1 && \
-			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-		fi \
-	}; f"
-
+	deletemergedbranches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 [pretty]
 	# See: https://git-scm.com/docs/git-log
 	custom = format:"%C(magenta)%h%C(red)%d %C(cyan)%cd %C(blue)[%an] %C(yellow)%ar %C(green)%s"

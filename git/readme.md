@@ -95,6 +95,7 @@ git fetchbranch [$BRANCH] - (`feb`) Fetch remote branch. If no $BRANCH is specif
 ```
 git co              - Shorter version of `git checkout`
 git checkoutmaster  - (`com`) Checkout master
+git checkoutsynced  - (`cos`) Checkout and pull changes. If no branch is specified `master` branch is used.
 ```
 
 ### Diff aliases
@@ -125,8 +126,10 @@ git rebaseremotemaster      - (`rbrm`) Rebase remote master
 ### Squash aliases
 
 ```
-git squash [$COMMITS] [$MSG] - (`sq`) Squash last $COMMITS commits with $MSG. Defaults: COMMITS=1, MSG=last commit msg.
-git squashi [$COMMITS]       - (`sqi`) Interactively squash last $COMMITS commits. Defaults: COMMITS=1.
+git squash [$COMMITS] [$MSG] - (`sq`) Squash last $COMMITS commits with $MSG. Defaults: COMMITS=all commit between branch and upstream, MSG=last commit msg.
+git squashi [$COMMITS]       - (`sqi`) Interactively squash last $COMMITS commits. Defaults: COMMITS=all commit between branch and upstream.
+git squashall [$MSG]         -  Squash all commits available on the branch
+git squashiall [$MSG]        -  Interactively squash all commits available on the branch
 ```
 
 ### Tag aliases
