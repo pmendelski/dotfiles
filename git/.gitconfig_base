@@ -1,0 +1,123 @@
+# Git configuration options
+# https://github.com/mathiasbynens/dotfiles/blob/master/.gitconfig
+# https://git-scm.com/book/tr/v2/Customizing-Git-Git-Configuration
+# http://git-scm.com/docs/git-config.html
+
+[include]
+	path = ~/.gitconfig_aliases
+
+[apply]
+	whitespace = nowarn
+
+[log]
+	date = format-local:%Y-%m-%d %H:%M:%S
+
+[status]
+	# Include submodule status in git status
+	# https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407#.3hgqh9tul
+	submoduleSummary = true
+
+[merge]
+	# Linux UI merge tool
+	tool = meld
+
+[mergetool]
+	# No backup files (rm *.orig)
+	keepBackup = false
+
+[rerere]
+	# REplay REsolved conflict during REbase
+	# https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67
+	enabled = true
+
+[rebase]
+	# https://robots.thoughtbot.com/autosquashing-git-commits
+	autosquash = true
+
+[pull]
+	# pull with --rebase
+	rebase = true
+
+[push]
+	# `git push` without remote and branch will push the current branch to its upstream branch.
+	# Refuses to push if the upstream branch's name is different from the local one.
+	default = simple
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
+
+[apply]
+	# Detect whitespace errors when applying a patch
+	whitespace = fix
+
+[core]
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	# Make `git rebase` safer on OS X
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+
+[diff]
+	# Detect copies as well as renames
+	renames = copies
+
+[diff "bin"]
+	# Use `hexdump` to diff binary files
+	textconv = hexdump -v -C
+
+# URL shorthands
+[url "git@github.com:"]
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+	insteadOf = "gist:"
+
+# Colors
+[color]
+	ui = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	meta = yellow bold
+	commit = green bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+[color "diff-highlight"]
+	oldNormal = "red bold"
+	oldHighlight = "red bold 52"
+	newNormal = "green bold"
+	newHighlight = "green bold 22"
+[color "grep"]
+	linenumber = green
+	match = red
+	filename = magenta
+
+[pretty]
+	# See: https://git-scm.com/docs/git-log
+	custom = format:"%C(magenta)%h %C(red)%d %C(cyan)%cd %C(blue)[%an] %C(yellow)%ar %C(green)%s"
+	customreflog = format:"%C(magenta)%h %C(red)%gd %C(cyan)%cd %C(blue)[%gn] %C(yellow)%ar %C(green)%gs"

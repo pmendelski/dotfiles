@@ -1,0 +1,256 @@
+[alias]
+	####################################
+	# Aliases
+	####################################
+	# List all aliases
+	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'
+	# Find an alias
+	alias = "!f() { git aliases | grep \"^\\w*$1\\w*\"; }; f"
+
+	####################################
+	# Just shorter
+	####################################
+	cl = clone
+
+	####################################
+	# Log
+	####################################
+	# Pretty printed log
+	logpretty = !git log --pretty=custom
+	lg = !git logpretty
+	# Show pretty printed log with branch graph
+	loggraph = !git log --graph --pretty=custom
+	lgg = !git loggraph
+	# Show pretty printed log with files
+	logfiles = !git log --pretty=custom --numstat --decorate --name-status
+	lgf = !git logfiles
+	# Show pretty printed commit log with diffs.
+	# Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
+	logdiff = !git log -M --follow --stat --pretty=custom -p --color-words
+	lgd = !git logdiff
+
+	####################################
+	# Internal usage
+	####################################
+	remotename = !git remote show
+	branchname = !git symbolic-ref --short HEAD
+	username = !git config --get user.name
+	useremail = !git config --get user.email
+	currcommit = !git rev-parse "HEAD"
+	expandhash = "!f() { git log --pretty=format:'%H' | grep \"^$1\"; }; f"
+	hashformsg = "!f() { git log --pretty='%H %s' | grep -i \"${1:-$(git currcommit)}\" | cut -d ' ' -f1; }; f"
+
+	####################################
+	# Log aliases
+	####################################
+	# Pretty printed log
+	logpretty = log --pretty=custom
+	lg = !git logpretty
+	# Show pretty printed commit log with branch graph
+	loggraph = log --graph --pretty=custom
+	lgg = !git loggraph
+	# Show pretty printed commit log with files
+	logfiles = log --pretty=custom --numstat --decorate --name-status
+	lgf = !git logfiles
+	# Show pretty printed commit log with diffs.
+	# So much better than git blame.
+	# http://blog.andrewray.me/a-better-git-blame/
+	logdiff = log -M --follow --stat --pretty=custom -p --color-words
+	lgd = !git logdiff
+
+	####################################
+	# Reflog aliases
+	####################################
+	# Pretty printed reflog
+	reflogpretty = reflog --pretty=customreflog
+	rl = !git reflogpretty
+
+	####################################
+	# Branh related aliases
+	####################################
+	# Reset all local commits from branch
+	resetbranch = !git reset --hard $(git remotename)/$(git branchname)
+
+
+	####################################
+	# Status aliases
+	####################################
+	# Shorter version
+	statusshort = status -s
+	st = !git statusshort
+
+	####################################
+	# Commit aliases
+	####################################
+	# Shorter version
+	cm = commit -av
+	cp = cherry-pick
+	# Commit travers
+	prevcommit = !git checkout HEAD~
+	nextcommit = "!f() { local child=\"$(git rev-list --all --not \"HEAD\"^@ --children | grep $(git currcommit) | cut -d' ' -f2 | grep -v $(git currcommit) | head -n 1)\"; [ ! -z \"$child\" ] && git checkout $child || git checkout $(git findbranch $(git currcommit) | grep -v HEAD | head -n 1); }; f"
+	# Commit all changes
+	commitall = !git add -A && git commit -av
+	cma = !git commitall
+	# Amend the currently staged files to the latest commit
+	amend = "!f() { git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	an = !git amend
+	# Amend all
+	amendall = "!f() { git add -A && git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
+	ana = !git amendall
+	# Change author of the last commit
+	amendauthor = "!f() { git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; }; f"
+	anu = !git amendauthor
+
+	####################################
+	# Add aliases
+	####################################
+	# Shorter version
+	ad = !git add
+	# Add all
+	addall = !git add -A
+	ada = !git addall
+
+	####################################
+	# Fetch aliases
+	####################################
+	# Shorter version
+	fe = fetch
+	# Fetch master
+	fetchmaster = !git fetch $(git remote show) master
+	fem = !git fetchmaster
+	# Fetch branch
+	fetchbranch = "!f() { git fetch $(git remotename) ${1:-$(git branchname)}; }; f"
+	feb = !git fetchbranch
+
+	####################################
+	# Checkout aliases
+	####################################
+	# Shorter version
+	co = checkout
+	# Checkout master
+	checkoutmaster = checkout master
+	com = !git checkoutmaster
+	# Checkout and pull changes
+	checkoutsynced = "!f() { git checkout ${1:-master} && git pull; } f"
+	cos = !git checkoutsynced
+
+	####################################
+	# Diff aliases
+	# http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged
+	####################################
+	# Diff words only - easier to see changes
+	diffwords = diff --color-words
+	df = !git diffwords
+	# Diff all tracked and untracked
+	diffall = !git diff HEAD --color-words
+	dfa = !git diffall
+	# Diff tracked only
+	difftracked = !git diff --cached --color-words
+	dft = !git difftracked
+	# Create a diff with binaries. Could be used with `git apply `
+	diffpatch = !git diff HEAD --binary
+	dfp = !git diffpatch
+
+	####################################
+	# Undo aliases
+	# https://www.atlassian.com/git/tutorials/undoing-changes/git-clean
+	####################################
+	# Reverting all local and indexed changes
+	undo = !git reset --hard && git clean -xf
+	un = !git undo
+	# Reverting all indexed changes
+	undotracked = reset --hard
+	unt = !git undotracked
+	# Dropping all untracked files and directories
+	undountracked = clean -xf
+	unu = !git undountracked
+	# Undo last commit
+	undocommit = !git reset --hard HEAD~
+	unc = !git undocommit
+
+	####################################
+	# Finding aliases
+	####################################
+	# Customized alias for grep
+	findfile = grep -Iin
+	fnf = !git findfile
+	# Find branches containing commit
+	findbranchbyhash = "!f() { git branch -a --contains $(git expandhash $1); }; f"
+	# Find tags containing commit
+	findtagsbyhash = "!f() { git describe --always --contains $(git expandhash $1); }; f"
+	# Find commits by content
+	findcommit = "!f() { git log --pretty=custom --decorate -S$1 -i; }; f"
+	fnc = !git findcommit
+	# Find commits by commit message
+	findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
+	fncm = !git findcommitbymsg
+	# Find commits by short hash
+	findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
+	fncm = !git findcommitbymsg
+	# Find alias implementation
+	findalias = "!f() { git aliases | grep \"^\\w*$1\\w*\"; }; f"
+
+	####################################
+	# Listings aliases
+	####################################
+	tags = tag -l
+	branches = branch -a
+	remotes = remote -v
+	contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
+
+	####################################
+	# Rebase aliases
+	####################################
+	# Shorter version
+	rb = rebase
+	# Rebase remote branch
+	rebaseremote = "!f() { git rebase $(git remotename)/${1:-$(git branchname)}; }; f"
+	rbr = !git rebaseremote
+	# Rebase remote master
+	rebaseremotemaster = "!f() { git rebase $(git remotename)/master; }; f"
+	rbrm = !git rebaseremotemaster
+
+	####################################
+	# Squash aliases
+	####################################
+	# Autmatically rebase with the given number of latest commits
+	squash = "!f(){ git reset --soft HEAD~${1:-$(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1} | awk '{print (NR > 1) ? \"# \" $0 : $0 \"\\n\" }')}\"; };f"
+	sq = !git squash
+	squashall = !git squash $(git rev-list --count HEAD)
+	# Interactive rebase with the given number of latest commits
+	squashi = "!f() { git rebase -i $([ ! -z "$1" ] && echo \"HEAD~$1\"); }; f"
+	sqi = !git squashi
+	squashiall = "!f() { git rebase -i --root; }; f"
+
+	####################################
+	# Tag aliases
+	####################################
+	# Show last tag
+	taglast = describe --tags --abbrev=0
+	tgl = !git taglast
+	# Remove the old tag with this name and tag the latest commit with it.
+	tagretag = "!f() { git tag -d $1 && git push $(git remotename) :refs/tags/$1 && git tag $1; }; f"
+	tgr = !git tagretag
+
+	####################################
+	# Github aliases
+	####################################
+	githubfetchpr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0'"
+	githubpr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0 && git checkout pr/$0 && git pull'"
+
+	####################################
+	# Other aliases
+	####################################
+	# Show what is going on origin branches
+	showorigin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
+	# Initialize git repo
+	start = !git init && git add . && git commit -am \"Initial commit\"
+	# Fix .gitignore
+	fixgitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
+	# Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
+	issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
+	# Check if any file in repo has whitespace errors
+	# As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
+	checkwhitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
+	# Remove branches that have already been merged with master
+	deletemergedbranches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
