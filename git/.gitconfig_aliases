@@ -11,6 +11,7 @@
 	# Just shorter
 	####################################
 	cl = clone
+	cp = cherry-pick
 
 	####################################
 	# Log
@@ -30,85 +31,47 @@
 	lgd = !git logdiff
 
 	####################################
-	# Internal usage
+	# Status
 	####################################
-	remotename = !git remote show
-	branchname = !git symbolic-ref --short HEAD
-	username = !git config --get user.name
-	useremail = !git config --get user.email
-	currcommit = !git rev-parse "HEAD"
-	expandhash = "!f() { git log --pretty=format:'%H' | grep \"^$1\"; }; f"
-	hashformsg = "!f() { git log --pretty='%H %s' | grep -i \"${1:-$(git currcommit)}\" | cut -d ' ' -f1; }; f"
+	# Shorter versions
+	st = !git status
+	sts = status -s
 
 	####################################
-	# Log aliases
-	####################################
-	# Pretty printed log
-	logpretty = log --pretty=custom
-	lg = !git logpretty
-	# Show pretty printed commit log with branch graph
-	loggraph = log --graph --pretty=custom
-	lgg = !git loggraph
-	# Show pretty printed commit log with files
-	logfiles = log --pretty=custom --numstat --decorate --name-status
-	lgf = !git logfiles
-	# Show pretty printed commit log with diffs.
-	# So much better than git blame.
-	# http://blog.andrewray.me/a-better-git-blame/
-	logdiff = log -M --follow --stat --pretty=custom -p --color-words
-	lgd = !git logdiff
-
-	####################################
-	# Reflog aliases
-	####################################
-	# Pretty printed reflog
-	reflogpretty = reflog --pretty=customreflog
-	rl = !git reflogpretty
-
-	####################################
-	# Branh related aliases
-	####################################
-	# Reset all local commits from branch
-	resetbranch = !git reset --hard $(git remotename)/$(git branchname)
-
-
-	####################################
-	# Status aliases
-	####################################
-	# Shorter version
-	statusshort = status -s
-	st = !git statusshort
-
-	####################################
-	# Commit aliases
-	####################################
-	# Shorter version
-	cm = commit -av
-	cp = cherry-pick
-	# Commit travers
-	prevcommit = !git checkout HEAD~
-	nextcommit = "!f() { local child=\"$(git rev-list --all --not \"HEAD\"^@ --children | grep $(git currcommit) | cut -d' ' -f2 | grep -v $(git currcommit) | head -n 1)\"; [ ! -z \"$child\" ] && git checkout $child || git checkout $(git findbranch $(git currcommit) | grep -v HEAD | head -n 1); }; f"
-	# Commit all changes
-	commitall = !git add -A && git commit -av
-	cma = !git commitall
-	# Amend the currently staged files to the latest commit
-	amend = "!f() { git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
-	an = !git amend
-	# Amend all
-	amendall = "!f() { git add -A && git commit -a --amend $([ ! -z "$1" ] && echo \"-m $1\" || echo \"--no-edit\"); }; f"
-	ana = !git amendall
-	# Change author of the last commit
-	amendauthor = "!f() { git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; }; f"
-	anu = !git amendauthor
-
-	####################################
-	# Add aliases
+	# Add
 	####################################
 	# Shorter version
 	ad = !git add
 	# Add all
 	addall = !git add -A
 	ada = !git addall
+
+	####################################
+	# Commit
+	####################################
+	# Shorter version
+	cm = !git commit
+	# Commit all changes
+	commitall = !git add -A && git commit -av
+	cma = !git commitall
+	# Amend the currently staged files to the latest commit
+	amend = !git commit -a --amend -C HEAD
+	an = !git amend
+	# Amend all
+	amendall = !git add -A && git amend
+	ana = !git amendall
+	# Change message of the last commit
+	amendauthor = "!f() { git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; }; f"
+	anu = !git amendauthor
+	# Change author of the last commit
+	amendmessage = "!f() { git commit --amend --message \"$1\"; }; f"
+	anm = !git amendmessage
+
+	####################################
+	# Commit traversal
+	####################################
+	prevcommit = !git checkout HEAD~
+	nextcommit = "!f() { local hash=\"$(git currcommit)\"; local child=\"$(git rev-list --all --not \"HEAD\"^@ --children | grep $hash | cut -d' ' -f2 | grep -v $hash | head -n 1)\"; [ ! -z \"$child\" ] && git checkout $child || git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); }; f"
 
 	####################################
 	# Fetch aliases
@@ -128,19 +91,20 @@
 	# Shorter version
 	co = checkout
 	# Checkout master
-	checkoutmaster = checkout master
+	checkoutmaster = !git checkout master
 	com = !git checkoutmaster
 	# Checkout and pull changes
-	checkoutsynced = "!f() { git checkout ${1:-master} && git pull; } f"
+	checkoutsynced = "!f() { git checkout ${1:-master} && git pull; }; f"
 	cos = !git checkoutsynced
 
 	####################################
 	# Diff aliases
-	# http://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged
 	####################################
+	# Shorter version
+	df = diff
 	# Diff words only - easier to see changes
 	diffwords = diff --color-words
-	df = !git diffwords
+	dfw = !git diffwords
 	# Diff all tracked and untracked
 	diffall = !git diff HEAD --color-words
 	dfa = !git diffall
@@ -152,21 +116,51 @@
 	dfp = !git diffpatch
 
 	####################################
-	# Undo aliases
-	# https://www.atlassian.com/git/tutorials/undoing-changes/git-clean
+	# Undo
 	####################################
-	# Reverting all local and indexed changes
-	undo = !git reset --hard && git clean -xf
-	un = !git undo
-	# Reverting all indexed changes
-	undotracked = reset --hard
-	unt = !git undotracked
-	# Dropping all untracked files and directories
-	undountracked = clean -xf
-	unu = !git undountracked
-	# Undo last commit
-	undocommit = !git reset --hard HEAD~
-	unc = !git undocommit
+	# Undo commit and staging
+	undo = !git reset HEAD^
+	# Undo staging
+	unadd = !git reset HEAD --
+	# Undo commit
+	uncommit = !git reset --soft HEAD^
+
+	####################################
+	# Drop
+	####################################
+	# Drop all local and indexed changes
+	drop = !git reset --hard && git clean -xf
+	# Drop all indexed changes
+	dropadded = reset --hard
+	# Drop all untracked files and directories
+	dropunadded = clean -xf
+	# Drop last commit
+	dropcommit = !git reset --hard HEAD~
+
+	####################################
+	# Internal usage
+	####################################
+	remotename = !git remote show
+	branchname = !git symbolic-ref --short HEAD
+	username = !git config --get user.name
+	useremail = !git config --get user.email
+	currcommit = !git rev-parse "HEAD"
+	expandhash = "!f() { git log --pretty=format:'%H' | grep \"^$1\"; }; f"
+	hashformsg = "!f() { git log --pretty='%H %s' | grep -i \"${1:-$(git currcommit)}\" | cut -d ' ' -f1; }; f"
+
+
+	####################################
+	# Reflog aliases
+	####################################
+	# Pretty printed reflog
+	reflogpretty = reflog --pretty=customreflog
+	rl = !git reflogpretty
+
+	####################################
+	# Branh related aliases
+	####################################
+	# Reset all local commits from branch
+	resetbranch = !git reset --hard $(git remotename)/$(git branchname)
 
 	####################################
 	# Finding aliases
@@ -187,8 +181,6 @@
 	# Find commits by short hash
 	findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
 	fncm = !git findcommitbymsg
-	# Find alias implementation
-	findalias = "!f() { git aliases | grep \"^\\w*$1\\w*\"; }; f"
 
 	####################################
 	# Listings aliases

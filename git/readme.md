@@ -1,27 +1,29 @@
 # Git
 
-## Shorter versions of common commands
+## Aliases
+
+### Shorter versions of common commands
 
 ```
-lg = log --pretty
-st = status -s
 ad = add
 cl = clone
+cm = commit
 co = checkout
-cm = commit -av
 cp = cherry-pick
-fe = fetch
 df = diff
+fe = fetch
+lg = log --pretty
 rb = rebase
 rl = reflog --pretty
+st = status
 ```
 
-## Aliases
+### Finding aliases
 
 Some commands for finding aliases.
 
-- `git alias ALIAS` - find alias
-- `git aliases` - list all aliases
+- `git alias ALIAS` - Find an alias.
+- `git aliases` - List all aliases.
 
 Example:
 ```
@@ -33,77 +35,97 @@ logdiff             => !git log -M --follow --stat --pretty=custom -p --color-wo
 reflogpretty        => !git reflog --pretty=customreflog
 ```
 
-## Aliases
-
 ### Log aliases
 
-- `git logpretty [LOG_OPTS] [FILE]` - (`lg`) Pretty log
-- `git loggraph [LOG_OPTS] [FILE]` - (`lgg`) Pretty log + graph
-- `git logfiles [LOG_OPTS] [FILE]` - (`lgf`) Pretty log + file changes
-- `git logdiff [LOG_OPTS] FILE` - (`lgd`) Pretty log + diff. Better replacement for `git blame`.
+Aliases related with `git log`.
 
-```
-git logpretty   - (`lg`) Pretty log
-git loggraph    - (`lgg`) Pretty log + graph
-git logfiles    - (`lgf`) Pretty log + files
-git logdiff     - (`lgd`) Pretty log + diff. Better than `git blame`!
-```
+- `git logpretty` - (`lg`) Pretty log.
+- `git loggraph` - (`lgg`) Pretty log + graph.
+- `git logfiles` - (`lgf`) Pretty log + file changes.
+- `git logdiff FILE` - (`lgd`) Pretty log + diff. Better replacement for `git blame`.
 
 ### Status aliases
 
+Aliases related with `git status`.
+
+- `git st` - Shorter version of `git status`
+- `git sts` - Shorter version of `git status -s`. Shows minimal status.
+- `git sta` - Shorter version of `git status -v`. Shows diff.
+
 ```
-git st          - (`st`) Shorter version of `git status`
-git statusshort - (`sts`) Shorter version of `git status -s`
+$ git sts
+ M git/.gitconfig_aliases
+ M git/readme.md
 ```
 
 ### Commit aliases
 
-```
-git cm              - Shorter version `git commit -av`
-git commitall       - (`cma`) Stage all and commit all
-git amend [$MSG]    - (`an`) Amend changes. If no message is specified message from last commit is used.
-git amendall [$MSG] - (`ana`) Stage all and amend changes. If no message is specified message from last commit is used.
-git amendauthor [$NAME $EMAIL] - (`anu`) Change last commit author (if not specified name and email is taken from git config)
-```
+Aliases related with `git commit`.
+
+- `git cm` - Shorter version `git commit`.
+- `git commitall` - (`cma`) Stage all and commit all.
+- `git uncommit` - Revert the act of commiting. Shorter version of `git reset --soft HEAD^`.
+- `git amend` - (`an`) Amend all changes.
+- `git amendall` - (`ana`) Stage all and amend all changes.
+- `git amendmessage $MSG` - Amend new commit message.
+- `git amendauthor [$NAME] [$EMAIL]` - Amend new commit author. By default name and email are taken from git config.
+
+### Commit traversal aliases
+
+Aliases that enables traversing through commit history.
+
+- `git prevcommit` - Go to previous commit.
+- `git nextcommit` - Go to next commit. If there is no child commit it will attempt to checkout related branch.
 
 ### Add aliases
 
-```
-git addall - (`ada`) Add all
-```
+Aliases related with `git add`.
+
+- `git ad` - Shorter version of `git add`.
+- `git ada` - Shorter version of `git add -A`.
+
+### Undo aliases
+
+[Undoing things](http://stackoverflow.com/a/2846154/2284884). Makes no changes to your files.
+
+- `git uncommit` - Undo commit. Alias for `git reset --soft HEAD^`.
+- `git unadd [FILE]` - Undo staging. Alias for `git reset HEAD --`.
+- `git undo` - Undo commit and staging. Alias for `git reset HEAD^`.
+
+### Drop aliases
+
+[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that dropping things will make changes to your files.
+
+- `git dropcommit` - Drop last commit.
+- `git dropunadded` - Drop all untracked files.
+- `git dropadded` - Drop all indexed changes.
+- `git drop` - Drop all local and indexed changes.
 
 ### Fetch aliases
 
-```
-git fe          - Shorter version of `git fetch`
-git fetchmaster - (`fem`) Fetch remote master
-git fetchbranch [$BRANCH] - (`feb`) Fetch remote branch. If no $BRANCH is specified the current branch will be fetched.
-```
+Aliases related with `git fetch`.
+
+- `git fe` - Shorter version of `git fetch`.
+- `git fetchmaster` - (`fem`) Fetch remote master.
+- `git fetchbranch [$BRANCH]` - (`feb`) Fetch remote branch. If no $BRANCH is specified the current branch will be fetched.
 
 ### Checkout aliases
 
-```
-git co              - Shorter version of `git checkout`
-git checkoutmaster  - (`com`) Checkout master
-git checkoutsynced  - (`cos`) Checkout and pull changes. If no branch is specified `master` branch is used.
-```
+Aliases related with `git checkout`.
+
+- `git co` - Shorter version of `git checkout`.
+- `git checkoutmaster` - (`com`) Checkout master.
+- `git checkoutsynced` - (`cos`) Checkout branch and pull changes. If no branch is specified `master` branch is used.
 
 ### Diff aliases
 
-```
-git diffwords   - (`df`) Diff words only. No pluses and minuses. Easier to read.
-git diffall     - (`dfa`) Diff all with head
-git difftracked - (`dft`) Diff tracked files with head
-git diffpatch   - (`dfp`) Diff all including binaries. Could be used as patch file and applied with `git apply <filename>`
-```
+Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a/1587952/2284884)). Remember that untracked files are not visible for `git diff` command.
 
-### [Undo](https://www.atlassian.com/git/tutorials/undoing-changes/git-clean) aliases
-
-```
-git undo            - (`un`) Undo all
-git undotracked     - (`unt`) Undo tracked changes
-git undountracked   - (`unu`) Undo untracked changes
-```
+- `git df` - Shorter version of `git diff`.
+- `git diffwords` - (`dfw`) Diff words only. No pluses and minuses. Easier to read.
+- `git diffall` - (`dfa`) Diff all (tracked and untracked) with HEAD.
+- `git difftracked` - (`dft`) Diff tracked files with HEAD
+- `git diffpatch` - (`dfp`) Diff that includes all changes including binaries. Could be used as a patch file and applied with `git apply <filename>`.
 
 ### Rebase aliases
 
