@@ -1,10 +1,11 @@
 # Git
 
-### Shorter versions of common commands
+## Shorter versions of common commands
 
 ```
 lg = log --pretty
 st = status -s
+ad = add
 cl = clone
 co = checkout
 cm = commit -av
@@ -12,45 +13,34 @@ cp = cherry-pick
 fe = fetch
 df = diff
 rb = rebase
+rl = reflog --pretty
 ```
 
+## Aliases
 
-## Alias prefixes
+Some commands for finding aliases.
 
-All aliases with similar functionality are prefixed for easier usage. List of alias prefixes:
-
-| Aliases                               | Prefix    | Abbrev    |
-| ---                                   | ---       | ---       |
-| [Log aliases](#log-aliases)           | `log`     | `lg`      |
-| [Log aliases](#status-aliases)        | `status`  | `st`      |
-| [Log aliases](#commit-aliases)        | `commit`  | `cm`      |
-| [Add aliases](#add-aliases)           | `add`     | `ad`      |
-| [Fetch aliases](#tetch-aliases)       | `fetch`   | `fe`      |
-| [Checkout aliases](#checkout-aliases) | `checkout`| `co`      |
-| [Diff aliases](#diff-aliases)         | `diff`    | `df`      |
-| [Undo aliases](#undo-aliases)         | `undo`    | `un`      |
-| [Rebase aliases](#rebase-aliases)     | `rebase`  | `rb`      |
-| [Squash aliases](#squash-aliases)     | `squash`  | `sq`      |
-| [Tag aliases](#tag-aliases)           | `tag`     | `tg`      |
-| [Find aliases](#find-aliases)         | `find`    | `fn`      |
-
-
-## Alias implementation
-
-To find out what an alias does just execute `git aliases | grep "^<alias>"`.
+- `git alias ALIAS` - find alias
+- `git aliases` - list all aliases
 
 Example:
 ```
-git aliases | grep "^log"
-logpretty           => log --pretty=custom
-loggraph            => log --graph --pretty=custom
-logfiles            => log --pretty=custom --numstat --decorate --name-status
-logdiff             => log --pretty=custom  --numstat
+$ git alias log
+logpretty           => !git log --pretty=custom
+loggraph            => !git log --graph --pretty=custom
+logfiles            => !git log --pretty=custom --numstat --decorate --name-status
+logdiff             => !git log -M --follow --stat --pretty=custom -p --color-words
+reflogpretty        => !git reflog --pretty=customreflog
 ```
 
 ## Aliases
 
 ### Log aliases
+
+- `git logpretty [LOG_OPTS] [FILE]` - Pretty log
+- `git loggraph [LOG_OPTS] [FILE]` - Pretty log + graph
+- `git logfiles [LOG_OPTS] [FILE]` - Pretty log + file changes
+- `git logdiff [LOG_OPTS] FILE` - Pretty log + diff. Better replacement for `git blame`.
 
 ```
 git logpretty   - (`lg`) Pretty log

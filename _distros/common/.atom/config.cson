@@ -1,7 +1,7 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1474213546581
+    lastUpdateTimestamp: 1474694888567
   core: {}
   editor:
     invisibles: {}
@@ -11,8 +11,8 @@
     softTabs: false
     tabLength: 4
   linter:
+    errorPanelHeight: 188
     lintOnFly: false
-    showErrorPanel: false
     showErrorTabLine: true
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
@@ -22,6 +22,8 @@
     onlyConfig: true
   "linter-jshint":
     disableWhenNoJshintrcFileInPath: true
+  "markdown-preview":
+    useGitHubStyle: true
   minimap:
     plugins:
       "git-diff": true
