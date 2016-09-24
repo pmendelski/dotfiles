@@ -37,10 +37,10 @@ reflogpretty        => !git reflog --pretty=customreflog
 
 ### Log aliases
 
-- `git logpretty [LOG_OPTS] [FILE]` - Pretty log
-- `git loggraph [LOG_OPTS] [FILE]` - Pretty log + graph
-- `git logfiles [LOG_OPTS] [FILE]` - Pretty log + file changes
-- `git logdiff [LOG_OPTS] FILE` - Pretty log + diff. Better replacement for `git blame`.
+- `git logpretty [LOG_OPTS] [FILE]` - (`lg`) Pretty log
+- `git loggraph [LOG_OPTS] [FILE]` - (`lgg`) Pretty log + graph
+- `git logfiles [LOG_OPTS] [FILE]` - (`lgf`) Pretty log + file changes
+- `git logdiff [LOG_OPTS] FILE` - (`lgd`) Pretty log + diff. Better replacement for `git blame`.
 
 ```
 git logpretty   - (`lg`) Pretty log
