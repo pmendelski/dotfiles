@@ -13,7 +13,7 @@ cp = cherry-pick
 df = diff
 fe = fetch
 lg = log --pretty
-rb = rebase
+re = rebase
 rl = reflog --pretty
 st = status
 ```
@@ -64,11 +64,14 @@ Aliases related with `git commit`.
 
 - `git cm` - Shorter version `git commit`.
 - `git commitall` - (`cma`) Stage all and commit all.
-- `git uncommit` - Revert the act of commiting. Shorter version of `git reset --soft HEAD^`.
+- `git uncommit` - Revert the act of committing. Shorter version of `git reset --soft HEAD^`.
 - `git amend` - (`an`) Amend all changes.
 - `git amendall` - (`ana`) Stage all and amend all changes.
-- `git amendmessage $MSG` - Amend new commit message.
-- `git amendauthor [$NAME] [$EMAIL]` - Amend new commit author. By default name and email are taken from git config.
+- `git amendmessage MSG` - Amend new commit message.
+    - **MSG** - New commit message. This parameter is required.
+- `git amendauthor [NAME] [EMAIL]` - Amend new commit author. By default name and email are taken from `git config`.
+    - **NAME** - Author's name. Default value is `git config --get user.name`.
+    - **EMAIL** - Author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
 
 ### Commit traversal aliases
 
@@ -88,34 +91,37 @@ Aliases related with `git add`.
 
 [Undoing things](http://stackoverflow.com/a/2846154/2284884). Makes no changes to your files.
 
-- `git uncommit` - Undo commit. Alias for `git reset --soft HEAD^`.
-- `git unadd [FILE]` - Undo staging. Alias for `git reset HEAD --`.
-- `git undo` - Undo commit and staging. Alias for `git reset HEAD^`.
+- `git unadd [FILE]` - Undo staging. Alias for `git reset HEAD --`. What was in staging area will untouched on working tree.
+    - **FILE** - You can unadd specific files. By default all files will unadded.
+- `git uncommit` - Undo commit. Alias for `git reset --soft HEAD^`. What was committed will be in staging area.
+- `git undo` - Undo commit and staging. Alias for `git reset HEAD^`. What was committed and in staging area now will be on your working tree.
+- `git undobranchcommits` - Undo all branch commits. Undo all
 
 ### Drop aliases
 
-[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that dropping things will make changes to your files.
+[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will make changes to your files**.
 
-- `git dropcommit` - Drop last commit.
-- `git dropunadded` - Drop all untracked files.
-- `git dropadded` - Drop all indexed changes.
-- `git drop` - Drop all local and indexed changes.
+- `git dropunadded` - Drop all unstaged changes.
+- `git dropuncommitted` - Drop all uncommitted changes. Everything what was not staged nor committed will be dropped.
+- `git dropcommit` - Drop all committed and uncommitted changes. It's like an 'undo' to previous commit.
+- `git dropbranchchanges` - Drop all committed and uncommitted changes made on the branch. Be aware that it is a **dangerous** alias.
 
 ### Fetch aliases
 
 Aliases related with `git fetch`.
 
 - `git fe` - Shorter version of `git fetch`.
+- `git fetchbranch [BRANCH]` - (`feb`) Fetch remote branch.
+    - **BRANCH** - Name of the branch to be fetched. Default value is the name of the current branch.
 - `git fetchmaster` - (`fem`) Fetch remote master.
-- `git fetchbranch [$BRANCH]` - (`feb`) Fetch remote branch. If no $BRANCH is specified the current branch will be fetched.
 
 ### Checkout aliases
 
 Aliases related with `git checkout`.
 
 - `git co` - Shorter version of `git checkout`.
-- `git checkoutmaster` - (`com`) Checkout master.
-- `git checkoutsynced` - (`cos`) Checkout branch and pull changes. If no branch is specified `master` branch is used.
+- `git checkoutsynced [BRANCH]` - (`cos`) Checkout branch and pull changes.
+    - **BRANCH** - the name of a branch to be checked out. Default value is `master`. It means that executing `git checkoutsynced` will checkout master with pulled all changes from the remote.
 
 ### Diff aliases
 
@@ -124,32 +130,42 @@ Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a
 - `git df` - Shorter version of `git diff`.
 - `git diffwords` - (`dfw`) Diff words only. No pluses and minuses. Easier to read.
 - `git diffall` - (`dfa`) Diff all (tracked and untracked) with HEAD.
-- `git difftracked` - (`dft`) Diff tracked files with HEAD
+- `git difftracked` - (`dft`) Diff tracked files with HEAD.
 - `git diffpatch` - (`dfp`) Diff that includes all changes including binaries. Could be used as a patch file and applied with `git apply <filename>`.
+
+### Reflog aliases
+
+Aliases related with `git reflog`.
+
+- `git rl` - Shorter version of `git reflog`.
+- `git reflogpretty` - (`rlp`) Pretty printed reflog.
 
 ### Rebase aliases
 
-```
-git rb                      - Shorter version for `git rebase`
-git rebaseremote [$BRANCH]  - (`rbr`) Rebase remote $BRANCH
-git rebaseremotemaster      - (`rbrm`) Rebase remote master
-```
+Aliases related with `git rebase`.
+
+- `git re` - Shorter version of `git rebase`
+- `git rebaseremote [BRANCH]` - (`rer`) Rebase remote branch. By default current branch is used.
+    - **BRANCH** - the name of the remote branch to be rebased with. Default value is **master**.  
+- `git rebaseremotemaster` - (`rerm`) Very descriptive alias. Rebase remote master branch.
 
 ### Squash aliases
 
-```
-git squash [$COMMITS] [$MSG] - (`sq`) Squash last $COMMITS commits with $MSG. Defaults: COMMITS=all commit between branch and upstream, MSG=last commit msg.
-git squashi [$COMMITS]       - (`sqi`) Interactively squash last $COMMITS commits. Defaults: COMMITS=all commit between branch and upstream.
-git squashall [$MSG]         -  Squash all commits available on the branch
-git squashiall [$MSG]        -  Interactively squash all commits available on the branch
-```
+Aliases related with squashing commits with `git rebase -i`. Every command at the end will open an editor for an interactive rebase.
+
+- `git squash [X]` - (`sq`) Squash commits.
+    - **X** - may be a number of commits to be squashed.
+    - **X** - may be a branch name. All commits made after branching from branch X will be squashed.
+    - **X** - default value is **master**. Executing `git squash` will squash all your feature branch commits that are ahead of master.
+- `git squashup` - (`squ`) Squash all commits that are ahead of the upstream.
+- `git squashall` - (`sqa`) Squash all commits available on the branch. All commits even those created before branch will be squashed.
 
 ### Tag aliases
 
-```
-git taglast  - (`tgl`) Show last tag
-git tagretag - (`tgr`) Drop last tag and retag latest commit
-```
+
+- `git taglast`  - (`tgl`) Show last tag
+- `git tagretag` - (`tgr`) Drop last tag and retag latest commit
+
 
 ### Find aliases
 

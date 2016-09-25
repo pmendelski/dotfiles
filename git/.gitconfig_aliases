@@ -124,18 +124,54 @@
 	unadd = !git reset HEAD --
 	# Undo commit
 	uncommit = !git reset --soft HEAD^
+	# Undo all branch commits
+	# TODO: undoupcommits
+	# TODO: unddobranchcommits
+	undobranchcommits = !git reset --soft $(git remotename)/$(git branchname)
 
 	####################################
 	# Drop
 	####################################
-	# Drop all local and indexed changes
-	drop = !git reset --hard && git clean -xf
-	# Drop all indexed changes
-	dropadded = reset --hard
-	# Drop all untracked files and directories
-	dropunadded = clean -xf
-	# Drop last commit
-	dropcommit = !git reset --hard HEAD~
+	# Drop all untracked files
+	dropunadded = !git clean -xf
+	# Drop uncommitted changes
+	dropuncommitted = !git reset --hard && git clean -xf
+	# Drop a committed and uncommitted. Restore previous commit.
+	dropcommit = !git reset --hard HEAD~ && git clean -xf
+	# Drop all committed and ucommitted changes made on the branch. Restore branch beginning.
+	dropbranchchanges = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
+
+	####################################
+	# Reflog
+	####################################
+	# Pretty printed reflog
+	reflogpretty = reflog --pretty=customreflog
+	rl = !git reflogpretty
+
+	####################################
+	# Rebase aliases
+	####################################
+	# Shorter version
+	re = rebase
+	# Rebase remote branch
+	rebaseremote = "!f() { git rebase $(git remotename)/${1:-$(git branchname)}; }; f"
+	rer = !git rebaseup
+	# Rebase remote master
+	rebaseremotemaster = !git rebase $(git remotename)/master
+	rerm = !git rebaseremotemaster
+
+	####################################
+	# Squash aliases
+	####################################
+	# Interactive rebase with the given number of latest commits or branch
+	squash = "!f() { git rebase -i ${1:-master); }; f"
+	sq = !git squash
+	# Squash all commits available on the branch.
+	squashall = !git rebase -i --root
+	sqa = !git squashall
+	# Squash all commits that are ahead of the upstream
+	squashup = !git rebase -i $(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)
+	squ = !git squashup
 
 	####################################
 	# Internal usage
@@ -148,19 +184,6 @@
 	expandhash = "!f() { git log --pretty=format:'%H' | grep \"^$1\"; }; f"
 	hashformsg = "!f() { git log --pretty='%H %s' | grep -i \"${1:-$(git currcommit)}\" | cut -d ' ' -f1; }; f"
 
-
-	####################################
-	# Reflog aliases
-	####################################
-	# Pretty printed reflog
-	reflogpretty = reflog --pretty=customreflog
-	rl = !git reflogpretty
-
-	####################################
-	# Branh related aliases
-	####################################
-	# Reset all local commits from branch
-	resetbranch = !git reset --hard $(git remotename)/$(git branchname)
 
 	####################################
 	# Finding aliases
@@ -190,29 +213,6 @@
 	remotes = remote -v
 	contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
 
-	####################################
-	# Rebase aliases
-	####################################
-	# Shorter version
-	rb = rebase
-	# Rebase remote branch
-	rebaseremote = "!f() { git rebase $(git remotename)/${1:-$(git branchname)}; }; f"
-	rbr = !git rebaseremote
-	# Rebase remote master
-	rebaseremotemaster = "!f() { git rebase $(git remotename)/master; }; f"
-	rbrm = !git rebaseremotemaster
-
-	####################################
-	# Squash aliases
-	####################################
-	# Autmatically rebase with the given number of latest commits
-	squash = "!f(){ git reset --soft HEAD~${1:-$(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)} && git commit --edit -m\"${2:-$(git log --format=%B --reverse HEAD..HEAD@{1} | awk '{print (NR > 1) ? \"# \" $0 : $0 \"\\n\" }')}\"; };f"
-	sq = !git squash
-	squashall = !git squash $(git rev-list --count HEAD)
-	# Interactive rebase with the given number of latest commits
-	squashi = "!f() { git rebase -i $([ ! -z "$1" ] && echo \"HEAD~$1\"); }; f"
-	sqi = !git squashi
-	squashiall = "!f() { git rebase -i --root; }; f"
 
 	####################################
 	# Tag aliases
