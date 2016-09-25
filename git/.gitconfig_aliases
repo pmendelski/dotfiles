@@ -164,7 +164,7 @@
 	# Squash aliases
 	####################################
 	# Interactive rebase with the given number of latest commits or branch
-	squash = "!f() { git rebase -i ${1:-master); }; f"
+	squash = "!f() { git rebase -i ${1:-master}; }; f"
 	sq = !git squash
 	# Squash all commits available on the branch.
 	squashall = !git rebase -i --root

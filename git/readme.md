@@ -153,12 +153,14 @@ Aliases related with `git rebase`.
 
 Aliases related with squashing commits with `git rebase -i`. Every command at the end will open an editor for an interactive rebase.
 
-- `git squash [X]` - (`sq`) Squash commits.
-    - **X** - may be a number of commits to be squashed.
-    - **X** - may be a branch name. All commits made after branching from branch X will be squashed.
-    - **X** - default value is **master**. Executing `git squash` will squash all your feature branch commits that are ahead of master.
-- `git squashup` - (`squ`) Squash all commits that are ahead of the upstream.
-- `git squashall` - (`sqa`) Squash all commits available on the branch. All commits even those created before branch will be squashed.
+**In case of emergency**: To undo a rebase see the reflog and find HEAD state before rebasing. Than just execute `git reset --soft HEAD@{<THE_STATE_NUMBER>}`.
+
+- **`git squash [X]`** - (`sq`) Squash commits.
+    - *X* - may be a number of commits to be squashed.
+    - *X* - may be a branch name. All commits made after branching from branch X will be squashed.
+    - *X* - default value is **master**. Executing `git squash` will squash all your feature branch commits that are ahead of master.
+- **`git squashup`** - (`squ`) Squash all commits that are ahead of the upstream.
+- **`git squashall`** - (`sqa`) Squash all commits available on the branch. All commits even those created before branch will be squashed.
 
 ### Tag aliases
 
