@@ -49,8 +49,8 @@ Aliases related with `git log`.
 Aliases related with `git status`.
 
 - **`git st`** - Shorter version of `git status`
-- **`git sts`** - Shorter version of `git status -s`. Shows minimal status.
-- **`git sta`** - Shorter version of `git status -v`. Shows diff.
+- **`git sts`** - Shorter version of `git status -s`. Show minimal status.
+- **`git sta`** - Shorter version of `git status -v`. Show verbose status with diff of changes.
 
 ```
 $ git sts
@@ -65,20 +65,21 @@ Aliases related with `git commit`.
 - **`git cm`** - Shorter version `git commit`.
 - **`git commitall`** - (**`cma`**) Stage all and commit all.
 - **`git uncommit`** - Revert the act of committing. Shorter version of `git reset --soft HEAD^`.
-- **`git amend`** - (**`an`**) Amend all changes.
-- **`git amendall`** - (**`ana`**) Stage all and amend all changes.
+- **`git amend`** - (**`an`**) Amend all.
+- **`git amendall`** - (**`ana`**) Stage all and amend all.
 - **`git amendmessage MSG`** - Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
-- **`git amendauthor [NAME] [EMAIL]`** - Amend new commit author. By default name and email are taken from `git config`.
-    - `NAME` - Author's name. Default value is `git config --get user.name`.
-    - `EMAIL` - Author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
+- **`git amendauthor [NAME] [EMAIL]`** - Amend new commit author.
+    - `NAME` - New author's name. Default value is `git config --get user.name`.
+    - `EMAIL` - New author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
+    - Executing `git amendauthor` will replace last commit author with you.
 
 ### Commit traversal aliases
 
 Aliases that enables traversing through commit history.
 
 - **`git prevcommit`** - Go to the previous commit.
-- **`git nextcommit`** - Go to the next commit. If there is no child commit it will attempt to checkout related branch.
+- **`git nextcommit`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
 
 ### Add aliases
 
@@ -89,17 +90,17 @@ Aliases related with `git add`.
 
 ### Undo aliases
 
-[Undoing things](http://stackoverflow.com/a/2846154/2284884). Makes no changes to your files.
+[Undoing things](http://stackoverflow.com/a/2846154/2284884). No worries these aliases will make no changes to your local files.
 
 - **`git unadd [FILE]`** - Undo staging. Alias for `git reset HEAD --`. What was in staging area will untouched on working tree.
     - `FILE` - You can unadd specific files. By default all files will be unstaged.
 - **`git uncommit`** - Undo commit. Alias for `git reset --soft HEAD^`. What was committed will be in staging area.
 - **`git undo`** - Undo commit and staging. Alias for `git reset HEAD^`. What was committed and in staging area now will be on your working tree.
-- **`git undobranchcommits`** - Undo all branch commits. Undo all
+- **`git undobranchcommits`** - Undo all branch commits. Undo all... FIXME
 
 ### Drop aliases
 
-[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will make changes to your files**.
+[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will make changes to your local files**.
 
 - **`git dropunadded`** - Drop all unstaged changes.
 - **`git dropuncommitted`** - Drop all uncommitted changes. Everything what was not staged nor committed will be dropped.
@@ -125,7 +126,9 @@ Aliases related with `git checkout`.
 
 ### Diff aliases
 
-Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a/1587952/2284884)). Remember that untracked files are not visible for `git diff` command.
+Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a/1587952/2284884)).
+
+**Remember that:** untracked files are not visible for `git diff` command.
 
 - **`git df`** - Shorter version of `git diff`.
 - **`git diffwords`** - (**`dfw`**) Diff words only. No pluses and minuses. Easier to read.
@@ -164,10 +167,8 @@ Aliases related with squashing commits with `git rebase -i`. Every command at th
 
 ### Tag aliases
 
-
 - **`git taglast`**  - (**`tgl`**) Show last tag
 - **`git tagretag`** - (**`tgr`**) Drop last tag and retag latest commit
-
 
 ### Find aliases
 
