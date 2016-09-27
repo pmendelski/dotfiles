@@ -12,9 +12,9 @@ co = checkout
 cp = cherry-pick
 df = diff
 fe = fetch
-lg = log --pretty
+lg = log
 re = rebase
-rl = reflog --pretty
+rl = reflog
 st = status
 ```
 
@@ -25,48 +25,40 @@ Some commands for finding aliases.
 - **`git alias ALIAS`** - Find an alias.
 - **`git aliases`** - List all aliases.
 
-Example:
-```
-$ git alias log
-logpretty           => !git log --pretty=custom
-loggraph            => !git log --graph --pretty=custom
-logfiles            => !git log --pretty=custom --numstat --decorate --name-status
-logdiff             => !git log -M --follow --stat --pretty=custom -p --color-words
-reflogpretty        => !git reflog --pretty=customreflog
-```
-
 ### Log aliases
 
 Aliases related with `git log`.
 
-- **`git logpretty`** - (**`lg`**) Pretty log.
+- **`git lg`** - (**`lg`**) Shorter version of `git log`.
+- **`git logpretty`** - (**`lgp`**) Pretty log.
 - **`git loggraph`** - (**`lgg`**) Pretty log + graph.
 - **`git logfiles`** - (**`lgf`**) Pretty log + file changes.
-- **`git logdiff FILE`** - (**`lgd`**) Pretty log + diff. Better replacement for `git blame`.
+- **`git logdiff FILE`** - (**`lgd`**) Pretty log + diff. [Better replacement](http://blog.andrewray.me/a-better-git-blame/) for `git blame`.
 
 ### Status aliases
 
 Aliases related with `git status`.
 
 - **`git st`** - Shorter version of `git status`
-- **`git sts`** - Shorter version of `git status -s`. Show minimal status.
-- **`git sta`** - Shorter version of `git status -v`. Show verbose status with diff of changes.
+- **`git statusshort`** - (**`sts`**) Show minimal status.
+- **`git statusverbose`** - (**`stv`**) Show verbose status with diff of changes.
 
-```
-$ git sts
- M git/.gitconfig_aliases
- M git/readme.md
-```
+### Add aliases
+
+Aliases related with `git add`.
+
+- **`git ad`** - Shorter version of `git add`.
+- **`git addall`** - (**`ada`**) Add all.
 
 ### Commit aliases
 
 Aliases related with `git commit`.
 
-- **`git cm`** - Shorter version `git commit`.
-- **`git commitall`** - (**`cma`**) Stage all and commit all.
-- **`git uncommit`** - Revert the act of committing. Shorter version of `git reset --soft HEAD^`.
-- **`git amend`** - (**`an`**) Amend all.
-- **`git amendall`** - (**`ana`**) Stage all and amend all.
+- **`git cm`** - Shorter version of `git commit`.
+- **`git commitall`** - (**`cma`**) Stage all and commit all changes.
+- **`git uncommit`** - Revert the act of committing.
+- **`git amend`** - (**`an`**) Amend staged changes.
+- **`git amendall`** - (**`ana`**) Stage all and amend all changes.
 - **`git amendmessage MSG`** - Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
 - **`git amendauthor [NAME] [EMAIL]`** - Amend new commit author.
@@ -80,13 +72,6 @@ Aliases that enables traversing through commit history.
 
 - **`git prevcommit`** - Go to the previous commit.
 - **`git nextcommit`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
-
-### Add aliases
-
-Aliases related with `git add`.
-
-- **`git ad`** - Shorter version of `git add`.
-- **`git ada`** - Shorter version of `git add -A`.
 
 ### Undo aliases
 

@@ -2,8 +2,14 @@
 	####################################
 	# Aliases
 	####################################
-	# List all aliases
-	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'
+	# List all aliases // TODO: Fixme "
+	aliases = "!git config --list | \
+		grep 'alias\\.' | \
+		grep -v 'alias.aliases' | \
+		sed 's|alias\\.\\([^=]*\\)=\\(.*\\)|\\1 =\\> \\2|' | \
+		sed 's|\\ *\\t\\+\\ *| |g' | \
+		awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2) }' \
+	"
 	# Find an alias
 	alias = "!f() { git aliases | grep \"^\\w*$1\\w*\"; }; f"
 
@@ -16,62 +22,88 @@
 	####################################
 	# Log
 	####################################
+	# Shorter version
+	lg = log
 	# Pretty printed log
-	logpretty = !git log --pretty=custom
-	lg = !git logpretty
+	logpretty = log --pretty=custom
+	lgp = !git logpretty
 	# Show pretty printed log with branch graph
-	loggraph = !git log --graph --pretty=custom
+	loggraph = log --graph --pretty=custom
 	lgg = !git loggraph
 	# Show pretty printed log with files
-	logfiles = !git log --pretty=custom --numstat --decorate --name-status
+	logfiles = log --pretty=custom --numstat --decorate --name-status
 	lgf = !git logfiles
 	# Show pretty printed commit log with diffs.
 	# Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
-	logdiff = !git log -M --follow --stat --pretty=custom -p --color-words
+	logdiff = log -M --follow --stat --pretty=custom -p --color-words
 	lgd = !git logdiff
 
 	####################################
 	# Status
 	####################################
 	# Shorter versions
-	st = !git status
-	sts = status -s
+	st = status
+	# Short status
+	statusshort = status -s
+	sts = !git statusshort
+	# Verbose status
+	statusverbose = status -v
+	stv = !git statusverbose
 
 	####################################
 	# Add
 	####################################
 	# Shorter version
-	ad = !git add
+	ad = add
 	# Add all
-	addall = !git add -A
+	addall = add -A
 	ada = !git addall
 
 	####################################
 	# Commit
 	####################################
 	# Shorter version
-	cm = !git commit
+	cm = commit
 	# Commit all changes
 	commitall = !git add -A && git commit -av
 	cma = !git commitall
 	# Amend the currently staged files to the latest commit
-	amend = !git commit -a --amend -C HEAD
+	amend = commit --amend -C HEAD
 	an = !git amend
 	# Amend all
-	amendall = !git add -A && git amend
+	amendall = !git add -A && git amend -a
 	ana = !git amendall
 	# Change message of the last commit
-	amendauthor = "!f() { git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; }; f"
+	amendauthor = "!f() { \
+		git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; \
+	}; f"
 	anu = !git amendauthor
 	# Change author of the last commit
 	amendmessage = "!f() { git commit --amend --message \"$1\"; }; f"
 	anm = !git amendmessage
 
 	####################################
-	# Commit traversal
+	# Commit traversal TODO: FIXME
 	####################################
 	prevcommit = !git checkout HEAD~
-	nextcommit = "!f() { local hash=\"$(git currcommit)\"; local child=\"$(git rev-list --all --not \"HEAD\"^@ --children | grep $hash | cut -d' ' -f2 | grep -v $hash | head -n 1)\"; [ ! -z \"$child\" ] && git checkout $child || git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); }; f"
+	nextcommit = "!f() { \
+		local hash=\"$(git currcommit)\"; \
+		local child=\"$(\
+			git rev-list --all --not \"HEAD\"^@ --children | \
+			grep $hash | \
+			cut -d' ' -f2 | \
+			grep -v $hash \
+		)\"; \
+		if [ \"$(echo $child | wc -l)\" -gt 1 ]; then \
+			echo \"Found multiple children commits:\" \
+			for c in $child; do echo \"  $c\"; done; \
+			echo \"Pick one and do: git checkout COMMIT\" \
+			exit 1 \
+		fi \
+		[ ! -z \"$child\" ] && \
+			git checkout $child || \
+			git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
+	}; f"
 
 	####################################
 	# Fetch aliases
@@ -188,7 +220,11 @@
 	checkoutnexttag = !git lg
 	# Showing tags
 	showtags = !git tag
-	lasttag = "!f() { [ $(git branchname) ] && git describe --abbrev=0 --tag || git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^ }; f"
+	lasttag = "!f() { \
+		[ $(git branchname) ] && \
+			git describe --abbrev=0 --tag || \
+			git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
+	}; f"
 	# Remove the old tag with this name and tag the latest commit with it.
 	retag = "!f() { git tag -d $1 && git push $(git remotename) :refs/tags/$1 && git tag $1; }; f"
 	tagwithdate = "!f() { git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); }; f"
