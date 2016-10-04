@@ -284,7 +284,7 @@ function flexiPromptTheme() {
 }
 
 if [ -n "$BASH_VERSION" ]; then
-    # Load theme and initialize prompt
+    # Initialize prompt
     flexiPromptTheme
 fi
 

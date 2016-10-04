@@ -1,7 +1,6 @@
 #!/bin/zsh
 
 __flexiRebuildPromptsExt() {
-
     buildPS4() {
         if [ $__FLEXI_PROMPT_SIMPLE -eq 1 ]; then
             echo "+ "
@@ -54,11 +53,12 @@ __flexiPromptSetupDefaultsExt() {
     : ${__FLEXI_PROMPT_PS4:=0}
 }
 
-# Initial prompt build
+# Load flexi prompt
 bashChangePrompt 'flexi'
+# Initial prompt build
 flexiPromptTheme
 
-# Timer mechanism
+# Register hooks
 autoload -U add-zsh-hook
 add-zsh-hook preexec __flexiPromptPreExec
 add-zsh-hook precmd __flexiPromptPreCmd

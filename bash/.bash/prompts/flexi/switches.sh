@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 function __flexiPromptDefineSwitch() {
     local funcname="flexiPromptSwitch$1"
