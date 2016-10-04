@@ -11,6 +11,8 @@
 #   http://misc.flogisoft.com/bash/tip_colors_and_formatting
 #   http://wiki.bash-hackers.org/scripting/terminalcodes
 
+source "$FLEXI_PROMPT_DIR/switches.sh"
+
 function __flexiPromptIsRoot() {
     [[ "${USER}" == *"root" ]] \
         && return 0 \
@@ -301,32 +303,6 @@ function __flexiPromptPreExec {
     local command="${2:-unknown}"
     [ "$command" != "__flexiPromptPreCmd" ] && __flexiPromptTerminalTitle ${command}
     __flexiPromptStartTimer
-}
-
-function __flexiPromptDefineOpt() {
-    local funcname=$1
-    local varname=$2
-    local default=$3
-    # Setup default value
-    eval $varname=\${$varname-$default}
-    # Setup toggle function
-    eval "$(echo "
-    function $funcname() {
-        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
-        # Make it extensible
-        type \"__flexiRebuildPrompts2\" >/dev/null 2>&1 && __flexiRebuildPrompts2
-        if [ -z \$a ]; then
-            [ \$$varname = 0 ] && $varname=1 || $varname=0;
-        elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
-            $varname=1
-        elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
-            $varname=0
-        else
-            $varname=\$1
-        fi
-        echo \"$varname=\$$varname\"
-        __flexiRebuildPromptsExt
-    }")"
 }
 
 function flexiPromptTheme() {
