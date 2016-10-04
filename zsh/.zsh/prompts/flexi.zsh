@@ -43,7 +43,6 @@ __flexiRebuildPromptsExt() {
 
 __flexiPromptSetupDefaultsExt() {
     # Prompt constants
-    : ${__FLEXI_PROMPT_XXX:="YYY"}
     : ${__FLEXI_PROMPT_BASIC:="${debian_chroot:+($debian_chroot)}$COLOR_GREEN_BOLD%n@%m$COLOR_RESET:$COLOR_BLUE_BOLD%~$COLOR_RESET\$ "}
     : ${__FLEXI_PROMPT_BASIC_NO_COLORS:="${debian_chroot:+($debian_chroot)}%n@%m:%~\$ "}
     : ${__FLEXI_PROMPT_UNPRINTABLE_PREFIX:="%{"}

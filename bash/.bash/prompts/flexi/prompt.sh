@@ -329,9 +329,9 @@ function flexiPromptTheme() {
 }
 
 if [ -n "$BASH_VERSION" ]; then
-    # Load theme and initial build
+    # Load theme and initialize prompt
     flexiPromptTheme
-    # Timer mechanism
+    # Setup handlers
     trap '__flexiPromptPreExec $BASH_COMMAND $BASH_COMMAND' DEBUG
     export PROMPT_COMMAND="__flexiPromptPreCmd; $__FLEXI_PROMPT_COMMAND"
 fi
