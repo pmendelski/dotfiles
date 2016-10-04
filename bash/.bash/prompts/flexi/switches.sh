@@ -48,3 +48,5 @@ __flexiPromptDefineSwitch Timer TIMER 5000
 __flexiPromptDefineSwitch Timestamp TIMESTAMP 0
 # Add it to ~/.bash_exports (sample: PROMPT_DEFAULT_USERHOST="mendlik@dell")
 __flexiPromptDefineSwitch DefaultUserHost PROMPT_DEFAULT_USERHOST ""
+
+unset -f __flexiPromptDefineSwitch
