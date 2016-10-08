@@ -1,6 +1,6 @@
 # Gotchas:
-# - do not use tab characters to align functions
-#   it blows up zsh autocompletion
+# - Do not use tab characters to align functions.
+#   It blows up zsh autocompletion.
 [alias]
     ####################################
     # Aliases
@@ -10,7 +10,7 @@
         git config --list | \
         grep 'alias\\.' | \
         sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | \
-        grep -v 'alias'| \
+        sed 's|[[:space:]]\\+\\ *| |g' | \
         awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2)}'; \
     }; f"
     # Find an alias
@@ -21,7 +21,6 @@
     ####################################
     # Just shorter
     ####################################
-    cm = commit
     cl = clone
     cp = cherry-pick
 
@@ -73,6 +72,10 @@
     # Commit all changes
     commitall = !git add -A && git commit -av
     cma = !git commitall
+
+    ####################################
+    # Amend
+    ####################################
     # Amend the currently staged files to the latest commit
     amend = commit --amend -C HEAD
     an = !git amend
@@ -81,11 +84,15 @@
     ana = !git amendall
     # Change message of the last commit
     amendauthor = "!f() { \
-        git commit --amend --author \"${1:-$(git username)} <${2:-$(git useremail)}>\" -C HEAD; \
+        local username=\"${1:-$(git username)}\"; \
+        local email=\"${2:-$(git useremail)}\"; \
+        git commit --amend --author \"${username} <${email}>\" -C HEAD; \
     }; f"
     anu = !git amendauthor
     # Change author of the last commit
-    amendmessage = "!f() { git commit --amend --message \"$1\"; }; f"
+    amendmessage = "!f() { \
+        git commit --amend --message \"$1\"; \
+    }; f"
     anm = !git amendmessage
 
     ####################################
@@ -121,7 +128,8 @@
     fem = !git fetchmaster
     # Fetch branch
     fetchbranch = "!f() { \
-        git fetch $(git remotename) ${1:-$(git branchname)}; \
+        local branchname=\"${1:-$(git branchname)}\"; \
+        git fetch $(git remotename) ${branchname}; \
     }; f"
     feb = !git fetchbranch
 
@@ -134,7 +142,10 @@
     checkoutmaster = !git checkout master
     com = !git checkoutmaster
     # Checkout and pull changes
-    checkoutsynced = "!f() { git checkout ${1:-master} && git pull; }; f"
+    checkoutsynced = "!f() { \
+        local branchname=\"${1:-master}\"; \
+        git checkout ${branchname} && git pull; \
+    }; f"
     cos = !git checkoutsynced
 
     ####################################
@@ -194,7 +205,9 @@
     # Shorter version
     re = rebase
     # Rebase remote branch
-    rebaseremote = "!f() { git rebase $(git remotename)/${1:-$(git branchname)}; }; f"
+    rebaseremote = "!f() { \
+        git rebase $(git remotename)/${1:-$(git branchname)}; \
+    }; f"
     rer = !git rebaseup
     # Rebase remote master
     rebaseremotemaster = !git rebase $(git remotename)/master
@@ -234,16 +247,33 @@
             git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
     }; f"
     # Remove the old tag with this name and tag the latest commit with it.
-    retag = "!f() { git tag -d $1 && git push $(git remotename) :refs/tags/$1 && git tag $1; }; f"
-    tagwithdate = "!f() { git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); }; f"
-    checkoutlasttag = "!f() { git checkout $(git lasttag); }; f"
+    retag = "!f() { \
+        git tag -d $1 && \
+            git push $(git remotename) :refs/tags/$1 && \
+            git tag $1; \
+    }; f"
+    tagwithdate = "!f() { \
+        git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); \
+    }; f"
+    checkoutlasttag = "!f() { \
+        git checkout $(git lasttag); \
+    }; f"
     # Pushing tags
     pushtags = push --tags
-    pushtag = "!f() { git push ${2:-$(git remotename)} ${1:-$(git lasttag); }; f"
+    pushtag = "!f() { \
+        git push ${2:-$(git remotename)} ${1:-$(git lasttag); \
+    }; f"
     # Deleting tags
-    deletetaglocally = "!f() { git tag -d ${1:-$(git lasttag)}; }; f"
-    deletetagremotely = "!f() { git push ${2:-$(git remotename)} :refs/tags/${1:-$(git lasttag)}; }; f"
-    deletetag = "!f() { git deletetaglocally $@ && git deletetagremotely $@; }; f"
+    deletetaglocally = "!f() { \
+        git tag -d ${1:-$(git lasttag)}; \
+    }; f"
+    deletetagremotely = "!f() { \
+        git push ${2:-$(git remotename)} :refs/tags/${1:-$(git lasttag)}; \
+    }; f"
+    deletetag = "!f() { \
+        git deletetaglocally $@ && \
+            git deletetagremotely $@; \
+    }; f"
 
     ####################################
     # Internal usage
@@ -253,8 +283,15 @@
     username = !git config --get user.name
     useremail = !git config --get user.email
     currcommit = !git rev-parse "HEAD"
-    expandhash = "!f() { git log --pretty=format:'%H' | grep \"^$1\"; }; f"
-    hashformsg = "!f() { git log --pretty='%H %s' | grep -i \"${1:-$(git currcommit)}\" | cut -d ' ' -f1; }; f"
+    expandhash = "!f() { \
+        git log --pretty=format:'%H' | \
+        grep \"^$1\"; \
+    }; f"
+    hashformsg = "!f() { \
+        git log --pretty='%H %s' | \
+        grep -i \"${1:-$(git currcommit)}\" | \
+        cut -d ' ' -f1; \
+    }; f"
 
 
     ####################################
@@ -264,17 +301,27 @@
     findfile = grep -Iin
     fnf = !git findfile
     # Find branches containing commit
-    findbranchbyhash = "!f() { git branch -a --contains $(git expandhash $1); }; f"
+    findbranchbyhash = "!f() { \
+        git branch -a --contains $(git expandhash $1); \
+    }; f"
     # Find tags containing commit
-    findtagsbyhash = "!f() { git describe --always --contains $(git expandhash $1); }; f"
+    findtagsbyhash = "!f() { \
+        git describe --always --contains $(git expandhash $1); \
+    }; f"
     # Find commits by content
-    findcommit = "!f() { git log --pretty=custom --decorate -S$1 -i; }; f"
+    findcommit = "!f() { \
+        git log --pretty=custom --decorate -S$1 -i; \
+    }; f"
     fnc = !git findcommit
     # Find commits by commit message
-    findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
+    findcommitbymsg = "!f() { \
+        git log --pretty=custom --decorate --grep=\"$1\" -i; \
+    }; f"
     fncm = !git findcommitbymsg
     # Find commits by short hash
-    findcommitbymsg = "!f() { git log --pretty=custom --decorate --grep=\"$1\" -i; }; f"
+    findcommitbymsg = "!f() { \
+        git log --pretty=custom --decorate --grep=\"$1\" -i; \
+    }; f"
     fncm = !git findcommitbymsg
 
     ####################################
@@ -293,7 +340,11 @@
     taglast = describe --tags --abbrev=0
     tgl = !git taglast
     # Remove the old tag with this name and tag the latest commit with it.
-    tagretag = "!f() { git tag -d $1 && git push $(git remotename) :refs/tags/$1 && git tag $1; }; f"
+    tagretag = "!f() { \
+        git tag -d $1 && \
+            git push $(git remotename) :refs/tags/$1 && \
+            git tag $1; \
+    }; f"
     tgr = !git tagretag
 
     ####################################
