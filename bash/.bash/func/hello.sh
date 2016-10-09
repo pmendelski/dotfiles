@@ -20,6 +20,7 @@ function dailyhello() {
 
     if [ "$today" -gt "$lastdate" ]; then
         echo "$today" > "$datefile"
-        sayhello
+        # sayhello
+        screenfetch
     fi
 }

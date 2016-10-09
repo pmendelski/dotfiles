@@ -49,6 +49,7 @@ Aliases related with `git add`.
 
 - **`git ad`** - Shorter version of `git add`.
 - **`git addall`** - (**`ada`**) Add all.
+- **`git unadd`**  - Undo staging.
 
 ### Commit aliases
 
@@ -57,11 +58,16 @@ Aliases related with `git commit`.
 - **`git cm`** - Shorter version of `git commit`.
 - **`git commitall`** - (**`cma`**) Stage all and commit all changes.
 - **`git uncommit`** - Revert the act of committing.
+
+### Commit amend
+
+Aliases related with `git commit --amend`.
+
 - **`git amend`** - (**`an`**) Amend staged changes.
 - **`git amendall`** - (**`ana`**) Stage all and amend all changes.
-- **`git amendmessage MSG`** - Amend new commit message.
+- **`git amendmessage MSG`** - (**`anm`**) Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
-- **`git amendauthor [NAME] [EMAIL]`** - Amend new commit author.
+- **`git amendauthor [NAME] [EMAIL]`** - (**`anu`**) Amend new commit author.
     - `NAME` - New author's name. Default value is `git config --get user.name`.
     - `EMAIL` - New author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
     - Executing `git amendauthor` will replace last commit author with you.
@@ -71,26 +77,35 @@ Aliases related with `git commit`.
 Aliases that enables traversing through commit history.
 
 - **`git prevcommit`** - Go to the previous commit.
-- **`git nextcommit`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
+- **`git nextcommit [BRANCH]`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
+    - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
 
 ### Undo aliases
 
 [Undoing things](http://stackoverflow.com/a/2846154/2284884). No worries these aliases will make no changes to your local files.
 
+**In case of emergency** To undo the undo. [Just use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
+
 - **`git unadd [FILE]`** - Undo staging. Alias for `git reset HEAD --`. What was in staging area will untouched on working tree.
     - `FILE` - You can unadd specific files. By default all files will be unstaged.
 - **`git uncommit`** - Undo commit. Alias for `git reset --soft HEAD^`. What was committed will be in staging area.
 - **`git undo`** - Undo commit and staging. Alias for `git reset HEAD^`. What was committed and in staging area now will be on your working tree.
-- **`git undobranchcommits`** - Undo all branch commits. Undo all... FIXME
+- **`git undolocalbranchcommits`** - Undo all branch local commits. Reset to upstream branch.
+- **`git undobranchcommits [SRC_BRANCH]`** - Undo all branch commits that are ahead of source branch.
+    - `SRC_BRANCH` - Source branch name. Default value is `master`.
 
 ### Drop aliases
 
 [Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will make changes to your local files**.
 
+**In case of emergency** To undo the undo. [Just use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
+
 - **`git dropunadded`** - Drop all unstaged changes.
 - **`git dropuncommitted`** - Drop all uncommitted changes. Everything what was not staged nor committed will be dropped.
-- **`git dropcommit`** - Drop all committed and uncommitted changes. It's like an 'undo' to previous commit.
-- **`git dropbranchchanges`** - Drop all committed and uncommitted changes made on the branch. Be aware that it is a **dangerous** alias.
+- **`git droptopreviouscommit`** - Drop all committed and uncommitted changes. It will restore state to previous commit.
+- **`git dropbranchlocalchanges`** - Drop all committed and uncommitted changes made on the branch. Hard reset to upstream branch.
+- **`git undobranchcommits [SRC_BRANCH]`** - Drop all changes that are ahead of source branch.
+    - `SRC_BRANCH` - Source branch name. Default value is `master`.
 
 ### Fetch aliases
 

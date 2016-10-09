@@ -1,6 +1,8 @@
 # Gotchas:
 # - Do not use tab characters to align functions.
 #   It blows up zsh autocompletion.
+# - use traps like:
+# trap 'echo ERROR: Operation failed; return' ERR; \
 [alias]
     ####################################
     # Aliases
@@ -14,7 +16,8 @@
         awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2)}'; \
     }; f"
     # Find an alias
-    alias = "!f() {\
+    findalias = "!f() {\
+        [ -z $1 ] && { echo 'Expected alias name'; exit 1; }; \
         git aliases | grep \"^\\w*$1\\w*\"; \
     }; f"
 
@@ -91,6 +94,7 @@
     anu = !git amendauthor
     # Change author of the last commit
     amendmessage = "!f() { \
+        [ -z $1 ] && { echo 'Expected message to amend'; exit 1; }; \
         git commit --amend --message \"$1\"; \
     }; f"
     anm = !git amendmessage
@@ -104,15 +108,27 @@
         local child=\"$(\
             git rev-list --all --not \"HEAD\"^@ --children | \
             grep $hash | \
-            cut -d' ' -f2 | \
+            cut -d' ' -f2- | \
+            sed 's| |\\n|g' | \
             grep -v $hash \
         )\"; \
-        if [ \"$(echo $child | wc -l)\" -gt 1 ]; then \
-            echo \"Found multiple children commits:\" \
-            for c in $child; do echo \"  $c\"; done; \
-            echo \"Pick one and do: git checkout COMMIT\" \
-            exit 1 \
-        fi \
+        local childrencount=\"$(echo \"$child\" | wc -l)\"; \
+        if [ \"$childrencount\" -gt 1 ]; then \
+            if [ ! -z "$1" ]; then \
+                child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
+            else \
+                echo \"Found multiple children commits:\"; \
+                for c in $child; do \
+                    echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
+                done; \
+                echo \"\\nOptions:\"; \
+                echo \"- Pick one child commit and do: git checkout COMMIT\"; \
+                echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
+                echo \"\\nAvailable branches:\"; \
+                git branch --contains $(git currcommit); \
+                exit 1; \
+            fi; \
+        fi; \
         [ ! -z \"$child\" ] && \
             git checkout $child || \
             git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
@@ -124,7 +140,7 @@
     # Shorter version
     fe = fetch
     # Fetch master
-    fetchmaster = !git fetch $(git remote show) master
+    fetchmaster = !git fetch $(git remotename) master
     fem = !git fetchmaster
     # Fetch branch
     fetchbranch = "!f() { \
@@ -175,10 +191,13 @@
     unadd = !git reset HEAD --
     # Undo commit
     uncommit = !git reset --soft HEAD^
-    # Undo all branch commits
-    # TODO: undoupcommits
-    # TODO: unddobranchcommits
-    undobranchcommits = !git reset --soft $(git remotename)/$(git branchname)
+    # Undo branch commits
+    undobranchlocalcommits = !git reset --soft $(git remotename)/$(git branchname)
+    undobranchcommits = "!f() { \
+        local branchname=\"${1:-master}\"; \
+        local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
+        git reset --soft HEAD~${n}; \
+    }; f"
 
     ####################################
     # Drop
@@ -188,16 +207,25 @@
     # Drop uncommitted changes
     dropuncommitted = !git reset --hard && git clean -xf
     # Drop a committed and uncommitted. Restore previous commit.
-    dropcommit = !git reset --hard HEAD~ && git clean -xf
-    # Drop all committed and ucommitted changes made on the branch. Restore branch beginning.
-    dropbranchchanges = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
+    droptopreviouscommit = "!f() { \
+        git reset --hard HEAD~${1:-1} && git clean -xf; \
+    }; f"
+    # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
+    dropbranchlocalchanges = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
+    dropbranchchanges = "!f() { \
+        local branchname=\"${1:-master}\"; \
+        local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
+        git reset --hard HEAD~${n} && git clean -xf; \
+    }; f"
 
     ####################################
     # Reflog
     ####################################
+    # Shorter version
+    rl = !git reflog
     # Pretty printed reflog
     reflogpretty = reflog --pretty=customreflog
-    rl = !git reflogpretty
+    rlp = !git reflogpretty
 
     ####################################
     # Rebase aliases
@@ -228,35 +256,46 @@
 
     ####################################
     # Tag aliases
-    # TODO:
-    # - create checkout prev/next tag (use next commit)
-    # - split alises to multilines
-    # - apply common naming
     ####################################
     # Creating tags
     newtag = !git tag -a
     newlighttag = !git tag
+    newtagwithdate = "!f() { \
+        git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); \
+    }; f"
     # Go to
-    checkoutprevtag = !git checkout $(git lasttag)
-    checkoutnexttag = !git lg
-    # Showing tags
-    showtags = !git tag
+    prevtag = !git checkout $(git lasttag)
+    nexttag = "!f() { \
+        local tagname=\"\"; \
+        local nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+        local nextcommitresult=0; \
+        while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
+            git nextcommit $@; \
+            nextcommitresult=$?; \
+            tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
+            nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+        done; \
+    }; f"
+    # Show tags
+    tags = !git tag
+    tagsonbranch = "!f() { \
+        git tag --merged ${1:-$(git branchname)} | tac; \
+    }; f"
     lasttag = "!f() { \
         [ $(git branchname) ] && \
             git describe --abbrev=0 --tag || \
             git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
     }; f"
     # Remove the old tag with this name and tag the latest commit with it.
+    retaglocally = "!f() { \
+        local tagname=\"${2:-$(git lasttag)}\"; \
+        git tag -d $tagname && git tag ${1:-$tagname}; \
+    }; f"
     retag = "!f() { \
+        local tagname=\"${2:-$(git lasttag)}\"; \
         git tag -d $1 && \
             git push $(git remotename) :refs/tags/$1 && \
             git tag $1; \
-    }; f"
-    tagwithdate = "!f() { \
-        git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); \
-    }; f"
-    checkoutlasttag = "!f() { \
-        git checkout $(git lasttag); \
     }; f"
     # Pushing tags
     pushtags = push --tags
@@ -264,10 +303,10 @@
         git push ${2:-$(git remotename)} ${1:-$(git lasttag); \
     }; f"
     # Deleting tags
-    deletetaglocally = "!f() { \
+    deletelocaltag = "!f() { \
         git tag -d ${1:-$(git lasttag)}; \
     }; f"
-    deletetagremotely = "!f() { \
+    deleteremotetag = "!f() { \
         git push ${2:-$(git remotename)} :refs/tags/${1:-$(git lasttag)}; \
     }; f"
     deletetag = "!f() { \
@@ -327,25 +366,28 @@
     ####################################
     # Listings aliases
     ####################################
-    tags = tag -l
-    branches = branch -a
     remotes = remote -v
     contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
 
-
     ####################################
-    # Tag aliases
+    # Branch aliases
     ####################################
-    # Show last tag
-    taglast = describe --tags --abbrev=0
-    tgl = !git taglast
-    # Remove the old tag with this name and tag the latest commit with it.
-    tagretag = "!f() { \
-        git tag -d $1 && \
-            git push $(git remotename) :refs/tags/$1 && \
-            git tag $1; \
+    # List branches
+    branches = branch -a
+    # New branch
+    newbranch = !git checkout -b
+    # Dropping branches
+    droplocalbranch="!f() { \
+        local branch=\"${1:-$(git branchname)}\"; \
+        [ \"$branch\" = \"$(git branchname)\" ] && git checkout master; \
+        git branch -D $branch; \
     }; f"
-    tgr = !git tagretag
+    dropremotebranch="!f() { \
+        git push ${2:-$(git remotename)} --delete ${1:-$(git branchname)}; \
+    }; f"
+    dropbranch="!f() { \
+        git droplocalbranch $@ && git dropremotebranch $@; \
+    }; f"
 
     ####################################
     # Github aliases
