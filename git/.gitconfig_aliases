@@ -287,15 +287,16 @@
             git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
     }; f"
     # Remove the old tag with this name and tag the latest commit with it.
-    retaglocally = "!f() { \
+    retag = "!f() { \
         local tagname=\"${2:-$(git lasttag)}\"; \
         git tag -d $tagname && git tag ${1:-$tagname}; \
     }; f"
-    retag = "!f() { \
+    retagpublished = "!f() { \
         local tagname=\"${2:-$(git lasttag)}\"; \
         git tag -d $1 && \
-            git push $(git remotename) :refs/tags/$1 && \
-            git tag $1; \
+            git push $(git remotename) :refs/tags/$tagname && \
+            git tag $1 && \
+            git push $(git remotename) $tagname; \
     }; f"
     # Pushing tags
     pushtags = push --tags
@@ -341,11 +342,17 @@
     fnf = !git findfile
     # Find branches containing commit
     findbranchbyhash = "!f() { \
-        git branch -a --contains $(git expandhash $1); \
+        for h in $(git expandhash $1); do \
+            echo \"Commit: $h\"; \
+            git branch -a --contains $h; \
+        done; \
     }; f"
     # Find tags containing commit
     findtagsbyhash = "!f() { \
-        git describe --always --contains $(git expandhash $1); \
+        for h in $(git expandhash $1); do \
+            echo \"Commit: $h\"; \
+            git describe --always --contains $h; \
+        done; \
     }; f"
     # Find commits by content
     findcommit = "!f() { \
@@ -358,10 +365,13 @@
     }; f"
     fncm = !git findcommitbymsg
     # Find commits by short hash
-    findcommitbymsg = "!f() { \
-        git log --pretty=custom --decorate --grep=\"$1\" -i; \
+    findcommitbyhash = "!f() { \
+        for h in $(git expandhash $1); do \
+            echo \"Commit: $h\"; \
+            git log -p -1 $h; \
+        done; \
     }; f"
-    fncm = !git findcommitbymsg
+    fnch = !git findcommitbymsg
 
     ####################################
     # Listings aliases

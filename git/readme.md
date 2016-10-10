@@ -84,7 +84,7 @@ Aliases that enables traversing through commit history.
 
 [Undoing things](http://stackoverflow.com/a/2846154/2284884). No worries these aliases will make no changes to your local files.
 
-**In case of emergency** To undo the undo. [Just use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
+**In case of emergency** To revert an undo [use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
 
 - **`git unadd [FILE]`** - Undo staging. Alias for `git reset HEAD --`. What was in staging area will untouched on working tree.
     - `FILE` - You can unadd specific files. By default all files will be unstaged.
@@ -98,7 +98,7 @@ Aliases that enables traversing through commit history.
 
 [Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will make changes to your local files**.
 
-**In case of emergency** To undo the undo. [Just use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
+**In case of emergency** To revert a drop [use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
 
 - **`git dropunadded`** - Drop all unstaged changes.
 - **`git dropuncommitted`** - Drop all uncommitted changes. Everything what was not staged nor committed will be dropped.
