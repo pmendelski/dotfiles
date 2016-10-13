@@ -1,423 +1,385 @@
 # Gotchas:
-# - Do not use tab characters to align functions.
-#   It blows up zsh autocompletion.
-# - use traps like:
-# trap 'echo ERROR: Operation failed; return' ERR; \
+    # - Do not use tab characters to align functions.
+    #   It blows up zsh autocompletion.
+    # - Always check if alias is already used
+    # - Use double indent for IDE folding
 [alias]
-    ####################################
     # Aliases
-    ####################################
-    # List all aliases
-    aliases = "!f() {\
-        git config --list | \
-        grep 'alias\\.' | \
-        sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | \
-        sed 's|[[:space:]]\\+\\ *| |g' | \
-        awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2)}'; \
-    }; f"
-    # Find an alias
-    findalias = "!f() {\
-        [ -z $1 ] && { echo 'Expected alias name'; exit 1; }; \
-        git aliases | grep \"^\\w*$1\\w*\"; \
-    }; f"
-
-    ####################################
-    # Just shorter
-    ####################################
-    cl = clone
-    cp = cherry-pick
-
-    ####################################
+        # List all aliases
+        aliases = "!f() { \
+            git config --list | \
+            grep 'alias\\.' | \
+            sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | \
+            sed 's|[[:space:]]\\+\\ *| |g' | \
+            awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2)}'; \
+        }; f"
+        # Open documentation
+        aliases-doc = !sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md' &
+        # Find an alias
+        alias = "!f() {\
+            git aliases | grep \"^\\w*$1\\w*\"; \
+        }; f"
+        al = !git alias
     # Log
-    ####################################
-    # Shorter version
-    lg = log
-    # Pretty printed log
-    logpretty = log --pretty=custom
-    lgp = !git logpretty
-    # Show pretty printed log with branch graph
-    loggraph = log --graph --pretty=custom
-    lgg = !git loggraph
-    # Show pretty printed log with files
-    logfiles = log --pretty=custom --numstat --decorate --name-status
-    lgf = !git logfiles
-    # Show pretty printed commit log with diffs.
-    # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
-    logdiff = log -M --follow --stat --pretty=custom -p --color-words
-    lgd = !git logdiff
-
-    ####################################
+        # Shorter version
+        lg = log
+        # Pretty printed log
+        log-pretty = log --pretty=custom
+        lgp = !git log-pretty
+        # Show pretty printed log with branch graph
+        log-graph = log --graph --pretty=custom
+        lgg = !git log-graph
+        # Show pretty printed log with files
+        log-files = log --pretty=custom --numstat --decorate --name-status
+        lgf = !git log-files
+        # Show pretty printed commit log with diffs.
+        # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
+        log-diff = log -M --follow --stat --pretty=custom -p --color-words
+        lgd = !git log-diff
     # Status
-    ####################################
-    # Shorter versions
-    st = status
-    # Short status
-    statusshort = status -s
-    sts = !git statusshort
-    # Verbose status
-    statusverbose = status -v
-    stv = !git statusverbose
-
-    ####################################
+        # Shorter versions
+        st = status
+        # Short status
+        status-short = status -s
+        sts = !git status-short
+        # Verbose status
+        status-verbose = status -v
+        stv = !git status-verbose
+    # Fetch
+        # Shorter version
+        fe = fetch
+        # Fetch master
+        fetch-master = !git fetch $(git remotename) master
+        fem = !git fetch-master
+        # Fetch branch
+        fetch-branch = "!f() { \
+            git fetch $(git remotename) ${1:-$(git branchname)}; \
+        }; f"
+        feb = !git fetch-branch
+    # Checkout
+        # Shorter version
+        co = checkout
+        # Checkout master
+        checkout-master = !git checkout master
+        com = !git checkout-master
+        # Checkout and pull changes
+        checkout-synced = "!f() { \
+            git checkout ${1:-master} && git pull; \
+        }; f"
+        cos = !git checkout-synced
     # Add
-    ####################################
-    # Shorter version
-    ad = add
-    # Add all
-    addall = add -A
-    ada = !git addall
-
-    ####################################
+        # Shorter version
+        ad = add
+        # Add all
+        add-all = add -A
+        ada = !git add-all
     # Commit
-    ####################################
-    # Shorter version
-    cm = commit
-    # Commit all changes
-    commitall = !git add -A && git commit -av
-    cma = !git commitall
-
-    ####################################
+        # Shorter version
+        cm = commit
+        # Commit all changes
+        commit-all = !git add -A && git commit -av
+        cma = !git commit-all
+        # Show current commit hash
+        currcommit = !git rev-parse "HEAD"
+        # Expand commit hash
+        expandhash = "!f() { \
+            git log --pretty=format:'%H' | \
+            grep \"^$1\"; \
+        }; f"
+        # Find hash for commit message
+        hashformsg = "!f() { \
+            git log --pretty='%H %s' | \
+            grep -i \"${1:-$(git currcommit)}\" | \
+            cut -d ' ' -f1; \
+        }; f"
     # Amend
-    ####################################
-    # Amend the currently staged files to the latest commit
-    amend = commit --amend -C HEAD
-    an = !git amend
-    # Amend all
-    amendall = !git add -A && git amend -a
-    ana = !git amendall
-    # Change message of the last commit
-    amendauthor = "!f() { \
-        local username=\"${1:-$(git username)}\"; \
-        local email=\"${2:-$(git useremail)}\"; \
-        git commit --amend --author \"${username} <${email}>\" -C HEAD; \
-    }; f"
-    anu = !git amendauthor
-    # Change author of the last commit
-    amendmessage = "!f() { \
-        [ -z $1 ] && { echo 'Expected message to amend'; exit 1; }; \
-        git commit --amend --message \"$1\"; \
-    }; f"
-    anm = !git amendmessage
-
-    ####################################
-    # Commit traversal TODO: FIXME
-    ####################################
-    prevcommit = !git checkout HEAD~
-    nextcommit = "!f() { \
-        local hash=\"$(git currcommit)\"; \
-        local child=\"$(\
-            git rev-list --all --not \"HEAD\"^@ --children | \
-            grep $hash | \
-            cut -d' ' -f2- | \
-            sed 's| |\\n|g' | \
-            grep -v $hash \
-        )\"; \
-        local childrencount=\"$(echo \"$child\" | wc -l)\"; \
-        if [ \"$childrencount\" -gt 1 ]; then \
-            if [ ! -z "$1" ]; then \
-                child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
-            else \
-                echo \"Found multiple children commits:\"; \
-                for c in $child; do \
-                    echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
-                done; \
-                echo \"\\nOptions:\"; \
-                echo \"- Pick one child commit and do: git checkout COMMIT\"; \
-                echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
-                echo \"\\nAvailable branches:\"; \
-                git branch --contains $(git currcommit); \
-                exit 1; \
+        # Amend the currently staged files to the latest commit
+        amend = commit --amend -C HEAD
+        an = !git amend
+        # Amend all
+        amend-all = !git add -A && git amend -a
+        ana = !git amend-all
+        # Change message of the last commit
+        amend-author = "!f() { \
+            local username=\"${1:-$(git username)}\"; \
+            local email=\"${2:-$(git useremail)}\"; \
+            git commit --amend --author \"${username} <${email}>\" -C HEAD; \
+        }; f"
+        anu = !git amend-author
+        # Change author of the last commit
+        amend-message = "!f() { \
+            git commit --amend --message \"$1\"; \
+        }; f"
+        anm = !git amend-message
+    # Commit traversal
+        prev-commit = !git checkout HEAD~
+        next-commit = "!f() { \
+            local hash=\"$(git currcommit)\"; \
+            local child=\"$(\
+                git rev-list --all --not \"HEAD\"^@ --children | \
+                grep $hash | \
+                cut -d' ' -f2- | \
+                sed 's| |\\n|g' | \
+                grep -v $hash \
+            )\"; \
+            local childrencount=\"$(echo \"$child\" | wc -l)\"; \
+            if [ \"$childrencount\" -gt 1 ]; then \
+                if [ ! -z "$1" ]; then \
+                    child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
+                else \
+                    echo \"Found multiple children commits:\"; \
+                    for c in $child; do \
+                        echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
+                    done; \
+                    echo \"\\nOptions:\"; \
+                    echo \"- Pick one child commit and do: git checkout COMMIT\"; \
+                    echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
+                    echo \"\\nAvailable branches:\"; \
+                    git branch --contains $(git currcommit); \
+                    exit 1; \
+                fi; \
             fi; \
-        fi; \
-        [ ! -z \"$child\" ] && \
-            git checkout $child || \
-            git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
-    }; f"
-
-    ####################################
-    # Fetch aliases
-    ####################################
-    # Shorter version
-    fe = fetch
-    # Fetch master
-    fetchmaster = !git fetch $(git remotename) master
-    fem = !git fetchmaster
-    # Fetch branch
-    fetchbranch = "!f() { \
-        local branchname=\"${1:-$(git branchname)}\"; \
-        git fetch $(git remotename) ${branchname}; \
-    }; f"
-    feb = !git fetchbranch
-
-    ####################################
-    # Checkout aliases
-    ####################################
-    # Shorter version
-    co = checkout
-    # Checkout master
-    checkoutmaster = !git checkout master
-    com = !git checkoutmaster
-    # Checkout and pull changes
-    checkoutsynced = "!f() { \
-        local branchname=\"${1:-master}\"; \
-        git checkout ${branchname} && git pull; \
-    }; f"
-    cos = !git checkoutsynced
-
-    ####################################
-    # Diff aliases
-    ####################################
-    # Shorter version
-    df = diff
-    # Diff words only - easier to see changes
-    diffwords = diff --color-words
-    dfw = !git diffwords
-    # Diff all tracked and untracked
-    diffall = !git diff HEAD --color-words
-    dfa = !git diffall
-    # Diff tracked only
-    difftracked = !git diff --cached --color-words
-    dft = !git difftracked
-    # Create a diff with binaries. Could be used with `git apply `
-    diffpatch = !git diff HEAD --binary
-    dfp = !git diffpatch
-
-    ####################################
-    # Undo
-    ####################################
-    # Undo commit and staging
-    undo = !git reset HEAD^
-    # Undo staging
-    unadd = !git reset HEAD --
-    # Undo commit
-    uncommit = !git reset --soft HEAD^
-    # Undo branch commits
-    undobranchlocalcommits = !git reset --soft $(git remotename)/$(git branchname)
-    undobranchcommits = "!f() { \
-        local branchname=\"${1:-master}\"; \
-        local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
-        git reset --soft HEAD~${n}; \
-    }; f"
-
-    ####################################
-    # Drop
-    ####################################
-    # Drop all untracked files
-    dropunadded = !git clean -xf
-    # Drop uncommitted changes
-    dropuncommitted = !git reset --hard && git clean -xf
-    # Drop a committed and uncommitted. Restore previous commit.
-    droptopreviouscommit = "!f() { \
-        git reset --hard HEAD~${1:-1} && git clean -xf; \
-    }; f"
-    # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
-    dropbranchlocalchanges = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
-    dropbranchchanges = "!f() { \
-        local branchname=\"${1:-master}\"; \
-        local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
-        git reset --hard HEAD~${n} && git clean -xf; \
-    }; f"
-
-    ####################################
+            [ ! -z \"$child\" ] && \
+                git checkout $child || \
+                git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
+        }; f"
+    # Rebase
+        # Shorter version
+        re = rebase
+        # Rebase with remote branch
+        rebase-remote = "!f() { \
+            git rebase $(git remotename)/${1:-$(git branchname)}; \
+        }; f"
+        rer = !git rebase-remote
+        # Rebase with remote master
+        rebase-remote-master = !git rebase $(git remotename)/master
+        rerm = !git rebase-remote-master
+    # Squash
+        # Interactive rebase with a branch or a number of latest commits or branch
+        squash = "!f() { git rebase -i ${1:-master}; }; f"
+        sq = !git squash
+        # Squash all commits available on the branch.
+        squash-total = !git rebase -i --root
+        sqt = !git squash-total
+        # Squash all commits that are ahead of the upstream
+        squash-ahead = !git rebase -i $(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)
+        sqa = !git squash-ahead
+    # Tag
+        # Shorter version
+        tg = !git tag
+        # Create tag with date
+        create-tag = "!f() { \
+            local tagname=\"$1\"; \
+            local tagmessage=\"$2\"; \
+            [ -z \"tagname\" ] && { (>&2 echo \"No tag name is specified\"); exit 1; }; \
+            [ -z \"tagmessage\" ] && \
+                git tag \"$tagname\" || \
+                git tag -a \"$tagname\" -m \"$tagmessage\"; \
+        }; f"
+        # Create tag with date
+        create-tag-date = "!f() { \
+            git tag-new \"${1:+$1_}$(date \"+%Y-%m-%d\")\" \"$2\"; \
+        }; f"
+        # Go to
+        prev-tag = !git checkout $(git lasttag)
+        next-tag = "!f() { \
+            local tagname=\"\"; \
+            local nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+            local nextcommitresult=0; \
+            while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
+                git next-commit $@; \
+                nextcommitresult=$?; \
+                tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
+                nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+            done; \
+        }; f"
+        # List all tags
+        tags = !git tag
+        tga = !git tags
+        # List tags available on branch
+        tags-branch = "!f() { \
+            git tag --merged ${1:-$(git branchname)} | tac; \
+        }; f"
+        tgb = !tags-branch
+        # Show last tag available on branch
+        lasttag = "!f() { \
+            [ $(git branchname) ] && \
+                git describe --abbrev=0 --tag || \
+                git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
+        }; f"
+        # Remove the old tag with this name and tag the latest commit with it.
+        retag = "!f() { \
+            local oldtagname=\"${2:-$(git lasttag)}\"; \
+            local newtagname=\"${1:-$oldtagname}\"; \
+            git tag -d $oldtagname && git tag $newtagname; \
+        }; f"
+        retag-globally = "!f() { \
+            local oldtagname=\"${2:-$(git lasttag)}\"; \
+            local newtagname=\"${1:-$oldtagname}\"; \
+            git tag -d $oldtagname && \
+                git tag $newtagname && \
+                git push $remotename :refs/tags/$oldtagname && \
+                git push $remotename ${1:-$newtagname}; \
+        }; f"
+        # Pushing tags
+        push-tags = push --tags
+        push-tag = "!f() { \
+            git push ${2:-$(git remotename)} ${1:-$(git lasttag); \
+        }; f"
+        # Deleting tags
+        delete-tag = "!f() { \
+            git tag -d ${1:-$(git lasttag)}; \
+        }; f"
+        delete-tag-remotely = "!f() { \
+            git push ${2:-$(git remotename)} :refs/tags/${1:-$(git lasttag)}; \
+        }; f"
+        delete-tag-globally = "!f() { \
+            git delete-tag-locally $@ && \
+                git delete-tag-remotely $@; \
+        }; f"
+    # Diff
+        # Shorter version
+        df = diff
+        # Diff words only - easier to see changes
+        diff-words = diff --color-words
+        dfw = !git diff-words
+        # Diff all tracked and untracked
+        diff-all = !git diff HEAD --color-words
+        dfa = !git diff-all
+        # Diff tracked only
+        diff-tracked = !git diff --cached --color-words
+        dft = !git diff-tracked
+        # Create a diff with binaries. Could be used with `git apply `
+        diff-patch = !git diff HEAD --binary
+        dfp = !git diff-patch
+    # Undo actions
+        # Undo staging
+        unadd = !git reset HEAD --
+        # Undo commit
+        uncommit = !git reset --soft HEAD^
+        # Undo commit and staging
+        undo-topreviouscommit = !git reset HEAD^
+        # Undo branch commits
+        undo-branch-commits-ahead = !git reset --soft $(git remotename)/$(git branchname)
+        undo-branch-commits = "!f() { \
+            local branchname=\"${1:-master}\"; \
+            local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
+            git reset --soft HEAD~${n}; \
+        }; f"
+    # Drop changes
+        # Drop all untracked files
+        drop-unadded = !git clean -xf
+        # Drop uncommitted changes
+        drop-uncommitted = !git reset --hard && git clean -xf
+        # Drop a committed and uncommitted. Restore previous commit.
+        drop-topreviouscommit = "!f() { \
+            git reset --hard HEAD~${1:-1} && git clean -xf; \
+        }; f"
+        # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
+        drop-branch-changes-ahead = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
+        drop-branch-changes = "!f() { \
+            local branchname=\"${1:-master}\"; \
+            local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
+            git reset --hard HEAD~${n} && git clean -xf; \
+        }; f"
     # Reflog
-    ####################################
-    # Shorter version
-    rl = !git reflog
-    # Pretty printed reflog
-    reflogpretty = reflog --pretty=customreflog
-    rlp = !git reflogpretty
-
-    ####################################
-    # Rebase aliases
-    ####################################
-    # Shorter version
-    re = rebase
-    # Rebase remote branch
-    rebaseremote = "!f() { \
-        git rebase $(git remotename)/${1:-$(git branchname)}; \
-    }; f"
-    rer = !git rebaseup
-    # Rebase remote master
-    rebaseremotemaster = !git rebase $(git remotename)/master
-    rerm = !git rebaseremotemaster
-
-    ####################################
-    # Squash aliases
-    ####################################
-    # Interactive rebase with the given number of latest commits or branch
-    squash = "!f() { git rebase -i ${1:-master}; }; f"
-    sq = !git squash
-    # Squash all commits available on the branch.
-    squashall = !git rebase -i --root
-    sqa = !git squashall
-    # Squash all commits that are ahead of the upstream
-    squashup = !git rebase -i $(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)
-    squ = !git squashup
-
-    ####################################
-    # Tag aliases
-    ####################################
-    # Creating tags
-    newtag = !git tag -a
-    newlighttag = !git tag
-    newtagwithdate = "!f() { \
-        git tag \"${1:+$1_}\"$(date \"+%Y-%m-%d\"); \
-    }; f"
-    # Go to
-    prevtag = !git checkout $(git lasttag)
-    nexttag = "!f() { \
-        local tagname=\"\"; \
-        local nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
-        local nextcommitresult=0; \
-        while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
-            git nextcommit $@; \
-            nextcommitresult=$?; \
-            tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
-            nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
-        done; \
-    }; f"
-    # Show tags
-    tags = !git tag
-    tagsonbranch = "!f() { \
-        git tag --merged ${1:-$(git branchname)} | tac; \
-    }; f"
-    lasttag = "!f() { \
-        [ $(git branchname) ] && \
-            git describe --abbrev=0 --tag || \
-            git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
-    }; f"
-    # Remove the old tag with this name and tag the latest commit with it.
-    retag = "!f() { \
-        local tagname=\"${2:-$(git lasttag)}\"; \
-        git tag -d $tagname && git tag ${1:-$tagname}; \
-    }; f"
-    retagpublished = "!f() { \
-        local tagname=\"${2:-$(git lasttag)}\"; \
-        git tag -d $1 && \
-            git push $(git remotename) :refs/tags/$tagname && \
-            git tag $1 && \
-            git push $(git remotename) $tagname; \
-    }; f"
-    # Pushing tags
-    pushtags = push --tags
-    pushtag = "!f() { \
-        git push ${2:-$(git remotename)} ${1:-$(git lasttag); \
-    }; f"
-    # Deleting tags
-    deletelocaltag = "!f() { \
-        git tag -d ${1:-$(git lasttag)}; \
-    }; f"
-    deleteremotetag = "!f() { \
-        git push ${2:-$(git remotename)} :refs/tags/${1:-$(git lasttag)}; \
-    }; f"
-    deletetag = "!f() { \
-        git deletetaglocally $@ && \
-            git deletetagremotely $@; \
-    }; f"
-
-    ####################################
-    # Internal usage
-    ####################################
-    remotename = !git remote show
-    branchname = !git symbolic-ref --short HEAD
-    username = !git config --get user.name
-    useremail = !git config --get user.email
-    currcommit = !git rev-parse "HEAD"
-    expandhash = "!f() { \
-        git log --pretty=format:'%H' | \
-        grep \"^$1\"; \
-    }; f"
-    hashformsg = "!f() { \
-        git log --pretty='%H %s' | \
-        grep -i \"${1:-$(git currcommit)}\" | \
-        cut -d ' ' -f1; \
-    }; f"
-
-
-    ####################################
-    # Finding aliases
-    ####################################
-    # Customized alias for grep
-    findfile = grep -Iin
-    fnf = !git findfile
-    # Find branches containing commit
-    findbranchbyhash = "!f() { \
-        for h in $(git expandhash $1); do \
-            echo \"Commit: $h\"; \
-            git branch -a --contains $h; \
-        done; \
-    }; f"
-    # Find tags containing commit
-    findtagsbyhash = "!f() { \
-        for h in $(git expandhash $1); do \
-            echo \"Commit: $h\"; \
-            git describe --always --contains $h; \
-        done; \
-    }; f"
-    # Find commits by content
-    findcommit = "!f() { \
-        git log --pretty=custom --decorate -S$1 -i; \
-    }; f"
-    fnc = !git findcommit
-    # Find commits by commit message
-    findcommitbymsg = "!f() { \
-        git log --pretty=custom --decorate --grep=\"$1\" -i; \
-    }; f"
-    fncm = !git findcommitbymsg
-    # Find commits by short hash
-    findcommitbyhash = "!f() { \
-        for h in $(git expandhash $1); do \
-            echo \"Commit: $h\"; \
-            git log -p -1 $h; \
-        done; \
-    }; f"
-    fnch = !git findcommitbymsg
-
-    ####################################
-    # Listings aliases
-    ####################################
-    remotes = remote -v
-    contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
-
-    ####################################
-    # Branch aliases
-    ####################################
-    # List branches
-    branches = branch -a
-    # New branch
-    newbranch = !git checkout -b
-    # Dropping branches
-    droplocalbranch="!f() { \
-        local branch=\"${1:-$(git branchname)}\"; \
-        [ \"$branch\" = \"$(git branchname)\" ] && git checkout master; \
-        git branch -D $branch; \
-    }; f"
-    dropremotebranch="!f() { \
-        git push ${2:-$(git remotename)} --delete ${1:-$(git branchname)}; \
-    }; f"
-    dropbranch="!f() { \
-        git droplocalbranch $@ && git dropremotebranch $@; \
-    }; f"
-
-    ####################################
+        # Shorter version
+        rl = !git reflog
+        # Pretty printed reflog
+        reflog-pretty = reflog --pretty=customreflog
+        rlp = !git reflog-pretty
+    # Find
+        # Customized alias for grep
+        findfile = grep -Iin
+        fnf = !git findfile
+        # Find branches containing commit
+        findbranchbyhash = "!f() { \
+            for h in $(git expandhash $1); do \
+                echo \"Commit: $h\"; \
+                git branch -a --contains $h; \
+            done; \
+        }; f"
+        # Find tags containing commit
+        findtagsbyhash = "!f() { \
+            for h in $(git expandhash $1); do \
+                echo \"Commit: $h\"; \
+                git describe --always --contains $h; \
+            done; \
+        }; f"
+        # Find commits by content
+        findcommit = "!f() { \
+            git log --pretty=custom --decorate -S$1 -i; \
+        }; f"
+        fnc = !git findcommit
+        # Find commits by commit message
+        findcommitbymsg = "!f() { \
+            git log --pretty=custom --decorate --grep=\"$1\" -i; \
+        }; f"
+        fncm = !git findcommitbymsg
+        # Find commits by short hash
+        findcommitbyhash = "!f() { \
+            for h in $(git expandhash $1); do \
+                echo \"Commit: $h\"; \
+                git log -p -1 $h; \
+            done; \
+        }; f"
+        fnch = !git findcommitbymsg
+    # Contribution TODO
+        contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
+    # Remote
+        # List remotes
+        remotes = remote -v
+        # Internal usage
+        remotename = "!f() { \
+            local remotename=\"$(git remote show)\"; \
+            [ -z \"$remotename\" ] && { \
+                (>&2 echo \"No remote is specified\"); \
+                exit 1; \
+            }; \
+            echo $remotename; \
+        }; f"
+    # Branch
+        # List branches
+        branches = branch -a
+        # Show branch name
+        branchname = !git symbolic-ref --short HEAD
+        # New branch
+        create-branch = !git checkout -b
+        # Dropping branches
+        delete-branch="!f() { \
+            local branch=\"${1:-$(git branchname)}\"; \
+            [ \"$branch\" = \"$(git branchname)\" ] && git checkout master; \
+            git branch -D $branch; \
+        }; f"
+        delete-branch-remotely="!f() { \
+            local branchname=\"${1:-$(git branchname)}\"; \
+            git push ${2:-$(git remotename)} --delete $branchname; \
+            git branch --unset-upstream $branchname; \
+        }; f"
+        delete-branch-globally="!f() { \
+            git droplocalbranch $@ && git dropremotebranch $@; \
+        }; f"
     # Github aliases
-    ####################################
-    githubfetchpr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0'"
-    githubpr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0 && git checkout pr/$0 && git pull'"
-
-    ####################################
-    # Other aliases
-    ####################################
-    # Show what is going on origin branches
-    showorigin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
-    # Initialize git repo
-    start = !git init && git add . && git commit -am \"Initial commit\"
-    # Fix .gitignore
-    fixgitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
-    # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
-    issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
-    # Check if any file in repo has whitespace errors
-    # As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
-    checkwhitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
-    # Remove branches that have already been merged with master
-    deletemergedbranches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+        github-fetch-pr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0'"
+        github-pr = "!sh -c 'git fetch $(git remotename) pull/$0/head:pr/$0 && git checkout pr/$0 && git pull'"
+    # Other
+        # Just shorter
+        cl = clone
+        cp = cherry-pick
+        # User info
+        username = !git config --get user.name
+        useremail = !git config --get user.email
+        user = "!f() { echo \"$(git username) <$(git useremail)>\"; }; f"
+        # Show what is going on origin branches
+        show-origin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
+        # Initialize git repo
+        start = !git init && git add . && git commit -am \"Initial commit\"
+        # Fix .gitignore
+        fix-gitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
+        # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
+        show-issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
+        # Check if any file in repo has whitespace errors
+        # As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
+        check-whitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
+        # Remove branches that have already been merged with master
+        deletemergedbranches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
