@@ -260,8 +260,8 @@
         # Undo commit and staging
         undo-topreviouscommit = !git reset HEAD^
         # Undo branch commits
-        undo-branch-commits-ahead = !git reset --soft $(git remotename)/$(git branchname)
-        undo-branch-commits = "!f() { \
+        undo-branch-local-commits = !git reset --soft $(git remotename)/$(git branchname)
+        undo-branch-commit-range = "!f() { \
             local branchname=\"${1:-master}\"; \
             local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
             git reset --soft HEAD~${n}; \
@@ -276,8 +276,8 @@
             git reset --hard HEAD~${1:-1} && git clean -xf; \
         }; f"
         # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
-        drop-branch-changes-ahead = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
-        drop-branch-changes = "!f() { \
+        drop-branch-local-changes = !git reset --hard $(git remotename)/$(git branchname) && git clean -xf
+        drop-branch-change-range = "!f() { \
             local branchname=\"${1:-master}\"; \
             local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
             git reset --hard HEAD~${n} && git clean -xf; \
