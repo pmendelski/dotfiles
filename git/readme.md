@@ -21,16 +21,16 @@ tg = tag
 
 ### Finding aliases
 
-Some commands for finding aliases.
+Some aliases for finding other aliases.
 
 - **`git aliases`** - List all aliases.
-- **`git aliases-doc`** - (**`ald`**) Open browser on documentation page.
+- **`git aliases-doc`** - (**`ald`**) Open browser on this readme page.
 - **`git alias ALIAS`** - (**`al`**) Find an alias.
     - `ALIAS` - a part of an aliasname.
 
 ### Log aliases
 
-Aliases related with `git log`.
+Aliases related with [`git log`](https://www.atlassian.com/git/tutorials/git-log).
 
 - **`git lg`** - (**`lg`**) Shorter version of `git log`.
 - **`git log-pretty`** - (**`lgp`**) Pretty log.
@@ -84,7 +84,7 @@ Aliases related with `git commit`.
 
 Aliases related with `git commit --amend`.
 
-- **`git amend`** - (**`an`**) Amend staged changes.
+- **`git amend`** - (**`an`**) Amend staged changes. No changes in commit message.
 - **`git amend-all`** - (**`ana`**) Stage all and amend all changes.
 - **`git amend-message MSG`** - (**`anm`**) Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
@@ -125,6 +125,10 @@ Aliases related with squashing commits with `git rebase -i`. Every command at th
 
 ### Tag aliases
 
+Aliases related with `git tag` command.
+
+
+
 - **`git tg`** - Shorter version of `git tag`.
 - **`git tags`** - (**`tga`**) Show all tags.
 - **`git tags-branch [BRANCH]`** - (**`tgb`**) List tags available on branch.
@@ -142,7 +146,7 @@ Aliases related with squashing commits with `git rebase -i`. Every command at th
     - Example: `git retag v01 v001` will delete a tag `v001` and create new tag `v01` pointing to the current commit.
     - Example: `git retag v01` will delete last tag and create new tag `v01` pointing to the current commit.
     - Example: `git retag` will delete last tag and create new tag with the same name pointing to the current commit.
-- **`git retag-globally [OLDTAG] [NEWTAG]`** - Drop last tag and retag latest commit and sync changes to remote.
+- **`git retag-globally [NEW_TAG] [OLD_TAG]`** - Drop last tag and retag latest commit and sync changes to remote.
 - **`git push-tags`**  - Push all tags.
 - **`git push-tag [TAG]`**  - Push a tag.
     - `TAG` - name of the tag to be pushed. Default value is the last tag.
@@ -207,3 +211,11 @@ git find-tags $COMMIT     - (**`fnt`**) Find tags by commit
 git find-commit $PHRASE   - (**`fnc`**) Find commits by phrase
 git find-commit-bymsg $MSG - (**`fncm`**) Find commits by message
 ```
+
+## In case of emergency
+
+When something goes wrong.
+To undo most git commands use the [reflog](https://www.atlassian.com/git/tutorials/rewriting-history/git-reflog):
+
+- Find a state in the reflog that is not compromised
+- Reset back to it using `git reset --soft HEAD@{<THE_STATE_NUMBER>}`
