@@ -111,38 +111,6 @@
             git commit --amend --message \"$1\"; \
         }; f"
         anm = !git amend-message
-    # Commit traversal
-        prev-commit = !git checkout HEAD~
-        next-commit = "!f() { \
-            local hash=\"$(git currcommit)\"; \
-            local child=\"$(\
-                git rev-list --all --not \"HEAD\"^@ --children | \
-                grep $hash | \
-                cut -d' ' -f2- | \
-                sed 's| |\\n|g' | \
-                grep -v $hash \
-            )\"; \
-            local childrencount=\"$(echo \"$child\" | wc -l)\"; \
-            if [ \"$childrencount\" -gt 1 ]; then \
-                if [ ! -z "$1" ]; then \
-                    child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
-                else \
-                    echo \"Found multiple children commits:\"; \
-                    for c in $child; do \
-                        echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
-                    done; \
-                    echo \"\\nOptions:\"; \
-                    echo \"- Pick one child commit and do: git checkout COMMIT\"; \
-                    echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
-                    echo \"\\nAvailable branches:\"; \
-                    git branch --contains $(git currcommit); \
-                    exit 1; \
-                fi; \
-            fi; \
-            [ ! -z \"$child\" ] && \
-                git checkout $child || \
-                git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
-        }; f"
     # Rebase
         # Shorter version
         re = rebase
@@ -179,19 +147,6 @@
         # Create tag with date
         create-tag-date = "!f() { \
             git tag-new \"${1:+$1_}$(date \"+%Y-%m-%d\")\" \"$2\"; \
-        }; f"
-        # Go to
-        prev-tag = !git checkout $(git lasttag)
-        next-tag = "!f() { \
-            local tagname=\"\"; \
-            local nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
-            local nextcommitresult=0; \
-            while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
-                git next-commit $@; \
-                nextcommitresult=$?; \
-                tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
-                nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
-            done; \
         }; f"
         # List all tags
         tags = !git tag
@@ -236,6 +191,50 @@
         delete-tag-globally = "!f() { \
             git delete-tag-locally $@ && \
                 git delete-tag-remotely $@; \
+        }; f"
+    # Commit traversal
+        prev-commit = !git checkout HEAD~
+        next-commit = "!f() { \
+            local hash=\"$(git currcommit)\"; \
+            local child=\"$(\
+                git rev-list --all --not \"HEAD\"^@ --children | \
+                grep $hash | \
+                cut -d' ' -f2- | \
+                sed 's| |\\n|g' | \
+                grep -v $hash \
+            )\"; \
+            local childrencount=\"$(echo \"$child\" | wc -l)\"; \
+            if [ \"$childrencount\" -gt 1 ]; then \
+                if [ ! -z "$1" ]; then \
+                    child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
+                else \
+                    echo \"Found multiple children commits:\"; \
+                    for c in $child; do \
+                        echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
+                    done; \
+                    echo \"\\nOptions:\"; \
+                    echo \"- Pick one child commit and do: git checkout COMMIT\"; \
+                    echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
+                    echo \"\\nAvailable branches:\"; \
+                    git branch --contains $(git currcommit); \
+                    exit 1; \
+                fi; \
+            fi; \
+            [ ! -z \"$child\" ] && \
+                git checkout $child || \
+                git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
+        }; f"
+        prev-tag = !git checkout $(git lasttag)
+        next-tag = "!f() { \
+            local tagname=\"\"; \
+            local nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+            local nextcommitresult=0; \
+            while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
+                git next-commit $@; \
+                nextcommitresult=$?; \
+                tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
+                nexttags=\"$(git tag -l --contains $(git currcommit))\"; \
+            done; \
         }; f"
     # Diff
         # Shorter version
@@ -373,7 +372,7 @@
         # Show what is going on origin branches
         show-origin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
         # Initialize git repo
-        start = !git init && git add . && git commit -am \"Initial commit\"
+        start = !git init && git add . && git commit --allow-empty -am \"Initial commit\"
         # Fix .gitignore
         fix-gitignore = !git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \"
         # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)

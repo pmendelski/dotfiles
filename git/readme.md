@@ -30,9 +30,10 @@ Some aliases for finding other aliases.
 
 ### Log aliases
 
-Aliases related with [`git log`](https://www.atlassian.com/git/tutorials/git-log).
+Aliases related with [inspecting a repository](https://www.atlassian.com/git/tutorials/inspecting-a-repository)
+with [`git log`](https://git-scm.com/docs/git-log).
 
-- **`git lg`** - `(lg)` Shorter version of `git log`.
+- **`git lg`** - Shorter version of `git log`.
 - **`git log-pretty`** - `(lgp)` Pretty log.
 - **`git log-graph`** - `(lgg)` Pretty log + graph.
 - **`git log-files`** - `(lgf)` Pretty log + file changes.
@@ -41,7 +42,8 @@ Aliases related with [`git log`](https://www.atlassian.com/git/tutorials/git-log
 
 ### Status aliases
 
-Aliases related with `git status`.
+Aliases related with [inspecting a repository](https://www.atlassian.com/git/tutorials/inspecting-a-repository)
+with [`git status`](https://git-scm.com/docs/git-status).
 
 - **`git st`** - Shorter version of `git status`
 - **`git status-short`** - `(sts)` Show minimal status.
@@ -49,7 +51,8 @@ Aliases related with `git status`.
 
 ### Fetch aliases
 
-Aliases related with `git fetch`.
+Aliases related with [syncing with remote repository](https://www.atlassian.com/git/tutorials/syncing)
+with [`git fetch`](https://git-scm.com/docs/git-fetch).
 
 - **`git fe`** - Shorter version of `git fetch`.
 - **`git fetch-branch [BRANCH]`** - `(feb)` Fetch remote branch.
@@ -58,7 +61,8 @@ Aliases related with `git fetch`.
 
 ### Checkout aliases
 
-Aliases related with `git checkout`.
+Aliases related with [navigating between branches](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
+with [`git checkout`](https://git-scm.com/docs/git-checkout).
 
 - **`git co`** - Shorter version of `git checkout`.
 - **`git checkout-synced [BRANCH]`** - `(cos)` Checkout branch and pull changes.
@@ -66,25 +70,31 @@ Aliases related with `git checkout`.
 
 ### Add aliases
 
-Aliases related with `git add`.
+Aliases related with [saving changes](https://www.atlassian.com/git/tutorials/saving-changes/)
+with [`git add`](https://git-scm.com/docs/git-add).
 
 - **`git ad`** - Shorter version of `git add`.
 - **`git add-all`** - `(ada)` Add all.
 - **`git unadd`**  - Undo staging (see [undo aliases](#undo-aliases)).
 
+Related aliases: [history traversal](#history-traversal-aliases).
+
 ### Commit aliases
 
-Aliases related with `git commit`.
+Aliases related with [saving changes](https://www.atlassian.com/git/tutorials/saving-changes/)
+with [`git commit`](https://git-scm.com/docs/git-commit).
 
 - **`git cm`** - Shorter version of `git commit`.
 - **`git commit-all`** - `(cma)` Stage all and commit all changes.
-- **`git uncommit`** - Revert the act of committing (see [undo aliases](#undo-aliases)).
+
+Related aliases: [amend](#amend-aliases), [undo](#undo-aliases), [history traversal](#history-traversal-aliases).
 
 ### Amend aliases
 
-Aliases related with `git commit --amend`.
+Aliases related with [rewriting commit history](https://www.atlassian.com/git/tutorials/rewriting-history/)
+with [`git commit --amend`](https://git-scm.com/docs/git-commit).
 
-- **`git amend`** - `(an)` Amend staged changes. No changes in commit message.
+- **`git amend`** - `(an)` Amend staged changes to last commit.
 - **`git amend-all`** - `(ana)` Stage all and amend all changes.
 - **`git amend-message MSG`** - `(anm)` Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
@@ -93,17 +103,10 @@ Aliases related with `git commit --amend`.
     - `EMAIL` - New author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
     - Executing `git amend-author` will replace last commit author with you.
 
-### Commit traversal aliases
-
-Aliases that enables traversing through commit history.
-
-- **`git prev-commit`** - Go to the previous commit.
-- **`git next-commit [BRANCH]`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
-    - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
-
 ### Rebase aliases
 
-Aliases related with `git rebase`.
+Aliases related with [rewriting commit history](https://www.atlassian.com/git/tutorials/rewriting-history/)
+with [`git rebase`](https://git-scm.com/docs/git-rebase).
 
 - **`git re`** - Shorter version of `git rebase`.
 - **`git rebase-remote [BRANCH]`** - `(rer)` Rebase remote branch. By default current branch is used.
@@ -112,9 +115,10 @@ Aliases related with `git rebase`.
 
 ### Squash aliases
 
-Aliases related with squashing commits with `git rebase -i`. Every command at the end will open an editor for an interactive rebase.
+Aliases related with [rewriting commit history](https://www.atlassian.com/git/tutorials/rewriting-history/)
+with interactive version of [`git rebase -i`](https://git-scm.com/docs/git-rebase).
 
-**In case of emergency**: To undo a rebase see the reflog and find HEAD state before rebasing. Than just execute `git reset --soft HEAD@{<THE_STATE_NUMBER>}`.
+Every command at the end will open an editor for an interactive rebase.
 
 - **`git squash [X]`** - `(sq)` Squash commits.
     - `X` - may be a number of commits to be squashed.
@@ -125,9 +129,7 @@ Aliases related with squashing commits with `git rebase -i`. Every command at th
 
 ### Tag aliases
 
-Aliases related with `git tag` command.
-
-
+Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 
 - **`git tg`** - Shorter version of `git tag`.
 - **`git tags`** - `(tga)` Show all tags.
@@ -138,8 +140,6 @@ Aliases related with `git tag` command.
     - `TAG_MSG` - message for a new tag. If message is specified an annotated tag is created.
 - **`git create-tag-date [PREFIX]`** - Tag with current date and optional prefix.
 - **`git lasttag`**  - Show last tag.
-- **`git prev-tag`**  - Checkout previous tag.
-- **`git next-tag`**  - Checkout next tag.
 - **`git retag [NEW_TAG] [OLD_TAG]`** - Drop last tag and retag latest commit
     - `NEW_TAG` - name of a new tag. Default value is equal to `OLD_TAG`.
     - `OLD_TAG` - name of the tag to be replaced. Default value is the last tag.
@@ -156,11 +156,21 @@ Aliases related with `git tag` command.
     - `REMOTE` - name of the remote. Default value is the upstream.
 - **`git delete-tag-globally [TAG] [REMOTE]`**  - Delete tag locally and remotely.
 
+### History traversal aliases
+
+Aliases that enables traversing through commit history.
+
+- **`git prev-commit`** - Go to the previous commit.
+- **`git next-commit [BRANCH]`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
+    - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
+- **`git prev-tag`**  - Go to the previous tag.
+- **`git next-tag [BRANCH]`**  - Go to the next tag.
+
 ### Diff aliases
 
-Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a/1587952/2284884)).
+Aliases related with [`git diff`](https://git-scm.com/docs/git-diff). ([how does diff work](http://stackoverflow.com/a/1587952/2284884)).
 
-**Remember that:** untracked files are not visible for `git diff` command.
+Untracked files are not visible for `git diff` command.
 
 - **`git df`** - Shorter version of `git diff`.
 - **`git diff-words`** - `(dfw)` Diff words only. No pluses and minuses. Easier to read.
@@ -170,9 +180,9 @@ Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a
 
 ### Undo actions aliases
 
-[Undoing things](http://stackoverflow.com/a/2846154/2284884). No worries these aliases will make no changes to your local files.
+[Undoing things](http://stackoverflow.com/a/2846154/2284884).
 
-**In case of emergency** To revert an undo [use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
+No worries these aliases will make no changes to your local files.
 
 - **`git unadd [FILE]`** - Undo staging. Alias for `git reset HEAD --`. What was in staging area will untouched on working tree.
     - `FILE` - You can unadd specific files. By default all files will be unstaged.
@@ -184,7 +194,9 @@ Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a
 
 ### Drop changes aliases
 
-[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset). Be aware that **these aliases will change your local files**.
+[Dropping things](https://www.atlassian.com/git/tutorials/undoing-changes/git-reset).
+
+Be aware that **these aliases will change your local files** (see [in case of emergency](#in-case-of-emergency)).
 
 **In case of emergency** To revert a drop [use the reflog](http://stackoverflow.com/a/2531803/2284884). Execute `git reset HEAD@{1}`.
 
@@ -197,7 +209,7 @@ Aliases related with `git diff` ([how does diff work](http://stackoverflow.com/a
 
 ### Reflog aliases
 
-Aliases related with `git reflog`.
+Aliases related with [`git reflog`](https://git-scm.com/docs/git-reflog).
 
 - **`git rl`** - Shorter version of `git reflog`.
 - **`git reflog-pretty`** - `(rlp)` Pretty printed reflog.
