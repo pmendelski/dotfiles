@@ -32,7 +32,7 @@ Some aliases for finding other aliases.
 
 Aliases related with [`git log`](https://www.atlassian.com/git/tutorials/git-log).
 
-- **`git lg`** - (**`lg`**) Shorter version of `git log`.
+- **`git lg`** - (**`(lg)`**) Shorter version of `git log`.
 - **`git log-pretty`** - (**`lgp`**) Pretty log.
 - **`git log-graph`** - (**`lgg`**) Pretty log + graph.
 - **`git log-files`** - (**`lgf`**) Pretty log + file changes.
