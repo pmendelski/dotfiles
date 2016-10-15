@@ -4,6 +4,9 @@
     # - Always check if alias is already used
     # - Use double indent for IDE folding
 [alias]
+    # Magic spells
+        # Secure force push
+        please=!git push --atomic --force-with-lease
     # Aliases
         # List all aliases
         aliases = "!f() { \
@@ -33,9 +36,12 @@
         log-files = log --pretty=custom --numstat --decorate --name-status
         lgf = !git log-files
         # Show pretty printed commit log with diffs.
-        # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
-        log-diff = log -M --follow --stat --pretty=custom -p --color-words
+        log-diff = log -M --stat --pretty=custom -p --color-words
         lgd = !git log-diff
+        # Show pretty printed commit log with diffs for a single file.
+        # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
+        log-blame = log -M --follow --stat --pretty=custom -p --color-words
+        lgb = !git log-diff
     # Status
         # Shorter versions
         st = status
@@ -79,22 +85,12 @@
         # Commit all changes
         commit-all = !git add -A && git commit -av
         cma = !git commit-all
-        # Show current commit hash
-        currcommit = !git rev-parse "HEAD"
-        # Expand commit hash
-        expandhash = "!f() { \
-            git log --pretty=format:'%H' | \
-            grep \"^$1\"; \
-        }; f"
-        # Find hash for commit message
-        hashformsg = "!f() { \
-            git log --pretty='%H %s' | \
-            grep -i \"${1:-$(git currcommit)}\" | \
-            cut -d ' ' -f1; \
-        }; f"
+        # Autosquashed commits
+        commit-fixup = !git add -A && git commit -av --fixup
+        commit-squash = !git add -A && git commit -av --squash
     # Amend
         # Amend the currently staged files to the latest commit
-        amend = commit --amend -C HEAD
+        amend = commit --amend --no-edit
         an = !git amend
         # Amend all
         amend-all = !git add -A && git amend -a
@@ -103,7 +99,7 @@
         amend-author = "!f() { \
             local username=\"${1:-$(git username)}\"; \
             local email=\"${2:-$(git useremail)}\"; \
-            git commit --amend --author \"${username} <${email}>\" -C HEAD; \
+            git commit --amend --author \"${username} <${email}>\" --no-edit; \
         }; f"
         anu = !git amend-author
         # Change author of the last commit
@@ -156,12 +152,6 @@
             git tag --merged ${1:-$(git branchname)} | tac; \
         }; f"
         tgb = !tags-branch
-        # Show last tag available on branch
-        lasttag = "!f() { \
-            [ $(git branchname) ] && \
-                git describe --abbrev=0 --tag || \
-                git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
-        }; f"
         # Remove the old tag with this name and tag the latest commit with it.
         retag = "!f() { \
             local oldtagname=\"${2:-$(git lasttag)}\"; \
@@ -239,15 +229,15 @@
     # Diff
         # Shorter version
         df = diff
-        # Diff words only - easier to see changes
-        diff-words = diff --color-words
-        dfw = !git diff-words
-        # Diff all tracked and untracked
-        diff-all = !git diff HEAD --color-words
-        dfa = !git diff-all
-        # Diff tracked only
-        diff-tracked = !git diff --cached --color-words
-        dft = !git diff-tracked
+        # Shows the changes between the working directory and the index
+        diff-work-index = diff --color-words
+        dfwi = !git diff-work-index
+        # Shows the changes between the index and the HEAD
+        diff-index-head = !git diff --cached --color-words
+        dfih = !git diff-index-head
+        # Shows all the changes between the working directory and HEAD
+        diff-work-head = !git diff HEAD --color-words
+        dfwh = !git diff-head-work
         # Create a diff with binaries. Could be used with `git apply `
         diff-patch = !git diff HEAD --binary
         dfp = !git diff-patch
@@ -256,10 +246,11 @@
         unadd = !git reset HEAD --
         # Undo commit
         uncommit = !git reset --soft HEAD^
-        # Undo commit and staging
-        undo-topreviouscommit = !git reset HEAD^
-        # Undo branch commits
+        # Undo to previous commit
+        undo-prev-commit = !git reset HEAD^
+        # Undo all local commits on current branch. Reset to the state of the upstream branch.
         undo-branch-local-commits = !git reset --soft $(git remotename)/$(git branchname)
+        # Undo all branch commits that are ahead of source branch
         undo-branch-commit-range = "!f() { \
             local branchname=\"${1:-master}\"; \
             local n=\"$(git log --oneline ${branchname}..$(git branchname) | wc -l)\"; \
@@ -270,8 +261,8 @@
         drop-unadded = !git clean -xf
         # Drop uncommitted changes
         drop-uncommitted = !git reset --hard && git clean -xf
-        # Drop a committed and uncommitted. Restore previous commit.
-        drop-topreviouscommit = "!f() { \
+        # Drop to previous commit. Drop a committed and uncommitted. Restore previous commit.
+        drop-prev-commit = "!f() { \
             git reset --hard HEAD~${1:-1} && git clean -xf; \
         }; f"
         # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
@@ -289,34 +280,34 @@
         rlp = !git reflog-pretty
     # Find
         # Customized alias for grep
-        findfile = grep -Iin
-        fnf = !git findfile
+        find-file = grep -Iin
+        fnf = !git find-file
         # Find branches containing commit
-        findbranchbyhash = "!f() { \
+        find-branch-by-hash = "!f() { \
             for h in $(git expandhash $1); do \
                 echo \"Commit: $h\"; \
                 git branch -a --contains $h; \
             done; \
         }; f"
         # Find tags containing commit
-        findtagsbyhash = "!f() { \
+        find-tag-by-hash = "!f() { \
             for h in $(git expandhash $1); do \
                 echo \"Commit: $h\"; \
                 git describe --always --contains $h; \
             done; \
         }; f"
         # Find commits by content
-        findcommit = "!f() { \
+        find-commit-by-content = "!f() { \
             git log --pretty=custom --decorate -S$1 -i; \
         }; f"
         fnc = !git findcommit
         # Find commits by commit message
-        findcommitbymsg = "!f() { \
+        find-commit-by-msg = "!f() { \
             git log --pretty=custom --decorate --grep=\"$1\" -i; \
         }; f"
         fncm = !git findcommitbymsg
         # Find commits by short hash
-        findcommitbyhash = "!f() { \
+        find-commit-by-hash = "!f() { \
             for h in $(git expandhash $1); do \
                 echo \"Commit: $h\"; \
                 git log -p -1 $h; \
@@ -369,6 +360,25 @@
         username = !git config --get user.name
         useremail = !git config --get user.email
         user = "!f() { echo \"$(git username) <$(git useremail)>\"; }; f"
+        # Show current commit hash
+        currcommit = !git rev-parse "HEAD"
+        # Expand commit hash
+        expandhash = "!f() { \
+            git log --pretty=format:'%H' | \
+            grep \"^$1\"; \
+        }; f"
+        # Find hash for commit message
+        hashformsg = "!f() { \
+            git log --pretty='%H %s' | \
+            grep -i \"${1:-$(git currcommit)}\" | \
+            cut -d ' ' -f1; \
+        }; f"
+        # Show last tag available on branch
+        lasttag = "!f() { \
+            [ $(git branchname) ] && \
+                git describe --abbrev=0 --tag || \
+                git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
+        }; f"
         # Show what is going on origin branches
         show-origin = "!sh -c 'git fetch && for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=custom $branch | head -n 1` \\\t$branch; done | sort -r'"
         # Initialize git repo
