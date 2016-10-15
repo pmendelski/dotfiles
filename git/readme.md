@@ -1,11 +1,24 @@
-# Git
+# Git Aliases
 
-## Aliases
+## Git pearls
 
-### Shorter versions of common commands
+List of git aliases I find most useful.
+
+- **`git start`** - Alias for `git init && git add . && git commit --allow-empty -am "Initial commit"`. The first commit of a repository can not be rebased like regular commits, so it’s [good practice](https://hackernoon.com/lesser-known-git-commands-151a1918a60#9d13) to create an empty commit as your repository root.
+- **`git push-force`** - Like `git push --atomic --force-with-lease`. The most secure version of git push.
+    - [`force-with-lease`](https://developer.atlassian.com/blog/2015/04/force-with-lease/?utm_source=medium&utm_medium=blog&utm_campaign=lesser-git) force push only if there were no changes on remote
+    - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push.
+- **`git merge-feature`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
+- ...
+
+
+## Shorter versions of common commands
+
+Just a two letter abbreviations of common git commands.
 
 ```
 ad = add
+br = branch
 cl = clone
 cm = commit
 co = checkout
@@ -15,9 +28,12 @@ fe = fetch
 lg = log
 re = rebase
 rl = reflog
+sa = stash
 st = status
 tg = tag
 ```
+
+## Grouped aliases
 
 ### Finding aliases
 
@@ -43,6 +59,7 @@ with [`git log`](https://git-scm.com/docs/git-log).
     - Example: `git log-diff -1` - will present a log with diff of the last commit.
 - **`git log-blame FILE`** - `(lgb)` Pretty log + diff. [Better replacement](http://blog.andrewray.me/a-better-git-blame/) for `git blame`.
     - `FILE` - a file path to diff.
+- **`git log-issues`** - `(lgi)` Log jira issues.
 
 ### Status aliases
 
@@ -59,9 +76,10 @@ Aliases for [syncing with remote repository](https://www.atlassian.com/git/tutor
 with [`git fetch`](https://git-scm.com/docs/git-fetch).
 
 - **`git fe`** - Shorter version of `git fetch`.
-- **`git fetch-branch [BRANCH]`** - `(feb)` Fetch remote branch.
+- **`git fetch-branch [BRANCH] [REMOTE]`** - `(feb)` Fetch remote branch.
     - `BRANCH` - Name of the branch to be fetched. Default value is the name of the current branch.
-- **`git fetch-master`** - `(fem)` Fetch remote `master`.
+    - `REMOTE` - Name of the remote repository to be fetched from. Default value is `origin`.
+- **`git fetch-master [REMOTE]`** - `(fem)` Fetch remote `master`.
 
 ### Checkout aliases
 
@@ -108,15 +126,13 @@ with [`git commit --amend`](https://git-scm.com/docs/git-commit).
     - `EMAIL` - New author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
     - Executing `git amend-author` will replace last commit author with you.
 
-### Rebase aliases
+### Sync aliases
 
-Aliases for [rewriting commit history](https://www.atlassian.com/git/tutorials/rewriting-history/)
-with [`git rebase`](https://git-scm.com/docs/git-rebase).
+Sync alias consist of [`git fetch`](https://git-scm.com/docs/git-fetch) and [`git rebase`](https://git-scm.com/docs/git-rebase). It is like a rebase with always updated remote branch.
 
-- **`git re`** - Shorter version of `git rebase`.
-- **`git rebase-remote [BRANCH]`** - `(rer)` Rebase remote branch. By default current branch is used.
+- **`git sync [BRANCH]`** - `(sy)` Fetch and rebase with remote branch.
     - `BRANCH` - the name of the remote branch to be rebased with. Default value is `master`.  
-- **`git rebase-remote-master`** - `(rerm)` Rebase remote `master` branch.
+- **`git sync-master`** - `(sym)` Rebase remote `master` branch.
 
 ### Squash aliases
 
@@ -132,6 +148,13 @@ Be aware that every command at the end will open an interactive rebase editor.
 - **`git squash-ahead`** - `(sqa)` Squash all commits that are ahead of the upstream.
 - **`git squash-total`** - `(sqt)` Squash all commits available on the branch. All commits even those created before branch will be squashed.
 
+### Stash aliases
+
+Aliases for [saving locally changes](https://www.atlassian.com/git/tutorials/git-stash/) with [`git stash`](https://git-scm.com/docs/git-stash).
+
+- **`git sa`** - Shorter version of `git stash`
+- **`git stash-all`** - `(saa)` Stash all - tracked and untracked files.
+
 ### Tag aliases
 
 Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
@@ -143,8 +166,8 @@ Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 - **`git create-tag TAG_NAME [TAG_MSG]`** - Tag with a name and an optional message.
     - `TAG_NAME` - name of a new tag.
     - `TAG_MSG` - message for a new tag. If message is specified an annotated tag is created.
-- **`git create-tag-date [PREFIX]`** - Tag with current date and optional prefix.
-- **`git lasttag`**  - Show last tag.
+- **`git create-tag-with-date [PREFIX]`** - Tag with current date and optional prefix.
+- **`git curr-tag`**  - Show current/last tag.
 - **`git retag [NEW_TAG] [OLD_TAG]`** - Drop last tag and retag latest commit
     - `NEW_TAG` - name of a new tag. Default value is equal to `OLD_TAG`.
     - `OLD_TAG` - name of the tag to be replaced. Default value is the last tag.
@@ -158,7 +181,7 @@ Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 - **`git delete-tag [TAG]`**  - Delete tag locally.
     - `TAG` - name of the tag to be deleted. Default value is the last tag.
 - **`git delete-tag-remotely [TAG] [REMOTE]`**  - Delete tag remotely.
-    - `REMOTE` - name of the remote. Default value is the upstream.
+    - `REMOTE` - name of the remote. Default value is `origin`.
 - **`git delete-tag-globally [TAG] [REMOTE]`**  - Delete tag locally and remotely.
 
 ### History traversal aliases
@@ -170,6 +193,17 @@ Aliases for traveling through commit history.
     - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
 - **`git prev-tag`**  - Go to the previous tag.
 - **`git next-tag [BRANCH]`**  - Go to the next tag. Works like `git next-commit`.
+
+### Push aliases
+
+Aliases related with [sending your changes to remote repostiry](https://www.atlassian.com/git/tutorials/syncing/)
+with [git push](https://git-scm.com/docs/git-push).
+
+- **`git push-force`** - Like `git push --atomic --force-with-lease`. The most secure version of git push.
+    - [`force-with-lease`](https://developer.atlassian.com/blog/2015/04/force-with-lease/?utm_source=medium&utm_medium=blog&utm_campaign=lesser-git) force push only if there were no changes on remote
+    - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push.
+- **`push-cr-fix`** - Amend and push all changes to the remote. Perfect for quick code review fix.
+- **`push-pr-conflict-fix`** - Rebase with remote master and push to the remote. Perfect wen there is a conflict in your PR.
 
 ### Diff aliases
 
@@ -223,12 +257,47 @@ Aliases related with [`git reflog`](https://git-scm.com/docs/git-reflog).
 
 Aliases for finding things in the repository.
 
-- **`git find-file PHRASE`** - Look for specified patterns in the tracked files in the work tree with options: case insensitive, no matching on binary files, show line numbers.
-- **`git find-branch-by-hash HASH_PART`** - Show branches that contain the commit hash part.
-- **`git find-tag-by-hash HASH_PART`** - Show tags that contain the commit hash part.
-- **`git find-commit-by-hash HASH_PART`** - Show commits that contain the hash part.
-- **`git find-commit-by-msg MSG`** - Show commits that contain the message.
-- **`git find-commit-by-content PHRASE`** - Show commits that contain the phrase in their content.
+- **`git find-file PHRASE`** - `(fnf)` Look for specified patterns in the tracked files in the work tree with options: case insensitive, no matching on binary files, show line numbers.
+- **`git find-branch-by-hash HASH_PART`** - `(fnbh)` Show branches that contain the commit hash part.
+- **`git find-tag-by-hash HASH_PART`** - `(fnth)` Show tags that contain the commit hash part.
+- **`git find-commit-by-hash HASH_PART`** - `(fnch)` Show commits that contain the hash part.
+- **`git find-commit-by-msg MSG`** - `(fncm)` Show commits that contain the message.
+- **`git find-commit-by-content PHRASE`** - `(fncc)` Show commits that contain the phrase in their content.
+
+### Branch aliases
+
+Aliases for [using branches](https://www.atlassian.com/git/tutorials/using-branches/)
+with [`git branch`](https://git-scm.com/docs/git-branch).
+
+- **`git br`** - Shorter version of `git branch`.
+- **`git curr-branch`** - Show current branch name.
+- **`git branches-local`** - List local branches.
+- **`git branches-all`** - List all branches.
+- **`git create-branch BRANCH`** - Create a new branch.
+    - `BRANCH` - the name of the branch to be created.
+- **`git push-branch [REMOTE]`** - Push current branch.
+    - `REMOTE` - name of the remote. Default value is `origin`.
+- **`git push-branches [REMOTE]`** - Push all branches to remote.
+- **`git delete-branch [BRANCH]`**  - Delete branch locally. Added sanity check to not remove master branch.
+    - `BRANCH` - name of the branch to be deleted. Default value is the last branch.
+- **`git delete-branch-remotely [BRANCH] [REMOTE]`**  - Delete branch remotely. Added sanity check to not remove master branch.
+    - `REMOTE` - name of the remote. Default value is `origin`.
+- **`git delete-branch-globally [BRANCH] [REMOTE]`**  - Delete branch locally and remotely. Added sanity check to not remove master branch.
+
+### Origin aliases
+
+Aliases for presenting information about the origin.
+
+- **`git origin`** - `(or)` Show basic information about the origin. Includes: URL, branches
+- **`git origin-commits`** - `(orc)` Show all origins branches with commit information. Good to quickly figure out what is going on all origin branches.
+
+### Other aliases
+
+List of other ungrouped aliases.
+
+- **`git merge-feature`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
+- **`git start`** - Alias for `git init && git add . && git commit --allow-empty -am "Initial commit"`. The first commit of a repository can not be rebased like regular commits, so it’s [good practice](https://hackernoon.com/lesser-known-git-commands-151a1918a60#9d13) to create an empty commit as your repository root.
+- **`git check-whitespaces`** - Check if any file in repo has [whitespace errors](http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/).
 
 ## In case of emergency
 

@@ -10,7 +10,13 @@
     whitespace = nowarn
 
 [log]
+    # Simple date format - without timezone
     date = format-local:%Y-%m-%d %H:%M:%S
+
+[fetch]
+    # Auto prune during fetch
+    # http://albertogrespan.com/blog/always-prune-remote-tracking-branches/
+    prune = true
 
 [status]
     # Include submodule status in git status
@@ -119,5 +125,7 @@
 
 [pretty]
     # See: https://git-scm.com/docs/git-log
-    custom = format:"%C(magenta)%h %C(red)%d %C(cyan)%cd %C(blue)[%an] %C(yellow)%ar %C(green)%s"
-    customreflog = format:"%C(magenta)%h %C(red)%gd %C(cyan)%cd %C(blue)[%gn] %C(yellow)%ar %C(green)%gs"
+    custom-reflog = format:"%C(magenta)%h %C(red)%gd %C(cyan)%cd %C(blue)%an %C(yellow)(%ar)%n  %C(green)%gs"
+    custom-reflog-oneline = format:"%C(magenta)%h %C(red)%gd %C(cyan)%cd %C(blue)%an %C(yellow)(%ar) %C(green)%gs"
+    custom = format:"%C(magenta)%h %C(cyan)%ad %C(blue)%an%C(reset) %C(yellow)(%ar) %C(bold red)%d%C(reset)%n  %C(green)%s%C(reset)"
+    custom-oneline = format:"%C(magenta)%h %C(cyan)%ad %C(blue)%an%C(reset) %C(yellow)(%ar) %C(bold red)%d%C(reset) %C(green)%s%C(reset)"
