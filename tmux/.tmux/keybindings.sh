@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Make Ctrl combination work again
+# See: http://superuser.com/a/402084
 set-window-option -g xterm-keys on
 
 # Enable mouse control (clickable windows, panes, resizable panes)

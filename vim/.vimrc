@@ -147,6 +147,17 @@ set formatoptions+=l    " don't break lines that are already long
 set formatoptions+=1    " break before 1-letter words
 " }}}
 
+" Tmux {{{
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    " http://superuser.com/a/402084
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+" }}}
+
 " Local directories {{{
 set backupdir=~/.vim/tmp/backups
 set directory=~/.vim/tmp/swaps

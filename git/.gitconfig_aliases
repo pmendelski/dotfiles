@@ -17,7 +17,7 @@
         aliases-doc = !sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md' &
         # Find an alias
         alias = "!f() {\
-            git aliases | grep \"^\\w*$1\\w*\"; \
+            git aliases | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
         }; f"
         al = !git alias
     # Log
@@ -97,8 +97,16 @@
         commit-all = !git add -A && git commit -av
         cma = !git commit-all
         # Autosquashed commits
-        commit-fixup = !git add -A && git commit -av --fixup
-        commit-squash = !git add -A && git commit -av --squash
+        commit-fixup = "!f() { \
+            local rev=\"${1:-HEAD}\"; \
+            [ \"$#\" -gt 1 ] && shift; \
+            git add -A && git commit -a --fixup=$rev \"$@\"; \
+        }; f"
+        commit-squash = "!f() { \
+            local rev=\"${1:-HEAD}\"; \
+            [ \"$#\" -gt 1 ] && shift; \
+            git add -A && git commit -a --squash=$rev \"$@\"; \
+        }; f"
     # Amend
         # Amend the currently staged files to the latest commit
         amend = commit --amend --no-edit
@@ -122,13 +130,22 @@
         # Sync with remote branch
         sync = "!f() { \
             local remote=\"${1:-$(git curr-upstream)}\"; \
-            git fetch $remote && \
-                git rebase $remote; \
+            [ -z \"$remote\" ] && { (>&2 echo \"No upstream defined for $(git curr-branch).\"); exit 1; }; \
+            git fetch $(echo $remote | sed 's|/| |' ) && git rebase \"$remote\"; \
+            echo \"Synchronized $(git curr-branch) with $remote\"; \
         }; f"
         sy = !git sync
+        # Sync all branches with remotes
+        sync-all = "!f() { \
+            for branch in `git branch | sed 's|[* ]\\ *||'`; do \
+                git checkout \"$branch\" && \
+                git sync; \
+            done; \
+        }; f"
+        sya = !git sync-all
         # Sync with remote master
         sync-master = "!f() { \
-            git sync-remote ${1:-origin}/master; \
+            git sync ${1:-origin}/master; \
         }; f"
         sym = !git sync-master
     # Squash
@@ -253,11 +270,15 @@
         }; f"
     # Push
         # Secure force push
-        push-force = !git push --atomic --force-with-lease
+        push-force = "!f() { \
+            [ \"$(git curr-branch)\" = \"master\" ] && \
+                { (>&2 echo \"Sanity check. No force push to master is forbidden.\"); exit 1; }; \
+            git push --atomic --force-with-lease; \
+        }; f"
         # Push code review fixes
-        push-cr-fix = !git amend-all && git please
+        push-fix = !git amend-all && git push-force
         # Fix Pull Request conflict with master branch
-        push-pr-conflict-fix = !git sync-master && git please
+        push-conflict-fix = !git sync-master && git push-force
     # Diff
         # Shorter version
         df = diff
@@ -298,7 +319,7 @@
             git reset --hard HEAD~${1:-1} && git clean -xf; \
         }; f"
         # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
-        drop-branch-local-changes = !git reset --hard $(git upstream) && git clean -xf
+        drop-branch-local-changes = !git reset --hard $(git curr-upstream) && git clean -xf
         drop-branch-change-range = "!f() { \
             local branchname=\"${1:-master}\"; \
             local n=\"$(git log --oneline ${branchname}..$(git curr-branch) | wc -l)\"; \
@@ -348,8 +369,23 @@
             done; \
         }; f"
         fnch = !git find-commit-by-hash
-    # Contribution TODO
-        contributors = git log --all --format='%<(20)%aN <%cE>' | sort -u
+    # Contribution
+        contributors = !git log --all --format='%<(20)%aN <%cE>' | sort -u
+        file-stats = "!f() { \
+            git ls-files | \
+            sed -E 's|.*\\.(.+)|\\1|' | \
+            sort -u | \
+            while read extname; do \
+                local count=$( \
+                    git ls-files | \
+                    grep \"$extname$\" | \
+                    xargs cat | \
+                    sed '/^\\s*$/d' | \
+                    wc -l \
+                ); \
+                printf \"%-20s %+10s\\n\" $extname $count; \
+            done; \
+        }; f"
     # Branch
         # Shorter version
         br = branch
@@ -362,12 +398,21 @@
         curr-upstream = !git rev-parse --abbrev-ref --symbolic-full-name @{upstream}
         # New branch
         create-branch = !git checkout -b
+        create-upstream = "!f() { \
+            local branchname=\"$(git curr-branch)\"; \
+            local upstream=\"$(git curr-upstream)\"; \
+            [ ! -z \"$upstream\" ] && { echo \"Upstream already created $branchname - $upstream\"; exit 1; }; \
+            git push origin origin:refs/heads/$branchname; \
+            git branch --set-upstream-to origin/$branchname; \
+        }; f"
+        # Merge with a commit
+        merge-with-commit = !git merge --no-ff
         # Push branch
         push-branch = "!f() { \
             git push -u ${1:-origin} $(git curr-branch); \
         }; f"
-        push-branches = git push --all -u origin
         # Dropping branches
+        delete-merged-branches = !git branch --merged=master | grep -Ev '^\\* | master$' | xargs -r git branch -d
         delete-branch="!f() { \
             local branchname=\"${1:-$(git curr-branch)}\"; \
             [ \"$branchname\" = \"master\" ] && { echo 'Sanity check. Will not remove master branch'; exit 1; }; \
@@ -398,32 +443,53 @@
             done | sort -r; \
         }; f"
         orc = !git show-origin-commits
+    # Ignore
+        # List hidden files - tracked but locally ignored files
+        hidden = !git ls-files -v $(git rev-parse --show-toplevel) | (grep '^[[:lower:]]'
+        # hide file
+        ignore = !git update-index --assume-unchanged
+        # Unhide file
+        unhide = !git update-index --no-assume-unchanged
+        # Show gitignore
+        gitignore = !cat "$(git rev-parse --show-toplevel)/.gitignore"
+        # Edit gitignore
+        gitignore-edit = !vim "$(git rev-parse --show-toplevel)/.gitignore"
+        # Fix .gitignore
+        gitignore-fix = !git rm -r --cached . && git add . && git commit --fixup -m "Just a .gitignore fix."
+    # Pull request
+        pr-prepare = "!f() { \
+            local status=\"$(git status --short)\"; \
+            local upstream=\"$(git curr-upstream)\"; \
+            [ ! -z \"$status\" ] &&  { (>&2 echo \"Detected uncommited changes:\\n$status\"); exit 1; };\
+            [ -z \"$upstream\" ] && \
+                git create-upstream || \
+                (>&2 echo \"Upstream already created - $upstream\"); \
+            git check-whitespaces && \
+            git sync && \
+            git sync-master && \
+            git squash; \
+        }; f"
+        pr-close = "!f() { \
+            git fetch && \
+            git checkout master && \
+            git pull && \
+            git cleanup; \
+        }; f"
     # Other
         # Just shorter
         cl = clone
         cp = cherry-pick
         re = rebase
+        # Cleanup your git repository
+        cleanup = !git fetch && git delete-merged-branches && git remote prune origin && git gc
         # User info
         user-name = !git config --get user.name
         user-email = !git config --get user.email
         user = "!f() { echo \"$(git user-name) <$(git user-email)>\"; }; f"
-        # Fix .gitignore
-        fix-gitignore = "!f() { \
-            if [ -z \"$(git status -s)\" ] ; then \
-                git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix.\"; \
-            else \
-                echo \"Commit changes before executing gitignore fix\"; \
-            fi; \
-        }; f"
         # Initialize git repo
         start = !git init && git add . && git commit --allow-empty -am \"Initial commit\"
-        # Merge feature branch ant leave a commit
-        merge-feature = !git merge --no-ff
         # Check if any file in repo has whitespace errors
-        # As described in http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/
         check-whitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
-        # Remove branches that have already been merged with master
-        deletemergedbranches = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
         # Github aliases
         github-fetch-pr = "!sh -c 'git fetch origin pull/$0/head:pr/$0'"
-        github-pr = "!sh -c 'git fetch origin pull/$0/head:pr/$0 && git checkout pr/$0 && git pull'"
+        github-pr = "!sh -c 'git github-fetch-pr $0 && git checkout pr/$0 && git pull'"

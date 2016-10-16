@@ -40,11 +40,15 @@ alias ip_local_eth="ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | cut -d\  -f
 alias ip_local_all="ifconfig  | grep 'inet addr' | cut -d: -f2 | cut -d\  -f1"
 alias ip_resolve="dig +short myip.opendns.com @resolver1.opendns.com"
 
-# Shortcuts
-alias g="git"
+# Editor
 alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
+
+# Shortcuts
+alias g="git"
+alias git-cd="cd \$(git rev-parse --show-toplevel)"
+alias gcd="cd \$(git rev-parse --show-toplevel)"
 
 # Tmux
 alias ta='tmux attach'
@@ -54,7 +58,7 @@ alias tls='tmux ls'
 alias ducks='du -cksh * | sort -hr'
 alias ducks15='du -cksh * | sort -hr | head -n 15'
 
-alias dailyepigram="fortune | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
+alias dailyepigram="fortune -as | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
 alias asciitext="figlet -f slant"
 alias asciitextln="echo && asciitext"
 

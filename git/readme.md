@@ -2,15 +2,77 @@
 
 ## Git pearls
 
-List of git aliases I find most useful.
+Most interesting and frequently used git magic spells.
 
-- **`git start`** - Alias for `git init && git add . && git commit --allow-empty -am "Initial commit"`. The first commit of a repository can not be rebased like regular commits, so it’s [good practice](https://hackernoon.com/lesser-known-git-commands-151a1918a60#9d13) to create an empty commit as your repository root.
-- **`git push-force`** - Like `git push --atomic --force-with-lease`. The most secure version of git push.
-    - [`force-with-lease`](https://developer.atlassian.com/blog/2015/04/force-with-lease/?utm_source=medium&utm_medium=blog&utm_campaign=lesser-git) force push only if there were no changes on remote
-    - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push.
-- **`git merge-feature`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
-- ...
+```
+git start       - Start your next git project the right way.
+git pr-prepare  - Prepare a branch to be a non problematic pull request.
+git pr-close    - Checkout master and cleanup.
+git push-force  - The most secure version of push with force
+git push-fix    - Quickly push fixes
+git push-conflict-fix - Resolve conflict with master and push
+git sync-all    - Rebase all branches with freshly fetched remotes.
+git drop-uncommited - Drop all uncommited changes.
+git stash-all   - Stash all, even untracked.
+git log-blame   - Correct way for displaying file annotations.
+git cleanup     - Cleanup your repo from garbage
+```
 
+## Feature flow
+
+Example of an everyday usage:
+
+```sh
+# Start a new feature
+git create-branch feature/PROJ-001-new-feature
+echo 'important' > abc
+git commit-all -m 'Important commit'
+echo 'fixup' >> abc
+git commit-fixup
+echo 'squash' >> abc
+git commit-squash HEAD^ -m 'Squash'
+git pr-prepare
+git push
+# Apply some code review fixes
+echo 'quick-fix' >> abc
+git push-fix
+# Feature branch merged!
+git pr-close
+```
+
+...instead of
+
+```sh
+# Start a new feature
+git checkout -b feature/PROJ-001-new-feature
+git push -u origin feature/PROJ-001-new-feature
+echo 'important' > abc
+git add -A
+git commit -am 'Important commit'
+echo 'fixup' >> abc
+git commit -a --fixup=HEAD
+echo 'squash' >> abc
+git commit -a --squash=HEAD^ -m 'Squash'
+git fetch
+# Make sure there are no conflicts
+git rebase origin/feature/PROJ-001-new-feature
+git rebase origin/master
+# Check whitespaces
+git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
+# Squash commits
+git rebase -i
+git push
+# Apply some code review fixes
+echo 'quick-fix' >> abc
+git commit -a --amend --no-edit
+git push -f --atomic --force-with-lease
+# Feature branch merged!
+git fetch
+git checkout master
+git pull
+git remote prune origin
+git gc
+```
 
 ## Shorter versions of common commands
 
@@ -142,7 +204,7 @@ with interactive version of [`git rebase -i`](https://git-scm.com/docs/git-rebas
 Be aware that every command at the end will open an interactive rebase editor.
 
 - **`git squash [X]`** - `(sq)` Squash commits.
-    - `X` - may be a number of commits to be squashed.
+    - `X` - may be a revision. Squash 5 last commits `git squash HEAD~4`.
     - `X` - may be a branch name. All commits made after branching from branch X will be squashed.
     - `X` - default value is `master`. Executing `git squash` will squash all your feature branch commits that are ahead of `master`.
 - **`git squash-ahead`** - `(sqa)` Squash all commits that are ahead of the upstream.
@@ -202,8 +264,8 @@ with [git push](https://git-scm.com/docs/git-push).
 - **`git push-force`** - Like `git push --atomic --force-with-lease`. The most secure version of git push.
     - [`force-with-lease`](https://developer.atlassian.com/blog/2015/04/force-with-lease/?utm_source=medium&utm_medium=blog&utm_campaign=lesser-git) force push only if there were no changes on remote
     - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push.
-- **`push-cr-fix`** - Amend and push all changes to the remote. Perfect for quick code review fix.
-- **`push-pr-conflict-fix`** - Rebase with remote master and push to the remote. Perfect wen there is a conflict in your PR.
+- **`push-fix`** - Amend and push all changes to the remote. Perfect for quick code review fixes.
+- **`push-conflict-fix`** - Rebase with remote master and push to the remote. Perfect when there is a conflict in your PR with the master.
 
 ### Diff aliases
 
@@ -283,6 +345,7 @@ with [`git branch`](https://git-scm.com/docs/git-branch).
 - **`git delete-branch-remotely [BRANCH] [REMOTE]`**  - Delete branch remotely. Added sanity check to not remove master branch.
     - `REMOTE` - name of the remote. Default value is `origin`.
 - **`git delete-branch-globally [BRANCH] [REMOTE]`**  - Delete branch locally and remotely. Added sanity check to not remove master branch.
+- **`git merge-with-commit`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
 
 ### Origin aliases
 
@@ -291,13 +354,36 @@ Aliases for presenting information about the origin.
 - **`git origin`** - `(or)` Show basic information about the origin. Includes: URL, branches
 - **`git origin-commits`** - `(orc)` Show all origins branches with commit information. Good to quickly figure out what is going on all origin branches.
 
+### Pull request aliases
+
+Aliases to ease pull request flow.
+
+- **`git pr-prepare`** - `(prp)` Prepare a branch to be a non problematic pull request.
+- **`git pr-close`** - `(prc)` Execute after merging pr. Checkout master and update repository.
+
+### Ignore aliases
+
+Aliases for ignoring local changes
+with [`.gitignore` file](https://www.atlassian.com/git/tutorials/gitignore/)
+and [`git update-index`](http://stackoverflow.com/a/11366713/2284884).
+
+- **`git ignore FILE`** - Ignore changes in a tracked file.
+- **`git unignore FILE`** - Unignore changes in a tracked file.
+- **`git ignored`** - List ignored files with `git ignore` command.
+- **`git gitignore`** - Show local `.gitignore` file.
+- **`git gitignore-edit`** - Edit local `.gitignore` file with vim.
+- **`git gitignore-fix`** - [Fix `.gitignore`](http://stackoverflow.com/a/1139797/2284884).
+
 ### Other aliases
 
 List of other ungrouped aliases.
 
-- **`git merge-feature`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
 - **`git start`** - Alias for `git init && git add . && git commit --allow-empty -am "Initial commit"`. The first commit of a repository can not be rebased like regular commits, so it’s [good practice](https://hackernoon.com/lesser-known-git-commands-151a1918a60#9d13) to create an empty commit as your repository root.
 - **`git check-whitespaces`** - Check if any file in repo has [whitespace errors](http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/).
+- **`git cleanup`** - Cleans up your local repository.
+    - Removes local [branches merged to master](http://railsware.com/blog/2014/08/11/git-housekeeping-tutorial-clean-up-outdated-branches-in-local-and-remote-repositories/)
+    - [Prunes remotes](http://railsware.com/blog/2014/08/11/git-housekeeping-tutorial-clean-up-outdated-branches-in-local-and-remote-repositories/)
+    - Starts [repository cleanup](https://git-scm.com/docs/git-gc)
 
 ## In case of emergency
 
