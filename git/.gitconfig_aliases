@@ -371,7 +371,34 @@
         fnch = !git find-commit-by-hash
     # Contribution
         contributors = !git log --all --format='%<(20)%aN <%cE>' | sort -u
-        file-stats = "!f() { \
+        stats-files-by-lines = "!f() { \
+            local sortby=\"${1:-1}\"; \
+            local total=$( \
+                git grep --cached -Il '' | \
+                xargs cat | \
+                sed '/^\\s*$/d' | \
+                wc -l \
+            ); \
+            git grep --cached -Il '' | \
+            sed -E 's|.*\\.(.+)|\\1|' | \
+            sort -u | \
+            while read extname; do \
+                local count=$( \
+                    git grep --cached -Il '' | \
+                    grep \"$extname$\" | \
+                    xargs cat | \
+                    sed '/^\\s*$/d' | \
+                    wc -l \
+                ); \
+                echo \"$extname $count $(( 100 * $count / $total ))\"; \
+            done | \
+            ([ \"$sortby\" = \"1\" ] && sort || sort -gr -k $sortby) | \
+            awk '{ printf \"%-20s %+10s %3s%%\\n\", $1, $2, $3 }'; \
+            echo \"Total: $total\"; \
+        }; f"
+        stats-files-by-count = "!f() { \
+            local sortby=\"${1:-1}\"; \
+            local total=$(git ls-files | wc -l); \
             git ls-files | \
             sed -E 's|.*\\.(.+)|\\1|' | \
             sort -u | \
@@ -379,12 +406,42 @@
                 local count=$( \
                     git ls-files | \
                     grep \"$extname$\" | \
-                    xargs cat | \
-                    sed '/^\\s*$/d' | \
                     wc -l \
                 ); \
-                printf \"%-20s %+10s\\n\" $extname $count; \
-            done; \
+                echo \"$extname $count $(( 100 * $count / $total ))\"; \
+            done | \
+            ([ \"$sortby\" = \"1\" ] && sort || sort -gr -k $sortby) | \
+            awk '{ printf \"%-20s %+10s %3s%%\\n\", $1, $2, $3 }'; \
+            echo \"Total: $total\"; \
+        }; f"
+        stats-contribution = "!f() { \
+            local sortby=\"${1:-1}\"; \
+            local totals=\"$( \
+                git log --pretty=tformat: --numstat | \
+                awk '{ add += $1; subs += $2; diff += $1 - $2; sum += $1 + $2;} END { printf \"%s\\n%s\\n%s\\n%s\", add, subs, diff, sum }' \
+            )\"; \
+            local total_added=\"$(echo \"$totals\" | sed '1q;d')\"; \
+            local total_removed=\"$(echo \"$totals\" | sed '2q;d')\"; \
+            local total_diff=\"$(echo \"$totals\" | sed '3q;d')\"; \
+            local total_sum=\"$(echo \"$totals\" | sed '4q;d')\"; \
+            local table=\"$(\
+                git log --format='%aN' | \
+                sort -u | \
+                while read name; do \
+                    git log --author=\"$name\" --pretty=tformat: --numstat | \
+                    awk -v name=\"$(echo $name | sed 's|\\ \\+|_|g')\" \
+                        -v ta=\"$total_added\" \
+                        -v tr=\"$total_added\" \
+                        -v td=\"$total_diff\" \
+                        -v ts=\"$total_sum\" \
+                        '{ add += $1; subs += $2; diff += $1 - $2; sum += $1 + $2; } END { printf \"'%s' %s %.0f %s %.0f %s %.0f %s %.0f\\n\", name, add, 100 * add / ta, subs, 100 * subs / tr, diff, 100 * diff / td, sum, 100 * sum / ts }'; \
+                done | \
+                ([ \"$sortby\" = \"1\" ] && sort || sort -gr -k $sortby) \
+            )\"; \
+            local header=\"Name Added % Removed % Diff % Sum %\"; \
+            local footer=\"Total $total_added 100  $total_removed 100 $total_diff 100 $total_sum 100\"; \
+            echo \"$header\\n$table\\n$footer\" | \
+            awk '{ printf \"%-20s %+10s %4s %+10s %4s %+10s %5s %+10s %4s\\n\", $1, $2, $3, $4, $5, $6, $7, $8, $9 }'; \
         }; f"
     # Branch
         # Shorter version
@@ -455,7 +512,7 @@
         # Edit gitignore
         gitignore-edit = !vim "$(git rev-parse --show-toplevel)/.gitignore"
         # Fix .gitignore
-        gitignore-fix = !git rm -r --cached . && git add . && git commit --fixup -m "Just a .gitignore fix."
+        gitignore-fix = !git rm -r --cached . && git add . && git commit -m 'Just a .gitignore fix.'
     # Pull request
         pr-prepare = "!f() { \
             local status=\"$(git status --short)\"; \

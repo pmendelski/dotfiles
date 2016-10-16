@@ -5,17 +5,17 @@
 Most interesting and frequently used git magic spells.
 
 ```
-git start       - Start your next git project the right way.
-git pr-prepare  - Prepare a branch to be a non problematic pull request.
-git pr-close    - Checkout master and cleanup.
-git push-force  - The most secure version of push with force
-git push-fix    - Quickly push fixes
-git push-conflict-fix - Resolve conflict with master and push
-git sync-all    - Rebase all branches with freshly fetched remotes.
-git drop-uncommited - Drop all uncommited changes.
-git stash-all   - Stash all, even untracked.
-git log-blame   - Correct way for displaying file annotations.
-git cleanup     - Cleanup your repo from garbage
+git start               - Start your next git project the right way.
+git pr-prepare          - Prepare a branch to be a non problematic pull request.
+git pr-close            - Checkout master and cleanup.
+git push-force          - The most secure version of push with force
+git push-fix            - Quickly push fixes
+git push-conflict-fix   - Resolve conflict with master and push
+git sync-all            - Rebase all branches with freshly fetched remotes.
+git drop-uncommited     - Drop all uncommited changes.
+git stash-all           - Stash all, even untracked.
+git log-blame           - Correct way for displaying file annotations.
+git cleanup             - Cleanup your repo from garbage
 ```
 
 ## Feature flow
