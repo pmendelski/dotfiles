@@ -371,6 +371,38 @@
         fnch = !git find-commit-by-hash
     # Contribution
         contributors = !git log --all --format='%<(20)%aN <%cE>' | sort -u
+        # echo "abc\ndef\nghi" | tee >( local x="$(wc -l)"; echo "x: $x" ) | wc -m
+        stats-files = "!f() { \
+            local sortby=\"${1:-1}\"; \
+            local total_files=$(git ls-files | wc -l); \
+            local total_lines=$( \
+                git grep --cached -Il '' | \
+                xargs cat | \
+                sed '/^\\s*$/d' | \
+                wc -l \
+            ); \
+            git ls-files | \
+            sed -E 's|.*\\.(.+)|\\1|' | \
+            sort -u | \
+            while read extname; do \
+                local count_files=$( \
+                    git ls-files | \
+                    grep \"$extname$\" | \
+                    wc -l \
+                ); \
+                local count_lines=$( \
+                    git grep --cached -Il '' | \
+                    grep \"$extname$\" | \
+                    xargs cat | \
+                    sed '/^\\s*$/d' | \
+                    wc -l \
+                ); \
+                echo \"$extname $count_lines $(( 100 * $count_lines / $total_lines ))\"; \
+            done | \
+            ([ \"$sortby\" = \"1\" ] && sort || sort -gr -k $sortby) | \
+            awk '{ printf \"%-20s %+10s %3s%%\\n\", $1, $2, $3 }'; \
+            echo \"Total: $total\"; \
+        }; f"
         stats-files-by-lines = "!f() { \
             local sortby=\"${1:-1}\"; \
             local total=$( \
