@@ -25,12 +25,13 @@ function printHelp() {
     echo ""
     echo "OPTIONS"
     echo "  -h, --help     Print help."
-    echo "  -y, --yes      Assume 'yes' answer to all confirmations."
+    echo "  -y, --yes      Assume 'yes'. Override all files with new ones."
+    echo "  -n, --no       Assume 'no'. Do not override any file with new one."
     echo "  -u, --update   Update dotfiles from the repository."
     echo "  -v, --verbose  Print additional logs."
     echo "  -s, --silent   Disable logs. Except confirmations."
-    echo "  -n, --nocolor  Disable colors."
-    echo "  -d, --dryrun   Run installation without making any changes."
+    echo "  --nocolor  Disable colors."
+    echo "  --dryrun   Run installation without making any changes."
     echo ""
 }
 
@@ -39,13 +40,16 @@ while (("$#")); do
         --yes|-y)
             yes=1
             ;;
+        --no|-n)
+            no=1
+            ;;
         --silent|-s)
             silent=1
             ;;
-        --dryrun|-d)
+        --dryrun)
             dryrun=1
             ;;
-        --nocolor|-n)
+        --nocolor)
             nocolor=1
             ;;
         --verbose|-v)

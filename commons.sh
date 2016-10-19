@@ -15,6 +15,7 @@ declare -i nocolor=0
 declare -i silent=0
 declare -i verbose=0
 declare -i yes=0
+declare -i no=0
 declare -i dryrun=0
 
 # Some stats to gather
@@ -94,6 +95,8 @@ function __setupSymlink() {
         __link $linkFrom $linkTo
     elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
         printInfo "Symbolic link already created: $(__shorten $linkTo) → $(__shorten $linkFrom)"
+    elif [ $no != 0 ]; then
+        printInfo "File already exists. Skipping: $(__shorten $linkTo) → $(__shorten $linkFrom)"
     elif [ $yes != 0 ]; then
         __link $linkFrom $linkTo
     else

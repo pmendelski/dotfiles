@@ -446,7 +446,7 @@
             awk '{ printf \"%-20s %+10s %3s%%\\n\", $1, $2, $3 }'; \
             echo \"Total: $total\"; \
         }; f"
-        # stats-test = "!sh $HOME/Desktop/test.sh"
+        stats-test = "!. ~/.git_aliases/test.sh"
         stats-contribution = "!f() { \
             local sortby=\"${1:-1}\"; \
             local totals=\"$( \
