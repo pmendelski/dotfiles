@@ -305,8 +305,7 @@
         undo-branch-local-commits = !git reset --soft $(git upstream)
         # Undo all branch commits that are ahead of source branch
         undo-branch-commit-range = "!f() { \
-            local branchname=\"${1:-master}\"; \
-            local n=\"$(git log --oneline ${branchname}..$(git curr-branch) | wc -l)\"; \
+            local n=\"$(git log --oneline ${1:-master}..$(git curr-branch) | wc -l)\"; \
             git reset --soft HEAD~${n}; \
         }; f"
     # Drop changes
@@ -321,8 +320,7 @@
         # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
         drop-branch-local-changes = !git reset --hard $(git curr-upstream) && git clean -xf
         drop-branch-change-range = "!f() { \
-            local branchname=\"${1:-master}\"; \
-            local n=\"$(git log --oneline ${branchname}..$(git curr-branch) | wc -l)\"; \
+            local n=\"$(git log --oneline ${1:-master}..$(git curr-branch) | wc -l)\"; \
             git reset --hard HEAD~${n} && git clean -xf; \
         }; f"
     # Reflog
