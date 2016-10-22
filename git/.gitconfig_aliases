@@ -5,21 +5,13 @@
     # - Use double indent for folding in IDE
 [alias]
     # Aliases
-        # List all aliases
-        aliases = "!f() { \
-            git config --list | \
-            grep 'alias\\.' | \
-            sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | \
-            sed 's|[[:space:]]\\+\\ *| |g' | \
-            awk 'BEGIN { FS = \"=>\" } { printf(\"%-20s=>%s\\n\", $1, $2)}'; \
-        }; f"
         # Open documentation
         aliases-doc = !sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md' &
-        # Find an alias
-        alias = "!f() {\
-            git aliases | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
+        # List or find an alias
+        aliases = "!f() {\
+            sh ~/.git_aliases/aliases.sh | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
         }; f"
-        al = !git alias
+        al = !git aliases
     # Log
         # Shorter version
         lg = log
@@ -226,54 +218,16 @@
         }; f"
     # Commit traversal
         prev-commit = !git checkout HEAD~
-        next-commit = "!f() { \
-            local hash=\"$(git curr-commit)\"; \
-            local child=\"$(\
-                git rev-list --all --not \"HEAD\"^@ --children | \
-                grep $hash | \
-                cut -d' ' -f2- | \
-                sed 's| |\\n|g' | \
-                grep -v $hash \
-            )\"; \
-            local childrencount=\"$(echo \"$child\" | wc -l)\"; \
-            if [ \"$childrencount\" -gt 1 ]; then \
-                if [ ! -z "$1" ]; then \
-                    child=\"$(git rev-list $1 | grep $hash -B 1 | head -n 1)\"; \
-                else \
-                    echo \"Found multiple children commits:\"; \
-                    for c in $child; do \
-                        echo \"  $c $(git log -s --format=%s -n 1 $c)\"; \
-                    done; \
-                    echo \"\\nOptions:\"; \
-                    echo \"- Pick one child commit and do: git checkout COMMIT\"; \
-                    echo \"- Pick a branch and execute: git nextcommit BRANCH\"; \
-                    echo \"\\nAvailable branches:\"; \
-                    git branch --contains $(git curr-commit); \
-                    exit 1; \
-                fi; \
-            fi; \
-            [ ! -z \"$child\" ] && \
-                git checkout $child || \
-                git checkout $(git branch -a --contains $hash | grep -v HEAD | head -n 1); \
-        }; f"
+        next-commit = "!sh ~/.git_aliases/next-commit.sh"
         prev-tag = !git checkout $(git curr-tag)
-        next-tag = "!f() { \
-            local tagname=\"\"; \
-            local nexttags=\"$(git tag -l --contains $(git curr-commit))\"; \
-            local nextcommitresult=0; \
-            while [ -z \"$tagname\" ] && [ ! -z \"$nexttags\" ] && [ $nextcommitresult -eq 0 ]; do \
-                git next-commit $@; \
-                nextcommitresult=$?; \
-                tagname=\"$(git describe --exact-match --tags --abbrev=0)\"; \
-                nexttags=\"$(git tag -l --contains $(git curr-commit))\"; \
-            done; \
-        }; f"
+        next-tag = "!sh ~/.git_aliases/next-tag.sh"
     # Push
         # Secure force push
+        # World is not yet ready for --atomic
         push-force = "!f() { \
             [ \"$(git curr-branch)\" = \"master\" ] && \
                 { (>&2 echo \"Sanity check. No force push to master is forbidden.\"); exit 1; }; \
-            git push --atomic --force-with-lease; \
+            git push --force-with-lease; \
         }; f"
         # Push code review fixes
         push-fix = !git amend-all && git push-force

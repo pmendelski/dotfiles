@@ -101,8 +101,7 @@ tg = tag
 
 Aliases for finding other aliases.
 
-- **`git aliases`** - List all aliases.
-- **`git alias [PHRASE]`** - `(al)` Find an alias.
+- **`git aliases [PHRASE]`** - `(al)` List aliases.
     - `PHRASE` - phrase that will be use to search for an alias. If no phrase is specified command will list all aliases.
 - **`git aliases-doc`** - `(ald)` Open browser on this readme page.
 
@@ -193,7 +192,7 @@ with [`git commit --amend`](https://git-scm.com/docs/git-commit).
 Sync alias consist of [`git fetch`](https://git-scm.com/docs/git-fetch) and [`git rebase`](https://git-scm.com/docs/git-rebase). It is like a rebase with always updated remote branch.
 
 - **`git sync [BRANCH]`** - `(sy)` Fetch and rebase with remote branch.
-    - `BRANCH` - the name of the remote branch to be rebased with. Default value is `master`.  
+    - `BRANCH` - the name of the remote branch to be rebased with. Default value is `master`.
 - **`git sync-master`** - `(sym)` Rebase remote `master` branch.
 
 ### Squash aliases
@@ -251,19 +250,19 @@ Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 Aliases for traveling through commit history.
 
 - **`git prev-commit`** - Go to the previous commit.
-- **`git next-commit [BRANCH]`** - Go to the next commit. If there is no child commit it will attempt to checkout a related branch.
+- **`git next-commit BRANCH`** - Go to the next commit. If there is no child commit it will attempt to checkout the branch.
     - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
 - **`git prev-tag`**  - Go to the previous tag.
-- **`git next-tag [BRANCH]`**  - Go to the next tag. Works like `git next-commit`.
+- **`git next-tag BRANCH`**  - Go to the next tag. Works like `git next-commit`.
 
 ### Push aliases
 
 Aliases related with [sending your changes to remote repostiry](https://www.atlassian.com/git/tutorials/syncing/)
 with [git push](https://git-scm.com/docs/git-push).
 
-- **`git push-force`** - Like `git push --atomic --force-with-lease`. The most secure version of git push.
+- **`git push-force`** - Like `git push --force-with-lease`. The most secure version of git push.
     - [`force-with-lease`](https://developer.atlassian.com/blog/2015/04/force-with-lease/?utm_source=medium&utm_medium=blog&utm_campaign=lesser-git) force push only if there were no changes on remote
-    - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push.
+    - [`atomic`](https://github.com/blog/1994-git-2-4-atomic-pushes-push-to-deploy-and-more) - total success or a total fail. Transactional version of a push. This command does not include `--atomic` because some repositories are not ready for it.
 - **`push-fix`** - Amend and push all changes to the remote. Perfect for quick code review fixes.
 - **`push-conflict-fix`** - Rebase with remote master and push to the remote. Perfect when there is a conflict in your PR with the master.
 
@@ -373,6 +372,16 @@ and [`git update-index`](http://stackoverflow.com/a/11366713/2284884).
 - **`git gitignore`** - Show local `.gitignore` file.
 - **`git gitignore-edit`** - Edit local `.gitignore` file with vim.
 - **`git gitignore-fix`** - [Fix `.gitignore`](http://stackoverflow.com/a/1139797/2284884).
+
+### Contribution aliases
+
+Aliases for presenting statistics on about contribution.
+
+- **`git contributors`** - List contributors.
+- **`git contribution-stats`** - Show contribution statistics grouped by commit authors.
+    - Columns: added, removed, sum (added + removed), commits
+- **`git file-stats`** - Show file statistics grouped by file extension.
+    - Columns: count, lines, size
 
 ### Other aliases
 
