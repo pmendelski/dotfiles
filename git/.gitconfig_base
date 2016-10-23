@@ -32,7 +32,7 @@
     keepBackup = false
 
 [rerere]
-    # REplay REsolved conflict during REbase
+    # REplay REsolved REsolution
     # https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67
     enabled = true
 

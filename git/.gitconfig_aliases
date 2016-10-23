@@ -16,20 +16,26 @@
         # Shorter version
         lg = log
         # Pretty printed log
-        log-pretty = log --pretty=custom
+        log-pretty = log --pretty=custom --topo-order
         lgp = !git log-pretty
         # Show pretty printed log with branch graph
-        log-graph = log --graph --pretty=custom
+        log-graph = log-pretty --graph
         lgg = !git log-graph
         # Show pretty printed log with files
-        log-files = log --pretty=custom --numstat --decorate --name-status
+        log-files = log-pretty --numstat --decorate --name-status
         lgf = !git log-files
         # Show pretty printed commit log with diffs.
-        log-diff = log -M --stat --pretty=custom -p --color-words
+        log-diff = log-pretty -M --stat -p --color-words
         lgd = !git log-diff
+        # Show merge commits only.
+        log-merges = log-pretty --merges
+        lgm = !log-merges
+        # Show non-merge commits only.
+        log-no-merges = log-pretty --no-merges
+        lgnm = !log-no-merges
         # Show pretty printed commit log with diffs for a single file.
         # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
-        log-blame = log -M --follow --stat --pretty=custom -p --color-words
+        log-blame = log-pretty -M --follow --stat -p --color-words
         lgb = !git log-diff
         # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
         log-issues = "!f() { \
@@ -159,12 +165,8 @@
     # Tag
         # Shorter version
         tg = !git tag
-        # Show last tag available on branch
-        curr-tag = "!f() { \
-            [ $(git curr-branch) ] && \
-                git describe --abbrev=0 --tag || \
-                git describe --abbrev=0 --tag `git describe --abbrev=0 --tag`^; \
-        }; f"
+        # Show last tag
+        last-tag = !git describe --abbrev=0 --tag
         # Create tag with date
         create-tag = "!f() { \
             local tagname=\"$1\"; \
@@ -188,12 +190,12 @@
         tgb = !tags-branch
         # Remove the old tag with this name and tag the latest commit with it.
         retag = "!f() { \
-            local oldtagname=\"${2:-$(git curr-tag)}\"; \
+            local oldtagname=\"${2:-$(git last-tag)}\"; \
             local newtagname=\"${1:-$oldtagname}\"; \
             git tag -d $oldtagname && git tag $newtagname; \
         }; f"
         retag-globally = "!f() { \
-            local oldtagname=\"${2:-$(git curr-tag)}\"; \
+            local oldtagname=\"${2:-$(git last-tag)}\"; \
             local newtagname=\"${1:-$oldtagname}\"; \
             git tag -d $oldtagname && \
                 git tag $newtagname && \
@@ -203,23 +205,23 @@
         # Pushing tags
         push-tags = push --tags
         push-tag = "!f() { \
-            git push ${2:-origin} ${1:-$(git curr-tag); \
+            git push ${2:-origin} ${1:-$(git last-tag); \
         }; f"
         # Deleting tags
         delete-tag = "!f() { \
-            git tag -d ${1:-$(git curr-tag)}; \
+            git tag -d ${1:-$(git last-tag)}; \
         }; f"
         delete-tag-remotely = "!f() { \
-            git push ${2:-origin} :refs/tags/${1:-$(git curr-tag)}; \
+            git push ${2:-origin} :refs/tags/${1:-$(git last-tag)}; \
         }; f"
         delete-tag-globally = "!f() { \
             git delete-tag-locally $@ && \
                 git delete-tag-remotely $@; \
         }; f"
     # Commit traversal
-        prev-commit = !git checkout HEAD~
+        prev-commit = "!sh ~/.git_aliases/prev-commit.sh"
         next-commit = "!sh ~/.git_aliases/next-commit.sh"
-        prev-tag = !git checkout $(git curr-tag)
+        prev-tag = "!sh ~/.git_aliases/prev-tag.sh"
         next-tag = "!sh ~/.git_aliases/next-tag.sh"
     # Push
         # Secure force push

@@ -114,6 +114,8 @@ with [`git log`](https://git-scm.com/docs/git-log).
 - **`git log-pretty`** - `(lgp)` Pretty log.
 - **`git log-graph`** - `(lgg)` Pretty log + graph.
 - **`git log-files`** - `(lgf)` Pretty log + file changes.
+- **`git log-merges`** - `(lgm)` Pretty log merge commits only.
+- **`git log-no-merges`** - `(lgnm)` Pretty log non-merge commits only.
 - **`git log-diff [N]`** - `(lgd)` Pretty log + diff.
     - `N` - a negative number of commits to be presented in diff.
     - Example: `git log-diff` - will present a log with diff of all commits.
@@ -228,7 +230,7 @@ Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
     - `TAG_NAME` - name of a new tag.
     - `TAG_MSG` - message for a new tag. If message is specified an annotated tag is created.
 - **`git create-tag-with-date [PREFIX]`** - Tag with current date and optional prefix.
-- **`git curr-tag`**  - Show current/last tag.
+- **`git last-tag`**  - Show current/last tag.
 - **`git retag [NEW_TAG] [OLD_TAG]`** - Drop last tag and retag latest commit
     - `NEW_TAG` - name of a new tag. Default value is equal to `OLD_TAG`.
     - `OLD_TAG` - name of the tag to be replaced. Default value is the last tag.
@@ -249,10 +251,10 @@ Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 
 Aliases for traveling through commit history.
 
-- **`git prev-commit`** - Go to the previous commit.
+- **`git prev-commit BRANCH`** - Go to the previous commit.
+    - `BRANCH` - Branch name. When a commit have multiple children commits or multiple parent commits branch name must be specified to pick one of them.
 - **`git next-commit BRANCH`** - Go to the next commit. If there is no child commit it will attempt to checkout the branch.
-    - `BRANCH` - Branch name. When a commit have multiple child commits branch name must be specified to pick one of them.
-- **`git prev-tag`**  - Go to the previous tag.
+- **`git prev-tag BRANCH`**  - Go to the previous tag.
 - **`git next-tag BRANCH`**  - Go to the next tag. Works like `git next-commit`.
 
 ### Push aliases
