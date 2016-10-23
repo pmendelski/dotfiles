@@ -263,19 +263,21 @@
             git reset --soft HEAD~${n}; \
         }; f"
     # Drop changes
+        # Drop all untracked files and ignored
+        drop-ignored = !git clean -Xdf
         # Drop all untracked files
-        drop-unadded = !git clean -xf
+        drop-unadded = !git clean -df
         # Drop uncommitted changes
-        drop-uncommitted = !git reset --hard && git clean -xf
+        drop-uncommitted = !git reset --hard && git clean -df
         # Drop to previous commit. Drop a committed and uncommitted. Restore previous commit.
         drop-prev-commit = "!f() { \
-            git reset --hard HEAD~${1:-1} && git clean -xf; \
+            git reset --hard HEAD~${1:-1} && git clean -df; \
         }; f"
         # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
-        drop-branch-local-changes = !git reset --hard $(git curr-upstream) && git clean -xf
+        drop-branch-local-changes = !git reset --hard $(git curr-upstream) && git clean -df
         drop-branch-change-range = "!f() { \
             local n=\"$(git log --oneline ${1:-master}..$(git curr-branch) | wc -l)\"; \
-            git reset --hard HEAD~${n} && git clean -xf; \
+            git reset --hard HEAD~${n} && git clean -df; \
         }; f"
     # Reflog
         # Shorter version
@@ -345,7 +347,7 @@
             git branch --set-upstream-to origin/$branchname; \
         }; f"
         # Merge with a commit
-        merge-with-commit = !git merge --no-ff
+        merge-branch = !git merge --no-ff --no-edit
         # Push branch
         push-branch = "!f() { \
             git push -u ${1:-origin} $(git curr-branch); \

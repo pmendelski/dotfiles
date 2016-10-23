@@ -300,6 +300,7 @@ Be aware that these aliases will make no changes to your local files.
 
 Be aware that **these aliases will change your local files** (see [in case of emergency](#in-case-of-emergency)).
 
+- **`git drop-ignored`** - Drop all ignored files.
 - **`git drop-unadded`** - Drop all unstaged changes.
 - **`git drop-uncommitted`** - Drop all uncommitted changes. Everything what was not staged nor committed will be dropped.
 - **`git drop-prev-commit`** - Drop to previous commit. Drop all committed and uncommitted changes. It will restore state to previous commit.
@@ -344,7 +345,7 @@ with [`git branch`](https://git-scm.com/docs/git-branch).
 - **`git delete-branch-remotely [BRANCH] [REMOTE]`**  - Delete branch remotely. Added sanity check to not remove master branch.
     - `REMOTE` - name of the remote. Default value is `origin`.
 - **`git delete-branch-globally [BRANCH] [REMOTE]`**  - Delete branch locally and remotely. Added sanity check to not remove master branch.
-- **`git merge-with-commit`** - Alias for `git merge --no-ff`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
+- **`git merge-branch`** - Alias for `git merge --no-ff --no-edit`. Merge and create a [commit to leave merge information in history](https://hackernoon.com/lesser-known-git-commands-151a1918a60#823c). Perfect for feature branch workflow.
 
 ### Origin aliases
 
