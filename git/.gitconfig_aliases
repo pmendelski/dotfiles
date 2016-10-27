@@ -19,23 +19,23 @@
         log-pretty = log --pretty=custom --topo-order
         lgp = !git log-pretty
         # Show pretty printed log with branch graph
-        log-graph = log-pretty --graph
+        log-graph = !git log-pretty --graph
         lgg = !git log-graph
         # Show pretty printed log with files
-        log-files = log-pretty --numstat --decorate --name-status
+        log-files = !git log-pretty --numstat --decorate --name-status
         lgf = !git log-files
         # Show pretty printed commit log with diffs.
-        log-diff = log-pretty -M --stat -p --color-words
+        log-diff = !git log-pretty -M --stat -p --color-words
         lgd = !git log-diff
         # Show merge commits only.
-        log-merges = log-pretty --merges
+        log-merges = !git log-pretty --merges
         lgm = !log-merges
         # Show non-merge commits only.
-        log-no-merges = log-pretty --no-merges
+        log-no-merges = !git log-pretty --no-merges
         lgnm = !log-no-merges
         # Show pretty printed commit log with diffs for a single file.
         # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
-        log-blame = log-pretty -M --follow --stat -p --color-words
+        log-blame = !git log-pretty -M --follow --stat -p --color-words
         lgb = !git log-diff
         # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
         log-issues = "!f() { \
