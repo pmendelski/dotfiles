@@ -12,7 +12,7 @@
 ### Base keybindings
 
 | Keybinding    | Action |
-|---------------|--------
+|---------------|--------|
 | `C-a`         | **Prefix** for most other tmux keybindings |
 | `C-[`         | **Copy Mode** enters so called copy mode |
 | `:`           | **Command mode** |
@@ -20,7 +20,7 @@
 ### Sessions
 
 | Keybinding    | Action |
-|---------------|--------
+|---------------|--------|
 | `C-a K`       | **kill** session |
 | `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
@@ -57,7 +57,7 @@
 ### Misc
 
 | Keybinding    | Action |
-|---------------|--------
+|---------------|--------|
 | `C-a t`       | **big clock** |
 | `C-a ?`       | **show keybindings** |
 | `C-a y`       | **sync all panes** |
@@ -69,14 +69,15 @@
 Copy mode opens new vim like features.
 
 | Keybinding    | Action |
-|---------------|--------
+|---------------|--------|
 | `C-a [`       | **copy mode start** |
-| `C-a ]`       | **copy  mode exit** |
+| `C-a ]`       | **paste the most recent copied buffer** |
 | `C-a =`       | **select buffer** to paste |
+| `C-a +`       | **delete recent buffer** |
 
 | Copy mode keybinding    | Action |
 |-------------------------|--------|
-| `C-b`                   | **Scroll Up** by whole page  |
+| `C-b`                   | **Scroll Up** by a whole page  |
 | `C-f`                   | **Scroll Down** by whole page  |
 | `/`                     | **Search** phrase. Hit `n` to jump to next place  |
 
@@ -85,10 +86,17 @@ Copy mode opens new vim like features.
 Copy and paste using [vi bindings](https://awhan.wordpress.com/2010/06/20/copy-paste-in-tmux/)
 
 1. `C-a [` enter copy mode, move to selection start
-2. `v` start visual selection (like in vim), move to selection
+2. `v` start visual selection (like in vim) or `V` to select whole lines, move to selection
 3. `y` copy selection to tmux buffer or to system clipboard
-4. `C-S-v` paste last buffer or `C-a =` to select specific buffer
+4. `C-a ]` paste last buffer or `C-a =` to select specific buffer
+
+Copy and paste using mouse
+
+1. Left click and drag to select desired text (do not release the button)
+2. Press `y`to copy selection to tmux buffer or to system clipboard
+3. Paste where needed
 
 # Credits
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 - http://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily
+- https://leanside.com/2014/01/copy-paste-in-tmux/

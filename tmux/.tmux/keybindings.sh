@@ -20,7 +20,7 @@ bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 
-# synchronize all panes in a window
+# Synchronize all panes in a window
 bind y setw synchronize-panes
 
 # Reload config file (change file location to your the tmux.conf you want to use)
@@ -32,20 +32,19 @@ bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
 
-# Maximize and restore windows
-unbind Up
-bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
-unbind Down
-bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
-
 # Move window to the top (change number to 1)
 bind-key T swap-window -t 1
 
-# Kill window and session
+# Kill window
 bind k confirm kill-window
+# Kill session
 bind K confirm kill-server
 
 # More like vim
 setw -g mode-keys vi
 bind -t vi-copy v begin-selection
 bind -t vi-copy y copy-pipe "xclip -sel clip -i"
+
+# Delete recent buffer
+# Default '-' is used to split panes
+bind + delete-buffer
