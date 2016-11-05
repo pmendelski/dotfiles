@@ -329,6 +329,8 @@
         contributors = !git log --all --format='%<(20)%aN <%cE>' | sort -u
         file-stats = "!sh ~/.git_aliases/file-stats.sh"
         contribution-stats = "!sh ~/.git_aliases/contribution-stats.sh"
+    # Submodules
+        submodule-rm = "!sh ~/.git_aliases/submodule-rm.sh"
     # Branch
         # Shorter version
         br = branch
@@ -402,8 +404,8 @@
     # Pull request
         pr-prepare = "!f() { \
             local status=\"$(git status --short)\"; \
-            local upstream=\"$(git curr-upstream)\"; \
             [ ! -z \"$status\" ] &&  { (>&2 echo \"Detected uncommited changes:\\n$status\"); exit 1; };\
+            local upstream=\"$(git curr-upstream)\"; \
             [ -z \"$upstream\" ] && \
                 git create-upstream || \
                 (>&2 echo \"Upstream already created - $upstream\"); \
