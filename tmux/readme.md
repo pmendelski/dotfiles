@@ -25,6 +25,15 @@
 | `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
 
+```
+tmux                # Create new session
+tmux new -s <name>  # ... with name
+tmux attach         # Attach to last session
+tmux a -t <name>    # ...with name
+tmux ls             # list sessions
+tmux kill-session -t myname
+```
+
 ### Windows
 
 | Keybinding    | Action |
@@ -45,11 +54,12 @@
 |---------------|--------|
 | `C-a |`       | **split** vertically |
 | `C-a -`       | **split** horizontally |
-| `C-d`         | **kill** pane |
+| `C-x`         | **kill** pane |
 | `A-<Arrow>`   | **change** pane |
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
 | `C-a A-<Arrow>` | **resize** current pane |
+| `C-a P`       | **move to top** current pane |
 | `C-a C-o`     | **cycle** location of panes |
 | `C-a C-{`     | **swap with previous** |
 | `C-a C-}`     | **swap with next** |
@@ -59,8 +69,9 @@
 | Keybinding    | Action |
 |---------------|--------|
 | `C-a t`       | **big clock** |
-| `C-a ?`       | **show keybindings** |
 | `C-a y`       | **sync all panes** |
+| `C-a q`       | **show pane indexes** |
+| `C-a ?`       | **show keybindings** |
 | `C-a :`       | **prompt** |
 
 
@@ -75,18 +86,14 @@ Copy mode opens new vim like features.
 | `C-a =`       | **select buffer** to paste |
 | `C-a +`       | **delete recent buffer** |
 
-| Copy mode keybinding    | Action |
-|-------------------------|--------|
-| `C-b`                   | **Scroll Up** by a whole page  |
-| `C-f`                   | **Scroll Down** by whole page  |
-| `/`                     | **Search** phrase. Hit `n` to jump to next place  |
-
 ### Copy and paste
 
 Copy and paste using [vi bindings](https://awhan.wordpress.com/2010/06/20/copy-paste-in-tmux/)
 
 1. `C-a [` enter copy mode, move to selection start
-2. `v` start visual selection (like in vim) or `V` to select whole lines, move to selection
+2. `v Space` start visual selection (like in vim) move to selection
+  - `Shift-v Space` to select whole lines
+  - `v Space` to start rectangular selection
 3. `y` copy selection to tmux buffer or to system clipboard
 4. `C-a ]` paste last buffer or `C-a =` to select specific buffer
 

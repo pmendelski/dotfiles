@@ -27,6 +27,9 @@ function init_bash() {
     dailyhello
 }
 
+# Force tmux
+[ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+
 # Sometimes 'chsh -s $(whish zsh)' is not an option
 [ -r "$HOME/.shell" ] && source "$HOME/.shell"
 : ${ZSH_FORCE:=0}
