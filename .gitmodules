@@ -19,6 +19,3 @@
 [submodule "zsh-autosuggestions"]
 	path = zsh/.zsh/bundles/autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
-[submodule "tmux-resurrect"]
-	path = tmux/.tmux/bundles/tmux-resurrect
-	url = git@github.com:tmux-plugins/tmux-resurrect.git

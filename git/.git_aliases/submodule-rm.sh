@@ -21,8 +21,8 @@ submoduleRm() {
     rm -rf "$path" &&
         git submodule deinit "$path" &&
         git rm "$path" &&
-        rm -rf ".git/modules/$name"
-    echo "Submodule removed"
+        rm -rf ".git/modules/$name" &&
+        echo "Submodule removed"
 };
 
 submoduleRm "$@"
