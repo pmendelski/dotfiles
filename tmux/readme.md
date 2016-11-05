@@ -103,6 +103,58 @@ Copy and paste using mouse
 2. Press `y`to copy selection to tmux buffer or to system clipboard
 3. Paste where needed
 
+## Plugins
+
+### Tmux yank
+
+[Tmux Yank](https://github.com/tmux-plugins/tmux-yank) - Enables copying to system clipboard.
+
+| Keybinding    | Action |
+|---------------|--------|
+| `C-a y`       | **copy text from command line** |
+| `C-a Y`       | **copy current working directory** |
+
+Copy mode keybindings
+
+| Keybinding    | Action |
+|---------------|--------|
+| `y`           | **copy to clipboard** |
+| `Y`           | **pasting selection to the command line** |
+
+### Tmux open
+
+[Tmux Open](https://github.com/tmux-plugins/tmux-open) - Opens highlighted selection directly from Tmux copy mode.
+
+Copy mode keybindings
+
+| Keybinding    | Action |
+|---------------|--------|
+| `o`           | open highlighted selection with the system default program |
+| `C-o`         | open a highlighted selection with the `$EDITOR` |
+
+### Tmux copycat
+
+[Tmux Open](https://github.com/tmux-plugins/tmux-open) - Easy search and select.
+
+Copy mode keybindings
+
+| Keybinding    | Action |
+|---------------|--------|
+| `C-a /`       | regex search |
+| `C-a C-f`     | simple file search |
+| `C-a C-g`     | search file in `git status` result |
+| `C-a A-h`     | search SHA-1 hashes in `git log` result |
+| `C-a C-u`     | search URLs |
+| `C-a C-d`     | search numbers |
+| `C-a A-i`     | search IPs |
+
+**Copycat mode** bindings
+
+| Keybinding    | Action |
+|---------------|--------|
+| `n`           | jumps to the next match |
+| `N`           | jumps to the previous match |
+
 # Credits
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 - http://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily

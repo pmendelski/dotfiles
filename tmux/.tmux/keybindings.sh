@@ -63,8 +63,6 @@ bind y setw synchronize-panes
 ##################################################################
 # Copy mode
 ##################################################################
-# Copy to clipboard
-bind -t vi-copy y copy-pipe "xclip -sel clip -i"
 # Enable Ctrl + arrows in copy mode-keys
 bind -t vi-copy C-Left previous-word
 bind -t vi-copy C-Right next-word
