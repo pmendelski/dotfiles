@@ -22,6 +22,7 @@ setopt auto_menu            # Autoselect on second tab press
 setopt always_to_end        # When completing from the middle of a word, move the cursor to the end of the word
 setopt auto_name_dirs       # Any parameter that is set to the absolute name of a directory immediately becomes a name for that directory
 setopt complete_in_word     # Allow completion from within a word/phrase
+setopt globdots             # Enable completion for hidden files and directories
 
 # Use caching so that commands like apt and dpkg complete are useable
 zstyle ':completion::complete:*' use-cache 1
@@ -40,7 +41,11 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \
+    adm amanda apache at avahi avahi-autoipd 
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
     adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+    clamav daemon dbus beaglidx bin cacti canna \
     clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
     gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
     ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
