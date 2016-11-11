@@ -1,6 +1,6 @@
 # Tmux
 
-## Tmux basics:
+## Tmux basics
 
 - Every tmux process is called a session.
 - Session have multiple windows.

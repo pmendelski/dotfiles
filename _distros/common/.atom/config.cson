@@ -1,7 +1,7 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1478356208500
+    lastUpdateTimestamp: 1478855798749
   core:
     telemetryConsent: "limited"
   editor:
@@ -14,10 +14,10 @@
   linter:
     errorPanelHeight: 188
     lintOnFly: false
+    showErrorPanel: false
     showErrorTabLine: true
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
-    useGlobalEslint: true
   "linter-htmlhint": {}
   "linter-jscs":
     onlyConfig: true
