@@ -1,7 +1,7 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1478855798749
+    lastUpdateTimestamp: 1480159424820
   core:
     telemetryConsent: "limited"
   editor:

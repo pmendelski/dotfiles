@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set-option -g display-time 4000
+
 # No sounds
 set-option -g visual-activity off
 set-option -g visual-bell off
