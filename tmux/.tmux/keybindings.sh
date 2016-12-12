@@ -31,9 +31,9 @@ bind M \
 # Kill session
 bind K confirm kill-server
 # Next and previous session
-bind -n M-} switch-client -n
-bind -n M-{ switch-client -p
-bind -n M-P switch-client -l
+bind -n M-> switch-client -n
+bind -n M-< switch-client -p
+bind -n M-M switch-client -l
 
 ##################################################################
 # Windows
@@ -43,9 +43,9 @@ bind k confirm kill-window
 # Move window to the top (change number to 1)
 bind T swap-window -t 1
 # Next and previous window
-bind -n M-[ next-window
-bind -n M-] previous-window
-bind -n M-p last-window
+bind -n M-. next-window
+bind -n M-, previous-window
+bind -n M-m last-window
 
 ##################################################################
 # Panes

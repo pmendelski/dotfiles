@@ -10,7 +10,7 @@ zsh_plugins=(!nvmrc) # Skip nvmrc. It's too slow
 source ~/.zsh/index.zsh
 
 # Force tmux
-[ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+[ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux;
 
 # Load prompt
 : ${ZSH_PROMPT:=flexi}

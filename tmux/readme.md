@@ -24,9 +24,9 @@
 | `C-a K`       | **kill** session |
 | `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
-| `A-}`         | **next** session |
-| `A-{`         | **previous** session |
-| `A-P`         | **last** session |
+| `A->`         | **next** session |
+| `A-<`         | **previous** session |
+| `A-m`         | **last** session |
 
 ```
 tmux                # Create new session
@@ -47,9 +47,9 @@ tmux kill-session -t myname
 | `C-a T`       | **move** window to first the top |
 | `C-a w`       | **list** windows |
 | `C-a <num>`   | **go to <num>** window |
-| `A-]`         | **next** window |
-| `A-[`         | **previous** window |
-| `A-p`         | **last** window |
+| `A-.`         | **next** window |
+| `A-,`         | **previous** window |
+| `A-m`         | **last** window |
 
 ### Panes
 
