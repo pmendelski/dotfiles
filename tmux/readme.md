@@ -72,7 +72,7 @@ tmux kill-session -t myname
 | Keybinding    | Action |
 |---------------|--------|
 | `C-a t`       | **big clock** |
-| `C-a y`       | **sync all panes** |
+| `C-a _`       | **sync all panes** |
 | `C-a q`       | **show pane indexes** |
 | `C-a ?`       | **show keybindings** |
 | `C-a :`       | **prompt** |

@@ -66,7 +66,7 @@ bind -n M-Down select-pane -D
 # Delete pane
 bind x kill-pane
 # Synchronize all panes in a window
-bind y setw synchronize-panes
+bind _ setw synchronize-panes
 
 ##################################################################
 # Copy mode
