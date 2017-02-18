@@ -58,9 +58,21 @@ alias tls='tmux ls'
 alias ducks='du -cksh * | sort -hr'
 alias ducks15='du -cksh * | sort -hr | head -n 15'
 
+# ASCII
 alias dailyepigram="fortune -as | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
 alias asciitext="figlet -f slant"
-alias asciitextln="echo && asciitext"
+
+# HELP
+alias dotfiles-git-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md'"
+alias dotfiles-git-edit="editor ~/.dotfiles/git"
+alias dotfiles-tmux-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/tmux/readme.md'"
+alias dotfiles-tmux-edit="editor ~/.dotfiles/tmux"
+alias dotfiles-bash-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/bash/readme.md'"
+alias dotfiles-bash-edit="editor ~/.dotfiles/bash"
+alias dotfiles-zsh-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/zsh/readme.md'"
+alias dotfiles-zsh-edit="editor ~/.dotfiles/zsh"
+alias dotfiles-vim-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/vim/readme.md'"
+alias dotfiles-vim-edit="editor ~/.dotfiles/vim"
 
 # Simplified HTTP methods
 if [ -x "$(command -v httpie)" ]; then
