@@ -180,7 +180,8 @@ function __flexiPromptShlvl() {
 
 function __flexiPromptNewLinePreCmd() {
     local exit=$?
-    [ $__FLEXI_PROMPT_CMD_COUNTER != 1 ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
+    local counter=${__FLEXI_PROMPT_CMD_COUNTER:-2}
+    [ $counter != 1 ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
     return $exit
 }
 
