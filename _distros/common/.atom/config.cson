@@ -1,7 +1,7 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1481492422461
+    lastUpdateTimestamp: 1487142719748
   core:
     telemetryConsent: "limited"
   editor:
@@ -10,7 +10,10 @@
     showIndentGuide: true
     showInvisibles: true
     softTabs: false
-    tabLength: 4
+    tabType: "soft"
+  "git-plus":
+    general:
+      _analyticsUserId: "86a50de2-ed98-45fb-8638-f02a7693f8b8"
   linter:
     errorPanelHeight: 188
     lintOnFly: false

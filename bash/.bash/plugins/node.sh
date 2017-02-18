@@ -15,3 +15,6 @@ export PATH=$PATH:./node_modules/.bin
 # Running locally installed npm executables
 # http://www.2ality.com/2016/01/locally-installed-npm-executables.html
 function npmbin { (PATH=$(npm bin):$PATH; eval $@;) }
+
+# Set NODE_ENV to development
+export NODE_ENV="development"
