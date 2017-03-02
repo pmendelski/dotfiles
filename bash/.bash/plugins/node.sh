@@ -4,6 +4,7 @@
 export NODE_REPL_HISTORY="$HOME/.node_history"; # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_SIZE="32768";      # Allow 32^3 entries; the default is 1000.
 export NODE_REPL_MODE="sloppy";             # Use sloppy mode by default, matching web browsers.
+export NODE_BASE_MODULES="tldr webpack eslint http-server";
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -15,6 +16,10 @@ export PATH=$PATH:./node_modules/.bin
 # Running locally installed npm executables
 # http://www.2ality.com/2016/01/locally-installed-npm-executables.html
 function npmbin { (PATH=$(npm bin):$PATH; eval $@;) }
+
+function npmInstallBaseModules {
+    npm install -g $NODE_BASE_MODULES
+}
 
 # Set NODE_ENV to development
 export NODE_ENV="development"
