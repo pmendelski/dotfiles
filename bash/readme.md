@@ -49,7 +49,9 @@ For example in order to add you custom alias just create file `~/.bash_aliases_l
 
 ## Plugins
 
-Plugins are just pluggable bash extensions, configurations and commands.
+Plugins are just pluggable bash scripts, sourced in `index.sh`.
+They may modify bash global state.
+
 You may activate them or disable them using `bash_plugins` variable.
 
 Example:
@@ -58,7 +60,6 @@ Example:
 - `bash_plugins=(jvm mvn-color)` - enables jvm, mvn-color
 
 ## Prompt
-
 
 ### Prompt setup
 

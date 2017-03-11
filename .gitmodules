@@ -19,21 +19,24 @@
 [submodule "zsh-autosuggestions"]
 	path = zsh/.zsh/bundles/autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
-[submodule "yank"]
-	path = tmux/.tmux/bundles/yank
-	url = git@github.com:tmux-plugins/tmux-yank.git
-[submodule "copycat"]
-	path = tmux/.tmux/bundles/copycat
-	url = git@github.com:tmux-plugins/tmux-copycat.git
-[submodule "open"]
-	path = tmux/.tmux/bundles/open
-	url = git@github.com:tmux-plugins/tmux-open.git
-[submodule "prefix-highlight"]
-	path = tmux/.tmux/bundles/prefix-highlight
-	url = git@github.com:tmux-plugins/tmux-prefix-highlight.git
-[submodule "logging"]
-	path = tmux/.tmux/bundles/logging
-	url = git@github.com:tmux-plugins/tmux-logging.git
-[submodule "z"]
+[submodule "zsh-history-substring-search"]
+	path = zsh/.zsh/bundles/history-substring-search
+	url = git@github.com:zsh-users/zsh-history-substring-search.git
+[submodule "zsh-z"]
 	path = zsh/.zsh/bundles/z
 	url = git@github.com:rupa/z.git
+[submodule "tmux-logging"]
+	path = tmux/.tmux/bundles/logging
+	url = git@github.com:tmux-plugins/tmux-logging.git
+[submodule "tmux-prefix-highlight"]
+	path = tmux/.tmux/bundles/prefix-highlight
+	url = git@github.com:tmux-plugins/tmux-prefix-highlight.git
+[submodule "tmux-open"]
+	path = tmux/.tmux/bundles/open
+	url = git@github.com:tmux-plugins/tmux-open.git
+[submodule "tmux-copycat"]
+	path = tmux/.tmux/bundles/copycat
+	url = git@github.com:tmux-plugins/tmux-copycat.git
+[submodule "tmux-yank"]
+	path = tmux/.tmux/bundles/yank
+	url = git@github.com:tmux-plugins/tmux-yank.git
