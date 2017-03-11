@@ -18,24 +18,25 @@ function __loadZshFiles() {
     fi
 }
 
-function __loadLocalZshDotFiles() {
+function __loadLocalZshFiles() {
     for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
         [ -r "$file" ] && source "$file"
     done
+    if [ -d "$HOME/.zsh_plugins" ]; then
+        for file in $HOME/.zsh_plugins/*.zsh; do
+            [ -r "$file" ] && source "$file"
+        done
+    fi
     unset file
 }
 
 function __loadZsh() {
     source "$HOME/.bash/index.sh"
-    local -r DIR="$HOME/.zsh"
-    source "$DIR/exports.zsh"
-    source "$DIR/aliases.zsh"
-    __loadLocalZshDotFiles
-    __loadZshFiles "$DIR/config"
-    __loadZshFiles "$DIR/func"
-    __loadZshFiles "$DIR/plugins"
-    source "$DIR/prompts/basic.zsh"
-    source "$DIR/bundles/install.zsh"
+    source "$HOME/.zsh/exports.zsh"
+    source "$HOME/.zsh/aliases.zsh"
+    __loadLocalZshFiles
+    __loadZshFiles "$HOME/.zsh/lib"
+    __loadZshFiles "$HOME/.zsh/plugins" $zsh_plugins
 }
 
 __loadZsh

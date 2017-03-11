@@ -1,5 +1,3 @@
-#!/bin/bash -x
-
 # Wrapper function for history command.
 historyc() {
     local -r ESC="$(printf '\033')"

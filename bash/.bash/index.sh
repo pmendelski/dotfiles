@@ -20,10 +20,15 @@ function __loadBashFiles() {
     unset file
 }
 
-function __loadLocalBashDotFiles() {
+function __loadLocalBashFiles() {
     for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
         [ -r "$file" ] && source "$file"
     done
+    if [ -d "$HOME/.bash_plugins" ]; then
+        for file in $HOME/.bash_plugins/*.sh; do
+            [ -r "$file" ] && source "$file"
+        done
+    fi
     unset file
 }
 
@@ -32,7 +37,7 @@ function bashChangePrompt() {
     local -r promptName="${1:-$defaultPrompt}"
     local promptFile="$theme"
     [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName.sh"
-    [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName/prompt.sh"
+    [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName/index.sh"
     if [ -f "$promptFile" ]; then
         source "$promptFile"
         if [ -z "$__LOAD_BASH_PROMPT_NEXT_CHANGE" ]; then
@@ -51,13 +56,13 @@ function bashChangePrompt() {
 }
 
 function __loadBash() {
-    local -r DIR="$HOME/.bash"
-    source "$DIR/exports.sh"
-    source "$DIR/aliases.sh"
-    __loadLocalBashDotFiles
-    [ -n "$BASH_VERSION" ] && __loadBashFiles "$DIR/config"
-    __loadBashFiles "$DIR/func"
-    __loadBashFiles "$DIR/plugins" $bash_plugins
+    source "$HOME/.bash/exports.sh"
+    source "$HOME/.bash/aliases.sh"
+    __loadLocalBashFiles
+    # Lib should be loaded by bash only
+    [ -n "$BASH_VERSION" ] && __loadBashFiles "$HOME/.bash/lib"
+    __loadBashFiles "$HOME/.bash/plugins" $bash_plugins
+    # Bash propmpt should be loaded by bash only
     [ -n "$BASH_VERSION" ] && bashChangePrompt
 }
 

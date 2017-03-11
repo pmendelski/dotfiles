@@ -1,7 +1,7 @@
 # Command history configuration
 # http://zsh.sourceforge.net/Guide/zshguide02.html
 HISTFILE="$ZSH_TMP_DIR/.history"
-HISTSIZE=10000      # The shell will read $HISTSIZE lines from $HISTFILE at the start of an interactive session
+HISTSIZE=100000      # The shell will read $HISTSIZE lines from $HISTFILE at the start of an interactive session
 SAVEHIST=9000       # The shell will save the last $SAVEHIST lines you executed at the end of the session
 
 # History options
@@ -17,5 +17,3 @@ setopt hist_find_no_dups        # When searching history don't display results a
 setopt hist_reduce_blanks       # Remove extra blanks from each command line being added to history
 setopt hist_verify              # Don't execute, just expand history
 setopt inc_append_history       # Add comamnds as they are typed, don't wait until shell exit
-# Did not like it
-# setopt share_history            # Imports new commands and appends typed commands to history

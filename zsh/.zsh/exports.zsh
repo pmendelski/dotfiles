@@ -5,7 +5,7 @@ ZSH_DIR="$HOME/.zsh"
 ZSH_TMP_DIR="$ZSH_DIR/tmp"
 
 # ZSH functions
-fpath=($ZSH_DIR/fpath $ZSH_DIR/completions $fpath)
+fpath=($ZSH_DIR/prompts/setup $ZSH_DIR/completions $fpath)
 
 # LS colors
 LSCOLORS="Gxfxcxdxbxegedabagacad"

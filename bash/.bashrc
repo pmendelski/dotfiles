@@ -20,21 +20,17 @@ case $- in
     *) return;;
 esac
 
-function init_bash() {
+# Force tmux
+: ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
+[ $TMUX_FORCE = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+
+# Sometimes 'chsh -s $(whish zsh)' is not an option
+: ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
+if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
+    exec zsh
+else
     # bash_plugins=(jvm mvn-color !less)
     # ... or load them all
     source "$HOME/.bash/index.sh"
     dailyhello
-}
-
-# Force tmux
-[ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
-
-# Sometimes 'chsh -s $(whish zsh)' is not an option
-[ -r "$HOME/.shell" ] && source "$HOME/.shell"
-: ${ZSH_FORCE:=0}
-if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
-    exec zsh
-else
-    init_bash
 fi

@@ -13,5 +13,14 @@
 
 # ------------------------------------------------------
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-source $DIR/wakemeup_audacious
+function wakemeup_youtube() {
+    exec $BASH_DIR/plugins/wakemeup_youtube.sh $@
+}
+
+function wakemeup_audacious() {
+    exec $BASH_DIR/plugins/wakemeup_audacious.sh $@
+}
+
+function wakemeup() {
+    wakemeup_audacious $@
+}

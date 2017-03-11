@@ -6,11 +6,12 @@
 
 # zsh_plugins=(jvm mvn-color)
 # ...or load them all
-zsh_plugins=(!nvmrc) # Skip nvmrc. It's too slow
+# zsh_plugins=(!someplugin) # Skip someplugin
 source ~/.zsh/index.zsh
 
 # Force tmux
-[ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux;
+: ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
+[ $TMUX_FORCE = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux;
 
 # Load prompt
 : ${ZSH_PROMPT:=flexi}

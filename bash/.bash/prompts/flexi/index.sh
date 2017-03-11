@@ -11,6 +11,7 @@
 #   http://misc.flogisoft.com/bash/tip_colors_and_formatting
 #   http://wiki.bash-hackers.org/scripting/terminalcodes
 
+export FLEXI_PROMPT_DIR="$BASH_DIR/prompts/flexi"
 source "$FLEXI_PROMPT_DIR/switches.sh"
 source "$FLEXI_PROMPT_DIR/hooks.sh"
 
