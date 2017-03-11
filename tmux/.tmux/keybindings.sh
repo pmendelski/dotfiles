@@ -12,6 +12,10 @@ setw -g mode-keys vi
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
 bind D send-keys "sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/tmux/readme.md' 1>&2 2>/dev/null &" Enter
 
+# emacs key bindings in tmux command prompt (prefix + :) are better than
+# vi keys, even for vim users
+set -g status-keys emacs
+
 ##################################################################
 # Mouse
 ##################################################################

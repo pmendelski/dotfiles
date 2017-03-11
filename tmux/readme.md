@@ -158,6 +158,23 @@ Copy mode keybindings
 | `n`           | jumps to the next match |
 | `N`           | jumps to the previous match |
 
+### Tmux logging
+
+[Tmux Logging](https://github.com/tmux-plugins/tmux-logging) - Adds ability to log tmux pane to a file.
+
+All log files are saved in `~/.tmux/tmp/logging` directory.
+
+| Keybinding    | Action |
+|---------------|--------|
+| `C-a Shift-p` | toggle logging current pane |
+| `C-a Alt-p`   | textual screenshot of a current pane |
+| `C-a Alt-Shit-p` | saves whole history |
+| `C-a Alt-c` | clear pane history |
+
+### Tmux prefix-highlight
+
+[Tmux Prefix Highlight](https://github.com/tmux-plugins/tmux-prefix-highlight) - Add status placeholder for prefix/copy mode.
+
 # Credits
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 - http://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily

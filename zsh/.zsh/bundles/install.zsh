@@ -14,3 +14,6 @@ if [[ $(echotc Co) -gt 8 ]];then
 else
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
 fi
+
+# Load z
+source $DIR/bundles/z/z.sh
