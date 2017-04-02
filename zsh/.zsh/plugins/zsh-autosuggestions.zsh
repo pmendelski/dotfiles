@@ -1,7 +1,5 @@
-#!/bin/zsh
-
 # Must be loaded after syntax-highlighting
-source $ZSH_DIR/plugins/syntax-highlighting.zsh
+source $ZSH_DIR/plugins/zsh-syntax-highlighting.zsh
 
 # https://github.com/zsh-users/zsh-autosuggestions
 source $ZSH_DIR/bundles/autosuggestions/zsh-autosuggestions.zsh

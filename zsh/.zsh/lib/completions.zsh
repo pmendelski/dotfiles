@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # Completion cache location
 ZSH_COMP_DIR="$ZSH_TMP_DIR/comp"
 ZSH_COMPCACHE_DIR="$ZSH_COMP_DIR/cache"

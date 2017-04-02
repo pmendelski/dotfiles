@@ -1,24 +1,19 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1488443862546
+    lastUpdateTimestamp: 1491120702196
   core:
     telemetryConsent: "limited"
   editor:
     invisibles: {}
     preferredLineLength: 100
-    showIndentGuide: true
     showInvisibles: true
     softTabs: false
     tabType: "soft"
   "git-plus":
     general:
       _analyticsUserId: "86a50de2-ed98-45fb-8638-f02a7693f8b8"
-  linter:
-    errorPanelHeight: 188
-    lintOnFly: false
-    showErrorPanel: false
-    showErrorTabLine: true
+  linter: {}
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
   "linter-htmlhint": {}

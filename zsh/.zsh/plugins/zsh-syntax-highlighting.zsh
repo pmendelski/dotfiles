@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 # Syntax highligting is loaded by other plugins
 : ${ZSH_SYNTAX_HIGHLIGHTING_LOADED:=0}
 

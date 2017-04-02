@@ -1,19 +1,33 @@
 #!/bin/zsh
 
-function __loadZshFiles() {
+function __loadZshPlugin() {
+    local -r PLUGIN="$1"
+    if [ -r "$PLUGIN/plugin.zsh" ]; then
+        source "$PLUGIN/plugin.zsh";
+        fpath=("$PLUGIN" $fpath);
+    elif [ -r "$PLUGIN.zsh" ]; then
+        source "$PLUGIN.zsh";
+    elif [ -r "$PLUGIN" ]; then
+        source "$PLUGIN";
+    else
+        echo "Plugin not found: $PLUGIN"
+    fi
+}
+
+function __loadZshPlugins() {
     local -r DIR="$1"
     local -r NAMES=$2
     [ ! -d "$DIR" ] && return;
 
     if [ -z $NAMES ]; then
-        for file in $DIR/*.zsh; do
-            source $file
+        for plugin in $DIR/*; do
+            __loadZshPlugin "$plugin"
         done
     else
         for plugin in ${NAMES[@]}; do
-            [ ${plugin:0:1} -ne "!" ] \
-                && [ -r "$DIR/$plugin.zsh" ] \
-                && source $DIR/$plugin.zsh
+            if [ ${plugin:0:1} -ne "!" ]; then
+                __loadZshPlugin "$DIR/$plugin"
+            fi
         done
     fi
 }
@@ -35,8 +49,8 @@ function __loadZsh() {
     source "$HOME/.zsh/exports.zsh"
     source "$HOME/.zsh/aliases.zsh"
     __loadLocalZshFiles
-    __loadZshFiles "$HOME/.zsh/lib"
-    __loadZshFiles "$HOME/.zsh/plugins" $zsh_plugins
+    __loadZshPlugins "$HOME/.zsh/plugins" $zsh_plugins
+    __loadZshPlugins "$HOME/.zsh/lib"
 }
 
 __loadZsh

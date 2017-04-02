@@ -62,6 +62,10 @@ alias ducks15='du -cksh * | sort -hr | head -n 15'
 alias dailyepigram="fortune -as | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
 alias asciitext="figlet -f slant"
 
+# URL
+alias urlencode='node -e "console.log(encodeURIComponent(process.argv[1]))"'
+alias urldecode='node -e "console.log(decodeURIComponent(process.argv[1]))"'
+
 # HELP
 alias dotfiles-git-doc="sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md'"
 alias dotfiles-git-edit="editor ~/.dotfiles/git"

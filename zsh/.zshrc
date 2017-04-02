@@ -17,6 +17,7 @@ source ~/.zsh/index.zsh
 : ${ZSH_PROMPT:=flexi}
 autoload -U promptinit && promptinit
 prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
-    && prompt $ZSH_PROMPT
+    && prompt $ZSH_PROMPT \
+    || echo "Could not load zsh prompt"
 
-dailyhello
+dailyhello || echo "No daily hello:("

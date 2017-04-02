@@ -59,9 +59,9 @@ function __loadBash() {
     source "$HOME/.bash/exports.sh"
     source "$HOME/.bash/aliases.sh"
     __loadLocalBashFiles
+    __loadBashFiles "$HOME/.bash/plugins" $bash_plugins
     # Lib should be loaded by bash only
     [ -n "$BASH_VERSION" ] && __loadBashFiles "$HOME/.bash/lib"
-    __loadBashFiles "$HOME/.bash/plugins" $bash_plugins
     # Bash propmpt should be loaded by bash only
     [ -n "$BASH_VERSION" ] && bashChangePrompt
 }
