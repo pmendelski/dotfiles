@@ -15,11 +15,19 @@
     # Log
         # Shorter version
         lg = log
+        # Oneline log
+        log-oneline = log --pretty=custom-oneline --topo-order --tags
+        lgo = !git log-oneline
+        lgonp = !git --no-pager log-oneline
+        # Oneline short log
+        log-short = log --pretty=custom-short --topo-order --tags
+        lgs = !git log-short
+        lgsnp = !git --no-pager log-short
         # Pretty printed log
-        log-pretty = log --pretty=custom --topo-order
+        log-pretty = log --pretty=custom --topo-order --tags
         lgp = !git log-pretty
         # Show pretty printed log with branch graph
-        log-graph = !git log-pretty --graph
+        log-graph = !git log-pretty --graph --tags
         lgg = !git log-graph
         # Show pretty printed log with files
         log-files = !git log-pretty --numstat --decorate --name-status
@@ -213,6 +221,9 @@
         }; f"
         delete-tag-remotely = "!f() { \
             git push ${2:-origin} :refs/tags/${1:-$(git last-tag)}; \
+        }; f"
+        delete-tag-locally = "!f() { \
+            git tag --delete ${1:-$(git last-tag)}; \
         }; f"
         delete-tag-globally = "!f() { \
             git delete-tag-locally $@ && \
