@@ -31,6 +31,9 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+# Fast clear
+alias clr='clear'
+
 # Easy access to hosts file
 alias hosts="sudo $EDITOR /etc/hosts"
 

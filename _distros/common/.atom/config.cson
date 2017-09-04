@@ -1,19 +1,23 @@
 "*":
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1491120702196
+    lastUpdateTimestamp: 1504497234935
   core:
     telemetryConsent: "limited"
   editor:
+    fontSize: 15
     invisibles: {}
     preferredLineLength: 100
     showInvisibles: true
     softTabs: false
     tabType: "soft"
+  "exception-reporting":
+    userId: "10333b60-bd66-45b2-bd8e-cbab408e1885"
   "git-plus":
     general:
       _analyticsUserId: "86a50de2-ed98-45fb-8638-f02a7693f8b8"
-  linter: {}
+  linter:
+    lintOnChange: false
   "linter-eslint":
     disableWhenNoEslintrcFileInPath: true
   "linter-htmlhint": {}
@@ -21,6 +25,8 @@
     onlyConfig: true
   "linter-jshint":
     disableWhenNoJshintrcFileInPath: true
+  "linter-ui-default":
+    panelHeight: 69
   "markdown-preview":
     useGitHubStyle: true
   minimap:
