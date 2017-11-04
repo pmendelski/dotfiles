@@ -1,7 +1,10 @@
 "*":
+  "atom-beautify":
+    general:
+      _analyticsUserId: "ef7f590e-0247-4442-9b8e-7137d397cb48"
   "atom-import-sort": {}
   "autoupdate-packages":
-    lastUpdateTimestamp: 1504497234935
+    lastUpdateTimestamp: 1509783875622
   core:
     telemetryConsent: "limited"
   editor:
@@ -25,8 +28,7 @@
     onlyConfig: true
   "linter-jshint":
     disableWhenNoJshintrcFileInPath: true
-  "linter-ui-default":
-    panelHeight: 69
+  "linter-ui-default": {}
   "markdown-preview":
     useGitHubStyle: true
   minimap:
