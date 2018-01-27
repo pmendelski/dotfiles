@@ -18,3 +18,25 @@ function npmbin { (PATH=$(npm bin):$PATH; eval $@;) }
 
 # Set NODE_ENV to development
 export NODE_ENV="development"
+
+# Easy way to reinstall npm dependencies
+alias npm-please="rm -rf node_modules && rm -rf package-lock.json && npm i"
+# Easy way to update all npm dependencies
+alias npm-update-dependencies="ncu && npm-please"
+
+node-update() {
+    local version=${1:---lts}
+    nvm install $version
+    nvm use $(node -v)
+    npm install -g npm@latest
+    npm install -g webpack http-server livereload yarn npm-check-updates
+}
+
+
+nvmrc-create() {
+    echo "${1:-$(node -v)}" > .nvmrc
+}
+
+nvmrc-create-lts() {
+    echo "lts/*" > .nvmrc
+}
