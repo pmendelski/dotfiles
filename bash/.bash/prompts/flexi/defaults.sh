@@ -31,6 +31,7 @@
 ################################################################################
 # GIT
 ################################################################################
+: ${__FLEXI_PROMPT_GIT:=1}
 : ${__FLEXI_PROMPT_GIT_BEFORE:="$(__flexiPromptUnprintable $COLOR_MAGENTA_BOLD)("}
 : ${__FLEXI_PROMPT_GIT_AFTER:=")$(__flexiPromptUnprintable $COLOR_RESET)"}
 : ${__FLEXI_PROMPT_GIT_STAGED_CHANGES:="+"}

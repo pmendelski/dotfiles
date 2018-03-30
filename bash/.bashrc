@@ -32,5 +32,5 @@ else
     # bash_plugins=(jvm mvn-color !less)
     # ... or load them all
     source "$HOME/.bash/index.sh"
-    dailyhello
+    # dailyhello
 fi

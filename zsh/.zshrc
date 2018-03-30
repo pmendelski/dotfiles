@@ -20,4 +20,4 @@ prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
     && prompt $ZSH_PROMPT \
     || echo "Could not load zsh prompt"
 
-dailyhello || echo "No daily hello:("
+# dailyhello || echo "No daily hello:("

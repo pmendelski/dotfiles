@@ -217,15 +217,15 @@ function __flexiRebuildPrompts() {
             return;
         fi
         local PS1=''
-        [ $__FLEXI_PROMPT_NEWLINE_PRECMD != 0 ] && PS1+='$(__flexiPromptNewLinePreCmd)'
-        [ $__FLEXI_PROMPT_SHLVL != 0 ] && PS1+='$(__flexiPromptShlvl)'
-        [ $__FLEXI_PROMPT_TIMESTAMP != 0 ] && PS1+='$(__flexiPromptTimestamp)'
+        [ -n "$__FLEXI_PROMPT_NEWLINE_PRECMD" ] && PS1+='$(__flexiPromptNewLinePreCmd)'
+        [ -n "$__FLEXI_PROMPT_SHLVL" ] && PS1+='$(__flexiPromptShlvl)'
+        [ -n "$__FLEXI_PROMPT_TIMESTAMP" ] && PS1+='$(__flexiPromptTimestamp)'
         PS1+='$(__flexiPromptDebianChroot)'
         PS1+='$(__flexiPromptUserAtHost)'
         PS1+='$(__flexiPromptPwd)'
-        [ $__FLEXI_PROMPT_GIT != 0 ] && PS1+='$(__flexiPromptGitStatus)'
-        [ $__FLEXI_PROMPT_TIMER != 0 ] && PS1+='$(__flexiPromptTimer)'
-        [ $__FLEXI_PROMPT_NEWLINE != 0 ] && PS1+='$(__flexiPromptNewLine)'
+        [ -n "$__FLEXI_PROMPT_GIT" ] && PS1+='$(__flexiPromptGitStatus)'
+        [ -n "$__FLEXI_PROMPT_TIMER" ] && PS1+='$(__flexiPromptTimer)'
+        [ -n "$__FLEXI_PROMPT_NEWLINE" ] && PS1+='$(__flexiPromptNewLine)'
         PS1+='$(declare cmdstatus=${?:-0}; [ $cmdstatus != 0 ] && echo "$__FLEXI_PROMPT_CMD_ERROR" || echo "$__FLEXI_PROMPT_CMD_SUCCESS"; exit $cmdstatus)'
         echo "$PS1"
     }
