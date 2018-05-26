@@ -23,7 +23,6 @@ set -g pane-border-fg colour238
 set -g pane-active-border-fg colour243
 
 # The statusbar
-set -g status-utf8 on
 set -g status-justify left
 set -g status-position bottom
 set -g status-interval 2

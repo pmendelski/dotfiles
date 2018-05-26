@@ -120,14 +120,6 @@ function __setupFile() {
         __setupSymlink "$sourceFile" "$targetFile"
 }
 
-function __distroName() {
-    if [ -x "$(command -v lsb_release)" ]; then
-        lsb_release -si | tr '[:upper:]' '[:lower:]'
-    else
-        (>&2 printWarn "Omitted distro specific configuration: Command 'lsb_release' not found.")
-    fi
-}
-
 # Public functions
 
 function setupFiles() {
@@ -138,7 +130,7 @@ function setupFiles() {
 
 function setupBasic() {
     printInfo "Installling basic dotfiles"
-    for dir in $(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*'); do
+    for dir in $(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort); do
         cd $dir
         setupFiles $(ls -A)
     done
@@ -149,30 +141,9 @@ function setupSubmodules() {
     git submodule update --init
 }
 
-function setupDistroCommon() {
-    printInfo "Installling distro common configuration files"
-    cd "$DISTROS_DIR/common"
-    source 'setup.sh'
-}
-
-function setupDistro() {
-    local distro="$(__distroName)"
-    if [ ! -z "$distro" ]; then
-        if [ -e "$DISTROS_DIR/$distro" ]; then
-            setupDistroCommon
-            printInfo "Installling distro $distro"
-            cd "$DISTROS_DIR/$distro"
-            source 'setup.sh'
-        else
-            printInfo "No distro specific configuration found. Distro name: $distro"
-        fi
-    fi
-}
-
 function install() {
     setupSubmodules
     setupBasic
-    setupDistro
     [ -n "$templates" ] && \
         printWarn "Check template configurations. Templates:\n$templates"
 }

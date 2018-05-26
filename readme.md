@@ -2,7 +2,7 @@
 
 My [dotfiles](https://dotfiles.github.io/).
 
-**Warning:** dotfiles tested on [Ubuntu](http://www.ubuntu.com/).
+**Warning:** dotfiles tested on [Ubuntu 18.04](http://www.ubuntu.com/).
 
 ## Installation
 

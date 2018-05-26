@@ -31,6 +31,8 @@ if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
 else
     # bash_plugins=(jvm mvn-color !less)
     # ... or load them all
+    export PROMPT_DEFAULT_USERHOST="pablo@pablo-dell-7720"
     source "$HOME/.bash/index.sh"
     # dailyhello
 fi
+
