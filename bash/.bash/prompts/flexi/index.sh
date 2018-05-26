@@ -13,7 +13,6 @@
 
 export FLEXI_PROMPT_DIR="$BASH_DIR/prompts/flexi"
 source "$FLEXI_PROMPT_DIR/switches.sh"
-source "$FLEXI_PROMPT_DIR/hooks.sh"
 
 function __flexiPromptIsRoot() {
   [[ "${USER}" == *"root" ]] \
@@ -254,8 +253,8 @@ function __flexiRebuildPrompts() {
 
   __flexiPromptSetupDefaults
 
-  export PS1="$(buildPS1)"                  # Prompt string
-  [ $__FLEXI_PROMPT_PS2 != 0 ] && export PS2="> "       # Subshell prompt string
+  export PS1="$(buildPS1)"                                  # Prompt string
+  [ $__FLEXI_PROMPT_PS2 != 0 ] && export PS2="> "           # Subshell prompt string
   [ $__FLEXI_PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"  # Debug prompt string  (when using `set -x`)
 
   # Make propmpt extensible
@@ -274,11 +273,11 @@ function flexiPromptTheme() {
     if [ -z "$__FLEXI_PROMPT_NEXT_THEME_CHANGE" ]; then
       __FLEXI_PROMPT_NEXT_THEME_CHANGE="1"
     else
-      echo "Switched to theme: $themeFile"
-      echo "To save theme set: \$FLEXI_PROMPT_THEME=\"$theme\""
+      echo "Switched to flexi prompt theme: $themeFile"
+      echo "To save the flexi prompt theme set: \$FLEXI_PROMPT_THEME=\"$theme\""
     fi
   else
-    echo "Could not locate flexi theme: $theme"
+    echo "Could not locate flexi prompt theme: \"$theme\""
     echo "Checked locations:"
     echo "  $theme"
     echo "  $FLEXI_PROMPT_DIR/themes/$theme.sh"
@@ -289,6 +288,9 @@ if [ -n "$BASH_VERSION" ]; then
   # Initialize prompt
   flexiPromptTheme
 fi
+
+# Hooks must be sourced as the last one
+source "$FLEXI_PROMPT_DIR/hooks.sh"
 
 # Default PS1 - just in case of emergency ;)
 # export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '

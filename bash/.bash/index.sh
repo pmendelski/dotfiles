@@ -47,7 +47,7 @@ function bashChangePrompt() {
       echo "To save prompt set: \$BASH_PROMPT=\"$promptName\""
     fi
   else
-    echo "Could not locate prompt: $promptName"
+    echo "Could not locate prompt: \"$promptName\""
     echo "Checked locations:"
     echo "  $promptName"
     echo "  $BASH_DIR/prompts/$promptName.sh"
