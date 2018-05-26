@@ -2,7 +2,7 @@ local rings = require 'lua/rings/rings'
 local value = require 'lua/rings/value'
 local sh = require 'lua/sh'
 
-local active_iface = sh.command('ifconfig -s | tail -n +2 | tr -s " " | cut -d" " -f1,4 | sort -n -k2 | tail -n 1 | cut -d" " -f1')
+local active_iface = sh.command('ip a | grep -E "^[0-9]+: .*" | grep "state UP" | sed -nE "s|^[0-9]+: ([^:]+):.*|\\1|p"')
 local current_iface = nil
 local max_down_value = 1
 local max_up_value = 1

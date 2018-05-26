@@ -83,7 +83,7 @@ ${offset 330}${color2}${font Ubuntu:size=9:style=bold}Uptime:${font} ${alignr}$u
 ${offset 330}${color2}${font Ubuntu:size=9:style=bold}Battery:${font} ${alignr}${battery_percent}%
 
 # CPU Info
-${alignr}${cpugraph 40,120 666666 666666}
+${alignr}${cpugraph 20,120 666666 666666}
 ${offset 190}${font Ubuntu:size=10:style=bold}${color5}CPU ${alignr}${cpu 0}%${font}
 # Showing TOP 5 CPU-consumers
 ${offset 205}${color4}${top name 1}${alignr}${top cpu 1}%
@@ -94,7 +94,7 @@ ${offset 205}${color3}${top name 5}${alignr}${top cpu 5}%
 
 # MEM Info
 ${voffset 60}
-${alignr}${memgraph 33,183 666666 666666}
+${alignr}${memgraph 18,183 666666 666666}
 ${offset 190}${font Ubuntu:size=10:style=bold}${color5}MEM
 ${offset 205}${color5}ram${goto 340}$mem/$memmax${alignr}$memperc%
 ${offset 205}${color5}swap${goto 340}$swap/$swapmax${alignr}$swapperc%
@@ -106,12 +106,12 @@ ${offset 205}${color3}${top_mem name 4}${goto 340}${top_mem mem_res 5}${alignr}$
 
 # IO Info
 ${voffset 25}
-${alignr}${diskiograph 33,183 666666 666666}
+${alignr}${diskiograph 18,183 666666 666666}
 ${offset 190}${font Ubuntu:size=10:style=bold}${color5}IO
 ${execpi 1 ~/.conky/conky_io.sh}
 
 # NET Info
-${voffset 70}
+${voffset 60}
 ${offset 190}${font Ubuntu:size=10:style=bold}${color5}NET${font}
 ${execpi 1 ~/.conky/conky_net.sh}
 ]], {

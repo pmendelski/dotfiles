@@ -4,5 +4,6 @@ vim/.vim/tmp/swaps/**/*
 vim/.vim/tmp/undo/**/*
 bash/.bash/tmp/**/*
 zsh/.zsh/tmp/**/*
+conky/.conky/tmp/**/*
 tmux/.tmux/tmp/**/*
 !.gitkeep
