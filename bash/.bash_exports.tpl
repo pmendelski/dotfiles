@@ -1,13 +1,12 @@
-[include]
-  path = ~/.gitconfig_base
+# Prefer ZSH over bash
+# Sometimes 'chsh -s $(whish zsh)' is not an option
+export ZSH_FORCE="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"
 
-# [user]
-#   email = EMAIL
-#   name = USERNAME
+# Setup flexi ZSH prompt
+export ZSH_PROMPT=flexi
 
-# All my GitHub repos should be checked out r/w by default
-# http://rentzsch.tumblr.com/post/564806957/public-but-hackable-git-submodules
-# [url "git@github.com:USERNAME/"]
-#   insteadOf = "git://github.com/USERNAME/"
-# [url "git@bitbucket.com:USERNAME/"]
-#   insteadOf = "https://USERNAME@bitbucket.com/USERNAME/"
+# Force tmux
+export TMUX_FORCE="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"
+
+# Do not print the default use@host in prompt
+export PROMPT_DEFAULT_USERHOST="$USER@$HOSTNAME"

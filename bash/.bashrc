@@ -20,18 +20,21 @@ case $- in
   *) return;;
 esac
 
-# Force tmux
-: ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
-[ $TMUX_FORCE = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+# Local variables
+[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
 
-# Sometimes 'chsh -s $(whish zsh)' is not an option
+# Defaults
+: ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
 : ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
-if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
+
+# Force tmux
+[ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+
+if [ $SHLVL = 1 ] && [ "$ZSH_FORCE" = 1 ]; then
+  # Force zsh
   exec zsh
 else
   # bash_plugins=(jvm mvn-color !less)
   # ... or load them all
-  export PROMPT_DEFAULT_USERHOST="pablo@pablo-dell-7720"
   source "$HOME/.bash/index.sh"
-  # dailyhello
 fi

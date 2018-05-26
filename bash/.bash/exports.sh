@@ -12,6 +12,3 @@ export LC_ALL="en_US.UTF-8";
 # Custom Globals
 # Make vim the default editor
 export EDITOR="vim"
-
-# Added by wine
-export WINEARCH=win32
