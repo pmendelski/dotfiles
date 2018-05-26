@@ -14,7 +14,7 @@ done
 : ${ZSH_PROMPT:=flexi}
 
 # Force tmux
-[ $TMUX_FORCE = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux;
+[ "$USER" != "root" ] && [ $TMUX_FORCE = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux;
 
 # Load prompt
 autoload -U promptinit && promptinit

@@ -28,7 +28,7 @@ esac
 : ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
 
 # Force tmux
-[ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
+[ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
 
 if [ $SHLVL = 1 ] && [ "$ZSH_FORCE" = 1 ]; then
   # Force zsh
