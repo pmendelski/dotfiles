@@ -21,8 +21,8 @@ clear
 echo "Goog Morning!"
 
 links=(
-    "https://www.youtube.com/watch?v=gU1ybiFHjJI" # Indiana Jones
-    "https://www.youtube.com/watch?v=-bzWSJG93P8" # Star Wars
+  "https://www.youtube.com/watch?v=gU1ybiFHjJI" # Indiana Jones
+  "https://www.youtube.com/watch?v=-bzWSJG93P8" # Star Wars
 )
 link="${links[$((RANDOM%${#links[*]}))]}"
 

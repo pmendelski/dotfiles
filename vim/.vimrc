@@ -149,12 +149,12 @@ set formatoptions+=1    " break before 1-letter words
 
 " Tmux {{{
 if &term =~ '^screen'
-    " tmux will send xterm-style keys when its xterm-keys option is on
-    " http://superuser.com/a/402084
-    execute "set <xUp>=\e[1;*A"
-    execute "set <xDown>=\e[1;*B"
-    execute "set <xRight>=\e[1;*C"
-    execute "set <xLeft>=\e[1;*D"
+  " tmux will send xterm-style keys when its xterm-keys option is on
+  " http://superuser.com/a/402084
+  execute "set <xUp>=\e[1;*A"
+  execute "set <xDown>=\e[1;*B"
+  execute "set <xRight>=\e[1;*C"
+  execute "set <xLeft>=\e[1;*D"
 endif
 " }}}
 
@@ -165,64 +165,64 @@ set undodir=~/.vim/tmp/undo
 " }}}
 
 " Filetypes {{{
-    " JSON {{{
-    augroup filetype_json
-        autocmd!
-        au BufRead,BufNewFile *.json setlocal ft=json syntax=javascript
-        au BufRead,BufNewFile *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2 " smaller tabs for json files
-    augroup END
-    " }}}
+  " JSON {{{
+  augroup filetype_json
+    autocmd!
+    au BufRead,BufNewFile *.json setlocal ft=json syntax=javascript
+    au BufRead,BufNewFile *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2 " smaller tabs for json files
+  augroup END
+  " }}}
 
-    " YAML {{{
-    augroup tiletype_yaml
-        autocmd!
-        " smaller tabs for yaml files
-        autocmd FileType yaml setlocal tabstop=2
-        autocmd FileType yaml setlocal softtabstop=2
-        autocmd FileType yaml setlocal shiftwidth=2
-    augroup END
-    " }}}
+  " YAML {{{
+  augroup tiletype_yaml
+    autocmd!
+    " smaller tabs for yaml files
+    autocmd FileType yaml setlocal tabstop=2
+    autocmd FileType yaml setlocal softtabstop=2
+    autocmd FileType yaml setlocal shiftwidth=2
+  augroup END
+  " }}}
 
 " }}}
 
 " Plugins {{{
 
-    " CtrlP.vim {{{
-    augroup ctrlp_config
-        autocmd!
-        let g:ctrlp_match_window = 'bottom,order:ttb'
-        let g:ctrlp_switch_buffer = 0
-        let g:ctrlp_working_path_mode = 0
-    augroup END
-    " }}}
+  " CtrlP.vim {{{
+  augroup ctrlp_config
+    autocmd!
+    let g:ctrlp_match_window = 'bottom,order:ttb'
+    let g:ctrlp_switch_buffer = 0
+    let g:ctrlp_working_path_mode = 0
+  augroup END
+  " }}}
 
-    " Syntastic.vim {{{
-    augroup syntastic_config
-        autocmd!
-        set statusline+=%#warningmsg#
-        set statusline+=%{SyntasticStatuslineFlag()}
-        set statusline+=%*
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 0
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 1
-        let g:syntastic_error_symbol = '>>'
-        let g:syntastic_warning_symbol = '>>'
-        let g:syntastic_javascript_checkers = ['eslint']
-        let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-    augroup END
-    " }}}
+  " Syntastic.vim {{{
+  augroup syntastic_config
+    autocmd!
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 0
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 1
+    let g:syntastic_error_symbol = '>>'
+    let g:syntastic_warning_symbol = '>>'
+    let g:syntastic_javascript_checkers = ['eslint']
+    let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+  augroup END
+  " }}}
 
-    " IndentLine.vim {{{
-    augroup syntastic_config
-        let g:indentLine_enabled=1
-        let g:indentLine_char='¦'
-        let g:indentLine_color_term=239
-        let g:indentLine_concealcursor=0
-        let g:indentLine_leadingSpaceChar='.'
-        let g:indentLine_leadingSpaceEnabled=1
-    augroup END
-    " }}}
+  " IndentLine.vim {{{
+  augroup syntastic_config
+    let g:indentLine_enabled=1
+    let g:indentLine_char='¦'
+    let g:indentLine_color_term=239
+    let g:indentLine_concealcursor=0
+    let g:indentLine_leadingSpaceChar='.'
+    let g:indentLine_leadingSpaceEnabled=1
+  augroup END
+  " }}}
 
 " }}}"
 

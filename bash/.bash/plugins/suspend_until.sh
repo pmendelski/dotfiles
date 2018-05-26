@@ -10,47 +10,47 @@
 # suspend_until 18:45 2016-02-05
 # suspend_until 14:23 && echo "Finished"
 function suspend_until() {
-    # Argument check
-    if [ $# -lt 1 -o $# -gt 2 ]; then
-        echo "Usage: sleep_until HH:MM "
-        echo "... or: sleep_until HH:MM YYYY-MM-DD"
-        exit
+  # Argument check
+  if [ $# -lt 1 -o $# -gt 2 ]; then
+    echo "Usage: sleep_until HH:MM "
+    echo "... or: sleep_until HH:MM YYYY-MM-DD"
+    exit
+  fi
+
+  NOW=$(date +%s)
+  if [ $# -eq 1 ]; then
+    # Check whether specified time is today or tomorrow
+    DESIRED="$(date +%s -d "$1")"
+    if [ $DESIRED -lt $NOW ]; then
+      DESIRED=$((`date +%s -d "$1"` + 24*60*60))
     fi
+  else
+    DESIRED=$(date +%s -d "$1 $2")
+  fi
+  echo "Wakeup time: $(date -d @$DESIRED)"
 
-    NOW=$(date +%s)
-    if [ $# -eq 1 ]; then
-        # Check whether specified time is today or tomorrow
-        DESIRED="$(date +%s -d "$1")"
-        if [ $DESIRED -lt $NOW ]; then
-            DESIRED=$((`date +%s -d "$1"` + 24*60*60))
-        fi
-    else
-        DESIRED=$(date +%s -d "$1 $2")
-    fi
-    echo "Wakeup time: $(date -d @$DESIRED)"
+  # Kill rtcwake if already running
+  sudo killall rtcwake 2>/dev/null || true;
 
-    # Kill rtcwake if already running
-    sudo killall rtcwake 2>/dev/null || true;
+  # Set RTC wakeup time
+  # N.B. change "mem" for the suspend option
+  # find this by "man rtcwake"
+  sudo rtcwake -l -m mem -t $DESIRED 1>/dev/null &
 
-    # Set RTC wakeup time
-    # N.B. change "mem" for the suspend option
-    # find this by "man rtcwake"
-    sudo rtcwake -l -m mem -t $DESIRED 1>/dev/null &
+  # feedback
+  echo "Suspending..."
 
-    # feedback
-    echo "Suspending..."
+  # give rtcwake some time to make its stuff
+  sleep 2
 
-    # give rtcwake some time to make its stuff
-    sleep 2
+  # then suspend
+  # N.B. dont usually require this bit
+  #sudo pm-suspend
 
-    # then suspend
-    # N.B. dont usually require this bit
-    #sudo pm-suspend
+  # Any commands you want to launch after wakeup can be placed here
+  # Remember: sudo may have expired by now
 
-    # Any commands you want to launch after wakeup can be placed here
-    # Remember: sudo may have expired by now
-
-    # Wake up with monitor enabled N.B. change "on" for "off" if
-    # you want the monitor to be disabled on wake
-    xset dpms force on
+  # Wake up with monitor enabled N.B. change "on" for "off" if
+  # you want the monitor to be disabled on wake
+  xset dpms force on
 }

@@ -18,7 +18,7 @@ export PROMPT_DEFAULT_USERHOST="pablo@pablo-dell-7720"
 : ${ZSH_PROMPT:=flexi}
 autoload -U promptinit && promptinit
 prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
-    && prompt $ZSH_PROMPT \
-    || echo "Could not load zsh prompt"
+  && prompt $ZSH_PROMPT \
+  || echo "Could not load zsh prompt"
 
 # dailyhello || echo "No daily hello:("

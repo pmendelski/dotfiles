@@ -1,27 +1,27 @@
 #!/bin/bash -x
 
 function __flexiPromptDefineSwitch() {
-    local funcname="flexiPromptSwitch$1"
-    local varname="__FLEXI_PROMPT_$2"
-    local default=$3
-    # Setup default value
-    eval $varname=\${$varname-$default}
-    # Setup switch function
-    eval "$(echo "
-    function $funcname() {
-        local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
-        if [ -z \$a ]; then
-            [ \$$varname = 0 ] && $varname=1 || $varname=0;
-        elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
-            $varname=1
-        elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
-            $varname=0
-        else
-            $varname=\$1
-        fi
-        echo \"$varname=\$$varname\"
-        __flexiRebuildPrompts
-    }")"
+  local funcname="flexiPromptSwitch$1"
+  local varname="__FLEXI_PROMPT_$2"
+  local default=$3
+  # Setup default value
+  eval $varname=\${$varname-$default}
+  # Setup switch function
+  eval "$(echo "
+  function $funcname() {
+    local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
+    if [ -z \$a ]; then
+      [ \$$varname = 0 ] && $varname=1 || $varname=0;
+    elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
+      $varname=1
+    elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
+      $varname=0
+    else
+      $varname=\$1
+    fi
+    echo \"$varname=\$$varname\"
+    __flexiRebuildPrompts
+  }")"
 }
 
 # Use colors

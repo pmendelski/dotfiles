@@ -14,13 +14,13 @@
 # ------------------------------------------------------
 
 function wakemeup_youtube() {
-    exec $BASH_DIR/plugins/wakemeup_youtube.sh $@
+  exec $BASH_DIR/plugins/wakemeup_youtube.sh $@
 }
 
 function wakemeup_audacious() {
-    exec $BASH_DIR/plugins/wakemeup_audacious.sh $@
+  exec $BASH_DIR/plugins/wakemeup_audacious.sh $@
 }
 
 function wakemeup() {
-    wakemeup_audacious $@
+  wakemeup_audacious $@
 }

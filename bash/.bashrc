@@ -16,8 +16,8 @@
 
 # If not running interactively just exit
 case $- in
-    *i*) ;;
-    *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # Force tmux
@@ -27,12 +27,11 @@ esac
 # Sometimes 'chsh -s $(whish zsh)' is not an option
 : ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
 if [ $SHLVL = 1 ] && [ $ZSH_FORCE = 1 ]; then
-    exec zsh
+  exec zsh
 else
-    # bash_plugins=(jvm mvn-color !less)
-    # ... or load them all
-    export PROMPT_DEFAULT_USERHOST="pablo@pablo-dell-7720"
-    source "$HOME/.bash/index.sh"
-    # dailyhello
+  # bash_plugins=(jvm mvn-color !less)
+  # ... or load them all
+  export PROMPT_DEFAULT_USERHOST="pablo@pablo-dell-7720"
+  source "$HOME/.bash/index.sh"
+  # dailyhello
 fi
-

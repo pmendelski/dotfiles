@@ -3,19 +3,19 @@ require 'os'
 -- Sample:
 -- print(sh.execute('ls -la'))
 function execute(cmd)
-    local file = io.popen(cmd)
-    local output = file:read("*a") or " "
-    file:close()
-    return output:sub(1, -2)
+  local file = io.popen(cmd)
+  local output = file:read("*a") or " "
+  file:close()
+  return output:sub(1, -2)
 end
 
 -- Sample:
 -- local ls = sh.command('ls -l')
 -- print(ls('-a'))
 function command(cmd)
-    return function(args)
-        return execute(cmd .. " " .. (args or ""))
-    end
+  return function(args)
+    return execute(cmd .. " " .. (args or ""))
+  end
 end
 
 -- export command() function and configurable temporary "input" file
@@ -25,9 +25,9 @@ M.execute = execute
 
 -- allow to call sh to run shell commands
 setmetatable(M, {
-	__call = function(_, cmd, ...)
-		return execute(cmd, ...)
-	end
+  __call = function(_, cmd, ...)
+    return execute(cmd, ...)
+  end
 })
 
 return M

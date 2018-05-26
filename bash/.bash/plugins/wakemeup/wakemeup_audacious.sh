@@ -34,17 +34,17 @@ audtool playlist-clear 1>/dev/null # Clear playlist
 # Add files to playlist
 find "$HOME/Music/Wakeup" -maxdepth 1 -iname "*.mp3" -print0 | while read -d $'\0' file
 do
-    audtool playlist-addurl "file://${file}" # Add to playlist
+  audtool playlist-addurl "file://${file}" # Add to playlist
 done
 
 # Repeat playlist
 if [ "$(audtool playlist-repeat-status)" == "off" ]; then
-    audtool playlist-repeat-toggle
+  audtool playlist-repeat-toggle
 fi;
 
 # Shuffle playlist
 if [ "$(audtool playlist-shuffle-status)" == "off" ]; then
-    audtool playlist-shuffle-toggle
+  audtool playlist-shuffle-toggle
 fi;
 
 audtool playback-play
@@ -59,11 +59,11 @@ CURR_SONG="$(audtool current-song-filename)"
 
 audtool set-volume "$VOLUME"
 while [ "$VOLUME" -lt "100" ]; do
-    while [ "$CURR_SONG" == "$(audtool current-song-filename)" ]; do
-        sleep 1
-    done;
-    CURR_SONG="$(audtool current-song-filename)"
-    VOLUME=$((VOLUME + 10))
-    audtool set-volume "$VOLUME"
-    echo "Icreased volume (${VOLUME}%) for $(audtool current-song)"
+  while [ "$CURR_SONG" == "$(audtool current-song-filename)" ]; do
+    sleep 1
+  done;
+  CURR_SONG="$(audtool current-song-filename)"
+  VOLUME=$((VOLUME + 10))
+  audtool set-volume "$VOLUME"
+  echo "Icreased volume (${VOLUME}%) for $(audtool current-song)"
 done;

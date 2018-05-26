@@ -10,9 +10,9 @@ cd "$DIR"
 source "commons.sh"
 
 function update() {
-    local banchName="$(git rev-parse --abbrev-ref HEAD)"
-    git pull --rebase origin $banchName
-    git submodule update --init
+  local banchName="$(git rev-parse --abbrev-ref HEAD)"
+  git pull --rebase origin $banchName
+  git submodule update --init
 }
 
 function printHelp() {
