@@ -202,6 +202,3 @@ __git_eread () {
    shift
    test -r "$f" && read "$@" <"$f"
 }
-
-# Doesn't work in zsh
-# unset -f __git_eread

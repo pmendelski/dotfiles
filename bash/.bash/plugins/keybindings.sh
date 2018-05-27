@@ -17,7 +17,7 @@ _INTELLIJ_KEYBINDINGS=(
   "org.gnome.settings-daemon.plugins.media-keys.screensaver <Control><Super>l"
 )
 
-intellij-keybindings() {
+keybindings-intellij-install() {
   local binding schema key value
   for binding in "${_INTELLIJ_KEYBINDINGS[@]}" ; do
     schema=${binding% *}
@@ -36,7 +36,7 @@ intellij-keybindings() {
   done
 }
 
-intellij-keybindings-reset() {
+keybindings-intellij-uninstall() {
   local binding schema key value prevalue
   for binding in "${_INTELLIJ_KEYBINDINGS[@]}" ; do
     schema=${binding% *}
