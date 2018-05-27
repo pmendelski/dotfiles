@@ -11,7 +11,7 @@ My [dotfiles](https://dotfiles.github.io/).
 
 ```sh
 cd ~
-git clone git@github.com:mendlik/dotfiles.git .dotfiles
+git clone git@github.com:pmendelski/dotfiles.git .dotfiles
 cd .dotfiles
 ./install.sh
 ```
@@ -24,6 +24,7 @@ For more options please see:
 ## Details
 
 - [bash](./bash)
+- [conky](./conky)
 - [zsh](./zsh)
 - [tmux](./tmux)
 - [git](./git)
