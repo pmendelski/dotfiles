@@ -137,7 +137,7 @@ Copy mode keybindings
 
 ### Tmux copycat
 
-[Tmux Open](https://github.com/tmux-plugins/tmux-open) - Easy search and select.
+[Tmux copycat](https://github.com/tmux-plugins/tmux-copycat) - Easy search and select.
 
 Copy mode keybindings
 

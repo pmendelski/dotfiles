@@ -8,7 +8,7 @@
 
 # This program can be used as a .lessfilter for the less pager to auto-color less's output
 
-if [ `pygmentize -N $1` != "text" ]; then
+if [ $(command -v pygmentize >/dev/null 2>&1) ] && [ `pygmentize -N $1` != "text" ]; then
   pygmentize $PYGMENTIZE_OPTS "$1"
   exit 0
 fi
