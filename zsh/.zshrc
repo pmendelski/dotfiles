@@ -21,3 +21,5 @@ autoload -U promptinit && promptinit
 prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
   && prompt $ZSH_PROMPT \
   || echo "Could not load zsh prompt: \"$ZSH_PROMPT\""
+
+source "$HOME/.sdkvm/init.sh"

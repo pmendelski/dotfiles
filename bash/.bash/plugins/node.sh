@@ -9,6 +9,9 @@ export NODE_REPL_MODE="sloppy";             # Use sloppy mode by default, matchi
 # http://www.2ality.com/2016/01/locally-installed-npm-executables.html
 function npmbin { (PATH=$(npm bin):$PATH; eval $@;) }
 
+# Use binaries from local node_modules
+export PATH="./node_modules/.bin:$PATH"
+
 # Set NODE_ENV to development
 export NODE_ENV="development"
 
