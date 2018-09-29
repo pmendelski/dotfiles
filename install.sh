@@ -38,9 +38,9 @@ function __link() {
   if [ $dryrun = 0 ]; then
     [ ! -d "$destDir" ] && \
     mkdir -p "$destDir"
-    execute "ln -fs $1 $2" "symlink: $(__shorten $2) → $(__shorten $1)"
+    ln -fs "$1" "$2" && printSuccess "Symlink: $(__shorten "$2") → $(__shorten "$1")"
   else
-    printSuccess "[dryrun] Symlink: $(__shorten $2) → $(__shorten $1)"
+    printSuccess "[dryrun] Symlink: $(__shorten "$2") → $(__shorten "$1")"
   fi
 }
 
@@ -58,12 +58,12 @@ function __backupAndRemove() {
     cp -rfP "$file" "$destDir" && \
       printDebug "Created a backup: $file" && \
       rm -rf "$file" && \
-      printDebug "Removed: $(__shorten $file)"
-    printSuccess "Backed up: $(__shorten $file) → $(__shorten $backupLocation)"
+      printDebug "Removed: $(__shorten "$file")"
+    printSuccess "Backed up: $(__shorten "$file") → $(__shorten "$backupLocation")"
   else
-    printSuccess "[dryrun] Backed up: $(__shorten $file) → $(__shorten $backupLocation)"
+    printSuccess "[dryrun] Backed up: $(__shorten "$file") → $(__shorten "$backupLocation")"
   fi
-  backups+="$(__shorten $backupLocation)\n"
+  backups+="$(__shorten "$backupLocation")\n"
 }
 
 function __resolveTemplateVariables() {
@@ -81,15 +81,15 @@ function __setupTemplate() {
     # Expand variables
     if [ $dryrun = 0 ]; then
       __resolveTemplateVariables $templateFile > "$targetFile"
-      printSuccess "Template: $(__shorten $templateFile) → $(__shorten $targetFile)"
+      printSuccess "Template: $(__shorten "$templateFile") → $(__shorten "$targetFile")"
     else
-      printSuccess "[dryrun] Template: $(__shorten $templateFile) → $(__shorten $targetFile)"
-      printDebug "Template content: $(__shorten $targetFile)\n$(__resolveTemplateVariables $templateFile)"
+      printSuccess "[dryrun] Template: $(__shorten "$templateFile") → $(__shorten "$targetFile")"
+      printDebug "Template content: $(__shorten "$targetFile")\n$(__resolveTemplateVariables "$templateFile")"
     fi
-    templates+="$(__shorten $templateFile) → $(__shorten $targetFile)\n"
+    templates+="$(__shorten "$templateFile") → $(__shorten "$targetFile")\n"
   else
-    printInfo "Template config skipped. File already exists: $(__shorten $targetFile)"
-    skipped+="template: $(__shorten ${templateFile})\n"
+    printInfo "Template config skipped. File already exists: $(__shorten "$targetFile")"
+    skipped+="template: $(__shorten "$templateFile")\n"
   fi
 }
 
@@ -97,20 +97,20 @@ function __setupSymlink() {
   local -r linkFrom="$1"
   local -r linkTo="$2"
   if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
-    __link $linkFrom $linkTo
+    __link "$linkFrom" "$linkTo"
   elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
-    printInfo "Symbolic link already exists. Skipping: $(__shorten $linkTo) → $(__shorten $linkFrom)"
+    printInfo "Symbolic link already exists. Skipping: $(__shorten $linkTo) → $(__shorten "$linkFrom")"
   elif [ $no != 0 ]; then
-    printInfo "File already exists. Skipping: $(__shorten $linkTo) → $(__shorten $linkFrom)"
+    printInfo "File already exists. Skipping: $(__shorten "$linkTo") → $(__shorten "$linkFrom")"
   elif [ $yes != 0 ]; then
-    __link $linkFrom $linkTo
+    __link "$linkFrom" "$linkTo"
   else
-    if askForConfirmation "'$(__shorten $linkTo)' already exists, do you want to overwrite it?"; then
-      __backupAndRemove $linkTo
-      __link $linkFrom $linkTo
+    if askForConfirmation "'$(__shorten "$linkTo")' already exists, do you want to overwrite it?"; then
+      __backupAndRemove "$linkTo"
+      __link $linkFrom "$linkTo"
     else
-      printWarn "Omitted: $(__shorten $linkFrom)"
-      skipped+="link: $(__shorten $linkFrom)\n"
+      printWarn "Omitted: $(__shorten "$linkFrom")"
+      skipped+="link: $(__shorten "$linkFrom")\n"
     fi
   fi
 }
@@ -132,7 +132,7 @@ function setupFiles() {
 }
 
 function setupDotfiles() {
-  printInfo "Installling dotfiles"
+  printInfo "Installing dotfiles"
   local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
   for dir in $dotfileDirs; do
     setupFiles $(find $dir -maxdepth 1 -mindepth 1)
@@ -140,7 +140,7 @@ function setupDotfiles() {
 }
 
 function setupGitSubmodules() {
-  printInfo "Installling submodules"
+  printInfo "Installing submodules"
   git submodule update --init
 }
 

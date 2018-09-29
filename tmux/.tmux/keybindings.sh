@@ -75,12 +75,15 @@ bind _ setw synchronize-panes
 ##################################################################
 # Copy mode
 ##################################################################
-# Enable Ctrl + arrows in copy mode-keys
-bind -T copy-mode-vi C-Left send-keys -X previous-word
-bind -T copy-mode-vi C-Right send-keys -X next-word
 # Delete recent buffer - '-' is used to split panes
 bind + delete-buffer
 # enter copy mode & scroll
 bind -n C-PPage copy-mode -u
 bind -n C-Up copy-mode \; send-keys C-y
 bind -n C-Down copy-mode \; send-keys C-e
+# Enable Ctrl + arrows in copy mode-keys
+bind -T copy-mode-vi C-Left send-keys -X previous-word
+bind -T copy-mode-vi C-Right send-keys -X next-word
+# For older version
+# bind -t vi-copy C-Left previous-word
+# bind -t vi-copy C-Right next-word

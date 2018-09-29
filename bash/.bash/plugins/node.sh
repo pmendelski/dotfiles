@@ -20,6 +20,10 @@ alias npm-please="rm -rf node_modules && rm -rf package-lock.json && npm i"
 # Easy way to update all npm dependencies
 alias npm-update-dependencies="ncu -a && npm-please"
 
+function npm-bin {
+  (PATH=$(npm bin):$PATH; eval $@;)
+}
+
 node-update() {
   local version=${1:---lts}
   nvm install $version
