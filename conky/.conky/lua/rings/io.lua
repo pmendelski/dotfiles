@@ -2,7 +2,7 @@ local rings = require 'lua/rings/rings'
 local value = require 'lua/rings/value'
 local sh = require 'lua/sh'
 
-local list_disks = sh.command('df | grep ^/dev/sdb | sed "s|^.*% ||g" | head -n 5 | tac')
+local list_disks = sh.command('df | grep ^/dev/sd | sed "s|^.*% ||g" | head -n 5 | tac')
 
 local function ring_def(name, disk, idx)
   return {

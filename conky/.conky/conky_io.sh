@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function conkyio {
-  (df | grep ^/dev/sdb | sed "s|^.*% ||g"; echo -e "\n\n\n\n\n" ) | head -n 5 | while read disk; do
+  (df | grep ^/dev/sd | sed "s|^.*% ||g"; echo -e "\n\n\n\n\n" ) | head -n 5 | while read disk; do
     if [ -z "$disk" ]; then
       echo ""
     else
