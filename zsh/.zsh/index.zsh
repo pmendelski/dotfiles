@@ -25,7 +25,7 @@ function __loadZshPlugins() {
     done
   else
     for plugin in ${NAMES[@]}; do
-      if [ ${plugin:0:1} -ne "!" ]; then
+      if [ "${plugin:0:1}" != "!" ]; then
         __loadZshPlugin "$DIR/$plugin"
       fi
     done

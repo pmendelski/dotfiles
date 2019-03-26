@@ -55,9 +55,17 @@ function bashChangePrompt() {
   fi
 }
 
+function __loadPath() {
+  if [ -f "$HOME/.path" ]; then
+    local -r paths="$(grep . "$HOME/.path" | sort -u | tr '\n' ':')"
+    export PATH="$paths:$PATH"
+  fi
+}
+
 function __loadBash() {
   source "$HOME/.bash/exports.sh"
   source "$HOME/.bash/aliases.sh"
+  __loadPath
   __loadLocalBashFiles
   __loadBashFiles "$HOME/.bash/plugins" $bash_plugins
   # Lib should be loaded by bash only

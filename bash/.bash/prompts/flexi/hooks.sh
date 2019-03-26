@@ -25,8 +25,6 @@ function __flexiPromptHandleTimer() {
   [ ! $__FLEXI_PROMPT_TIMER_START ] && return $exit
   __FLEXI_PROMPT_TIMER_DIFF=$(($(epoch) - $__FLEXI_PROMPT_TIMER_START))
   unset __FLEXI_PROMPT_TIMER_START
-  [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ] &&
-    notify "Time: $(epochDiffMin $__FLEXI_PROMPT_TIMER_DIFF)"
 }
 
 function __flexiPromptStartTimer() {

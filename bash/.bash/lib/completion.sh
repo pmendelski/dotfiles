@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 # Enable programmable completion features
 # It's needed to autocomplete git commands
 # http://www.gnu.org/software/bash/manual/bash.html#Programmable-Completion

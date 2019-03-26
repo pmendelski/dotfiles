@@ -2,7 +2,7 @@
 
 declare -gr COLOR_ESC="\e"
 declare -gr COLOR_RESET="\e[0m"
-declare -rgA COLOR_COLORS=(
+declare -grA COLOR_COLORS=(
   ["WHITE"]="97"
   ["BLACK"]="30"
   ["RED"]="31"
@@ -21,7 +21,7 @@ declare -rgA COLOR_COLORS=(
   ["MAGENTA_INT"]="95"
   ["CYAN_INT"]="96"
 )
-declare -rgA COLOR_FORMATS=(
+declare -grA COLOR_FORMATS=(
   ["NORMAL"]="0"
   ["BOLD"]="1"
   ["UNDERLINE"]="4"

@@ -20,23 +20,19 @@ case $- in
   *) return;;
 esac
 
-# Local variables
-[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
-
 # Defaults
 : ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
-: ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
 
 # Force tmux
-[ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && export TERM=xterm-256color && exec tmux
-
-if [ $SHLVL = 1 ] && [ "$ZSH_FORCE" = 1 ]; then
-  # Force zsh
-  exec zsh
-else
-  # bash_plugins=(jvm mvn-color !less)
-  # ... or load them all
-  source "$HOME/.bash/index.sh"
-  source "$HOME/.sdkvm/init.sh"
+if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ]; then
+  exec tmux && exit;
 fi
 
+# Local variables
+[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
+# bash_plugins=(jvm mvn-color !less)
+source "$HOME/.bash/index.sh"
+
+if [ -e "$HOME/.sdkvm/init.sh" ]; then
+  source "$HOME/.sdkvm/init.sh";
+fi
