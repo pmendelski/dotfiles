@@ -1,0 +1,120 @@
+-- Settings:
+--   http://conky.sourceforge.net/config_settings.html
+--   https://github.com/brndnmtthws/conky/wiki/Configuration-Settings
+local sh = require('./lua/sh')
+
+
+-- Interpolates strings
+-- Sample: interp('>%{abc}<', { abc = 'def' }) Prints: >def<
+function interp(s, tab)
+  return (s:gsub('(%%%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+end
+
+conky.config = {
+  alignment = 'top_right',    -- Aligned position on screen
+  background = false,       -- Boolean value, if true, Conky will be forked to background when started.
+  border_width = 1,
+  cpu_avg_samples = 2,
+
+  -- Font
+  use_xft = true,         -- Use Xft (anti-aliased font and stuff)
+  font = 'Ubuntu:size=10',    -- Font name in X, xfontsel can be used to get a nice font
+  uppercase = false,        -- Boolean value, if true, text is rendered in upper case
+  override_utf8_locale = true,  -- Force UTF8? requires XFT
+
+  -- Buffering
+  double_buffer = true,       -- Use the Xdbe extension? (eliminates flicker) It is highly recommended to use own window with this one so double buffer won't be so big.
+  text_buffer_size = 2048,    -- Size of the standard text buffer (default is 256 bytes).
+
+  -- Intervals and samples
+  update_interval = 1,      -- Update interval
+  update_interval_on_battery = 2, -- Update interval when running on batterypower
+  cpu_avg_samples = 2,      -- The number of samples to average for CPU monitoring.
+  net_avg_samples = 2,      -- The number of samples to average for net data
+  diskio_avg_samples = 2,     -- The number of samples to average for disk I/O monitoring.
+
+  -- Units
+  temperature_unit = 'celsius',
+  short_units = true,
+  format_human_readable = true,
+
+  -- Window transparency and placement
+  own_window = true,        -- Boolean, create own window to draw
+  own_window_transparent = true,  -- Boolean, set transparency? If ARGB visual is enabled, sets background opacity to 0%.
+  own_window_type = 'dock',     -- Dock type works best with ubuntu 16.04
+  own_window_argb_visual = true,  -- When ARGB visuals are enabled, this use this to modify the alpha value used.
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below', -- If own_window is yes, you may use these window manager hints to affect the way Conky displays.
+
+  -- Window size ang margin
+  gap_x = 30,           -- Gap, in pixels, between right or left border of screen
+  gap_y = 40,           -- Gap, in pixels, between top or bottom border of screen
+  minimum_width = 450,      -- Minimum width of window
+  maximum_width = 450,      -- Maximum size of window
+  border_width = 0,         -- Border width in pixels.
+  border_inner_margin = 0,    -- Inner border margin in pixels (the margin between the border and text).
+  border_outer_margin = 0,    -- Outer border margin in pixels (the margin between the border and the edge of the window).
+
+  -- Drawing effects
+  draw_borders = false,       -- Draw borders around text?
+  draw_graph_borders = false,   -- Draw borders around graphs?
+  draw_outline = false,       -- Draw outlines?
+  draw_shades = false,      -- Draw shades?
+
+  -- Colors
+  default_color = 'FFFFFF',     -- White
+  color1 = 'DDDDDD',        -- Gray: Lighter
+  color2 = 'AAAAAA',        -- Gray: Light
+  color3 = '888888',        -- Gray: Normal
+  color4 = 'EF5A29',        -- Orange
+  color5 = '77B753',         -- Green
+
+  -- Scripts
+  lua_load = '~/.conky/lua/conky_hook.lua',
+  lua_draw_hook_post = 'hook'
+}
+
+conky.text = interp([[
+# System Base Info
+$alignr ${color3}%{distro}
+$alignr ${color3}$sysname $kernel
+$alignr ${color3}%{whoami}@$nodename
+
+${offset 330}${color2}${font Ubuntu:size=9:style=bold}Uptime:${font} ${alignr}$uptime
+${offset 330}${color2}${font Ubuntu:size=9:style=bold}Battery:${font} ${alignr}${battery_percent}%
+
+# CPU Info
+${alignr}${cpugraph 20,120 666666 666666}
+${offset 190}${font Ubuntu:size=10:style=bold}${color5}CPU ${alignr}${cpu 0}%${font}
+# Showing TOP 5 CPU-consumers
+${offset 205}${color4}${top name 1}${alignr}${top cpu 1}%
+${offset 205}${color1}${top name 2}${alignr}${top cpu 2}%
+${offset 205}${color2}${top name 3}${alignr}${top cpu 3}%
+${offset 205}${color3}${top name 4}${alignr}${top cpu 4}%
+${offset 205}${color3}${top name 5}${alignr}${top cpu 5}%
+
+# MEM Info
+${voffset 60}
+${alignr}${memgraph 18,183 666666 666666}
+${offset 190}${font Ubuntu:size=10:style=bold}${color5}MEM
+${offset 205}${color5}ram${goto 340}$mem/$memmax${alignr}$memperc%
+${offset 205}${color5}swap${goto 340}$swap/$swapmax${alignr}$swapperc%
+${offset 205}${color4}${top_mem name 1}${goto 340}${top_mem mem_res 1}${alignr}${top_mem mem 1}%
+${offset 205}${color1}${top_mem name 2}${goto 340}${top_mem mem_res 2}${alignr}${top_mem mem 2}%
+${offset 205}${color2}${top_mem name 3}${goto 340}${top_mem mem_res 3}${alignr}${top_mem mem 3}%
+${offset 205}${color3}${top_mem name 4}${goto 340}${top_mem mem_res 4}${alignr}${top_mem mem 4}%
+${offset 205}${color3}${top_mem name 4}${goto 340}${top_mem mem_res 5}${alignr}${top_mem mem 5}%
+
+# IO Info
+${voffset 25}
+${alignr}${diskiograph 18,183 666666 666666}
+${offset 190}${font Ubuntu:size=10:style=bold}${color5}IO
+${execpi 1 ~/.conky/conky_io.sh}
+
+# NET Info
+${voffset 60}
+${offset 190}${font Ubuntu:size=10:style=bold}${color5}NET${font}
+${execpi 1 ~/.conky/conky_net.sh}
+]], {
+  whoami = sh('whoami'),
+  distro = sh('lsb_release -sd') .. ' ' .. sh('lsb_release -sc')
+})

@@ -9,5 +9,6 @@ init() {
 
 case "$OSTYPE" in
   darwin*) init "macos";;
+  linux*) init "linux";;
   *) echo "Unsupported system: $OSTYPE" ;;
 esac
