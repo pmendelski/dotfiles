@@ -163,7 +163,7 @@ function __flexiPromptTimer() {
   [ ! $__FLEXI_PROMPT_TIMER_DIFF ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] && \
     return $exit
   [ $treshold -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt "$treshold" ] && \
-    echo -ne "$prefix$(epochDiffMin $__FLEXI_PROMPT_TIMER_DIFF)$suffix"
+    echo -ne "$prefix$(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)$suffix"
   return $exit
 }
 

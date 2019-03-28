@@ -10,14 +10,21 @@ epoch() {
   date +%s%3N
 }
 
-epochDiffMin() {
+# formatMs - Formats milliseconds in humanreadble minimized format
+#
+# Usage:
+#
+#   formatMsMin 10000000
+#   2.76hr
+#
+formatMsMin() {
   local result;
   local -i ms=$1
   local -i sec=$(($ms / 1000))
   local -i min=$(($sec / 60))
   local -i hrs=$(($min / 60))
   local -i days=$(($hrs / 24))
-  ms=$(($ms % 60))
+  ms=$(($ms % 1000))
   sec=$(($sec % 60))
   min=$(($min % 60))
   hrs=$(($hrs % 24))
@@ -34,14 +41,23 @@ epochDiffMin() {
   fi
 }
 
-epochDiff() {
+# formatMs - Formats milliseconds in humanreadble format
+# 
+# Format: <days>d<hours>:<minutes>:<seconds>.<millis>
+#
+# Usage:
+#
+#   formatMs 10000000
+#   2:46:40.000
+#
+formatMs() {
   local result;
   local -i ms=$1
   local -i sec=$(($ms / 1000))
   local -i min=$(($sec / 60))
   local -i hrs=$(($min / 60))
   local -i days=$(($hrs / 24))
-  ms=$(($ms % 60))
+  ms=$(($ms % 1000))
   sec=$(($sec % 60))
   min=$(($min % 60))
   hrs=$(($hrs % 24))

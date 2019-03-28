@@ -22,6 +22,7 @@ brew install gnu-tar
 brew install gnu-which
 brew install grep
 brew install gzip
+brew install zlib
 brew install less
 brew install gnupg
 brew install vim
@@ -49,6 +50,10 @@ brew cask install docker
 brew install docker-compose
 
 # UI apps
+brew cask install iterm2
+brew cask install alfred
+brew cask install github
+brew cask install transmission
 brew cask install yujitach-menumeters
 brew cask install visual-studio-code
 brew cask install dropbox
@@ -86,3 +91,16 @@ sudo chmod a-x /bin/sh_old
 sudo ln -s /usr/local/bin/bash /bin/bash
 sudo ln -s /usr/local/bin/bash /bin/sh
 sudo ln -s /usr/local/bin/zsh /bin/zsh
+
+# Install heders for python/ruby compilation
+if [ -f /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg ]; then
+  installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+fi
+
+# Copy some scripts to loaded path
+mkdir -pf $HOME/Scripts
+cp ./scripts/* ./Scripts/
+
+echo "Recommended apps to install manually:"
+echo "  - Magnet (https://itunes.apple.com/pl/app/magnet/id441258766)"
+echo "  - RedQuits (http://www.carsten-mielke.com/redquits.html)"

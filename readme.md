@@ -8,6 +8,7 @@ My [dotfiles](https://dotfiles.github.io/).
 
 ## Installation
 
+* If this is fresh system setup I recommend running [`./init.sh`](#initialization)
 * Installation is interactive so don't be afraid of your local dotfiles
 * All overridden files are backed up in `~/.dotfiles.bak` directory
 
@@ -23,10 +24,20 @@ For more options please see:
 ./install.sh -h
 ```
 
+## Initialization
+
+Initialization script installs packages and applies OS configuration changes I use my machines.
+
+To run the initialization execute:
+
+```
+./init.sh
+```
+
+
 ## Details
 
 - [bash](./bash)
-- [conky](./conky)
 - [zsh](./zsh)
 - [tmux](./tmux)
 - [git](./git)

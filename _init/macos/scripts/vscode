@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z "$*" ]; then
+  /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code .;
+else
+  /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@";
+fi
