@@ -21,10 +21,15 @@ function __flexiPromptIncrementCmdCounter() {
 }
 
 function __flexiPromptHandleTimer() {
+  local -r exit="$1"
   unset __FLEXI_PROMPT_TIMER_DIFF
-  [ ! $__FLEXI_PROMPT_TIMER_START ] && return $exit
+  [ ! $__FLEXI_PROMPT_TIMER_START ] && return
   __FLEXI_PROMPT_TIMER_DIFF=$(($(epoch) - $__FLEXI_PROMPT_TIMER_START))
   unset __FLEXI_PROMPT_TIMER_START
+  [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ] && {
+    local -r message="Time: $(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)"
+    [ $exit = 0 ]; notifyLastCmd "$message"
+  }
 }
 
 function __flexiPromptStartTimer() {
@@ -33,9 +38,11 @@ function __flexiPromptStartTimer() {
 }
 
 function __flexiPromptPreCmd() {
-  __flexiPromptTerminalTitle
-  __flexiPromptIncrementCmdCounter
-  __flexiPromptHandleTimer
+  local exit=$?
+  __flexiPromptTerminalTitle $exit
+  __flexiPromptIncrementCmdCounter $exit
+  __flexiPromptHandleTimer $exit
+  return $exit
 }
 
 function __flexiPromptPreExec {

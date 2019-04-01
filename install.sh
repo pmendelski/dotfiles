@@ -179,7 +179,7 @@ function printHelp() {
   echo ""
 }
 
-while (("$#")); do
+while (($#)); do
   case $1 in
     --yes|-y)
       yes=1

@@ -7,7 +7,7 @@ __FLEXI_PROMPT_NEWLINE_PRECMD=1
 # PWD
 __FLEXI_PROMPT_PWD_MODE=0
 __FLEXI_PROMPT_PWD_SKIP_HOME=1
-__FLEXI_PROMPT_PWD_BEFORE="$(__flexiPromptUnprintable $COLOR_BLUE)"
+__FLEXI_PROMPT_PWD_BEFORE="$(__flexiPromptUnprintable $COLOR_BLUE_INT)"
 __FLEXI_PROMPT_PWD_AFTER="$(__flexiPromptUnprintable $COLOR_RESET)"
 
 # Shell level

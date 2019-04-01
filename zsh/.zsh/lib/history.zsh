@@ -17,17 +17,3 @@ setopt hist_find_no_dups        # When searching history don't display results a
 setopt hist_reduce_blanks       # Remove extra blanks from each command line being added to history
 setopt hist_verify              # Don't execute, just expand history
 setopt inc_append_history       # Add comamnds as they are typed, don't wait until shell exit
-
-# Colorful version of hisotry command
-historyc() {
-  local -r ESC="$(printf '\033')"
-  local -r HIST_COLOR_GREEN="${ESC}[0;32m"
-  local -r HIST_COLOR_BLUE="${ESC}[0;34m"
-  local -r HIST_COLOR_RESET="${ESC}[0m"
-  local -r NUMBER_STYLE="${HIST_COLOR_GREEN}"
-  local -r TIME_STYLE="${HIST_COLOR_BLUE}"
-  fc -il 1 "$@" | sed \
-    -e "s/\(^ *[^ ]\+\)  \([^ ]\+ [^ ]\+\)  \([^ ]\+\)/${NUMBER_STYLE}\1  ${TIME_STYLE}\2  ${HIST_COLOR_RESET}\3/g"
-  return ${PIPESTATUS[0]}
-}
-alias history=historyc
