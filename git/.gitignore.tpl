@@ -1,5 +1,10 @@
 # Source: https://gist.github.com/octocat/9257657
 
+# IDE files #
+#############
+.idea
+.vscode
+
 # Compiled source #
 ###################
 *.com

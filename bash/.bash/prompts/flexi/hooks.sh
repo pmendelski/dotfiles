@@ -39,8 +39,8 @@ function __flexiPromptStartTimer() {
 
 function __flexiPromptPreCmd() {
   local exit=$?
-  __flexiPromptTerminalTitle $exit
-  __flexiPromptIncrementCmdCounter $exit
+  __flexiPromptTerminalTitle
+  __flexiPromptIncrementCmdCounter
   __flexiPromptHandleTimer $exit
   return $exit
 }
