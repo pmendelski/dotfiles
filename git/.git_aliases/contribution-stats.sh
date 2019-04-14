@@ -71,7 +71,7 @@ contributionStats() {
   local separator="-------------------- ---------- ---------- ---------- $columnSep $columnSep";
   local header="$(echo "Name Added Removed Modified Changes % Commits %" | sed -rn "s|(( *[a-zA-Z%]+){$sortby})(.*)|\1* \3|p")";
   local footer="Total $totalAdded $totalRemoved $totalModified $totalChanges - $totalCommits -";
-  echo "$header\n$separator\n$table\n$separator\n$footer" |
+  printf "%s\n%s\n%s\n%s\n%s" "$header" "$separator" "$table" "$separator" "$footer" |
     awk '{ printf "%-20s   %+10s %+10s %+10s %+10s %3s   %+10s %3s\n", $1, $2, $3, $4, $5, $6, $7, $8, $9 }';
 }
 
