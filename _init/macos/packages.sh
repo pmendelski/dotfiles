@@ -92,7 +92,7 @@ sudo ln -s /usr/local/bin/bash /bin/bash
 sudo ln -s /usr/local/bin/bash /bin/sh
 sudo ln -s /usr/local/bin/zsh /bin/zsh
 
-# Install heders for python/ruby compilation
+# Install headers for python/ruby compilation
 if [ -f /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg ]; then
   installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
 fi

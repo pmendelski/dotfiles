@@ -617,4 +617,10 @@ for app in \
   "iCal"; do
   killall "${app}" &> /dev/null
 done
+
+###############################################################################
+# Switch to zsh                                                               #
+###############################################################################
+chsh -s "$(which zsh)"
+
 echo "Done. Note that some of these changes require a logout/restart to take effect."
