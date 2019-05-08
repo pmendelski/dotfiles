@@ -44,10 +44,15 @@ brew install tmux
 brew install zsh
 brew install bash
 brew install bash-completion2
+brew cask install java
 
 # Docker
 brew cask install docker
 brew install docker-compose
+# link zsh completion files
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion /usr/local/share/zsh/site-functions/_docker || echo "Completion file _docker exists"
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-completion /usr/local/share/zsh/site-functions/_docker-machine || echo "Completion file _docker-machine exists"
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
 brew cask install iterm2
