@@ -63,6 +63,9 @@ alias asciitext="figlet -f slant"
 alias urlencode='node -e "console.log(encodeURIComponent(process.argv[1]))"'
 alias urldecode='node -e "console.log(decodeURIComponent(process.argv[1]))"'
 
+# JSON
+alias json-normalize='node -e "console.log(JSON.stringify(eval(process.argv[1]), null, 2))"'
+
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"

@@ -26,6 +26,7 @@ brew install zlib
 brew install less
 brew install gnupg
 brew install vim
+brew install httpie
 brew install openssh
 brew install git
 brew install git-lfs
