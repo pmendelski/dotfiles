@@ -100,8 +100,9 @@
       grep \"^$1\"; \
     }; f"
     # Commit all changes
-    commit-all = !git add -A && git commit -av
+    commit-all = !git add -A && git commit -a
     cma = !git commit-all
+    cmam = !git commit-all -m
     # Autosquashed commits
     commit-fixup = "!f() { \
       local rev=\"${1:-HEAD}\"; \
