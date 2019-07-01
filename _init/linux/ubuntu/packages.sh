@@ -1,5 +1,7 @@
-declare -r PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
-
-ln -fs "$HOME/.conky" "$PWD/conky/.conky"
-
-# Place for packages ...will come soon
+# VPN Netowork manager packages
+sudo apt-get install \
+  network-manager-openvpn-gnome \
+  network-manager-openvpn \
+  network-manager-pptp \
+  network-manager-vpnc
+sudo systemctl restart NetworkManager
