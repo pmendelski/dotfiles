@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./config.sh
 ./packages.sh
+./config.sh

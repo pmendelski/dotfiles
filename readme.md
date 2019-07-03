@@ -31,8 +31,10 @@ Initialization script installs packages and applies OS configuration changes I u
 To run the initialization execute:
 
 ```
-./init.sh
+./init.sh SYSTEM_NAME
 ```
+
+SYSTEM_NAME can be one of: ubuntu, ubuntu-server, macos. See [_init](./_init_) for details.
 
 
 ## Details
