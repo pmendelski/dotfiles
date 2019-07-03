@@ -5,7 +5,7 @@
 : ${ZSH_PROMPT:=flexi}
 
 # Force tmux
-if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ]; then
+if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ]; then
   exec tmux && exit;
 fi
 

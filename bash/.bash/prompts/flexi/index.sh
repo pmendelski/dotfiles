@@ -27,9 +27,9 @@ function __flexiPromptUnprintable() {
 
 function __flexiPromptPwd() {
   local exit=$?
-  local mode=${1-$__FLEXI_PROMPT_PWD_MODE}
-  local prefix=${2-$__FLEXI_PROMPT_PWD_BEFORE}
-  local suffix=${3-$__FLEXI_PROMPT_PWD_AFTER}
+  local mode="$__FLEXI_PROMPT_PWD_MODE"
+  local prefix="$__FLEXI_PROMPT_PWD_BEFORE"
+  local suffix="$__FLEXI_PROMPT_PWD_AFTER"
   if [ $PWD = $HOME ]; then
     [ "$__FLEXI_PROMPT_PWD_SKIP_HOME" = 1 ] && return $exit
     echo -ne "${prefix}~${suffix}"
@@ -57,8 +57,8 @@ function __flexiPromptPwd() {
 
 function __flexiPromptUserAtHostText() {
   local exit=$?
-  local user=$USER
-  local host=${HOSTNAME:-$HOST}
+  local user="$USER"
+  local host="${HOSTNAME:-$HOST}"
   local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
   local userhost="$user@$host"
 
@@ -81,18 +81,22 @@ function __flexiPromptUserAtHostText() {
 
 function __flexiPromptUserAtHost() {
   local exit=$?
-  local prefix=${1-$__FLEXI_PROMPT_USERHOST_BEFORE}
-  local suffix=${2-$__FLEXI_PROMPT_USERHOST_AFTER}
+  local prefix="$__FLEXI_PROMPT_USERHOST_BEFORE"
+  local suffix="$__FLEXI_PROMPT_USERHOST_AFTER"
   local userAtHost="$(__flexiPromptUserAtHostText)"
   local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
 
   if [ "$isRoot" = 1 ]; then
-    local prefix=${1-$__FLEXI_PROMPT_USERHOST_ROOT_BEFORE}
-    local suffix=${2-$__FLEXI_PROMPT_USERHOST_ROOT_AFTER}
+    prefix="$__FLEXI_PROMPT_USERHOST_ROOT_BEFORE"
+    suffix="$__FLEXI_PROMPT_USERHOST_ROOT_AFTER"
+  fi
+
+  if [ -n "$SSH_CONNECTION" ] && [ -n "$__FLEXI_PROMPT_SSH_INDICATOR" ]; then
+    prefix="$__FLEXI_PROMPT_SSH_INDICATOR$prefix"
   fi
 
   if [ -n "$userAtHost" ]; then
-    echo -ne "$prefix$(__flexiPromptUserAtHostText)$suffix"
+    echo -ne "$prefix$userAtHost$suffix"
   fi
   return $exit
 }
@@ -100,8 +104,8 @@ function __flexiPromptUserAtHost() {
 function __flexiPromptDebianChroot() {
   local exit=$?
   local chroot=""
-  local prefix=${1-$__FLEXI_PROMPT_CHROOT_BEFORE}
-  local suffix=${2-$__FLEXI_PROMPT_CHROOT_AFTER}
+  local prefix="$__FLEXI_PROMPT_CHROOT_BEFORE"
+  local suffix="$__FLEXI_PROMPT_CHROOT_AFTER"
   if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     chroot="$prefix$(cat /etc/debian_chroot)$suffix"
   fi
@@ -111,8 +115,8 @@ function __flexiPromptDebianChroot() {
 
 function __flexiPromptGitStatus() {
   local exit=$?
-  local prefix=${2-$__FLEXI_PROMPT_GIT_BEFORE}
-  local suffix=${3-$__FLEXI_PROMPT_GIT_AFTER}
+  local prefix="$__FLEXI_PROMPT_GIT_BEFORE"
+  local suffix="$__FLEXI_PROMPT_GIT_AFTER"
 
   # branch status
   local branchStatus="$(git_branch_status)"
@@ -146,9 +150,9 @@ function __flexiPromptGitStatus() {
 
 function __flexiPromptTimestamp() {
   local exit=$?
-  local format=${1-$__FLEXI_PROMPT_TIMESTAMP}
-  local prefix=${2-$__FLEXI_PROMPT_TIMESTAMP_BEFORE}
-  local suffix=${3-$__FLEXI_PROMPT_TIMESTAMP_AFTER}
+  local format="$__FLEXI_PROMPT_TIMESTAMP"
+  local prefix="$__FLEXI_PROMPT_TIMESTAMP_BEFORE"
+  local suffix="$__FLEXI_PROMPT_TIMESTAMP_AFTER"
   local ts=""
   if [ "$format" = "0" ]; then
     ts=""
@@ -170,9 +174,9 @@ function __flexiPromptTimestamp() {
 
 function __flexiPromptTimer() {
   local exit=$?
-  local treshold=${1-$__FLEXI_PROMPT_TIMER}
-  local prefix=${2-$__FLEXI_PROMPT_TIMER_BEFORE}
-  local suffix=${3-$__FLEXI_PROMPT_TIMER_AFTER}
+  local treshold=$__FLEXI_PROMPT_TIMER
+  local prefix="$__FLEXI_PROMPT_TIMER_BEFORE"
+  local suffix="$__FLEXI_PROMPT_TIMER_AFTER"
   [ ! $__FLEXI_PROMPT_TIMER_DIFF ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] && \
     return $exit
   [ $treshold -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt "$treshold" ] && \
@@ -182,9 +186,9 @@ function __flexiPromptTimer() {
 
 function __flexiPromptShlvl() {
   local exit=$?
-  local treshold=${1-$__FLEXI_PROMPT_SHLVL}
-  local prefix=${2-$__FLEXI_PROMPT_SHLVL_BEFORE}
-  local suffix=${3-$__FLEXI_PROMPT_SHLVL_AFTER}
+  local treshold=$__FLEXI_PROMPT_SHLVL
+  local prefix="$__FLEXI_PROMPT_SHLVL_BEFORE"
+  local suffix="$__FLEXI_PROMPT_SHLVL_AFTER"
   [ $treshold -lt 0 ] || [ $SHLVL -gt $treshold ] && \
     [[ ! $TERM =~ ^screen ]] && \
     echo -ne "$prefix$SHLVL$suffix"

@@ -31,6 +31,9 @@ __FLEXI_PROMPT_SIGN="λ"
 __FLEXI_PROMPT_CMD_ERROR="$(__flexiPromptUnprintable $COLOR_RED)$__FLEXI_PROMPT_SIGN$(__flexiPromptUnprintable $COLOR_RESET) "
 __FLEXI_PROMPT_CMD_SUCCESS="$(__flexiPromptUnprintable $COLOR_MAGENTA)$__FLEXI_PROMPT_SIGN$(__flexiPromptUnprintable $COLOR_RESET) "
 
+# SSH indicator
+__FLEXI_PROMPT_SSH_INDICATOR="$(__flexiPromptUnprintable $COLOR_YELLOW)SSH|$(__flexiPromptUnprintable $COLOR_RESET)"
+
 # User and host
 __FLEXI_PROMPT_USERHOST_BEFORE="$(__flexiPromptUnprintable $COLOR_GREEN)"
 __FLEXI_PROMPT_USERHOST_AFTER=":$(__flexiPromptUnprintable $COLOR_RESET)"

@@ -1,18 +1,20 @@
 #!/bin/bash -x
 
 function __flexiPromptTerminalTitle() {
-  case "$TERM" in
-    screen*|xterm*|rxvt*)
-      local title=''
-      title+=$(__flexiPromptDebianChroot "" "")
-      title+=$(__flexiPromptUserAtHost "" ":")
-      title+=$(__flexiPromptPwd 1 "" "")
-      echo -ne "${__FLEXI_PROMPT_TITLE_PREFIX}${title}${1:+ ($1)}${__FLEXI_PROMPT_TITLE_SUFFIX}"
-      ;;
-    *)
-      echo -ne ""
-      ;;
-  esac
+  if [ "$__FLEXI_PROMPT_TIMER" = "1" ]; then
+    case "$TERM" in
+      screen*|xterm*|rxvt*)
+        local title=''
+        title+=$(__flexiPromptDebianChroot "" "")
+        title+=$(__flexiPromptUserAtHost "" ":")
+        title+=$(__flexiPromptPwd 1 "" "")
+        echo -ne "${__FLEXI_PROMPT_TITLE_PREFIX}${title}${1:+ ($1)}${__FLEXI_PROMPT_TITLE_SUFFIX}"
+        ;;
+      *)
+        echo -ne ""
+        ;;
+    esac
+  fi
 }
 
 function __flexiPromptIncrementCmdCounter() {
@@ -26,7 +28,7 @@ function __flexiPromptHandleTimer() {
   [ ! $__FLEXI_PROMPT_TIMER_START ] && return
   __FLEXI_PROMPT_TIMER_DIFF=$(($(epoch) - $__FLEXI_PROMPT_TIMER_START))
   unset __FLEXI_PROMPT_TIMER_START
-  [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ] && {
+  [ $__FLEXI_PROMPT_NOTIFY != 0 ] && [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ] && {
     local -r message="Time: $(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)"
     [ $exit = 0 ]; notifyLastCmd "$message"
   }
