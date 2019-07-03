@@ -55,32 +55,45 @@ function __flexiPromptPwd() {
   return $exit
 }
 
+function __flexiPromptUserAtHostText() {
+  local exit=$?
+  local user=$USER
+  local host=${HOSTNAME:-$HOST}
+  local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
+  local userhost="$user@$host"
+
+  if [ -z "$SSH_CONNECTION" ]; then
+    [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
+    [ "$host" = "${PROMPT_DEFAULT_USERHOST##*@}" ] && host="" || host="@$host"
+    userhost="$user$host"
+  fi
+
+  # Only show username@host in special cases
+  [ -z "$userhost" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] && \
+    [ -z "$SSH_CONNECTION" ] && \
+    [ ! "$SUDO_USER" ] && \
+    [ "$isRoot" = 0 ] && \
+    return $exit;
+
+  echo -ne "$userhost"
+  return $exit
+}
+
 function __flexiPromptUserAtHost() {
   local exit=$?
   local prefix=${1-$__FLEXI_PROMPT_USERHOST_BEFORE}
   local suffix=${2-$__FLEXI_PROMPT_USERHOST_AFTER}
-  local user=$USER
-  local host=${HOSTNAME:-$HOST}
+  local userAtHost="$(__flexiPromptUserAtHostText)"
   local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
-  local userhost
 
   if [ "$isRoot" = 1 ]; then
     local prefix=${1-$__FLEXI_PROMPT_USERHOST_ROOT_BEFORE}
     local suffix=${2-$__FLEXI_PROMPT_USERHOST_ROOT_AFTER}
   fi
 
-  [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
-  [ "$host" = "${PROMPT_DEFAULT_USERHOST##*@}" ] && host="" || host="@$host"
-  userhost="$user$host"
-
-  # Only show username@host in special cases
-  [ -z "$userhost" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] && \
-    [ ! "$SSH_CONNECTION" ] && \
-    [ ! "$SUDO_USER" ] && \
-    [ "$isRoot" = 0 ] && \
-    return $exit;
-
-  echo -ne "$prefix$userhost$suffix"
+  if [ -n "$userAtHost" ]; then
+    echo -ne "$prefix$(__flexiPromptUserAtHostText)$suffix"
+  fi
   return $exit
 }
 
@@ -187,9 +200,10 @@ function __flexiPromptNewLinePreCmd() {
 
 function __flexiPromptNewLine() {
   local exit=$?
+  local userAtHost="$(__flexiPromptUserAtHostText)"
   case "$__FLEXI_PROMPT_NEWLINE" in
     2)
-      [ "$PWD" != "$HOME" ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
+      [ "$PWD" != "$HOME" ] || [ -n "$userAtHost" ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
       ;;
     *)
       echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
