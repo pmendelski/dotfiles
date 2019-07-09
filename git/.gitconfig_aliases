@@ -230,6 +230,12 @@
       git delete-tag-locally $@ && \
         git delete-tag-remotely $@; \
     }; f"
+    rename-tag = "!f() { \
+      git tag $2 $1; \
+      git tag -d $1; \
+      git push origin :refs/tags/$1; \
+      git push --tags; \
+    }; f"
   # Commit traversal
     prev-commit = "!sh ~/.git_aliases/prev-commit.sh"
     next-commit = "!sh ~/.git_aliases/next-commit.sh"

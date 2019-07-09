@@ -58,6 +58,7 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-complet
 # UI apps
 brew cask install iterm2
 brew cask install alfred
+brew cask install fliqlo
 brew cask install github
 brew cask install transmission
 brew cask install yujitach-menumeters
