@@ -1,48 +1,56 @@
 #!/bin/bash
 
-ssh-generate() {
-  local email=""
-  while [ -z "$email" ]; do
-    printf "Enter your email (john.doe@gmail.com): "
-    read -r email
-  done
-  ssh-keygen -t rsa -b 4096 -C "$email" \
-    && git config --global user.signingkey "$(gpg-key-id-long)"
-}
-
-ssh-show-key() {
-  cat ~/.ssh/id_rsa.pub
-}
-
-gpg-generate-key() {
-  gpg --default-new-key-algo rsa4096 --gen-key
-}
-
-gpg-key-id() {
+gpg-default-key-id() {
   gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
 }
 
-gpg-key-id-long() {
+gpg-default-key-id-long() {
   gpg --list-keys --keyid-format long | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
 }
 
+gpg-list-keys() {
+  gpg --list-keys --keyid-format short
+}
+
+gpg-list-keys-long() {
+  gpg --list-keys --keyid-format long
+}
+
 gpg-show-key() {
-  local id="$(gpg-key-id)"
+  local id="${1:?Expected key id}"
   gpg --armor --export $id
 }
 
+gpg-show-default-key() {
+  gpg-show-key "$(gpg-default-key-id)"
+}
+
 gpg-delete-key() {
-  local id="$(gpg-key-id)"
+  local id="${1:?Expected key id}"
   gpg --delete-secret-key $id
   gpg --delete-key $id
 }
 
+gpg-delete-default-key() {
+  gpg-delete-key "$(gpg-default-key-id)"
+}
+
 gpg-send-key-to-keyserver() {
-  local id="$(gpg-key-id)"
+  local id="${1:?Expected key id}"
   gpg --keyserver hkp://pool.sks-keyservers.net --send-keys $id
 }
 
-gpg-refresh-keys() {
+gpg-send-default-key-to-keyserver() {
+  gpg-send-key-to-keyserver "$(gpg-default-key-id)"
+}
+
+gpg-generate-default-key() {
+  gpg --default-new-key-algo rsa4096 --gen-key \
+    && git config --global user.signingkey "$(gpg-default-key-id)"
+    && gpg-send-key-to-keyserver "$(gpg-default-key-id)"
+}
+
+gpg-refresh-expired-keys() {
   echo -n "Expired Keys: "
   for expiredKey in $(gpg --list-keys | awk '/^pub.* \[expired\: / {id=$2; sub(/^.*\//, "", id); print id}' | fmt -w 999 ); do
     echo -n "$expiredKey"
