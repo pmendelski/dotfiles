@@ -122,7 +122,7 @@ function install() {
 function updateDotfiles() {
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
-  git submodule update --init
+  git submodule update --remote --merge
 }
 
 function printHelp() {
