@@ -25,26 +25,24 @@ declare -i dryrun=0
 # Some stats to gather
 declare backups=""
 declare skipped=""
-declare templates=""
 
-# Private functions __*
-function __shorten() {
+function shorten() {
   local -r projectBasename="$(basename $PROJECT_ROOT)"
-  echo $1 | sed -e "s|$PROJECT_ROOT|$projectBasename|" -e "s|$HOME|~|"
+  echo "$1" | sed -e "s|$PROJECT_ROOT|$projectBasename|" -e "s|$HOME|~|"
 }
 
-function __link() {
+function link() {
   local -r destDir="$(dirname "$2")"
   if [ $dryrun = 0 ]; then
     [ ! -d "$destDir" ] && \
     mkdir -p "$destDir"
-    ln -fs "$1" "$2" && printSuccess "Symlink: $(__shorten "$2") → $(__shorten "$1")"
+    ln -fs "$1" "$2" && printSuccess "Symlink: $(shorten "$2") → $(shorten "$1")"
   else
-    printSuccess "[dryrun] Symlink: $(__shorten "$2") → $(__shorten "$1")"
+    printSuccess "[dryrun] Symlink: $(shorten "$2") → $(shorten "$1")"
   fi
 }
 
-function __backupAndRemove() {
+function backupAndRemove() {
   local -r file="$1"
   local -r destDir="$(dirname "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
   local -r backupLocation="$(echo "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
@@ -58,84 +56,56 @@ function __backupAndRemove() {
     cp -rfP "$file" "$destDir" && \
       printDebug "Created a backup: $file" && \
       rm -rf "$file" && \
-      printDebug "Removed: $(__shorten "$file")"
-    printSuccess "Backed up: $(__shorten "$file") → $(__shorten "$backupLocation")"
+      printDebug "Removed: $(shorten "$file")"
+    printSuccess "Backed up: $(shorten "$file") → $(shorten "$backupLocation")"
   else
-    printSuccess "[dryrun] Backed up: $(__shorten "$file") → $(__shorten "$backupLocation")"
+    printSuccess "[dryrun] Backed up: $(shorten "$file") → $(shorten "$backupLocation")"
   fi
-  backups+="$(__shorten "$backupLocation")\n"
+  backups+="$(shorten "$backupLocation")\n"
 }
 
-function __resolveTemplateVariables() {
-  local -r templateFile="$1"
-  sed -e "s|\$USER|$USER|" \
-    -e "s|\$HOSTNAME|${HOSTNAME:=$HOST}|" \
-    -e "s|\$HOME|$HOME|" \
-    "$templateFile"
-}
-
-function __setupTemplate() {
-  local -r templateFile="$1"
-  local -r targetFile="$(echo "$2" | sed -e "s|\.tpl$||")"
-  if [ ! -e "$targetFile" ]; then
-    # Expand variables
-    if [ $dryrun = 0 ]; then
-      __resolveTemplateVariables $templateFile > "$targetFile"
-      printSuccess "Template: $(__shorten "$templateFile") → $(__shorten "$targetFile")"
-    else
-      printSuccess "[dryrun] Template: $(__shorten "$templateFile") → $(__shorten "$targetFile")"
-      printDebug "Template content: $(__shorten "$targetFile")\n$(__resolveTemplateVariables "$templateFile")"
-    fi
-    templates+="$(__shorten "$templateFile") → $(__shorten "$targetFile")\n"
-  else
-    printInfo "Template config skipped. File already exists: $(__shorten "$targetFile")"
-    skipped+="template: $(__shorten "$templateFile")\n"
-  fi
-}
-
-function __setupSymlink() {
+function setupSymlink() {
   local -r linkFrom="$1"
-  local -r linkTo="$2"
+  local -r linkTo="$(echo "$2" | sed 's|_\+$||')"
   if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
-    __link "$linkFrom" "$linkTo"
+    link "$linkFrom" "$linkTo"
   elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
-    printInfo "Symbolic link already exists. Skipping: $(__shorten $linkTo) → $(__shorten "$linkFrom")"
+    printInfo "Symbolic link already exists. Skipping: $(shorten $linkTo) → $(shorten "$linkFrom")"
   elif [ $no != 0 ]; then
-    printInfo "File already exists. Skipping: $(__shorten "$linkTo") → $(__shorten "$linkFrom")"
+    printInfo "File already exists. Skipping: $(shorten "$linkTo") → $(shorten "$linkFrom")"
   elif [ $yes != 0 ]; then
-    __link "$linkFrom" "$linkTo"
+    link "$linkFrom" "$linkTo"
   else
-    if askForConfirmation "'$(__shorten "$linkTo")' already exists, do you want to overwrite it?"; then
-      __backupAndRemove "$linkTo"
-      __link $linkFrom "$linkTo"
+    if askForConfirmation "'$(shorten "$linkTo")' already exists, do you want to overwrite it?"; then
+      backupAndRemove "$linkTo"
+      link $linkFrom "$linkTo"
     else
-      printWarn "Omitted: $(__shorten "$linkFrom")"
-      skipped+="link: $(__shorten "$linkFrom")\n"
+      printWarn "Omitted: $(shorten "$linkFrom")"
+      skipped+="link: $(shorten "$linkFrom")\n"
     fi
   fi
 }
 
-function __setupFile() {
-  local -r sourceFile="$1"
-  local -r basename="$(basename $1)"
-  local -r targetFile="$HOME/$basename"
-  [ "$basename" == "readme.md" ] && return
-  [[ "$basename" == *.tpl ]] && \
-    __setupTemplate "$sourceFile" "$targetFile" || \
-    __setupSymlink "$sourceFile" "$targetFile"
-}
-
-function setupFiles() {
-  for file in $@; do
-    __setupFile "$file"
-  done
+function runInstallScript() {
+  local -r script="$1"
+  if [ $dryrun = 0 ]; then
+    $script \
+      || printError "Install script failure: $(shorten "$script")"
+  else
+    printSuccess "[dryrun] Install script: $(shorten "$script")"
+  fi
 }
 
 function setupDotfiles() {
-  printInfo "Installing dotfiles"
+  printInfo "Installing symlinks"
   local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
   for dir in $dotfileDirs; do
-    setupFiles $(find $dir -maxdepth 1 -mindepth 1)
+    if [ -f "$dir/install.sh" ]; then
+      runInstallScript "$dir/install.sh"
+    fi
+    for file in $(find $dir -maxdepth 1 -mindepth 1 ! -name '_*' ! -name 'readme.md' ! -name 'install.sh'); do
+      setupSymlink "$file" "$HOME/$(basename $file)"
+    done
   done
 }
 
@@ -147,8 +117,6 @@ function setupGitSubmodules() {
 function install() {
   setupGitSubmodules
   setupDotfiles
-  [ -n "$templates" ] && \
-    printWarn "Check template configurations:\n$templates"
 }
 
 function updateDotfiles() {
@@ -158,7 +126,7 @@ function updateDotfiles() {
 }
 
 function printHelp() {
-  echo "Ubuntu dotfiles."
+  echo "pmendelski dotfiles."
   echo "Source: https://github.com/pmendelski/dotfiles"
   echo ""
   echo "NAME"

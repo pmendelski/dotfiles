@@ -5,7 +5,7 @@ export ZSH_PROMPT=flexi
 export TMUX_FORCE="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"
 
 # Do not print the default use@host in prompt
-export PROMPT_DEFAULT_USERHOST="$USER@$HOSTNAME"
+export PROMPT_DEFAULT_USERHOST="@PROMPT_DEFAULT_USERHOST@"
 
 # Enable gpg
 export GPG_TTY="$(tty)"

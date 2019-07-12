@@ -19,11 +19,11 @@ gpg-generate-key() {
 }
 
 gpg-key-id() {
-  gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p'
+  gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
 }
 
 gpg-key-id-long() {
-  gpg --list-keys --keyid-format long | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p'
+  gpg --list-keys --keyid-format long | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
 }
 
 gpg-show-key() {

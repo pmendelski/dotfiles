@@ -44,6 +44,7 @@ SYSTEM_NAME can be one of: ubuntu, ubuntu-server, macos. See [_init](./_init_) f
 - [tmux](./tmux)
 - [git](./git)
 - [vim](./vim)
+- [gradle](./gradle)
 
 ## Credits
 
