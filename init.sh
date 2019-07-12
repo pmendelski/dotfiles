@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
+  echo "Script requires Bash at least v4. Got bash version: $(bash --version)"
+  exit 1
+fi
+
 # Constant values
 declare -r INIT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )/_init"
 

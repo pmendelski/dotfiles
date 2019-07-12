@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bashx
 
 ./packages.sh
 ./config.sh

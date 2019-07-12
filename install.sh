@@ -1,4 +1,9 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
+
+if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
+  echo "Script requires Bash at least v4. Got bash version: $(bash --version)"
+  exit 1
+fi
 
 # This script symlinks all the dotfiles to home directory.
 # It is safe to run it multiple times.

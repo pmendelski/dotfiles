@@ -249,8 +249,10 @@
         { (>&2 echo \"Sanity check. No force push to master is forbidden.\"); exit 1; }; \
       git push --force-with-lease; \
     }; f"
+    push-force-master = !git push --force-with-lease
     # Push code review fixes
     push-fix = !git amend-all && git push-force
+    push-fix-master = !git amend-all && git push-force-master
     # Fix Pull Request conflict with master branch
     push-conflict-fix = !git sync-master && git push-force
   # Diff

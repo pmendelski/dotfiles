@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bashx
 
 echo "Turnoff sleep mode on lid close"
 if ! grep -q '^HandleLidSwitch=ignore' /etc/systemd/logind.conf; then
