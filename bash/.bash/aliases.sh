@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Become a root and preserve environment variables and shell
 alias root="sudo su --preserve-environment"
@@ -33,6 +33,9 @@ alias egrep='egrep --color=auto'
 
 # Fast clear
 alias clr='clear'
+
+# Portable shebang
+alias shebang='echo "#!/usr/bin/env bash"'
 
 # Easy access to hosts file
 alias hosts="sudo $EDITOR /etc/hosts"

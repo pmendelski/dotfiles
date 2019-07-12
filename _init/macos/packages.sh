@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 
 # Install brew
 if [[ $(command -v brew) == "" ]]; then

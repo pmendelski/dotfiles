@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 declare -gr COLOR_ESC="\e"
 declare -gr COLOR_RESET="\e[0m"

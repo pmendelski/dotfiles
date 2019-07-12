@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function conkyio {
   (df | grep ^/dev/sd | sed "s|^.*% ||g"; echo -e "\n\n\n\n\n" ) | head -n 5 | while read disk; do

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Better `ssh`
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 findNextTag() {
   local branch="$1";

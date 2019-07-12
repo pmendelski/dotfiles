@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 netproc() {
   local -r port="${1:?Expected port}"

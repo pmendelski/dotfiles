@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ~/.bash_profile: executed by bash for login shells.
 
 # Login Shell Startup Files:

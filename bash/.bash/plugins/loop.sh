@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 loop() {
   local n=1000;

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 source "./bash/.bash/util/terminal.sh"
 
 initFile() {

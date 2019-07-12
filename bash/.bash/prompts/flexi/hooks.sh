@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/usr/bin/env bash -x
 
 function __flexiPromptTerminalTitle() {
   if [ "$__FLEXI_PROMPT_TIMER" = "1" ]; then

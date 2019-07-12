@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function gradle-wrapper-update() {
   local -r version="$(curl -s "https://services.gradle.org/distributions/" | \

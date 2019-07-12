@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 max() {
   [ "$1" -gt "$2" ] && \

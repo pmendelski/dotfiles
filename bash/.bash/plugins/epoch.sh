@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # epoch - Epoch in milliseconds
 #
@@ -42,7 +42,7 @@ formatMsMin() {
 }
 
 # formatMs - Formats milliseconds in humanreadble format
-# 
+#
 # Format: <days>d<hours>:<minutes>:<seconds>.<millis>
 #
 # Usage:

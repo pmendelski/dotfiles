@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/usr/bin/env bash -x
 # Default propmpt from bashrc: /etc/skel/.bashrc
 
 # set variable identifying the chroot you work in (used in the prompt below)

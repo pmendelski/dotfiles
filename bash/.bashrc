@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Default bashrc: /etc/skel/.bashrc
 # ~/.bashrc: executed by bash for non-login shells.

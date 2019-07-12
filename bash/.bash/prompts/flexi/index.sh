@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/usr/bin/env bash -x
 
 # This prompt inspired by:
 #   https://github.com/alrra/dotfiles/blob/master/shell/bash_prompt

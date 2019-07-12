@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 findPrevTag() {
   local branch="$1";

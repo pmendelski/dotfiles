@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 modulePath() {
   git config --file .gitmodules --get-regexp path | grep "submodule.$1.path" | cut -d ' ' -f2

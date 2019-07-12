@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Bash History
 # https://www.gnu.org/software/bash/manual/html_node/Bash-History-Facilities.html

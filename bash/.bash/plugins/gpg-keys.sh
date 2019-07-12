@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 gpg-default-key-id() {
   gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
@@ -46,7 +46,7 @@ gpg-send-default-key-to-keyserver() {
 
 gpg-generate-default-key() {
   gpg --default-new-key-algo rsa4096 --gen-key \
-    && git config --global user.signingkey "$(gpg-default-key-id)"
+    && git config --global user.signingkey "$(gpg-default-key-id)" \
     && gpg-send-key-to-keyserver "$(gpg-default-key-id)"
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 
 # This script symlinks all the dotfiles to home directory.
 # It is safe to run it multiple times.

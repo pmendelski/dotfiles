@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Node.js
 export NODE_REPL_HISTORY="$HOME/.node_history"; # Enable persistent REPL history for `node`.

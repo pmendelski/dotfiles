@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 exists() {
   git show "$1" 1>/dev/null 2>/dev/null;

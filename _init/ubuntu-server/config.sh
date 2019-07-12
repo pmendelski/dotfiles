@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/usr/bin/env bash -ex
 
 echo "Turnoff sleep mode on lid close"
 if ! grep -q '^HandleLidSwitch=ignore' /etc/systemd/logind.conf; then
@@ -15,7 +15,7 @@ echo 'action=/etc/acpi/lid.sh' | sudo tee -a /etc/acpi/events/lid-button
 sudo touch /etc/acpi/lid.sh
 sudo chmod +x /etc/acpi/lid.sh
 sudo tee /etc/acpi/lid.sh << END
-#!/bin/bash
+#!/usr/bin/env bash
 grep -q close /proc/acpi/button/lid/*/state
 if [ \$? = 0 ]; then
   sleep 0.2 && vbetool dpms off

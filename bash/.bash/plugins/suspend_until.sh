@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 
 # Suspends computer and automatically waits it up at specified date/time parameter
 # Source: http://askubuntu.com/questions/61708/automatically-sleep-and-wake-up-at-specific-times

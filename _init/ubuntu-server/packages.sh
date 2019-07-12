@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/usr/bin/env bash -ex
 
 repository() {
   sudo add-apt-repository -y "$1"

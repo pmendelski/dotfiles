@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Constant values
 declare -r INIT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )/_init"

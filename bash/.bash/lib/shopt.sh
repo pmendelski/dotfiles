@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Better `cd`
 shopt -s nocaseglob          # Case-insensitive globbing (used in pathname expansion)

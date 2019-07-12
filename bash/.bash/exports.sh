@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Directories
 export BASH_DIR="$HOME/.bash"
