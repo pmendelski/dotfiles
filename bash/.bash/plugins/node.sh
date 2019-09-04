@@ -18,16 +18,8 @@ export NODE_ENV="development"
 # Easy way to reinstall npm dependencies
 alias npm-please="rm -rf node_modules && rm -rf package-lock.json && npm i"
 # Easy way to update all npm dependencies
-alias npm-update-dependencies="ncu -a && npm-please"
+alias npm-modules-update="ncu -a && npm-please"
 
 function npm-bin {
   (PATH=$(npm bin):$PATH; eval $@;)
-}
-
-node-update() {
-  local version=${1:---lts}
-  nvm install $version
-  nvm use $(node -v)
-  npm install -g npm@latest
-  npm install -g webpack http-server livereload yarn npm-check-updates
 }

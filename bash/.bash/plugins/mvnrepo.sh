@@ -2,19 +2,20 @@
 
 mvnrepo() {
   local -r query="${1:?Expected query}"
-  local -r size="${2:-20}"
-  curl -s "https://search.maven.org/solrsearch/select?q=$query&start=0&rows=$size" \
-    | jq -r '.response.docs | map(.id + ":" + .latestVersion) | .[]' \
-    | grep "$query"
-}
-
-mvnrepo-meta() {
-  local -r query="${1:?Expected query}"
-  local -r size="${2:-20}"
-  local -r response="$(curl -s "https://search.maven.org/solrsearch/select?q=$query&start=0&rows=$size" | jq '.response')"
-  local -r total="$(echo "$response" | jq '.numFound')"
-  local -r entries="$(echo "$response" | jq -r '.docs | map(.id + ":" + .latestVersion) | .[]')"
-  echo "$entries" | grep "$query"
-  >&2 echo -e "\nTotal: $total"
-  >&2 echo "URL: https://search.maven.org/search?q=$query"
+  local -r i="${2}"
+  local -r search="$(curl -s "https://search.maven.org/solrsearch/select?q=$query&start=0&rows=20" \
+      | jq -r '.response.docs | map(.id + ":" + .latestVersion) | .[]' \
+      | grep "$query")"
+  if [ "$i" -gt "0" ]; then
+    # Print versions of first artifact: mvnrepo logback-core 1
+    local -r x="$(echo "$search" | head -n "$i" | tail -n 1 | tr ':' '\n')"
+    local group="$(echo $x | head -n 1)"
+    local artifact="$(echo $x | head -n 2 | tail -n 1)"
+    curl -s "https://search.maven.org/solrsearch/select?q=g:$group%20AND%20a:$artifact&core=gav&rows=20" \
+      | jq -r '.response.docs[].id' \
+      | grep "$query"
+  else
+    # Print artifacts: mvnrepo logback-core
+    echo "$search"
+  fi
 }
