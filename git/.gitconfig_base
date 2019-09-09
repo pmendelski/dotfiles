@@ -6,8 +6,8 @@
 [include]
   path = ~/.gitconfig_aliases
 
-[commit]
-  gpgsign = true
+# [commit]
+#  gpgsign = true
 
 [apply]
   whitespace = nowarn
