@@ -111,3 +111,5 @@ cp ./scripts/* ./Scripts/
 echo "Recommended apps to install manually:"
 echo "  - Magnet (https://itunes.apple.com/pl/app/magnet/id441258766)"
 echo "  - RedQuits (http://www.carsten-mielke.com/redquits.html)"
+echo "  - Vanilla (https://matthewpalmer.net/vanilla/)"
+echo "  - Mini Calendar (https://matthewpalmer.net/vanilla/)"
