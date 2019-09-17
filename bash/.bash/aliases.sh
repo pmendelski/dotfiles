@@ -88,6 +88,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
 
+# TMUX
+alias tmux-kill='tmux kill-server'
+alias tmux-kill-windows='tmux kill-window -a'
+alias tmux-kill-sessions='tmux kill-session -a'
+
 # HELP
 alias dotfiles-git-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/git/readme.md' &>/dev/null"
 alias dotfiles-git-edit="editor ~/.dotfiles/git"
