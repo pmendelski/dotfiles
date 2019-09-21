@@ -1,4 +1,4 @@
-#!/usr/bin/env bashx
+#!/usr/bin/env bash
 
 key() {
   curl -fsSL "$1" | sudo apt-key add -
@@ -77,10 +77,9 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt -y update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
-su - "${USER}"
 # Docker compose https://docs.docker.com/compose
-docker-compose-version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
-sudo curl -L "https://github.com/docker/compose/releases/download/${docker-compose-version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+docker_compose_version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
+sudo curl -L "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker-compose-version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker-compose-version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
