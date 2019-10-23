@@ -3,23 +3,23 @@
 netproc() {
   local -r port="${1:?Expected port}"
   case "$(systype)" in
-    linux*) netstat -a -n | grep LISTEN | grep "$port";;
+    linux*) sudo netstat -tulpn | grep LISTEN | grep "$port";;
     macos*) lsof -nP -iTCP:$port -sTCP:LISTEN;;
     *) echo "Unsupported system"; return 1; ;;
   esac
 }
 
-netprocPid() {
+netproc_pid() {
   local -r port="${1:?Expected port}"
   case "$(systype)" in
-    linux*) netstat -a -n | grep LISTEN | grep "$port";;
+    linux*) sudo netstat -tulpn | grep LISTEN | grep ":$port" | sed -E "s|.*LISTEN +([0-9]+)/.*|\1|g";;
     macos*) lsof -nP -iTCP:$port -sTCP:LISTEN -t;;
     *) echo "Unsupported system"; return 1; ;;
   esac
 }
 
-netprocKill() {
+netproc_kill() {
   local -r port="${1:?Expected port}"
-  local -r pid="$(netprocPid $port | head -n1)"
-  kill -9 "$pid"
+  local -r pid="$(netproc_pid $port | head -n1)"
+  [ -n "$pid" ] && kill -9 "$pid"
 }

@@ -68,6 +68,7 @@ package apt-transport-https
 package ca-certificates
 package gnupg-agent
 package software-properties-common
+package iptables-persistent
 
 # Docker
 sudo apt-get remove -y docker docker-engine docker.io containerd runc

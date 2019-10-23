@@ -28,3 +28,10 @@ END
 
 # Change shell to zsh
 chsh -s "$(which zsh)"
+
+# Open basic ports
+# See: https://www.liquidweb.com/kb/set-firewall-using-iptables-ubuntu-16-04/
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+sudo iptables -A INPUT -p udp --dport 1194 -j ACCEPT
