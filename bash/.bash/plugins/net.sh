@@ -3,7 +3,7 @@
 net_procs() {
   local -r result="$(lsof -i -P -n)"
   echo "$result" | head -n 1
-  echo "$result" | grep LISTEN | grep IPv4
+  echo "$result" | grep IPv4 | grep LISTEN
 }
 
 net_proc() {
@@ -46,10 +46,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     ifconfig $iface | grep inet6 | sed -nE 's|^.*inet6 ([^ %]+).*$|\1|p'
   }
 
-  net_gateway() {
-    route get 0.0.0.0 2>/dev/null | grep 'gateway' | sed 's| *gateway: ||'
-  }
-
   net_dns() {
     dig google.com | grep SERVER | sed -nE 's|^.*\(([^(]+)\)$|\1|p'
   }
@@ -57,6 +53,11 @@ else
   net_ip() {
     local -r iface="$(net_iface)"
     ip addr show "$iface" | grep "inet " | cut -d '/' -f1 | cut -d ' ' -f6
+  }
+
+  net_ip6() {
+    local -r iface="$(net_iface)"
+    ip addr show "$iface" | grep "inet6 " | cut -d '/' -f1 | cut -d ' ' -f6
   }
 
   net_mac() {
@@ -70,7 +71,11 @@ else
 
   net_dns() {
     local -r iface="$(net_iface)"
-    nmcli dev show "$iface" | grep DNS | sed -nE 's|^[^\ ]+\ +(.+)|\1|p'
+    if hash nmcli 2>/dev/null; then
+      nmcli dev show "$iface" | grep DNS | sed -nE 's|^[^\ ]+\ +(.+)|\1|p'
+    else
+      systemd-resolve eno1 --status | grep 'DNS Servers: ' | sed -nE 's|^.+\: (.+)$|\1|p'
+    fi
   }
 fi
 
@@ -82,15 +87,19 @@ net_info() {
     echo "   Local IP6: $(net_ip6)"
     echo "   Interface: $(net_iface)"
     echo "         MAC: $(net_mac)"
-    echo "     Gateway: $(net_gateway)"
     echo "         DNS: $(net_dns)"
-    if [ "$1" == "-a" ]; then
+    if [ "$1" = "-a" ]; then
       echo ""
-      echo "Resolve.conf (cat /etc/resolv.conf):"
-      cat /etc/resolv.conf | grep -v '^#'
+      echo ">> Resolve.conf (cat /etc/resolv.conf):"
+      cat /etc/resolv.conf | grep -v '^#' | grep -v '^$'
       echo ""
-      echo "Open Ports:"
+      echo ">> Open Ports:"
       net_procs
+      if hash systemd-resolve 2>/dev/null; then
+        echo ""
+        echo ">> DNS from systemd-resolve:"
+        systemd-resolve $(net_iface) --status | grep -A 3 'DNS Servers: '
+      fi
     fi
   else
     (>&2 echo "No Internet")
