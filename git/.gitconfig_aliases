@@ -376,6 +376,11 @@
     push-branch = "!f() { \
       git push -u ${1:-origin} $(git curr-branch); \
     }; f"
+    # Use remote version of the branch
+    use-remote-branch-version = "!f() { \
+      git reset --hard "origin/$(git curr-branch)"; \
+      git clean -fd; \
+    }; f"
     # Dropping branches
     delete-merged-branches = !git branch --merged=master | grep -Ev '^\\* | master$' | xargs -r git branch -d
     delete-branch="!f() { \

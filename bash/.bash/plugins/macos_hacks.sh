@@ -18,7 +18,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   }
 
   # Sometimes after pluging new camera it is not visible
-  hacks_refresh-cameras() {
+  # See: https://medium.com/@jcmrgo/fix-mic-video-without-restarting-your-mac-ab704360f79c
+  hacks_fix-cameras() {
     sudo killall VDCAssistant
+  }
+
+  hacks_fix-audio() {
+    sudo killall coreaudiod
   }
 fi
