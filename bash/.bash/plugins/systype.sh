@@ -11,3 +11,5 @@ systype() {
     *)        echo "unknown" ;;
   esac
 }
+
+export SYSTYPE="$(systype)"
