@@ -90,7 +90,6 @@ fe = fetch
 lg = log
 re = rebase
 rl = reflog
-sa = stash
 st = status
 tg = tag
 ```
@@ -150,8 +149,7 @@ Aliases for [navigating between branches](https://www.atlassian.com/git/tutorial
 with [`git checkout`](https://git-scm.com/docs/git-checkout).
 
 - **`git co`** - Shorter version of `git checkout`.
-- **`git checkout-synced [BRANCH]`** - `(cos)` Checkout branch and pull changes.
-    - `BRANCH` - the name of a branch to be checked out. Default value is `master`. It means that executing `git checkout-synced` will checkout `master` and pull all changes from the remote.
+- **`git checkout-master`** - `(com)` Checkout master branch
 
 ### Add aliases
 
@@ -180,11 +178,11 @@ Related aliases: [amend](#amend-aliases), [undo](#undo-aliases), [history traver
 Aliases related with [rewriting commit history](https://www.atlassian.com/git/tutorials/rewriting-history/)
 with [`git commit --amend`](https://git-scm.com/docs/git-commit).
 
-- **`git amend`** - `(an)` Amend staged changes to last commit.
-- **`git amend-all`** - `(ana)` Stage all and amend all changes.
-- **`git amend-message MSG`** - `(anm)` Amend new commit message.
+- **`git amend`** - Amend staged changes to last commit.
+- **`git amend-all`** - Stage all and amend all changes.
+- **`git amend-message MSG`** - Amend new commit message.
     - `MSG` - New commit message. This parameter is required.
-- **`git amend-author [NAME] [EMAIL]`** - `(anu)` Amend new commit author.
+- **`git amend-author [NAME] [EMAIL]`** - Amend new commit author.
     - `NAME` - New author's name. Default value is `git config --get user.name`.
     - `EMAIL` - New author's email. Default value is `git config --get user.email`. Brackets (`<`, `>`) will be automatically added.
     - Executing `git amend-author` will replace last commit author with you.
@@ -196,6 +194,7 @@ Sync alias consist of [`git fetch`](https://git-scm.com/docs/git-fetch) and [`gi
 - **`git sync [BRANCH]`** - `(sy)` Fetch and rebase with remote branch.
     - `BRANCH` - the name of the remote branch to be rebased with. Default value is `master`.
 - **`git sync-master`** - `(sym)` Rebase remote `master` branch.
+- **`git sync-force`** - Fetch remote branch and reset all local changes.
 
 ### Squash aliases
 
@@ -215,15 +214,14 @@ Be aware that every command at the end will open an interactive rebase editor.
 
 Aliases for [saving locally changes](https://www.atlassian.com/git/tutorials/git-stash/) with [`git stash`](https://git-scm.com/docs/git-stash).
 
-- **`git sa`** - Shorter version of `git stash`
-- **`git stash-all`** - `(saa)` Stash all - tracked and untracked files.
+- **`git stash-all`** - Stash all - tracked and untracked files.
 
 ### Tag aliases
 
 Aliases related with [`git tag`](https://git-scm.com/docs/git-tag).
 
 - **`git tg`** - Shorter version of `git tag`.
-- **`git tags`** - `(tga)` Show all tags.
+- **`git tags`** - Show all tags.
 - **`git tags-branch [BRANCH]`** - `(tgb)` List tags available on the branch.
     - `BRANCH` - name of the branch. Default value is the current branch name.
 - **`git create-tag TAG_NAME [TAG_MSG]`** - Tag with a name and an optional message.
@@ -276,10 +274,11 @@ with [`git diff`](https://git-scm.com/docs/git-diff).
 Be aware that untracked files are not visible for `git diff` command.
 
 - **`git df`** - Shorter version of `git diff`. Shows the changes between the working directory and the index. This shows what has been changed, but is not staged for a commit.
-- **`git diff-index-work`** - `(dfiw)` Like `git diff` but uses compares word by work not line by line. No pluses and minuses. Easier to read.
-- **`git diff-head-index`** - `(dfhi)` Shows the changes between the index and the HEAD.
-- **`git diff-head-work`** - `(dfhw)` Shows all the changes between the working directory and HEAD.
-- **`git diff-patch`** - `(dfp)` Like `git diff-head-work` but includes also binaries. Could be used as a patch file and applied with `git apply <filename>`.
+- **`git diff-index-work`** - Like `git diff` but uses compares word by work not line by line. No pluses and minuses. Easier to read.
+- **`git diff-head-index`** - Shows the changes between the index and the HEAD.
+- **`git diff-head-work`** - Shows all the changes between the working directory and HEAD.
+- **`git diff-patch`** - Like `git diff-head-work` but includes also binaries. Could be used as a patch file and applied with `git apply <filename>`.
+- **`git diff-apply`** - Alias for `git apply <filename>`.
 
 ### Undo actions aliases
 
@@ -390,6 +389,7 @@ Aliases for presenting statistics on about contribution.
 
 List of other ungrouped aliases.
 
+- **`git root`** - Prints repository root directory.
 - **`git start`** - Alias for `git init && git add . && git commit --allow-empty -am "Initial commit"`. The first commit of a repository can not be rebased like regular commits, so it’s [good practice](https://hackernoon.com/lesser-known-git-commands-151a1918a60#9d13) to create an empty commit as your repository root.
 - **`git check-whitespaces`** - Check if any file in repo has [whitespace errors](http://peter.eisentraut.org/blog/2014/11/04/checking-whitespace-with-git/).
 - **`git cleanup`** - Cleans up your local repository.

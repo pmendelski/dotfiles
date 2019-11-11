@@ -129,6 +129,13 @@
       echo \"Synchronized $(git curr-branch) with $remote\"; \
     }; f"
     sy = !git sync
+    # Sync with remote branch dropping local changes
+    sync-force = "!f() { \
+      git fetch origin "$(git curr-branch)"; \
+      git reset --hard "origin/$(git curr-branch)"; \
+      git clean -fd; \
+    }; f"
+    syf = !git sync-force
     # Sync all branches with remotes
     sync-all = "!f() { \
       for branch in `git branch | sed 's|[* ]\\ *||'`; do \
@@ -156,6 +163,8 @@
     # Stash all
     stash-all = !git stash --include-untracked
   # Tag
+    # Shorter version
+    tg = !git tag
     # Show last tag
     last-tag = !git describe --abbrev=0 --tag
     # Create tag with date
@@ -177,6 +186,7 @@
     tags-branch = "!f() { \
       git tag --merged ${1:-$(git curr-branch)} | tac; \
     }; f"
+    tgb = !tags-branch
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!f() { \
       local oldtagname=\"${2:-$(git last-tag)}\"; \
@@ -236,6 +246,8 @@
     # Fix Pull Request conflict with master branch
     push-conflict-fix = !git sync-master && git push-force
   # Diff
+    # Shorter version
+    df = diff
     # Shows the changes between the working directory and the index
     diff-work-index = diff --color-words
     # Shows the changes between the index and the HEAD
@@ -350,11 +362,6 @@
     # Push branch
     push-branch = "!f() { \
       git push -u ${1:-origin} $(git curr-branch); \
-    }; f"
-    # Use remote version of the branch
-    use-remote-branch-version = "!f() { \
-      git reset --hard "origin/$(git curr-branch)"; \
-      git clean -fd; \
     }; f"
     # Dropping branches
     delete-merged-branches = !git branch --merged=master | grep -Ev '^\\* | master$' | xargs -r git branch -d
