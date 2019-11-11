@@ -12,6 +12,8 @@
       sh ~/.git_aliases/aliases.sh | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
     }; f"
     al = !git aliases
+  # Root
+    root = rev-parse --show-toplevel
   # Log
     # Shorter version
     lg = log

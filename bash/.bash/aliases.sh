@@ -11,6 +11,7 @@ alias .....="cd ../../../.."
 alias cd..="cd .."
 alias ~="cd ~"
 alias -- -="cd -"
+alias groot="cd $(git root)"
 
 # Better ls
 alias ls="ls -aFh --color --group-directories-first"
