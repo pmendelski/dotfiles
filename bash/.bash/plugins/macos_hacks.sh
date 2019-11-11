@@ -26,4 +26,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   hacks_fix-audio() {
     sudo killall coreaudiod
   }
+
+  hacks_fix-media() {
+    hacks_fix-cameras;
+    hacks_fix-audio;
+  }
 fi
