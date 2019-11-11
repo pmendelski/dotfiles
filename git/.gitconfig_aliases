@@ -5,14 +5,12 @@
   # - Use double indent for folding in IDE
 [alias]
   # Aliases
-    # Open documentation
-    aliases-doc = !sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/git/readme.md' &
     # List or find an alias
     aliases = "!f() {\
       sh ~/.git_aliases/aliases.sh | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
     }; f"
-    al = !git aliases
   # Root
+    # Print repository root directory
     root = rev-parse --show-toplevel
   # Log
     # Shorter version
@@ -80,11 +78,6 @@
     # Checkout master
     checkout-master = !git checkout master
     com = !git checkout-master
-    # Checkout and pull changes
-    checkout-synced = "!f() { \
-      git checkout ${1:-master} && git pull; \
-    }; f"
-    cos = !git checkout-synced
   # Add
     # Shorter version
     ad = add
@@ -98,8 +91,7 @@
     curr-commit = !git rev-parse "HEAD"
     # Expand commit hash
     expand-hash = "!f() { \
-      git log --pretty=format:'%H' | \
-      grep \"^$1\"; \
+      git log --pretty=format:'%H' | grep \"^$1\"; \
     }; f"
     # Commit all changes
     commit-all = !git add -A && git commit -a
@@ -119,22 +111,18 @@
   # Amend
     # Amend the currently staged files to the latest commit
     amend = commit --amend --no-edit
-    an = !git amend
     # Amend all
     amend-all = !git add -A && git amend -a
-    ana = !git amend-all
-    # Change message of the last commit
+    # Change author of the last commit
     amend-author = "!f() { \
       local username=\"${1:-$(git user-name)}\"; \
       local email=\"${2:-$(git user-email)}\"; \
       git commit --amend --author \"${username} <${email}>\" --no-edit; \
     }; f"
-    anu = !git amend-author
-    # Change author of the last commit
+    # Change message of the last commit
     amend-message = "!f() { \
       git commit --amend --message \"$1\"; \
     }; f"
-    anm = !git amend-message
   # Sync
     # Sync with remote branch
     sync = "!f() { \
@@ -168,14 +156,9 @@
     squash-ahead = !git rebase -i $(git rev-list --count --left-right @{upstream}...HEAD | cut -f2)
     sqa = !git squash-ahead
   # Stash
-    # Shorter version
-    sa = !git stash
     # Stash all
     stash-all = !git stash --include-untracked
-    saa = !git stash-all
   # Tag
-    # Shorter version
-    tg = !git tag
     # Show last tag
     last-tag = !git describe --abbrev=0 --tag
     # Create tag with date
@@ -193,12 +176,10 @@
     }; f"
     # List all tags
     tags = !git tag
-    tga = !git tags
     # List tags available on branch
     tags-branch = "!f() { \
       git tag --merged ${1:-$(git curr-branch)} | tac; \
     }; f"
-    tgb = !tags-branch
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!f() { \
       local oldtagname=\"${2:-$(git last-tag)}\"; \
@@ -258,20 +239,15 @@
     # Fix Pull Request conflict with master branch
     push-conflict-fix = !git sync-master && git push-force
   # Diff
-    # Shorter version
-    df = diff
     # Shows the changes between the working directory and the index
     diff-work-index = diff --color-words
-    dfwi = !git diff-work-index
     # Shows the changes between the index and the HEAD
     diff-index-head = !git diff --cached --color-words
-    dfih = !git diff-index-head
     # Shows all the changes between the working directory and HEAD
     diff-work-head = !git diff HEAD --color-words
-    dfwh = !git diff-head-work
     # Create a diff with binaries. Could be used with `git apply `
     diff-patch = !git diff HEAD --binary
-    dfp = !git diff-patch
+    diff-apply = !git apply
   # Undo actions
     # Undo staging
     unadd = !git reset HEAD --
