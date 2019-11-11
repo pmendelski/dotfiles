@@ -16,18 +16,18 @@
     # Shorter version
     lg = log
     # Oneline log
-    log-oneline = log --pretty=custom-oneline --topo-order --tags
+    log-oneline = log --pretty=custom-oneline --topo-order
     lgo = !git log-oneline
-    lgonp = !git --no-pager log-oneline
+    log-oneline-no-pager = !git --no-pager log-oneline
     # Oneline short log
-    log-short = log --pretty=custom-short --topo-order --tags
+    log-short = log --pretty=custom-short --topo-order
     lgs = !git log-short
-    lgsnp = !git --no-pager log-short
+    log-short-no-pager = !git --no-pager log-short
     # Pretty printed log
-    log-pretty = log --pretty=custom --topo-order --tags
+    log-pretty = log --pretty=custom --topo-order
     lgp = !git log-pretty
     # Show pretty printed log with branch graph
-    log-graph = !git log-pretty --graph --tags
+    log-graph = !git log-pretty --graph
     lgg = !git log-graph
     # Show pretty printed log with files
     log-files = !git log-pretty --numstat --decorate --name-status
@@ -40,16 +40,13 @@
     lgm = !log-merges
     # Show non-merge commits only.
     log-no-merges = !git log-pretty --no-merges
-    lgnm = !log-no-merges
     # Show pretty printed commit log with diffs for a single file.
     # Better than git blame. See: http://blog.andrewray.me/a-better-git-blame/
     log-blame = !git log-pretty -M --follow --stat -p --color-words
-    lgb = !git log-diff
     # Jira tickets (from: http://blogs.atlassian.com/2014/08/whats-new-git-2-1/)
     log-issues = "!f() { \
       git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; \
     }; f"
-    lgi = !git log-issues
   # Status
     # Shorter versions
     st = status

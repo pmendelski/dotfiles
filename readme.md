@@ -60,4 +60,3 @@ Inspiration and code was taken from many sources, including:
 ## License
 
 [MIT](LICENSE)© Paweł‚ Mendelski
-XXX
