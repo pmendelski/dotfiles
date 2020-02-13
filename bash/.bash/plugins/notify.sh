@@ -35,6 +35,19 @@ notify() {
     message="$@"
   fi
   if [ -x "$(command -v notify-send)" ]; then
+    if [ -z "$title" ]; then
+      title="$subtitle"
+      subtitle=""
+    fi
+    if [ -z "$title" ]; then
+      title="$message"
+      message=""
+    fi
+    if [ -n "$subtitle" ] && [ -n "$message" ]; then
+      message="$subtitle | $message"
+    elif [ -n "$subtitle" ]; then
+      message="$subtitle"
+    fi
     notify-send --urgency=low -i "$([ $error = 1 ] && echo error || echo terminal)" "$title" "$message"
   elif [ -x "$(command -v osascript)" ]; then
     local type="$([ $error = 1 ] && echo 'Error: ' || echo '')"

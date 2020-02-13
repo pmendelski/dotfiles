@@ -10,6 +10,19 @@ sudo systemctl restart NetworkManager
 sudo apt install -y mysql-workbench
 sudo snap install squirrelsql
 
+# Mongo manager
+sudo snap install robo3t-snap
+
+# IntelliJ Idea
+sudo snap install intellij-idea-ultimate --classic
+sudo snap install intellij-idea-community --classic
+
+# Nicer fonts
+sudo apt-get install -y fonts-inconsolata
+sudo apt-get install -y fonts-droid
+sudo apt-get install -y fonts-firacode
+sudo fc-cache -fv
+
 # Docker
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
