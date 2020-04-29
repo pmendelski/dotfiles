@@ -36,3 +36,6 @@ source "$HOME/.bash/index.sh"
 if [ -e "$HOME/.sdkvm/init.sh" ]; then
   source "$HOME/.sdkvm/init.sh";
 fi
+
+# added by travis gem
+[ -f /home/pablo/.travis/travis.sh ] && source /home/pablo/.travis/travis.sh

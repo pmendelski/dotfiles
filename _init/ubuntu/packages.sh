@@ -9,6 +9,7 @@ sudo systemctl restart NetworkManager
 # DB Managers
 sudo apt install -y mysql-workbench
 sudo snap install squirrelsql
+sudo snap install redis-desktop-manager
 
 # Mongo manager
 sudo snap install robo3t-snap

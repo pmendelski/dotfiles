@@ -18,7 +18,7 @@ net_proc_pid() {
 
 net_proc_kill() {
   local -r port="${1:?Expected port}"
-  local -r pid="$(netproc_pid $port | head -n1)"
+  local -r pid="$(net_proc_pid $port | head -n1)"
   [ -n "$pid" ] && kill -9 "$pid"
 }
 
