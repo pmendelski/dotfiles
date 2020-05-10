@@ -21,8 +21,9 @@ init() {
   fi
   cd "$INIT_DIR/$system"
   echo "Initializing $system"
-  bash "./${system}/init.sh"
-  echo "System initalized"
+  bash "./init.sh" && \
+    echo -e "\n\nSUCCESS: System initalized successfuly" || \
+    echo -e "\n\nFAILURE: Initalizion failure"
 }
 
 init $1

@@ -38,4 +38,5 @@ if [ -e "$HOME/.sdkvm/init.sh" ]; then
 fi
 
 # added by travis gem
-[ -f /home/pablo/.travis/travis.sh ] && source /home/pablo/.travis/travis.sh
+# [ -f /home/pablo/.travis/travis.sh ] && source /home/pablo/.travis/travis.sh
+
