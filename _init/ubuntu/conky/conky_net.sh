@@ -29,7 +29,7 @@ function formatbytes() {
 }
 
 function conkynet {
-  local iface=`ip a | grep -E "^[0-9]+: .*" | grep "state UP" | sed -nE "s|^[0-9]+: ([^:]+):.*|\\1|p"`
+  local iface=`ip a | grep -E "^[0-9]+: .*" | grep "state UP" | sed -nE "s|^[0-9]+: ([^:]+):.*|\\1|p" | head -n 1`
   local currepoch=`date +%s%3N`
   local currbytes=`cat /proc/net/dev | tail -n +3 | grep $iface | tr -s ' ' | sed 's| *||' | cut -d' ' -f2,10`
   local downbytes=`echo $currbytes | cut -d' ' -f1`

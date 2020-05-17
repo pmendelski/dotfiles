@@ -9,6 +9,9 @@ echo ">>>"
 echo -e "\n>>> Conky"
 sudo apt-get install -y conky conky-all
 
+echo -e "\n>>> Password manager"
+sudo snap install keepassxc
+
 echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
 sudo snap install sublime-text --classic
