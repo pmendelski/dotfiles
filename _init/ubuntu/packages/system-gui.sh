@@ -40,6 +40,13 @@ sudo snap install squirrelsql
 sudo snap install redis-desktop-manager
 sudo snap install robo3t-snap
 
+echo -e "\n>>> MongoDb Compass"
+(cd `mktemp -d` && pwd && \
+wget -O compass.deb "$(curl "https://www.mongodb.com/download-center/compass" | \
+  sed -nE "s|.*window.__serverData = (\{.*)</script>|\1|p" | jq . | \
+  grep -Po "https://downloads.mongodb.com/compass/mongodb-compass[-_]\d+(\.\d+){0,2}[-_.][^.]+\.deb")" && \
+sudo apt install -y ./compass.deb)
+
 echo -e "\n>>> IntelliJ Idea"
 sudo snap install intellij-idea-ultimate --classic
 sudo snap install intellij-idea-community --classic

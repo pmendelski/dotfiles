@@ -18,7 +18,7 @@ sudo apt install ./chrome.deb)
 echo -e "\n>>> Zoom"
 (cd `mktemp -d` && \
 wget -O zoom.deb https://zoom.us/client/latest/zoom_amd64.deb && \
-sudo apt install ./zoom.deb)
+sudo apt install -y ./zoom.deb)
 
 echo -e "\n>>> Skype"
 sudo snap install skype --classic
