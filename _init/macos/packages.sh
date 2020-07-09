@@ -72,6 +72,7 @@ brew cask install deluge
 brew cask install opera
 brew cask install intellij-idea
 brew cask install intellij-idea-ce
+brew cask install insomnia
 
 # Remove outdated versions from the cellar.
 brew cleanup

@@ -31,4 +31,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     hacks_fix-cameras;
     hacks_fix-audio;
   }
+
+  hacks_reinstall-xcode() {
+    sudo rm -rf "$(xcode-select -print-path)"
+    xcode-select --install
+  }
 fi
