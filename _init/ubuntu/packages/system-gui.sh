@@ -15,6 +15,7 @@ sudo snap install keepassxc
 echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
 sudo snap install sublime-text --classic
+sudo ln -s /snap/sublime-text/current/opt/sublime_text/sublime_text /usr/local/bin/subl
 sudo snap install code --classic
 # Git merge tool
 sudo apt-get install -y meld

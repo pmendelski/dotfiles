@@ -1,11 +1,11 @@
 function slugify() {
   local -r text="$([ ! -t 0 ] && cat || echo "$1")"
   echo "$text" \
-    | sed 's|`'\''"||g' \
-    | xargs \
-    | sed 's|.|\L&|g' \
-    | sed -E 's|[- _\t]+|-|g' \
-    | sed \
+    sed -E \
+      -e 's|^ +||g' \
+      -e 's| +$||g' \
+      -e 's|.|\L&|g' \
+      -e 's|[- _\t]+|-|g' \
       -e 's|ą|a|g' \
       -e 's|ć|c|g' \
       -e 's|ę|e|g' \
