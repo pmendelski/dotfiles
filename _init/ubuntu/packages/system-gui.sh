@@ -56,3 +56,7 @@ echo -e "\n>>> Nicer fonts"
 sudo apt-get install -y fonts-inconsolata
 sudo apt-get install -y fonts-firacode
 sudo fc-cache -fv
+
+echo -e "\n>>> Nicer launcher"
+sudo add-apt-repository -y ppa:agornostal/ulauncher
+sudo apt -y update && sudo apt install -y ulauncher
