@@ -31,7 +31,7 @@ sudo apt-get install -y \
   file-roller \
   unp \
   alien
-  
+
 echo -e "\n>>> Build tools"
 sudo apt-get install -y \
   build-essential \
@@ -71,6 +71,11 @@ sudo apt-get install -y \
   httpie \
   dnsutils
 
+echo -e "\n>>> HTTP perf test tools"
+sudo apt-get install -y \
+  nghttp2-client \
+  apache2-utils
+
 echo -e "\n>>> JSON parser"
 sudo apt-get install -y \
   jq
@@ -80,7 +85,7 @@ sudo apt-get install -y \
   aircrack-ng \
   john \
   macchanger
-  
+
 echo -e "\n>>> Docker"
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common

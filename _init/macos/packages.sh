@@ -74,6 +74,9 @@ brew cask install intellij-idea
 brew cask install intellij-idea-ce
 brew cask install insomnia
 
+# Performance test tools
+brew install nghttp2
+
 # Remove outdated versions from the cellar.
 brew cleanup
 
