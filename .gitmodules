@@ -22,9 +22,6 @@
 [submodule "zsh-history-substring-search"]
 	path = zsh/.zsh/bundles/history-substring-search
 	url = git@github.com:zsh-users/zsh-history-substring-search.git
-[submodule "zsh-z"]
-	path = zsh/.zsh/bundles/z
-	url = git@github.com:rupa/z.git
 [submodule "tmux-logging"]
 	path = tmux/.tmux/bundles/logging
 	url = git@github.com:tmux-plugins/tmux-logging.git
