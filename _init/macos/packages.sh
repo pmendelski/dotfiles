@@ -47,6 +47,7 @@ brew install bash
 brew install bash-completion2
 brew install rustup
 brew install fasd
+brew install fd
 brew cask install java
 
 # Docker

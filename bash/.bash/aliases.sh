@@ -35,6 +35,9 @@ alias egrep='egrep --color=auto'
 # Fast clear
 alias clr='clear'
 
+# fd
+alias fd="fd --hidden"
+
 # Portable shebang
 alias shebang='echo "#!/usr/bin/env bash"'
 

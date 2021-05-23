@@ -37,5 +37,3 @@ if [ -e "$HOME/.sdkvm/init.sh" ]; then
   source "$HOME/.sdkvm/init.sh";
 fi
 
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

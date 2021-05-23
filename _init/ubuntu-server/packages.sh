@@ -22,6 +22,8 @@ package zsh
 package tmux
 package tree
 package fzf
+package fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
 snap fasd --beta
 
 # Packages

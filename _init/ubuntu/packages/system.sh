@@ -11,8 +11,9 @@ sudo apt-get install -y \
   tmux \
   zsh \
   fzf \
+  fd-find \
   tree
-
+ln -s $(which fdfind) ~/.local/bin/fd
 sudo snap install fasd --beta
 
 echo -e "\n>>> NEOVIM"
