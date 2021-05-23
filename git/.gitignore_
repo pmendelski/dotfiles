@@ -2,7 +2,7 @@
 
 # IDE files #
 #############
-.idea
+.idea/*
 .vscode
 
 # Compiled source #

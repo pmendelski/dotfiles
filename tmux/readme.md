@@ -61,7 +61,7 @@ tmux kill-session -t myname
 | `A-<Arrow>`   | **change** pane |
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
-| `C-a A-<Arrow>` | **resize** current pane |
+| `C-a-<Arrow>` | **resize** current pane |
 | `C-a P`       | **move to top** current pane |
 | `C-a C-o`     | **cycle** location of panes |
 | `C-a C-{`     | **swap with previous** |

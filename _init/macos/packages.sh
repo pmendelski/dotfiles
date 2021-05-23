@@ -25,7 +25,7 @@ brew install gzip
 brew install zlib
 brew install less
 brew install gnupg
-brew install vim
+brew install neovim
 brew install httpie
 brew install openssh
 brew install git
@@ -45,6 +45,8 @@ brew install tmux
 brew install zsh
 brew install bash
 brew install bash-completion2
+brew install rustup
+brew install fasd
 brew cask install java
 
 # Docker

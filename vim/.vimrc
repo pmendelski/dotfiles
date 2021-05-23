@@ -130,7 +130,7 @@ nnoremap <space> za     " space open/closes folds
 set foldcolumn=0        " column to show folds
 set foldenable          " enable folding
 set foldlevel=10        " close all folds starting from depth of 10
-set foldmethod=indent   " indents are used to specify folds
+set foldmethod=syntax   " fold using syntax
 set foldminlines=0      " allow folding single lines
 set foldnestmax=10      " set max fold nesting level
 " }}}

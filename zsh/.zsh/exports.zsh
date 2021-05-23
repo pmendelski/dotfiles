@@ -21,4 +21,3 @@ PROMPT_EOL_MARK=''
 
 # Default PS1
 PS1="%n@%m:%~%# "
-

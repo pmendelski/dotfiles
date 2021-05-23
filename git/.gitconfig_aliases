@@ -221,7 +221,7 @@
         git delete-tag-remotely $@; \
     }; f"
     rename-tag = "!f() { \
-      git tag $2 $1; \
+      git tag $2 ${1}^{}; \
       git tag -d $1; \
       git push origin :refs/tags/$1; \
       git push --tags; \

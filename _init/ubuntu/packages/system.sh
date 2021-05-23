@@ -9,10 +9,15 @@ echo ">>>"
 echo -e "\n>>> Terminal"
 sudo apt-get install -y \
   tmux \
-  zsh
+  zsh \
+  fzf \
+  tree
 
-echo -e "\n>>> VIM"
-sudo apt-get install -y vim-nox
+sudo snap install fasd --beta
+
+echo -e "\n>>> NEOVIM"
+package neovim
+package python3-neovim
 
 echo -e "\n>>> Rar/zip"
 sudo apt-get install -y \
@@ -100,6 +105,9 @@ sudo curl -L "https://github.com/docker/compose/releases/download/${dockerCompos
 sudo chmod +x /usr/local/bin/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${dockerComposeVersion}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${dockerComposeVersion}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+
+echo -e "\n>>> Rust"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo -e "\n>>> Other"
 # Mounting remote file system by ssh

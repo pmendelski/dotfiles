@@ -40,3 +40,6 @@
 [submodule "tmux-yank"]
 	path = tmux/.tmux/bundles/yank
 	url = git@github.com:tmux-plugins/tmux-yank.git
+[submodule "nvim/.nvim/bundles/vim-plug"]
+	path = nvim/.nvim/bundles/vim-plug
+	url = git@github.com:junegunn/vim-plug.git

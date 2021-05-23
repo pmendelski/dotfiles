@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 source "./bash/.bash/util/terminal.sh"
+set -euf -o pipefail
 
 initFile() {
   local -r file="git/_$1"

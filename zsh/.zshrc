@@ -27,3 +27,5 @@ prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
 if [ -e "$HOME/.sdkvm/init.sh" ]; then
   source "$HOME/.sdkvm/init.sh";
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -35,7 +35,7 @@ echo -e "\n>>> Gnome extensions"
 sudo apt-get install -y \
   gnome-shell-extensions \
   chrome-gnome-shell
-  
+
 # Install extensions:
 # https://extensions.gnome.org/extension/744/hide-activities-button/
 # https://extensions.gnome.org/extension/1732/gtk-title-bar/

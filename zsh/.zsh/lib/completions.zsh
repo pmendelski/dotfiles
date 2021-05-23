@@ -36,9 +36,11 @@ zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w 
 # disable named-directories autocompletion
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 
+# disable sorting sdkvm
+zstyle ':completion:*:sdkvm:*' sort false
+
 # Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-  adm amanda apache at avahi avahi-autoipd
+zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache at avahi avahi-autoipd
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \
   adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \

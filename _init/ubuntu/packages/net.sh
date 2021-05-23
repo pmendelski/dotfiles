@@ -23,6 +23,9 @@ sudo apt install -y ./zoom.deb)
 echo -e "\n>>> Skype"
 sudo snap install skype --classic
 
+echo -e "\n>>> Zoom"
+sudo snap install zoom-client
+
 echo -e "\n>>> Torrent"
 sudo apt install -y deluge
 

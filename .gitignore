@@ -1,9 +1,13 @@
 # tmp locations
-vim/.vim/tmp/backups/**/*
-vim/.vim/tmp/swaps/**/*
-vim/.vim/tmp/undo/**/*
-bash/.bash/tmp/**/*
-zsh/.zsh/tmp/**/*
-tmux/.tmux/tmp/**/*
-_init/ubuntu/conky/tmp/**/*
+vim/.vim/tmp/backups
+vim/.vim/tmp/swaps
+vim/.vim/tmp/undo
+vim/.vim/.netrwhist
+nvim/.nvim/plugins
+nvim/.nvim/tmp
+nvim/.nvim/.netrwhist
+bash/.bash/tmp
+zsh/.zsh/tmp
+tmux/.tmux/tmp
+_init/ubuntu/conky/tmp
 !.gitkeep

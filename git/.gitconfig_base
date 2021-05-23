@@ -3,6 +3,9 @@
 # https://git-scm.com/book/tr/v2/Customizing-Git-Git-Configuration
 # http://git-scm.com/docs/git-config.html
 
+[init]
+  defaultBranch = master
+
 [include]
   path = ~/.gitconfig_aliases
 

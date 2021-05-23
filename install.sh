@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
   echo "Script requires Bash at least v4. Got bash version: $(bash --version)"

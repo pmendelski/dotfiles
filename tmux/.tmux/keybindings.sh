@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-##################################################################
 # Miscalenious
-##################################################################
+# ============
 # Make Ctrl combination work again
 # See: http://superuser.com/a/402084
 set-window-option -g xterm-keys on
@@ -10,15 +9,13 @@ set-window-option -g xterm-keys on
 setw -g mode-keys vi
 # Reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
-bind D send-keys "sensible-browser 'https://github.com/mendlik/dotfiles/blob/master/tmux/readme.md' 1>&2 2>/dev/null &" Enter
-
+bind D send-keys "sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/tmux/readme.md' 1>&2 2>/dev/null &" Enter
 # emacs key bindings in tmux command prompt (prefix + :) are better than
 # vi keys, even for vim users
 set -g status-keys emacs
 
-##################################################################
 # Mouse
-##################################################################
+# =====
 # Enable mouse control (clickable windows, panes, resizable panes)
 set -g mouse on
 # Toggle mouse on/off
@@ -29,9 +26,8 @@ bind M \
   set -g mouse off \;\
   display 'Mouse: OFF'
 
-##################################################################
 # Sessions
-##################################################################
+# ========
 # Kill session
 bind K confirm kill-server
 # Next and previous session
@@ -39,9 +35,8 @@ bind -n M-> switch-client -n
 bind -n M-< switch-client -p
 bind -n M-M switch-client -l
 
-##################################################################
 # Windows
-##################################################################
+# =======
 # Kill window
 bind k confirm kill-window
 # Move window to the top (change number to 1)
@@ -51,9 +46,8 @@ bind -n M-. next-window
 bind -n M-, previous-window
 bind -n M-m last-window
 
-##################################################################
 # Panes
-##################################################################
+# =====
 # Split panes using | and -
 bind | split-window -h -c "#{pane_current_path}"
 bind \\ split-window -h -c "#{pane_current_path}"
@@ -72,9 +66,8 @@ bind x kill-pane
 # Synchronize all panes in a window
 bind _ setw synchronize-panes
 
-##################################################################
 # Copy mode
-##################################################################
+# =========
 # Delete recent buffer - '-' is used to split panes
 bind + delete-buffer
 # enter copy mode & scroll

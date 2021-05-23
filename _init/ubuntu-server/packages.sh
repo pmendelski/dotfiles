@@ -14,17 +14,23 @@ package() {
 }
 
 snap() {
-  sudo snap install "$1"
+  sudo snap install "$@"
 }
 
 # Better terminal
 package zsh
 package tmux
 package tree
+package fzf
+snap fasd --beta
 
 # Packages
 package zip
 package unzip
+
+# Neovim
+package neovim
+package python3-neovim
 
 # Ascii art
 # figlet -f slant <Some Text>

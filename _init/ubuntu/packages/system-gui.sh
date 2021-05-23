@@ -49,12 +49,30 @@ wget -O compass.deb "$(curl "https://www.mongodb.com/download-center/compass" | 
 sudo apt install -y ./compass.deb)
 
 echo -e "\n>>> IntelliJ Idea"
-sudo snap install intellij-idea-ultimate --classic
 sudo snap install intellij-idea-community --classic
 
 echo -e "\n>>> Nicer fonts"
 sudo apt-get install -y fonts-inconsolata
 sudo apt-get install -y fonts-firacode
+installNerdFonts() {
+  mkdir -p ~/.local/share/fonts
+  local -r fonts=('DroidSansMono' 'FiraCode' 'Inconsolata')
+  local -r dir="$(pwd)"
+  local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
+  cd "$tmpdir"
+  # echo "Tmp: $tmpdir"
+  for font in "${fonts[@]}"; do
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
+      && unzip "$font.zip" -d ~/.local/share/fonts \
+      && echo "Installed nerd font: $font"
+  done
+  rm -rf "$tmpdir"
+  cd "$dir"
+}
+installNerdFonts
+
+fc-cache -fv
+echo "done!"
 sudo fc-cache -fv
 
 echo -e "\n>>> Nicer launcher"
