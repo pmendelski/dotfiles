@@ -14,7 +14,7 @@ installDependencies() {
 
 installPlugins() {
   nvim "+PlugInstall" "+qall" && echo "Installed Plugins" || echo "Could not install plugins"
-  local -r cocs=('sh' 'clangd' 'rust-analyzer' 'go' 'tsserver' 'css' 'html' 'json' 'pyright' 'explorer')
+  local -r cocs=('sh' 'clangd' 'rust-analyzer' 'go' 'tsserver' 'css' 'html' 'json' 'yaml' 'pyright' 'explorer')
   for coc in "${cocs[@]}"; do
     nvim "+CocInstall coc-$coc" "+qall" \
       && echo "Installed coc-$coc" \

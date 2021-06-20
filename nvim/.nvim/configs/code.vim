@@ -1,124 +1,21 @@
-" Plugin: lightline {{{
-" ===========================
-set laststatus=2
-set noshowmode
-let g:lightline = {
-  \ 'colorscheme': 'onedark',
-  \ 'active': {
-  \   'left': [
-  \      ['mode', 'paste'],
-  \      ['gitbranch', 'filename', 'cocstatus']
-  \   ],
-  \   'right': [
-  \      ['lineinfo'],
-  \      ['percent'],
-  \      ['filetype', 'fileencoding', 'fileformat']
-  \   ]
-  \ },
-  \ 'inactive': {
-  \   'right': []
-  \ },
-  \ 'component_function': {
-  \   'mode': 'LightlineMode',
-  \   'percent': 'LightlinePercent',
-  \   'filetype': 'LightlineFileType',
-  \   'filename': 'LightlineFilename',
-  \   'fileformat': 'LightlineFileFormat',
-  \   'lineinfo': 'LightlineLineInfo',
-  \   'fileencoding': 'LightlineFileEncoding',
-  \   'cocstatus': 'coc#status',
-  \   'gitbranch': 'LightlineGitbranch'
-  \ },
-  \ 'mode_map': {
-  \   'n': ' N0RMAL',
-  \   'i': ' INSERT',
-  \   'R': ' REPLACE',
-  \   'v': ' VISUAL',
-  \   'V': ' V-LINE',
-  \   "\<C-v>": ' V-BL0CK',
-  \   'c': ' COMMAND',
-  \   's': ' SELECT',
-  \   'S': ' S-LINE',
-  \   "\<C-s>": ' S-BL0CK',
-  \   't': ' TERMINAL'
-  \ }
-  \ }
-function! LightlineGitbranch()
-  if &filetype ==# 'coc-explorer'
-    return ''
-  endif
-  let branch = gitbranch#name()
-  return winwidth(0) > 70 && branch !=# '' ? ' ' . branch : ''
-endfunction
-function! LightlinePercent()
-  return winwidth(0) > 70
-    \ ? printf('%3s', (line('.') * 100 / line('$'))) . '%'
-    \ : ''
-endfunction
-function! LightlineFileType()
-  return winwidth(0) > 70
-    \ ? WebDevIconsGetFileTypeSymbol() . ' ' .&filetype
-    \ : ''
-endfunction
-function! LightlineFileEncoding()
-  return &fileencoding !=# 'utf-8' && winwidth(0) > 70
-    \ ? &fileencoding : ''
-endfunction
-function! LightlineFileFormat()
-  return &fileformat !=# 'unix' && winwidth(0) > 70
-    \ ? &fileformat : ''
-endfunction
-function! LightlineLineInfo()
-  return winwidth(0) > 70
-    \ ? col('.') . ':' . line('.') . '/' . line('$')
-    \ : ''
-endfunction
-function! LightlineFilename()
-  if &filetype ==# 'coc-explorer'
-    return ''
-  endif
-  let filename = expand('%:t') !=# '' ? expand('%:~:.') : '[New]'
-  let terms = split(filename, ':')
-  if terms[0] ==# 'term'
-    return '[' . terms[-1] . ']'
-  endif
-  let modified = &modified ? '' : ''
-  let icons = &readonly ? '' : modified
-  return filename . ' ' . icons
-endfunction
-" Simplify status in coc-explorer
-" let g:lightline.component_function = { 'mode': 'LightlineMode' }
-function! LightlineMode() abort
-  return &filetype ==# 'coc-explorer'
-    \ ? ' EXPLORER' :
-    \ lightline#mode()
-endfunction
-" Use nerd fonts
-let g:airline_powerline_fonts = 1
-" Use auocmd to force lightline update.
-autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
-" }}}
-
-" Plugin: Complection coc-explorer {{{
-" ====================================
-" Enable nerdfont for file icons
-set guifont=DroidSansMono\ Nerd\ Font\ 11
-" Always coc-explorer when opening dir
-augroup OpenCocExplorer
-  autocmd!
-  autocmd VimEnter * let d = expand('%')
-    \ | if isdirectory(d)
-    \ |   silent! bd
-    \ |   let root = FindRootDirectory()
-    \ |   exe 'CocCommand explorer ' . root
-    \ | endif
-augroup end
-" }}}
-
-" Plugin: Complection coc {{{
-" ===========================
+" Uses plugin: coc, vimspector
 set updatetime=300      " Better experience
 set shortmess+=c        " Don't pass messages to |ins-completion-menu|.
+
+" Debugging
+" Plugin: Vimspector
+" https://github.com/puremourning/vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
+
+" improve colors
+hi! CocErrorSign guifg=#d1666a
+hi! CocInfoSign guibg=#353b45
+hi! CocWarningSign guifg=#d1cd66
+
+nnoremap <C-s> :FullFormat<cr>:w<cr>
+inoremap <C-s> <esc>:FullFormat<cr>:w<cr>i
+vnoremap <C-s> <esc>:FullFormat<cr>:w<cr>i
+
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
@@ -216,4 +113,4 @@ command! -nargs=0 OrganizeImports :call CocAction('runCommand', 'editor.action.o
 nnoremap <silent> cld  :<C-u>CocList diagnostics<cr>
 " CocList: Find symbol of current document
 nnoremap <silent> clo  :<C-u>CocList outline<cr>
-" }}}
+

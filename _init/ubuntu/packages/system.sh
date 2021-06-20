@@ -7,14 +7,23 @@ echo ">>> SYSTEM"
 echo ">>>"
 
 echo -e "\n>>> Terminal"
+mkdir -p ~/.local/bin
 sudo apt-get install -y \
   tmux \
   zsh \
   fzf \
   fd-find \
-  tree
+  tree \
+  ripgrep
 ln -s $(which fdfind) ~/.local/bin/fd
 sudo snap install fasd --beta
+sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+
+# cat with highlighting
+sudo apt install bat
+if command -v batcat &> /dev/null; then
+  ln -s $(which batcat) ~/.local/bin/bat
+fi
 
 echo -e "\n>>> NEOVIM"
 package neovim

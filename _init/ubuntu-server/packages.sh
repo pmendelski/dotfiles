@@ -18,13 +18,21 @@ snap() {
 }
 
 # Better terminal
+mkdir -p ~/.local/bin
 package zsh
 package tmux
 package tree
 package fzf
+package ripgrep
 package fd-find
 ln -s $(which fdfind) ~/.local/bin/fd
 snap fasd --beta
+
+# cat with highlighting
+sudo apt install bat
+if command -v batcat &> /dev/null; then
+  ln -s $(which batcat) ~/.local/bin/bat
+fi
 
 # Packages
 package zip

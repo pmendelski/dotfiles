@@ -15,8 +15,11 @@ export EDITOR="vim"
 
 # FZF defaults
 export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --inline-info'
-export FZF_DEFAULT_COMMAND='fd --type file'
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Bat defaults
+export BAT_THEME="TwoDark"
 
 # SDKVM - Global packages
 export SDKVM_NODE_PACKAGES="neovim http-server npm-check-updates eslint"
