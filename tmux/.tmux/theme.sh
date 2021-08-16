@@ -19,11 +19,10 @@ set -g pane-border-style "fg=colour238"
 set -g pane-active-border-style "fg=colour243"
 
 # The statusbar
+set -g status-style 'bg=default,fg=colour248'
 set -g status-justify left
 set -g status-position bottom
 set -g status-interval 2
-set -g status-fg colour248
-set -g status-bg default
 set -g status-right '#{prefix_highlight} #[fg=colour248]#(whoami)@#(hostname -s) #[fg=colour230]%d/%m %H:%M:%S '
 set -g status-right-length 50
 setw -g window-status-current-style "bold,fg=colour81,bg=colour238"

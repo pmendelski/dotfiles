@@ -19,7 +19,7 @@ function __flexiPromptTerminalTitle() {
 
 function __flexiPromptIncrementCmdCounter() {
   : ${__FLEXI_PROMPT_CMD_COUNTER:=0}
-  ((__FLEXI_PROMPT_CMD_COUNTER++))
+  ((++__FLEXI_PROMPT_CMD_COUNTER))
 }
 
 function __flexiPromptHandleTimer() {
@@ -28,15 +28,18 @@ function __flexiPromptHandleTimer() {
   [ ! $__FLEXI_PROMPT_TIMER_START ] && return
   __FLEXI_PROMPT_TIMER_DIFF=$(($(epoch) - $__FLEXI_PROMPT_TIMER_START))
   unset __FLEXI_PROMPT_TIMER_START
-  [ $__FLEXI_PROMPT_NOTIFY != 0 ] && [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ] && {
+  if [ $__FLEXI_PROMPT_NOTIFY != 0 ] && [ $__FLEXI_PROMPT_NOTIFY -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $(($__FLEXI_PROMPT_NOTIFY)) ]; then
     local -r message="Time: $(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)"
-    [ $exit = 0 ]; notifyLastCmd "$message"
-  }
+    notifyLastCmd "$message"
+  fi
+  return $exit
 }
 
 function __flexiPromptStartTimer() {
   __FLEXI_PROMPT_TIMER_START=${__FLEXI_PROMPT_TIMER_START:-$(epoch)}
-  [ $__FLEXI_PROMPT_TIMER_DIFF ] && unset __FLEXI_PROMPT_TIMER_DIFF
+  if [ -z "$__FLEXI_PROMPT_TIMER_DIFF" ]; then
+    unset __FLEXI_PROMPT_TIMER_DIFF
+  fi
 }
 
 function __flexiPromptPreCmd() {
@@ -49,7 +52,9 @@ function __flexiPromptPreCmd() {
 
 function __flexiPromptPreExec {
   local command="${2:-unknown}"
-  [ "$command" != "__flexiPromptPreCmd" ] && __flexiPromptTerminalTitle ${command}
+  if [ "$command" != "__flexiPromptPreCmd" ]; then
+    __flexiPromptTerminalTitle ${command}
+  fi
   __flexiPromptStartTimer
 }
 

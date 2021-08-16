@@ -45,13 +45,16 @@ brew install tmux
 brew install zsh
 brew install bash
 brew install bash-completion2
-brew install rustup
 brew install fasd
 brew install fd
 brew install ripgrep
 brew install bat
 brew install git-delta
 brew cask install java
+
+# Rust
+brew install rustup-init
+rustup-init -y --no-modify-path
 
 # Docker
 brew cask install docker
@@ -87,27 +90,31 @@ brew install nghttp2
 brew cleanup
 
 # Use GNU tools by defaults
-echo "/usr/local/opt/coreutils/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/findutils/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/binutils/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/diffutils/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/gnu-indent/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/gnu-which/libexec/gnubin" >> ~/.path
-echo "/usr/local/opt/grep/libexec/gnubin" >> ~/.path
+if ! grep -q "/usr/local/opt/coreutils/libexec/gnubin" ~/.path; then
+  echo "/usr/local/opt/coreutils/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/findutils/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/binutils/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/diffutils/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/gnu-indent/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/gnu-which/libexec/gnubin" >> ~/.path
+  echo "/usr/local/opt/grep/libexec/gnubin" >> ~/.path
+fi
 
 # Switch to using brew-installed shells as default
-sudo mv /bin/bash /bin/bash_old
-sudo mv /bin/zsh /bin/zsh_old
-sudo mv /bin/sh /bin/sh_old
-sudo chmod a-x /bin/bash_old
-sudo chmod a-x /bin/zsh_old
-sudo chmod a-x /bin/sh_old
-sudo ln -s /usr/local/bin/bash /bin/bash
-sudo ln -s /usr/local/bin/bash /bin/sh
-sudo ln -s /usr/local/bin/zsh /bin/zsh
+if [ "$(readlink -f /bin/bash)" != "/usr/local/bin/bash" ]; then
+  sudo mv /bin/bash /bin/bash_old
+  sudo mv /bin/zsh /bin/zsh_old
+  sudo mv /bin/sh /bin/sh_old
+  sudo chmod a-x /bin/bash_old
+  sudo chmod a-x /bin/zsh_old
+  sudo chmod a-x /bin/sh_old
+  sudo ln -s /usr/local/bin/bash /bin/bash
+  sudo ln -s /usr/local/bin/bash /bin/sh
+  sudo ln -s /usr/local/bin/zsh /bin/zsh
+fi
 
 # Install headers for python/ruby compilation
 if [ -f /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg ]; then
