@@ -12,4 +12,5 @@ curl -s \
 
 if command -v rustup &>/dev/null; then
   rustup completions zsh > "$DIR/_rustup" && echo "Installed rustup completion"
+  rustup completions zsh cargo > "$DIR/_cargo" && echo "Installed cargo completion"
 fi
