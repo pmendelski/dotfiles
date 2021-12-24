@@ -1,0 +1,104 @@
+local _M = {}
+
+local function get_listed_buffers()
+  local buffers = {}
+  local len = 0
+  local vim_fn = vim.fn
+  local buflisted = vim_fn.buflisted
+  for buffer = 1, vim_fn.bufnr('$') do
+    if buflisted(buffer) == 1 then
+      len = len + 1
+      buffers[len] = buffer
+    end
+  end
+  return buffers
+end
+
+function _M.close_buffer(buffer)
+  local treeView = require('nvim-tree.view')
+  local bufferline = require('bufferline')
+  local activeBuffer = vim.api.nvim_get_current_buf()
+
+  -- handle modified buffers
+  local isModified = tonumber(vim.api.nvim_eval('getbufvar(' .. buffer .. ', "&mod")'))
+  if isModified ~= nil and isModified > 0 then
+    print("Close buffer and drop unsaved changes: [y/n] ")
+    local decision = vim.api.nvim_eval("nr2char(getchar())")
+    if decision ~= "y" and decision ~= "Y" then
+      return
+    end
+  end
+
+  -- cycle to prev buffer befor closing for nvim tree
+  local explorerWindow = treeView.get_winnr()
+  local wasExplorerOpen = vim.api.nvim_win_is_valid(explorerWindow)
+  local buffers = tonumber(vim.api.nvim_eval("len(getbufinfo({'buflisted':1}))"))
+  if wasExplorerOpen and activeBuffer == buffer and buffers > 1 then
+    -- switch to previous buffer (tracked by bufferline)
+    bufferline.cycle(-1)
+  end
+
+  -- delete initially open buffer
+  pcall(vim.cmd, 'bdelete! ' .. buffer)
+end
+
+function _M.close_active_buffer()
+  _M.close_buffer(vim.api.nvim_get_current_buf())
+end
+
+function _M.close_other_buffers()
+  local active = vim.api.nvim_get_current_buf()
+  local buffers = get_listed_buffers()
+  for index, value in ipairs(buffers) do
+    if value ~= active then
+      _M.close_buffer(value)
+    end
+  end
+end
+
+function _M.config()
+  require('bufferline').setup({
+    highlights = {
+      fill = {
+        -- tweak for onedark theme
+        guibg = '#17191e',
+      },
+    },
+    options = {
+      numbers = function(opts)
+        return string.format('%s ', opts.ordinal)
+      end,
+      close_command = function(buff)
+        return _M.close_buffer(buff)
+      end,
+      right_mouse_command = 'vert sbuffer %d',
+      max_prefix_length = 15,
+      diagnostics = false,
+      show_close_icon = false,
+      offsets = {{filetype = "NvimTree", text = "Files", text_align = "center"}},
+      always_show_bufferline = false,
+    }
+  })
+
+  local map = require('util').keymap
+  -- closing buffers
+  map('n', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('i', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('v', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('n', 'bc', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('n', 'bo', "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr>")
+  map('n', 'ba', "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr><cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  -- cycling buffers
+  map('n', 'b[', '<cmd>:BufferLineCycleNext<cr>')
+  map('n', 'b]', '<cmd>:BufferLineCyclePrev<cr>')
+  -- moving buffers
+  map('n', 'B[', '<cmd>:BufferLineMoveNext<cr>')
+  map('n', 'B]', '<cmd>:BufferLineMovePrev<cr>')
+  -- picking buffers
+  local numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+  for _, num in pairs(numbers) do
+    map('n', '<leader>'..num, '<cmd>BufferLinePick '..num..'<cr>')
+  end
+end
+
+return _M

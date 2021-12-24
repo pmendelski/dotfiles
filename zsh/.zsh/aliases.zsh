@@ -11,3 +11,6 @@ alias o='a -e xdg-open'
 
 # History
 alias hist='history | grep --color '
+
+# Rust analyzer
+alias rust-analyzer='rustup run nightly rust-analyzer'

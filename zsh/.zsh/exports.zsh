@@ -21,3 +21,7 @@ PROMPT_EOL_MARK=''
 
 # Default PS1
 PS1="%n@%m:%~%# "
+
+# Required by Gogh
+# https://github.com/Mayccoll/Gogh#install-non-interactive-mode
+TERMINAL="gnome-terminal"

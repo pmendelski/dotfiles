@@ -1,5 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
-let g:netrw_dirhist_3='/home/mendlik/.dotfiles/nvim/.nvim'
-let g:netrw_dirhist_2='/home/mendlik/.dotfiles/vim'
-let g:netrw_dirhist_1='/home/mendlik/.dotfiles/bash'
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/mendlik/Development/rust/simple-server/src'
+let g:netrw_dirhist_4='/home/mendlik/Development/rust/simple-server'

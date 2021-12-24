@@ -26,6 +26,8 @@ sudo apt install -y cheese
 sudo apt install -y kazam
 # Vide editing tool
 sudo snap install shotcut --classic
+# mpeg thumbnails
+apt-get install -y ffmpegthumbnailer
 
 echo -e "\n>>> Music"
 # Music tag tools
@@ -42,3 +44,6 @@ sudo snap install spotify
 echo -e "\n>>> Ebooks"
 # eBook reader
 sudo apt install -y calibre
+
+echo -e "\n>>> PDF"
+sudo apt-get install poppler-utils

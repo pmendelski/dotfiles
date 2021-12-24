@@ -21,3 +21,6 @@ indent_size = 4
 [Makefile]
 indent_style = tab
 indent_size = 1
+
+[*.{xml,html,xhtml,css,scss,javascript,lua,yaml,yml}]
+indent_size = 2

@@ -18,16 +18,21 @@ sudo apt-get install -y \
 ln -s $(which fdfind) ~/.local/bin/fd
 sudo snap install fasd --beta
 sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
-
 # cat with highlighting
 sudo apt install bat
 if command -v batcat &> /dev/null; then
   ln -s $(which batcat) ~/.local/bin/bat
 fi
+# htop
+sudo apt-get install htop
+# Lazygit
+# Replace with gitui when it's in apt-get/snap
+sudo add-apt-repository -y ppa:lazygit-team/release
+sudo apt-get update
+sudo apt-get install -y lazygit
 
-echo -e "\n>>> NEOVIM"
-package neovim
-package python3-neovim
+echo -e "\n>>> Neovim"
+sudo snap install nvim --classic
 
 echo -e "\n>>> Rar/zip"
 sudo apt-get install -y \

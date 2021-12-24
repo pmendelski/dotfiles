@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# This scipt is needed for rust-analyzer to work with nvim
+# until stable version of rust-analyzer is released
+# https://rust-analyzer.github.io/manual.html#rustup
+
+rustup run nightly rust-analyzer $@

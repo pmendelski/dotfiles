@@ -1,153 +1,141 @@
-" Tutorial {{{
+" After adding new plugin run:
+"  :PlugInstall
+" Required at the top by vim-polyglot
+set nocompatible
+runtime plugins/vim-plug/plug.vim
+call plug#begin('~/.vim/plugins')
+" Colorscheme
+Plug 'joshdick/onedark.vim'
+" Nice status bar
+Plug 'itchyny/lightline.vim'
+" Git branchname in statusbar
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+" Code comments
+Plug 'tpope/vim-commentary'
+" Syntax highlight
+Plug 'sheerun/vim-polyglot'
+" Editor config
+Plug 'editorconfig/editorconfig-vim'
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" Indentline
+Plug 'Yggdroot/indentLine'
+" Expand selected region
+Plug 'terryma/vim-expand-region'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-entire'
+call plug#end()
 
-" Searching inside a file:
-" - Search: /<phrase>
-" - Next: n
-" - Turn off highlight: :noh OR <leader><space>
+"" General
+let mapleader="\<space>"
+set encoding=utf8             " utf8 by default
+set mouse=a                   " enable mouse in all in all modes
+set clipboard=unnamed,unnamedplus " copy/paste to system clipboard
+set shell=/bin/sh             " use sh for executing shell commands
+set nocompatible              " some compatybility issues
+set updatetime=150
+set synmaxcol=240             " max column for syntax highlight
 
-" Folding in a file:
-" - Default folding marker: indentation
-" - Fold/unfold: za OR <space>
+"" UI
+set whichwrap+=<,>,h,l,[,],<>
+set visualbell                " use visual bell instead of audible bell (anoying)
+set number                    " show line number
+set showmatch                 " highlight matching parenthesis
+set colorcolumn=100           " line lenght marker at 100 columns
+set splitright                " vertical split to the right
+set splitbelow                " horizontal split to the bottom
+set showcmd                   " show (partial) command in status line
+set completeopt=menuone,noinsert " :help completeopt
+set ttyfast                   " send more characters at a given time
+set lazyredraw                " faster scrolling
+set synmaxcol=500             " max column for syntax highlight
+set termguicolors             " enable 24-bit RGB colors
+set cursorline
+set shortmess+=c              " avoid showing extra messages when using completion
+syntax on
+colorscheme onedark
 
-" Undo/Redo:
-" - Undo: u
-" - Redo: Ctrl-r
-" - Undo line to original state: U
-
-" White characters:
-" - Show: :list
-" - Hide: :nolist
-
-" Buffers:
-" - Switching: Ctrl-^
-" - Listing: :buffers
-" - Close: :bd OR :bw (:bw writes down changes)
-
-" .vimrc examples:
-" https://github.com/paulirish/dotfiles/blob/master/.vimrc
-" http://dougblack.io/words/a-good-vimrc.html
-
-" }}}
-
-runtime bundles/pathogen/autoload/pathogen.vim
-execute pathogen#infect('bundles/{}')
-
-" Colors {{{
-set t_Co=256            " terminal compatybility
-syntax enable           " enable syntax processing
-set background=dark
-colorscheme molotov
-" }}}
-
-" Misc {{{
-set esckeys             " allow cursor keys in insert mode
-" set lazyredraw          " faster but console resizing doesn't work
-set mouse=a             " enable mouse in all in all modes
-set nocompatible        " some compatybility issues
-set shell=/bin/sh       " use /bin/sh for executing shell commands
-set ttyfast             " send more characters at a given time
-set ttymouse=xterm      " set mouse type to xterm
-set undofile            " persistent Undo
-set visualbell          " use visual bell instead of audible bell (anoying)
-" }}}
-
-" Spaces & Tabs {{{
-set nocompatible        " Because filetype detection doesn't work well in compatible mode
-filetype indent on      " load filetype-specific indent files
-filetype plugin on      " load filetype-specific plugins
-set autoindent          " copy indent from last line when starting new line
-set backspace=indent,eol,start
-set expandtab           " use spaces for tabs
-set shiftwidth=4
-set softtabstop=4       " number of spaces in tab when editing
-set tabstop=4           " number of visual spaces per TAB
-" set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:< " secure mapping for white characters
-set listchars=eol:¬,tab:¦\ ,trail:•,extends:»,precedes:« " secure mapping for white characters
-set list                " by default present whitecharacters
-" }}}
-
-" Windows {{{"
-set splitbelow          " new window goes below
-set splitright          " new windows goes right
-set winminheight=0      " allow splits to be reduced to a single line
-" }}}
-
-" UI Layout {{{
-set cursorline          " highlight current line
-set modelines=1
-set nostartofline       " don't reset cursor to start of line when moving around
-set nowrap              " do not wrap lines
-set number              " show line numbers
-set ruler               " show the cursor position
-set scrolloff=3         " start scrolling three lines before horizontal border of window
-set shortmess=atI       " don't show the intro message when starting vim
-set showcmd             " show command in bottom bar
-set showmatch           " higlight matching parenthesis
-set sidescrolloff=3     " start scrolling three columns before vertical border of window
-set title               " show the filename in the window titlebar
-" }}}
-
-" Diff {{{
-set diffopt=filler      " add vertical spaces to keep right and left aligned
-set diffopt+=iwhite     " ignore whitespace changes (focus on code changes)
-" }}}
-
-" Searching {{{
-set gdefault            " by default add g flag to search/replace. Add g to toggle
-set hlsearch            " highlight all matches
-set ignorecase          " ignore case when searching
-set incsearch           " search as characters are entered
-set magic               " enable extended regexes
-set regexpengine=1      " use the old regular expression engine (it's faster for certain language syntaxes)
-set smartcase           " ignore 'ignorecase' if search patter contains uppercase characters
-set suffixes=.class,.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll " omit during file match
-set wrapscan            " searches wrap around end of file
-" }}}
-
-" Leader shortcuts {{{
-let mapleader=","                        " leader is comma
-nnoremap <leader><space> :nohlsearch<CR> " turn off search highlight
-nnoremap <leader>s :mksession<CR>        " save session, restore with: vim -S
-" }}}
-
-" History {{{
-set hidden              " when a buffer is brought to foreground, remember undo history and marks
-set history=1000        " increase history from 20 default to 1000
-" }}}
-
-" Wild menu {{{
-set wildchar=<TAB>      " character for CLI expansion (TAB-completion)
-set wildignore+=.DS_Store
-set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js,*.class
-set wildignore+=*/bower_components/*,*/node_modules/*,*/target/*,*/build/*
-set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
-set wildmenu            " hitting TAB in command mode will show possible completions above command line
-set wildmode=list:longest " complete only until point of ambiguity
-" }}}
-
-" Folding {{{
-nnoremap <space> za     " space open/closes folds
+" Folding
 set foldcolumn=0        " column to show folds
 set foldenable          " enable folding
 set foldlevel=10        " close all folds starting from depth of 10
 set foldmethod=syntax   " fold using syntax
 set foldminlines=0      " allow folding single lines
 set foldnestmax=10      " set max fold nesting level
-" }}}
 
-" Format {{{
-set formatoptions=
-set formatoptions+=c    " format comments
-set formatoptions+=r    " continue comments by default
-set formatoptions+=o    " make comment when using o or O from comment line
-set formatoptions+=q    " format comments with gq
-set formatoptions+=n    " recognize numbered lists
-set formatoptions+=2    " use indent from 2nd line of a paragraph
-set formatoptions+=l    " don't break lines that are already long
-set formatoptions+=1    " break before 1-letter words
-" }}}
+"" History
+set hidden         " when a buffer is brought to foreground, remember undo history and marks
+set history=1000   " increase history from 20 default to 1000
 
-" Tmux {{{
+"" Search & replace
+set hlsearch                 " highlight all matches
+set ignorecase               " ignore case letters when search
+set smartcase                " ignore lowercase for the whole pattern
+set incsearch                " search as characters are entered
+set gdefault                 " by default add g flag to search/replace. Add g to toggle
+set magic                    " enable extended regexes
+set regexpengine=1           " use the old regular expression engine (it's faster for certain language syntaxes)
+set wrapscan                 " searches wrap around end of file
+
+"" Diff
+set diffopt+=filler
+set diffopt+=iwhite
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
+
+"" Temporary files
+set noswapfile              " don't use swapfile
+set undofile                " persistent Undo
+set backupdir=~/.vim/tmp/backups
+set directory=~/.vim/tmp/swaps
+set undodir=~/.vim/tmp/undo
+
+"" Wildmenu
+set wildmenu
+set wildchar=<TAB>
+set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
+set wildmode=list:longest
+
+"" Print options
+set printfont=:h10
+set printencoding=utf-8
+set printoptions=paper:A4
+
+"" Wrapping, spaces & tabs
+set autoindent        " copy indent from last line when starting new line
+set copyindent
+set backspace=indent,eol,start
+set expandtab         " use spaces for tabs
+set shiftwidth=4
+set softtabstop=4     " number of spaces in tab when editing
+set tabstop=4         " number of visual spaces per TAB
+" Wrapping options
+set nowrap
+set formatoptions+=tc " wrap text and comments using textwidth
+set formatoptions+=r  " continue comments when pressing ENTER in I mode
+set formatoptions+=q  " enable formatting of comments with gq
+set formatoptions+=n  " detect lists for formatting
+set formatoptions+=b  " auto-wrap in insert mode, and do not wrap old long lines
+" Whitespace characters
+set list
+set listchars=space:·,eol:¬,tab:▸\ ,nbsp:±,trail:·,extends:»,precedes:«
+
+"" Spellcheck
+set spell
+set spelllang=en,cjk
+
+"" File type related
+filetype indent on " load filetype-specific indent files
+filetype plugin on "  load filetype-specific plugins
+" remove line lenght marker for selected filetypes
+autocmd FileType text,markdown,xml,json,yaml,html,xhtml,javascript setlocal cc=0
+" 2 spaces for selected filetypes
+autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
+
+" Tmux
 if &term =~ '^screen'
   " tmux will send xterm-style keys when its xterm-keys option is on
   " http://superuser.com/a/402084
@@ -156,74 +144,56 @@ if &term =~ '^screen'
   execute "set <xRight>=\e[1;*C"
   execute "set <xLeft>=\e[1;*D"
 endif
-" }}}
 
-" Local directories {{{
-set backupdir=~/.vim/tmp/backups
-set directory=~/.vim/tmp/swaps
-set undodir=~/.vim/tmp/undo
-" }}}
+" Plugin: lightline
+let g:lightline = {
+  \ 'colorscheme': 'onedark',
+  \ }
+set laststatus=2
 
-" Filetypes {{{
-  " JSON {{{
-  augroup filetype_json
-    autocmd!
-    au BufRead,BufNewFile *.json setlocal ft=json syntax=javascript
-    au BufRead,BufNewFile *.json setlocal tabstop=2 shiftwidth=2 softtabstop=2 " smaller tabs for json files
-  augroup END
-  " }}}
+" Plugin: vim-expand-region
+" Expand on v and c-v
+vmap v <plug>(expand_region_expand)
+vmap <c-v> <plug>(expand_region_shrink)
+" More expansion boundaries
+call expand_region#custom_text_objects({
+  \ 'a]': 1,
+  \ 'a>': 1,
+  \ 'ab': 1,
+  \ 'aB': 1,
+  \ })
 
-  " YAML {{{
-  augroup tiletype_yaml
-    autocmd!
-    " smaller tabs for yaml files
-    autocmd FileType yaml setlocal tabstop=2
-    autocmd FileType yaml setlocal softtabstop=2
-    autocmd FileType yaml setlocal shiftwidth=2
-  augroup END
-  " }}}
 
-" }}}
+" Plugin: fzf
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+" Search file by content
+noremap <silent> <leader>s :Rg<cr>
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+" Open file
+nnoremap <leader>o :Files<cr>
+" Open file adjacent to current file
+nnoremap <leader>l :Files expand("%:p:h") "/" <cr>
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" Plugins {{{
 
-  " CtrlP.vim {{{
-  augroup ctrlp_config
-    autocmd!
-    let g:ctrlp_match_window = 'bottom,order:ttb'
-    let g:ctrlp_switch_buffer = 0
-    let g:ctrlp_working_path_mode = 0
-  augroup END
-  " }}}
+" Open new file adjacent to current file
+nnoremap <leader>n :e <C-R>=expand("%:p:h") . "/" <cr>
+" Open buffer
+nnoremap <silent> <leader>; :Buffers<cr>
+" Toggle buffers
+nnoremap <leader><leader> <c-^>
+" Delete buffer
+nnoremap <leader>d :bp<bar>sp<bar>bn<bar>bd<cr>
 
-  " Syntastic.vim {{{
-  augroup syntastic_config
-    autocmd!
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 1
-    let g:syntastic_error_symbol = '>>'
-    let g:syntastic_warning_symbol = '>>'
-    let g:syntastic_javascript_checkers = ['eslint']
-    let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-  augroup END
-  " }}}
 
-  " IndentLine.vim {{{
-  augroup syntastic_config
-    let g:indentLine_enabled=1
-    let g:indentLine_char='¦'
-    let g:indentLine_color_term=239
-    let g:indentLine_concealcursor=0
-    let g:indentLine_leadingSpaceChar='.'
-    let g:indentLine_leadingSpaceEnabled=1
-  augroup END
-  " }}}
-
-" }}}"
-
-" vim:foldmethod=marker:foldlevel=0
+let g:indentLine_char_list = ['|']

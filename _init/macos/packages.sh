@@ -51,6 +51,14 @@ brew install ripgrep
 brew install bat
 brew install git-delta
 brew cask install java
+brew install lazygit
+brew install htop
+
+# Mpeg thumnails
+brew install ffmpegthumbnailer
+
+# PDF
+brew install poppler
 
 # Rust
 brew install rustup-init

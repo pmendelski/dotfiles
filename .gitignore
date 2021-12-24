@@ -3,8 +3,9 @@ vim/.vim/tmp/backups
 vim/.vim/tmp/swaps
 vim/.vim/tmp/undo
 vim/.vim/.netrwhist
-nvim/.nvim/plugins
+nvim/.nvim/plugin
 nvim/.nvim/tmp
+nvim/.nvim/spell/*.spl
 nvim/.nvim/.netrwhist
 bash/.bash/tmp
 zsh/.zsh/tmp

@@ -22,6 +22,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export BAT_THEME="TwoDark"
 
 # SDKVM - Global packages
-export SDKVM_NODE_PACKAGES="neovim http-server npm-check-updates eslint"
-export SDKVM_PYTHON_PACKAGES="neovim"
+export SDKVM_NODE_PACKAGES="neovim http-server npm-check-updates eslint eslint_d bash-language-server vscode-langservers-extracted pyright sql-language-server svelte-language-server typescript typescript-language-server yaml-language-server vls graphql-language-service-cli dockerfile-language-server-nodejs diagnostic-languageserver"
+export SDKVM_GO_PACKAGES="golang.org/x/tools/gopls@latest github.com/mattn/efm-langserver@latest github.com/jesseduffield/lazygit@latest"
+export SDKVM_PYTHON_PACKAGES="neovim ueberzug bpytop"
 export SDKVM_RUBY_PACKAGES="neovim"

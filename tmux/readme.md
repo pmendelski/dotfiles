@@ -16,6 +16,7 @@
 | `C-a`         | **Prefix** for most other tmux keybindings |
 | `C-[`         | **Copy Mode** enters so called copy mode |
 | `:`           | **Command mode** |
+| `C-a z`       | **zen mode** toggles status bar |
 
 ### Sessions
 

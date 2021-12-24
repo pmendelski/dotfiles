@@ -8,11 +8,14 @@ set-window-option -g xterm-keys on
 # More like vim
 setw -g mode-keys vi
 # Reload config file (change file location to your the tmux.conf you want to use)
-bind r source-file ~/.tmux.conf \; display "Reloaded!"
+# bind r source-file ~/.tmux.conf \; display "Reloaded!"
+bind r source-file ~/.tmux.conf
 bind D send-keys "sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/tmux/readme.md' 1>&2 2>/dev/null &" Enter
 # emacs key bindings in tmux command prompt (prefix + :) are better than
 # vi keys, even for vim users
 set -g status-keys emacs
+# Toggle status for zen experience
+bind z set status
 
 # Mouse
 # =====
@@ -70,10 +73,10 @@ bind _ setw synchronize-panes
 # =========
 # Delete recent buffer - '-' is used to split panes
 bind + delete-buffer
-# enter copy mode & scroll
-bind -n C-PPage copy-mode -u
-bind -n C-Up copy-mode \; send-keys C-y
-bind -n C-Down copy-mode \; send-keys C-e
+# enter copy mode & scroll - breaks vim keybindings
+# bind -n C-PPage copy-mode -u
+# bind -n C-Up copy-mode \; send-keys C-y
+# bind -n C-Down copy-mode \; send-keys C-e
 # Enable Ctrl + arrows in copy mode-keys
 bind -T copy-mode-vi C-Left send-keys -X previous-word
 bind -T copy-mode-vi C-Right send-keys -X next-word

@@ -35,6 +35,9 @@ alias egrep='egrep --color=auto'
 # Fast clear
 alias clr='clear'
 
+# Lazy git
+alias lg='lazygit'
+
 # fd
 alias fd="fd --hidden"
 
@@ -48,6 +51,9 @@ alias hosts="sudo $EDITOR /etc/hosts"
 alias v="vim"
 alias editor="$EDITOR"
 alias e="$EDITOR"
+
+# Nvim
+alias nvim-update="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
 
 # Shortcuts
 alias g="git"

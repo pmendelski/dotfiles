@@ -62,6 +62,11 @@ notifyLastCmd() {
     tail -n 1 | \
     sed -e 's/^\s*[0-9]*\s*[0-9-]*\s[0-9:]*\s*//' \
   )"
+  while read cmd; do
+    if [[ "$lastCmd" == "$cmd" ]] || [[ "$lastCmd" == ^$cmd\ .* ]]; then
+      return
+    fi
+  done < <(echo "${NOTIFY_LAST_CMD_BLACKLIST:-nvim vim gitk}" | tr ' ' '\n')
   if [ $lastStatus = 0 ]; then
     notify -t "$lastCmd" -s "Status: Success" "$@"
   else

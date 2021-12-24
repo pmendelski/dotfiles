@@ -1,27 +1,42 @@
 # NVIM
 
+[Neovim](https://neovim.io/) - hyperextensible Vim-based text editor
+
 ## Keybindings
 Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 
 ### Movement
 
-| Keybinding         | Mode   | Action  |
+| Keybinding         | Action  |
 |--------------------|--------|---------|
-| `h`/`j`/`k`/`l`    | N | **jump** left/down/up/right |
-| `<C-o>`/`<C-l>`    | N | **jump** to next/previous visited position |
-| `H`/`M`/`L`        | N | **jump** to top/middle/bottom of the screen |
-| `gg`/`G`           | N | **jump** to the end of the document |
-| `{num}G`           | N | **jump** to a line |
-| `0`/`$`            | N | **jump** to beginning/end of the line |
-| `^`/`g_`           | N | **jump** to first/last non blank character in the line |
-| `w`/`W`            | N | **jump** to the start of a word (with puntuation treateded as a part of a word) |
-| `b`/`B`            | N | **jump** backwords to the start of a word (with puntuation treateded as a part of a word) |
-| `e`/`E`            | N | **jump** to the end of a word (with puncruation treated as a part of a word) |
-| `%`                | N | **jump** to matching character `()`, `[]`, `{}` |
-| `{`/`}`            | N | **jump** to the next/previous paragraiph |
-| `f{char}`/`F`      | N | **jump** to next (previous) character `{char}` in line |
-| `t{char}`/`T`      | N | **jump** to before next (previous) character `{char}` in line |
-| `;`/`,`            | N | **repeat** last jump done with `f`, `F`, `t`, `T` (backwards) |
+| `h`/`j`/`k`/`l`    | **move** left/down/up/right |
+| `<C-o>`/`<C-l>`    | **jump** to next/previous visited position |
+| `H`/`M`/`L`        | **jump** to top/middle/bottom of the screen |
+| `]]`/`[[`          | **jump** to the next/previous `{` |
+| `gg`/`G`           | **jump** to the end of the document |
+| `{num}G`           | **jump** to a line |
+| `0`/`$`            | **jump** to the beginning/end of the line |
+| `^`/`g_`           | **jump** to the first/last non blank character in the line |
+| `w`/`W`            | **jump** to the start of a word (with punctuation treated as a part of a word) |
+| `b`/`B`            | **jump** backwards to the start of a word (with punctuation treated as a part of a word) |
+| `e`/`E`            | **jump** to the end of a word (with punctuation treated as a part of a word) |
+| `%`                | **jump** to matching character `()`, `[]`, `{}` |
+| `{`/`}`            | **jump** to the next/previous paragraph |
+| `f{char}`/`F`      | **jump** to next (previous) character `{char}` in line |
+| `t{char}`/`T`      | **jump** to before next (previous) character `{char}` in line |
+| `;`/`,`            | **repeat** last jump done with `f`, `F`, `t`, `T` (backwards) |
+
+### Search and replace
+
+| Keybinding         | Action  |
+|--------------------|---------|
+| `/<pattern>`       | **search forward** for a pattern |
+| `?<pattern>`       | **search backward** for a pattern |
+| `n`                | **jump to next** occurrence |
+| `N`                | **jump to previous** occurrence |
+| `*`                | **search and jump to next** occurrence of word under cursor |
+| `#`                | **search and jump to previous** occurrence of word under cursor |
+| `<Esc>`            | **turn off** search highlight |
 
 ### Editing
 
@@ -42,7 +57,12 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 
 | Keybinding         | Mode   | Action  |
 |--------------------|--------|---------|
+| `F12`              | N | enter `ZEN` mode (`<ctrl-a z>` hides tmux status bar) |
 | `i`                | N | enter `INSERT` mode |
+| `a`                | N | enter `INSERT` mode but put cursor after selected placement |
+| `o`                | N | enter `INSERT` mode and put add a new line before |
+| `O`                | N | enter `INSERT` mode and put add a new line after |
+| `A`                | N | enter `INSERT` mode but put cursor at the end of line |
 | `v`                | N | enter `VISUAL` mode |
 | `<Shift>-v`        | N | enter `VISUAL-LINE` mode |
 | `<Alt>-v`          | N | enter `VISUAL-BLOCK` mode (custom, by default it's ctrl-v) |
@@ -68,9 +88,9 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `gg`/`G`           | to the end of the document |
 | `0`/`$`            | to beginning/end of the line |
 | `^`/`g_`           | to first/last non blank character in the line |
-| `w`/`W`            | to the start of a word (with puntuation treateded as a part of a word) |
-| `b`/`B`            | backwords to the start of a word (with puntuation treateded as a part of a word) |
-| `e`/`E`            | to the end of a word (with puncruation treated as a part of a word) |
+| `w`/`W`            | to the start of a word (with punctuation treated as a part of a word) |
+| `b`/`B`            | backwards to the start of a word (with punctuation treated as a part of a word) |
+| `e`/`E`            | to the end of a word (with punctuation treated as a part of a word) |
 | `aw`               | a word (with white space) |
 | `iw`	             | inner word |
 | `aW`               | a WORD (with white space) |
@@ -106,18 +126,6 @@ Enabled `Ctrl-[cvx]` keybindings and made vim use system clipboard.
 | `<Ctrl>-v`         | I | **paste** |
 | `<Ctrl>-x`         | V | **cut** selection |
 
-### Git
-
-Ues: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
-
-| Keybinding         | Mode   | Action  |
-|--------------------|--------|---------|
-| `h-[`              | N | **jump** to next hunk |
-| `h-]`              | N | **jump** to previous hank |
-| `<Leader>-hp`      | N | **preview** hunk |
-| `:Git`             | C | **show** changed files |
-| `:Gdiffsplit`      | C | **diff** current file changes |
-
 ### Undo-Redo
 
 | Keybinding         | Mode   | Action  |
@@ -126,6 +134,28 @@ Ues: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](http
 | `<Ctrl>-r`         | * | **redo** |
 | `<Ctrl>-z`         | I | **undo** |
 | `<Ctrl>-y`         | I | **redo** |
+
+### Spellchecking
+
+| Keybinding         | Action  |
+|--------------------|---------|
+| `z=`    | **fix** using dictionary |
+| `zg`    | **add** to dictionary |
+| `[s`    | **go to next** error |
+| `]s`    | **go to previous** error |
+| `<F9>` | **toggle** spellcheck |
+
+### Git
+
+Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
+
+| Keybinding         | Mode   | Action  |
+|--------------------|--------|---------|
+| `h-[`              | N | **jump** to next hunk |
+| `h-]`              | N | **jump** to previous hank |
+| `<Leader>-hp`      | N | **preview** hunk |
+| `:Git`             | C | **show** changed files |
+| `:Gdiffsplit`      | C | **diff** current file changes |
 
 ### Configuration file
 
@@ -150,31 +180,88 @@ Ues: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](http
 | `<leader> t`       | N | **toggle** terminal pane |
 | `<Alt>-t`          | N | **focus** terminal pane |
 
-## Buffers
+# Hopping
 
-| Keybinding         | Mode   | Action  |
-|--------------------|--------|---------|
-| `<Leader> ;`       | N | **show** buffer list |
-| `<Leader> d`       | N | **close** buffer |
+| Keybinding         | Action  |
+|--------------------|---------|
+| `h<char>`       | **hop forward in current line** to given character |
+| `H<char>`       | **hop backward in current line** to given character |
+| `<leader>hw`       | **hop to word** in whole file |
+| `<leader>hl`       | **hop to line** in whole file |
+| `<leader>h/`       | **hop to pattern** in whole file |
 
 # Code
 
-| Keybinding         | Mode   | Action  |
-|--------------------|--------|---------|
-| `<Ctrl>-/`         | N,I | **(un)comment** line or selection (in V mode) |
-| `<Ctrl>-s`         | * | **save and format** file |
-| `g>`, `g<`, `gs`   | N | **swap** coma separated values like arguments ([vim-swap](https://github.com/machakann/vim-swap)) |
-| `<Leader> fmd`     | N | **change syntax** to markdown |
-| `<Leader> fj`      | N | **change syntax** to java |
-| `<Leader> frs`     | N | **change syntax** to rust |
-| `<Leader> fsh`     | N | **change syntax** to shell |
-| `<Leader> fjson`   | N | **change syntax** to json |
-| `<Leader> fyml`    | N | **change syntax** to yaml |
-| `<Leader> ftml`    | N | **change syntax** to toml |
-| `<Leader> fkt`     | N | **change syntax** to kotlin |
-| `<Leader> fgr`     | N | **change syntax** to groovy |
-| `<Leader> fjs`     | N | **change syntax** to js |
-| `<Leader> fts`     | N | **change syntax** to ts |
+| Keybinding         | Action  |
+|--------------------|---------|
+| `]]`/`[[`          | **jump** to the next/previous `{` |
+| `<Ctrl>-/`         | **(un)comment** line or selection (in V mode) |
+| `<Ctrl>-s`         | **save and format** file |
+| `gd`               | **go to** definition |
+| `gD`               | **go to** declaration |
+| `gi`               | **go to** implementation |
+| `gf`               | **go to** file in the import |
+| `gg`               | **find** references |
+| `gh`               | **display** documentation |
+| `gr`               | **rename** |
+| `gc`               | **code action** |
+| `gp`               | **display** diagnostic problem |
+| `gP`               | **display** line diagnostic problem |
+| `g>`, `g<`, `gs`   | **swap** coma separated values like arguments ([vim-swap](https://github.com/machakann/vim-swap)) |
+| `[d`/`gx`          | **go to** next diagnostic problem |
+| `]d`               | **go to** previous diagnostic problem |
+
+### Buffers
+
+| Keybinding         | Action  |
+|--------------------|---------|
+| `<Leader> ;`       | **show** buffer list |
+| `<Leader> d`       | **close** buffer |
+| `<Leader>-[1-9]`   | **open** buffer by tab number |
+| `b[`/`b]`          | **open** previous/next tab buffer |
+| `<Ctrl>-Left`/`<Ctrl>-Right` | **open** open previous/next tab buffer |
+| `B[`/`B]`          | **move** tab buffer back/forward |
+| `<Ctrl>-x` or `bc` | **close** active tab buffer |
+| `ba`/`bo`          | **close** all/other tab buffers |
+
+### Tree
+
+| Keybinding         | Action  |
+|--------------------|---------|
+| `<F2>`              | **open** tree pane |
+| `<F3>`              | **open** current file in tree pane |
+| `+` / `-` / `=`     | **resize** tree pane |
+| `<Enter>`           | **open** file/directory |
+| `<Backspace>`       | **close** directory |
+| `R`                 | **refresh** the tree |
+| `a`                 | **add** a file/directory - adding directory requires leaving a leading / at the end of the path. |
+| `r`                 | **rename** a file/directory |
+| `<Ctrl>-r`          | **rename** a file and omit the filename on input |
+| `x`                 | **cut** file/directory to clipboard |
+| `c`                 | **copy** file/directory to clipboard |
+| `p`                 | **paste** from clipboard |
+| `d`                 | **delete** a file |
+| `y`                 | **copy name** to system clipboard |
+| `Y`                 | **copy relative path** to clipboard |
+| `gy`                | **copy absolute path** to system clipboard |
+| `<Ctrl-]>`          | **cd** into the directory under the cursor |
+| `<Ctrl-[>`          | **cd** into the parent directory |
+| `o`                 | **open a file** with default system application |
+| `s`                 | **open in a horizontal split** |
+| `v`                 | **open in a vertical split** |
+| `t`                 | **open in a new tab** |
+| `<Tab>`             | **open as a preview** (keeps the cursor in the tree) |
+| `I`                 | **toggle visibility of folders** hidden via `g:nvim_tree_ignore` |
+| `H`                 | **toggle visibility of dotfiles** |
+
+### F Keys
+
+| Keybinding         | Action  |
+|--------------------|---------|
+| `F1`               | **Terminal** |
+| `F2`               | **Toggle file tree** |
+| `F3`               | **Locate file in file tree** |
+| `F12`              | **Zen Mode** |
 
 ### Others
 
@@ -183,5 +270,3 @@ Ues: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](http
 | `gx`               | N | **open** link under cursor |
 | `za`               | N | **toggle** fold |
 | `<Leader> w`       | N | **toggle** word wrap |
-| `<Esc>`            | N | **turn off** search highlight |
-

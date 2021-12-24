@@ -14,9 +14,10 @@ sudo snap install keepassxc
 
 echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
-sudo snap install sublime-text --classic
-sudo ln -s /snap/sublime-text/current/opt/sublime_text/sublime_text /usr/local/bin/subl
+# VSCode
 sudo snap install code --classic
+# debug extension for rust debugging in nvim
+code --install-extension vadimcn.vscode-lldb
 # Git merge tool
 sudo apt-get install -y meld
 # Sublime
@@ -57,19 +58,24 @@ sudo apt install -y ./compass.deb)
 echo -e "\n>>> IntelliJ Idea"
 sudo snap install intellij-idea-community --classic
 
+echo -e "\n>>> Nicer launcher"
+sudo add-apt-repository -y ppa:agornostal/ulauncher
+sudo apt -y update && sudo apt install -y ulauncher
+
 echo -e "\n>>> Nicer fonts"
 sudo apt-get install -y fonts-inconsolata
 sudo apt-get install -y fonts-firacode
+sudo apt-get install -y fonts-hack-ttf
 installNerdFonts() {
   mkdir -p ~/.local/share/fonts
-  local -r fonts=('DroidSansMono' 'FiraCode' 'Inconsolata')
+  local -r fonts=('DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata')
   local -r dir="$(pwd)"
   local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
   cd "$tmpdir"
   # echo "Tmp: $tmpdir"
   for font in "${fonts[@]}"; do
     wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
-      && unzip "$font.zip" -d ~/.local/share/fonts \
+      && unzip -o "$font.zip" -d ~/.local/share/fonts \
       && echo "Installed nerd font: $font"
   done
   rm -rf "$tmpdir"
@@ -79,8 +85,3 @@ installNerdFonts
 
 fc-cache -fv
 echo "done!"
-sudo fc-cache -fv
-
-echo -e "\n>>> Nicer launcher"
-sudo add-apt-repository -y ppa:agornostal/ulauncher
-sudo apt -y update && sudo apt install -y ulauncher
