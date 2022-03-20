@@ -110,20 +110,9 @@ map('n', '<c-tab>', ':join!')
 -- Duplicate lines
 map('n', '<c-d>', 'yyp')
 map('i', '<c-d>', '<esc>yypi')
-map('v', '<c-d>', 'yp')
+map('v', '<c-d>', 'yP')
 -- Copy whole line
 map('n', 'Y', 'Vy<esc>')
-
--- Copy and paste
------------------------------------------------------------
--- Ctrl-c - copy (visual)
--- Ctrl-x - cut (visual)
--- Ctrl-v - paste (insert)
-map('n', '<M-v>', '<c-v>')
-map('n', '<c-v>', 'p')
-map('v', '<c-c>', 'y`]')
-map('v', '<c-x>', 'c`]')
-map('i', '<c-v>', '<esc>p')
 
 -- Undo and redo
 -----------------------------------------------------------

@@ -53,6 +53,12 @@ function _M.config()
           -- even more opts
         }
       }
+    },
+    pickers = {
+      lsp_document_symbols = {
+        symbol_width = 60,
+        symbol_type_width = 100
+      }
     }
   })
   telescope.load_extension('ui-select')

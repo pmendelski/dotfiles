@@ -19,7 +19,7 @@ local conditions = {
     return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
   end,
   buffer_not_tree = function()
-    return vim.fn.expand('%:t') ~= "NvimTree"
+    return vim.bo.filetype ~= "NvimTree"
   end,
   buffer_wide = function()
     return vim.fn.winwidth(0) > 80
@@ -152,6 +152,15 @@ local lsp_progress = {
   end
 }
 
+local filename = {
+  function()
+    if vim.bo.filetype == "NvimTree" then
+      return "NvimTree"
+    end
+    return vim.fn.expand('%:t')
+  end,
+}
+
 require('lualine').setup {
   options = {
     theme = 'tokyonight'
@@ -159,7 +168,7 @@ require('lualine').setup {
   sections = {
     lualine_a = {mode},
     lualine_b = {branch},
-    lualine_c = {'filename', lsp_progress},
+    lualine_c = {filename, lsp_progress},
     lualine_x = {diagnostics, filetype, file_size, encoding},
     lualine_y = {progress},
     lualine_z = {location}
@@ -167,7 +176,7 @@ require('lualine').setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
+    lualine_c = {filename},
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}

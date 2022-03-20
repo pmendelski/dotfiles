@@ -61,16 +61,6 @@ require('automatic')
 vim.defer_fn(function()
   require('keybindings')
   require('plugins')
-  require('custom')
-
-  -- vim.defer_fn(function()
-  --   if vim.g.stdin_mode == 0 and vim.g.single_file_mode == 0 then
-  --     local session = require('custom/session')
-  --     if session.has_session() then
-  --       session.restore_session();
-  --     end
-  --   end
-  -- end, 0)
 
   -- Restore options after initialziations
   vim.opt.shadafile = ""

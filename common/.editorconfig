@@ -6,21 +6,15 @@ root = true
 
 [*]
 indent_style = space
-indent_size = 2
+indent_size = 4
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{java,groovy,kt,kts}]
-indent_size = 4
-
-[build.gradle]
-indent_size = 4
+[*.{sh,json,yml,yaml,md,xml,html,xhtml,js}]
+indent_size = 2
 
 [Makefile]
 indent_style = tab
 indent_size = 1
-
-[*.{xml,html,xhtml,css,scss,javascript,lua,yaml,yml}]
-indent_size = 2

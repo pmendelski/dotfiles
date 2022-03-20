@@ -52,3 +52,8 @@ map("n", "<leader>df", ":lua require('dapui').eval()<CR>")
 map("n", "<leader>dr", ":lua require('dap').repl.open()<CR>")
 map("n", "<leader>dd", ":lua require('dap').run_last()<CR>")
 map("n", "<leader>dl", ":lua require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+
+-- How to debug?
+-- Setup breakpoints with: <leader>-b
+-- Run code with actions with hover: gh
+-- Open dapui: <F5>

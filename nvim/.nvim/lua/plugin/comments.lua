@@ -6,6 +6,7 @@ require('kommentary.config').configure_language("default", {
 
 -- Keybindings
 -------------------------
+vim.g.kommentary_create_default_mappings = false
 vim.api.nvim_set_keymap('n', '<c-_>', '<Plug>kommentary_line_default', {})
-vim.api.nvim_set_keymap('i', '<c-_>', '<Plug>kommentary_line_default', {})
+vim.api.nvim_set_keymap('i', '<c-_>', '<esc><Plug>kommentary_line_default<cr>i', {})
 vim.api.nvim_set_keymap('v', '<c-_>', '<Plug>kommentary_visual_default', {})

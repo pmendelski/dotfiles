@@ -54,7 +54,6 @@ function _M.config()
     }
   }
   local tree = require('nvim-tree')
-  local tree_cb = require('nvim-tree.config').nvim_tree_callback
   tree.setup({
     -- Completely disable netrw
     disable_netrw = false,
@@ -68,23 +67,35 @@ function _M.config()
     update_cwd = true,
     -- closes neovim automatically when the tree is the last **WINDOW** in the view
     auto_close = false,
+    actions = {
+      open_file = {
+        window_picker = {
+          enable = true,
+          exclude = {
+            ["filetype"] = { "notify", "packer", "qf", "Outline" },
+            ["buftype"] = { "terminal" }
+          }
+        }
+      }
+    },
     view = {
       auto_resize = true,
       mappings = {
         custom_only = true,
         list = {
-          { key = {"<CR>", "<2-LeftMouse>"}, cb = tree_cb("edit") },
+          { key = {"<CR>", "<2-LeftMouse>"}, action = "edit" },
           { key = "+", cb = "<cmd>lua require('plugin/nvim-tree').resize('+10')<cr>" },
           { key = "-", cb = "<cmd>lua require('plugin/nvim-tree').resize('-10')<cr>" },
           { key = "=", cb = "<cmd>lua require('plugin/nvim-tree').reset_size()<cr>" },
-          { key = "<C-[>", cb = tree_cb("dir_up") },
-          { key = "nv", cb = tree_cb("vsplit") },
-          { key = "nh", cb = tree_cb("split") },
-          { key = "nt", cb = tree_cb("tabnew") },
-          { key = "o", cb = tree_cb("system_open") },
-          { key = "v", cb = tree_cb("vsplit") },
-          { key = "s", cb = tree_cb("split") },
-          { key = "t", cb = tree_cb("tabnew") },
+          { key = "<C-[>", action = "dir_up" },
+          { key = "<C-]>", action = "cd" },
+          { key = "nv", action = "vsplit" },
+          { key = "nh", action = "split" },
+          { key = "nt", action = "tabnew" },
+          { key = "o", action = "system_open" },
+          { key = "v", action = "vsplit" },
+          { key = "s", action = "split" },
+          { key = "t", action = "tabnew" },
           { key = "<F3>", cb = "<c-w>l<cr>" },
           { key = "<esc>", cb = "" },
         }
@@ -118,20 +129,11 @@ function _M.config()
   -- Keybindings
   local map = require('util').keymap
   map("n", "<F2>", ":NvimTreeToggle<cr>")
-  map("n", "<F3>", ":NvimTreeFindFile<cr>")
+  map("n", "<F3>", ":NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
   map("i", "<F2>", "<esc>:NvimTreeToggle<cr>")
-  map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>")
+  map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
   map("v", "<F2>", "<esc>:NvimTreeToggle<cr>")
-  map("v", "<F3>", "<esc>:NvimTreeFindFile<cr>")
-
-
-  -- Automatically refresh tree
-  vim.cmd([[
-  augroup AutoRefreshNvimTree
-    autocmd!
-    autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * lua require('plugin/nvim-tree').refresh()
-  augroup end
-  ]])
+  map("v", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
 end
 
 return _M

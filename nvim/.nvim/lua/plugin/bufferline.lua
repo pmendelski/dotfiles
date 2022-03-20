@@ -5,6 +5,7 @@ local function get_listed_buffers()
   local len = 0
   local vim_fn = vim.fn
   local buflisted = vim_fn.buflisted
+  local treeView = require('nvim-tree.view')
   for buffer = 1, vim_fn.bufnr('$') do
     if buflisted(buffer) == 1 then
       len = len + 1
@@ -15,10 +16,6 @@ local function get_listed_buffers()
 end
 
 function _M.close_buffer(buffer)
-  local treeView = require('nvim-tree.view')
-  local bufferline = require('bufferline')
-  local activeBuffer = vim.api.nvim_get_current_buf()
-
   -- handle modified buffers
   local isModified = tonumber(vim.api.nvim_eval('getbufvar(' .. buffer .. ', "&mod")'))
   if isModified ~= nil and isModified > 0 then
@@ -29,13 +26,15 @@ function _M.close_buffer(buffer)
     end
   end
 
-  -- cycle to prev buffer befor closing for nvim tree
-  local explorerWindow = treeView.get_winnr()
+  -- cycle to prev buffer before closing for nvim tree
+  local bufferline = require('bufferline')
+  local activeBuffer = vim.api.nvim_get_current_buf()
+  local explorerWindow = require('nvim-tree.view').get_winnr()
   local wasExplorerOpen = vim.api.nvim_win_is_valid(explorerWindow)
   local buffers = tonumber(vim.api.nvim_eval("len(getbufinfo({'buflisted':1}))"))
   if wasExplorerOpen and activeBuffer == buffer and buffers > 1 then
     -- switch to previous buffer (tracked by bufferline)
-    bufferline.cycle(-1)
+    pcall(bufferline.cycle, -1)
   end
 
   -- delete initially open buffer

@@ -30,7 +30,7 @@ opt.colorcolumn = '100'       -- line lenght marker at 100 columns
 opt.splitright = true         -- vertical split to the right
 opt.splitbelow = true         -- horizontal split to the bottom
 opt.showcmd = true            -- show (partial) command in status line
-opt.completeopt = 'menuone,noinsert' -- :help completeopt
+opt.completeopt = 'menu,menuone,noselect' -- autocompletion settings
 opt.ttyfast = true                   -- send more characters at a given time
 opt.lazyredraw = true         -- faster scrolling
 opt.synmaxcol = 500           -- max column for syntax highlight
@@ -66,6 +66,7 @@ opt.undofile = true           -- persistent Undo
 opt.directory = fn.expand('~/.nvim/tmp/swap')
 opt.backupdir = fn.expand('~/.nvim/tmp/backup')
 opt.undodir = fn.expand('~/.nvim/tmp/undo')
+opt.viewdir = fn.expand('~/.nvim/tmp/view')
 
 -- Wildmenu
 -----------------------------------------------------------
