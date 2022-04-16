@@ -65,6 +65,16 @@ sudo apt install -y ./compass.deb)
 echo -e "\n>>> IntelliJ Idea"
 sudo snap install intellij-idea-community --classic
 
+echo -e "\n>>> Github Desktop"
+installGithubDesktop() {
+  local path="$(curl -sL https://github.com/shiftkey/desktop/releases/latest | grep -o "/releases/download/.\+GitHubDesktop.\+\.deb" | head -n 1)"
+  local file="$(echo "$path" | grep -o "GitHubDesktop.\+\.deb" | head -n 1)"
+  local tmpdir="$(mktemp -d -t github-desktop-XXXX)"
+  (cd "$tmpdir" && wget -O "$file" "https://github.com/shiftkey/desktop${path}" && sudo gdebi "$file")
+  rm -rf "$tmpdir"
+}
+installGithubDesktop
+
 echo -e "\n>>> Nicer fonts"
 sudo apt-get install -y fonts-inconsolata
 sudo apt-get install -y fonts-firacode
