@@ -102,23 +102,22 @@ function runInstallScript() {
   fi
 }
 
-function installModules() {
-  printInfo "Installing modules"
-  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
-  for dir in $dotfileDirs; do
+function dotfileDirs() {
+  find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort
+}
+
+function installDotfiles() {
+  printInfo "Installing dotfiles"
+  for dir in $(dotfileDirs); do
     if [ -f "$dir/install.sh" ]; then
       runInstallScript "$dir/install.sh"
     fi
-    for file in $(find $dir -maxdepth 1 -mindepth 1 -name '.*'); do
-      setupSymlink "$file" "$HOME/$(basename $file)"
-    done
   done
 }
 
-function setupDotfiles() {
-  printInfo "Installing dotfiles symlinks"
-  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
-  for dir in $dotfileDirs; do
+function symlinkDotfiles() {
+  printInfo "Symlinking dotfiles"
+  for dir in $(dotfileDirs); do
     for file in $(find $dir -maxdepth 1 -mindepth 1 -name '.*'); do
       setupSymlink "$file" "$HOME/$(basename $file)"
     done
@@ -126,20 +125,23 @@ function setupDotfiles() {
 }
 
 function install() {
-  setupDotfiles
-  installModules
+  symlinkDotfiles
+  installDotfiles
+}
+
+function updateDotfiles() {
+  printInfo "Updating dotfiles"
+  for dir in $(dotfileDirs); do
+    if [ -f "$dir/update.sh" ]; then
+      runInstallScript "$dir/update.sh"
+    fi
+  done
 }
 
 function update() {
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
-  printInfo "Updating dotfiles"
-  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
-  for dir in $dotfileDirs; do
-    if [ -f "$dir/update.sh" ]; then
-      runInstallScript "$dir/update.sh"
-    fi
-  done
+  updateDotfiles
 }
 
 function printHelp() {
