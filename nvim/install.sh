@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
-source "./shared.sh"
+declare -r DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
+source "$DIR/shared.sh"
 
 linkConfig() {
   local -r configDir="$(nvim --cmd ":echo stdpath('config')" --cmd "qall" --headless 2>&1)"

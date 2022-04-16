@@ -29,6 +29,10 @@ installDependencies() {
   go install golang.org/x/tools/gopls@latest \
     && echo "Installed GO based language servers" \
     || echo "Could not install GO based language servers"
+
+  code --install-extension vadimcn.vscode-lldb \
+    && echo "Installed VS Code based debug extension for rust debugging" \
+    || echo "Could not install VS Code based debug extension for rust debugging"
 }
 
 installPlugins() {

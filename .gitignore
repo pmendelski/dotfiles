@@ -10,8 +10,8 @@ nvim/.nvim/spell/*.spl
 nvim/.nvim/.netrwhist
 bash/.bash/tmp
 zsh/.zsh/tmp
-zsh/.zsh/bundles
+zsh/.zsh/deps
 tmux/.tmux/tmp
-tmux/.tmux/bundles
+tmux/.tmux/deps
 _init/ubuntu/conky/tmp
 !.gitkeep

@@ -115,16 +115,6 @@ function setupDotfiles() {
   done
 }
 
-function updateDotfiles() {
-  printInfo "Updating dotfiles"
-  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
-  for dir in $dotfileDirs; do
-    if [ -f "$dir/update.sh" ]; then
-      runInstallScript "$dir/update.sh"
-    fi
-  done
-}
-
 function setupGitSubmodules() {
   printInfo "Installing submodules"
   git submodule update --init
@@ -138,8 +128,13 @@ function install() {
 function updateDotfiles() {
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
-  updateDotfiles
-
+  printInfo "Updating dotfiles"
+  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
+  for dir in $dotfileDirs; do
+    if [ -f "$dir/update.sh" ]; then
+      runInstallScript "$dir/update.sh"
+    fi
+  done
 }
 
 function printHelp() {

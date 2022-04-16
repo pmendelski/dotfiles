@@ -1,8 +1,8 @@
 # Must be loaded after syntax-highlighting
-source $ZSH_DIR/plugins/zsh-syntax-highlighting.zsh
+source $ZSH_DIR/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # https://github.com/zsh-users/zsh-autosuggestions
-source $ZSH_DIR/bundles/autosuggestions/zsh-autosuggestions.zsh
+source $ZSH_DIR/deps/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Menu + autosuggestion issue
 # https://github.com/zsh-users/zsh-autosuggestions/issues/118
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=("expand-or-complete")

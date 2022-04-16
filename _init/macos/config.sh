@@ -51,6 +51,8 @@ defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 sudo systemsetup -setrestartfreeze on
 # Disable shake to magnify cursor
 defaults write NSGlobalDomain CGDisableCursorLocationMagnification -bool true
+# No more .DS_Store files
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #

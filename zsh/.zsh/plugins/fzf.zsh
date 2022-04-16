@@ -1,5 +1,5 @@
 # Must be loaded after syntax-highlighting
-source $ZSH_DIR/plugins/zsh-syntax-highlighting.zsh
+source $ZSH_DIR/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
