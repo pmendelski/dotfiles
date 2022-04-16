@@ -4,29 +4,27 @@
 set nocompatible
 runtime plugins/vim-plug/plug.vim
 call plug#begin('~/.vim/plugins')
-" Colorscheme
-Plug 'joshdick/onedark.vim'
-" Nice status bar
-Plug 'itchyny/lightline.vim'
-" Git branchname in statusbar
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-" Code comments
-Plug 'tpope/vim-commentary'
 " Syntax highlight
 Plug 'sheerun/vim-polyglot'
+" Code comments
+Plug 'tpope/vim-commentary'
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Indentline
-Plug 'Yggdroot/indentLine'
 " Expand selected region
 Plug 'terryma/vim-expand-region'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-entire'
+" Nice status bar
+Plug 'itchyny/lightline.vim'
+" Git branchname in statusbar
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+" Colorscheme
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 "" General
@@ -41,7 +39,8 @@ set synmaxcol=240             " max column for syntax highlight
 
 "" UI
 set whichwrap+=<,>,h,l,[,],<>
-set visualbell                " use visual bell instead of audible bell (anoying)
+set noerrorbells
+set novisualbell
 set number                    " show line number
 set showmatch                 " highlight matching parenthesis
 set colorcolumn=100           " line lenght marker at 100 columns
@@ -52,11 +51,11 @@ set completeopt=menuone,noinsert " :help completeopt
 set ttyfast                   " send more characters at a given time
 set lazyredraw                " faster scrolling
 set synmaxcol=500             " max column for syntax highlight
-set termguicolors             " enable 24-bit RGB colors
-set cursorline
+" set cursorline
 set shortmess+=c              " avoid showing extra messages when using completion
 syntax on
-colorscheme onedark
+set termguicolors
+colorscheme nord
 
 " Folding
 set foldcolumn=0        " column to show folds
@@ -145,7 +144,7 @@ endif
 
 " Plugin: lightline
 let g:lightline = {
-  \ 'colorscheme': 'onedark',
+  \ 'colorscheme': 'nord',
   \ }
 set laststatus=2
 
@@ -192,6 +191,3 @@ nnoremap <silent> <leader>; :Buffers<cr>
 nnoremap <leader><leader> <c-^>
 " Delete buffer
 nnoremap <leader>d :bp<bar>sp<bar>bn<bar>bd<cr>
-
-
-let g:indentLine_char_list = ['|']

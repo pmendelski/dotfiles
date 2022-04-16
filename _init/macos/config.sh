@@ -175,6 +175,8 @@ defaults write com.apple.dock autohide-time-modifier -float 0
 defaults write com.apple.dock showhidden -bool true
 # Don’t show recent applications in Dock
 defaults write com.apple.dock show-recents -bool false
+# Span window between displays
+defaults write com.apple.spaces spans-displays -bool true
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
