@@ -73,3 +73,24 @@ gpg-refresh-expired-keys() {
     && echo "Refresh OK" \
     || echo "Refresh FAILED"
 }
+
+gpg-generate-key-for-github() {
+  gpg --default-new-key-algo rsa4096 --gen-key
+  local id="$(gpg --list-keys --keyid-format long | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | tail -n 1)"
+  local sid="$(gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | tail -n 1)"
+  local key="$(gpg --armor --export $id)"
+  gpg-send-key-to-keyserver "$sid"
+
+  echo "\n\nPaste below key to github.com.\nHint: it's already in the clipboard.\n$key\n"
+  echo "$key" | pbcopy
+
+  if [ -z "(git config --global user.signingkey)" ]; then
+    git config --global user.signingkey "$sid"
+    echo "registered gpg key as default one"
+  else
+    echo "\n\nThere already is a default GPG key."
+    echo "Paste config to ~/.gitconfig"
+    echo "[user]"
+    echo "  signingkey: $sid"
+  fi
+}

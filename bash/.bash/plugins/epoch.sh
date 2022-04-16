@@ -6,9 +6,15 @@
 #
 #   epoch - prints milliseconds since 1970-01-01 00:00:00 UTC
 #
+if command -v gdate &> /dev/null; then
+epoch() {
+  gdate +%s%3N
+}
+else
 epoch() {
   date +%s%3N
 }
+fi
 
 # formatMs - Formats milliseconds in humanreadble minimized format
 #

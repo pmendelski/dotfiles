@@ -68,12 +68,10 @@ sudo apt-get install -y fonts-firacode
 sudo apt-get install -y fonts-hack-ttf
 installNerdFonts() {
   mkdir -p ~/.local/share/fonts
-  local -r fonts=('DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata')
   local -r dir="$(pwd)"
   local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
   cd "$tmpdir"
-  # echo "Tmp: $tmpdir"
-  for font in "${fonts[@]}"; do
+  for font in "$@"; do
     wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
       && unzip -o "$font.zip" -d ~/.local/share/fonts \
       && echo "Installed nerd font: $font"
@@ -81,7 +79,7 @@ installNerdFonts() {
   rm -rf "$tmpdir"
   cd "$dir"
 }
-installNerdFonts
+installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
 
 fc-cache -fv
 echo "done!"

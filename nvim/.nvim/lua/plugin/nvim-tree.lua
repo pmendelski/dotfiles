@@ -18,20 +18,14 @@ end
 
 function _M.refresh()
   local view = require('nvim-tree.view')
-  if view.win_open() then
+  if view.is_visible() then
     require("nvim-tree.lib").refresh_tree()
   end
 end
 
 function _M.config()
-  vim.g.nvim_tree_disable_default_keybindings = 1 -- Disable default keybindings
   vim.g.nvim_tree_special_files = {}
   vim.g.nvim_tree_git_hl = 1
-  vim.g.nvim_tree_disable_window_picker = 1
-  vim.g.nvim_tree_window_picker_exclude = {
-    ["filetype"] = { "notify", "packer", "qf", "Outline" },
-    ["buftype"] = { "terminal" }
-  }
   vim.g.nvim_tree_icons = {
     default = '',
     symlink = '',
@@ -77,6 +71,7 @@ function _M.config()
     view = {
       auto_resize = true,
       mappings = {
+        custom_only = true,
         list = {
           { key = {"<CR>", "<2-LeftMouse>"}, cb = tree_cb("edit") },
           { key = "+", cb = "<cmd>lua require('plugin/nvim-tree').resize('+10')<cr>" },
@@ -108,6 +103,16 @@ function _M.config()
         error = "",
       }
     },
+    actions = {
+      open_file = {
+        window_picker = {
+          exclude = {
+            ["filetype"] = { "notify", "packer", "qf", "Outline" },
+            ["buftype"] = { "terminal" }
+          }
+        }
+      }
+    }
   })
 
   -- Keybindings

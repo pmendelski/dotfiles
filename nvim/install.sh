@@ -46,7 +46,7 @@ installPlugins() {
   if [ ! -d "$packerDir" ]; then
     git clone --depth 1 https://github.com/wbthomason/packer.nvim "$packerDir"
     echo "Installed Packer - Nvim Package manager"
-    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' -u "$configDir/lua/plugins/packer.lua" \
+    nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' -u "$configDir/lua/plugins.lua" \
       && echo "Installed Plugins" || echo "Could not install plugins"
   fi
 }

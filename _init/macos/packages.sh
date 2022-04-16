@@ -2,11 +2,12 @@
 
 # Install brew
 if [[ $(command -v brew) == "" ]]; then
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 brew update
 brew upgrade
 
+# Install dependencies
 brew install coreutils
 brew install moreutils
 brew install findutils
@@ -50,9 +51,9 @@ brew install fd
 brew install ripgrep
 brew install bat
 brew install git-delta
-brew cask install java
 brew install lazygit
 brew install htop
+brew install transmission
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer
@@ -73,23 +74,40 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-complet
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
-brew cask install iterm2
-brew cask install alfred
-brew cask install fliqlo
-brew cask install github
-brew cask install transmission
-brew cask install yujitach-menumeters
-brew cask install visual-studio-code
-brew cask install dropbox
-brew cask install keepassx
-brew cask install spotify
-brew cask install robo-3t
-brew cask install skype
-brew cask install deluge
-brew cask install opera
-brew cask install intellij-idea
-brew cask install intellij-idea-ce
-brew cask install insomnia
+brew install --cask alfred
+brew install --cask iterm2
+brew install --cask github
+brew install --cask visual-studio-code
+brew install --cask dropbox
+brew install --cask keepassx
+brew install --cask spotify
+brew install --cask transmission
+brew install --cask robo-3t
+brew install --cask deluge
+brew install --cask opera
+brew install --cask intellij-idea
+brew install --cask intellij-idea-ce
+brew install --cask insomnia
+brew install --cask sublime-text
+
+# Fonts
+brew tap homebrew/cask-fonts
+brew install font-inconsolata
+brew install font-fira-code
+installNerdFonts() {
+  mkdir -p ~/Library/Fonts
+  local -r dir="$(pwd)"
+  local -r tmpdir="$(mktemp -d -t nerd-fonts)"
+  cd "$tmpdir"
+  for font in "$@"; do
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
+      && unzip -qq -o "$font.zip" -d ~/Library/Fonts \
+      && echo "Installed nerd font: $font"
+  done
+  rm -rf "$tmpdir"
+  cd "$dir"
+}
+installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
 
 # Performance test tools
 brew install nghttp2
@@ -98,43 +116,69 @@ brew install nghttp2
 brew cleanup
 
 # Use GNU tools by defaults
-if ! grep -q "/usr/local/opt/coreutils/libexec/gnubin" ~/.path; then
-  echo "/usr/local/opt/coreutils/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/findutils/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/binutils/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/diffutils/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/gnu-indent/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/gnu-which/libexec/gnubin" >> ~/.path
-  echo "/usr/local/opt/grep/libexec/gnubin" >> ~/.path
-fi
-
-# Switch to using brew-installed shells as default
-if [ "$(readlink -f /bin/bash)" != "/usr/local/bin/bash" ]; then
-  sudo mv /bin/bash /bin/bash_old
-  sudo mv /bin/zsh /bin/zsh_old
-  sudo mv /bin/sh /bin/sh_old
-  sudo chmod a-x /bin/bash_old
-  sudo chmod a-x /bin/zsh_old
-  sudo chmod a-x /bin/sh_old
-  sudo ln -s /usr/local/bin/bash /bin/bash
-  sudo ln -s /usr/local/bin/bash /bin/sh
-  sudo ln -s /usr/local/bin/zsh /bin/zsh
-fi
-
-# Install headers for python/ruby compilation
-if [ -f /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg ]; then
-  installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+if ! grep -q "/opt/homebrew/opt/coreutils/libexec/gnubin" ~/.path; then
+  echo "/opt/homebrew/opt/coreutils/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/findutils/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/gnu-indent/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/gnu-sed/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/gnu-which/libexec/gnubin" >> ~/.path
+  echo "/opt/homebrew/opt/grep/libexec/gnubin" >> ~/.path
+  # echo "/opt/homebrew/opt/binutils/bin" >> ~/.path
+  # echo "/opt/homebrew/opt/diffutils/bin" >> ~/.path
 fi
 
 # Copy some scripts to loaded path
 mkdir -pf $HOME/Scripts
-cp ./scripts/* ./Scripts/
+cp ./scripts/* $HOME/Scripts/
 
-echo "Recommended apps to install manually:"
-echo "  - Magnet (https://itunes.apple.com/pl/app/magnet/id441258766)"
-echo "  - RedQuits (http://www.carsten-mielke.com/redquits.html)"
-echo "  - Vanilla (https://matthewpalmer.net/vanilla/)"
-echo "  - Mini Calendar (https://matthewpalmer.net/vanilla/)"
+# Copy automator actions
+mkdir -pf $HOME/Library/Services
+cp ./automator/* $HOME/Library/Services/
+
+# Create ssh key
+if [ ! -f ~/.ssh/config ]; then
+  echo "Generating initial ssh key"
+  ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+  ssh-add ~/.ssh/id_ed25519
+  echo "Host *" > ~/.ssh/config
+  echo "  IgnoreUnknown UseKeychain" >> ~/.ssh/config
+  echo "  AddKeysToAgent yes" >> ~/.ssh/config
+  echo "  UseKeychain yes" >> ~/.ssh/config
+  echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
+
+  if command -v pbcopy &> /dev/null; then
+    cat ~/.ssh/id_ed25519 | pbcopy
+    echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
+    echo "Remember to generate GPG key with: gpg-generate-key-for-github"
+  fi
+fi
+
+echo ""
+echo "NEXT STEPS"
+echo ""
+echo "Git"
+echo "- Register SSH key in github:"
+echo "  - cat ~/.ssh/id_ed25519.pub | pbcopy"
+echo "  - Go to: https://github.com/settings/keys"
+echo "- Generate gpg key"
+echo "  - gpg-generate-key-for-github"
+echo ""
+echo "AppStore"
+echo "- Login to App Store and install apps"
+echo ""
+echo "Dropbox"
+echo "- Log in"
+echo "- Remove Dropbox from context menu:"
+echo "  - System Preferences > Extensions > Finder extensions > Disable Dropbox"
+echo "- Remove Dropbox from finder top menu:"
+echo "  - Finder > Right Click Toolbar > Customize > ..."
+echo ""
+echo "iTerm2"
+echo "- Import tokyo-night from _init/macos/iterm2"
+echo "- Use font: FirCode Nerd Font"
+echo "- Transparency: 5"
+echo ""
+echo "Other"
+echo "- Fix keyboard shortcurs"
+echo "  - Preferences > Keyboard > Shortcuts > Mission Control > Disable: Move left/right a space"

@@ -12,4 +12,6 @@ export GPG_TTY="$(tty)"
 
 # Required by Gogh
 # https://github.com/Mayccoll/Gogh#install-non-interactive-mode
-export TERMINAL="gnome-terminal"
+if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
+  export TERMINAL="gnome-terminal"
+fi

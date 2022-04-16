@@ -19,3 +19,21 @@ zsh
 # Install One Dark and One Light terminal colorscheme
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-dark.sh)"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/denysdovhan/gnome-terminal-one/master/one-light.sh)"
+
+# Create ssh key
+if [ ! -f ~/.ssh/config ]; then
+  echo "Generating initial ssh key"
+  ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+  ssh-add ~/.ssh/id_ed25519
+  echo "Host *" > ~/.ssh/config
+  echo "  IgnoreUnknown UseKeychain" >> ~/.ssh/config
+  echo "  AddKeysToAgent yes" >> ~/.ssh/config
+  echo "  UseKeychain yes" >> ~/.ssh/config
+  echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
+
+  if command -v pbcopy &> /dev/null; then
+    cat ~/.ssh/id_ed25519 | pbcopy
+    echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
+    echo "Remember to generate GPG key with: gpg-generate-key-for-github"
+  fi
+fi

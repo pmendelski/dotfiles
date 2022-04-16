@@ -57,7 +57,7 @@ function bashChangePrompt() {
 
 function __loadPath() {
   if [ -f "$HOME/.path" ]; then
-    local -r paths="$(grep . "$HOME/.path" | sort -u | tr '\n' ':')"
+    local -r paths="$(grep '^[^#]' "$HOME/.path" | sort -u | tr '\n' ':')"
     export PATH="$paths:$PATH"
   fi
 }
