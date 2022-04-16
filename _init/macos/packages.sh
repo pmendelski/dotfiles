@@ -90,6 +90,17 @@ brew install --cask intellij-idea-ce
 brew install --cask insomnia
 brew install --cask sublime-text
 
+# VS Code extenstions
+code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
+code --install-extension ms-python.vscode-pylance
+code --install-extension esbenp.prettier-vscode
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension ms-azuretools.vscode-docker
+code --install-extension golang.Go
+code --install-extension zhuangtongfa.Material-theme
+code --install-extension EditorConfig.EditorConfig
+code --install-extension rust-lang.rust
+
 # Fonts
 brew tap homebrew/cask-fonts
 brew install font-inconsolata

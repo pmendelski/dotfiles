@@ -16,8 +16,15 @@ echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
 # VSCode
 sudo snap install code --classic
-# debug extension for rust debugging in nvim
-code --install-extension vadimcn.vscode-lldb
+code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
+code --install-extension ms-python.vscode-pylance
+code --install-extension esbenp.prettier-vscode
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension ms-azuretools.vscode-docker
+code --install-extension golang.Go
+code --install-extension zhuangtongfa.Material-theme
+code --install-extension EditorConfig.EditorConfig
+code --install-extension rust-lang.rust
 # Git merge tool
 sudo apt-get install -y meld
 # Sublime
@@ -57,10 +64,6 @@ sudo apt install -y ./compass.deb)
 
 echo -e "\n>>> IntelliJ Idea"
 sudo snap install intellij-idea-community --classic
-
-echo -e "\n>>> Nicer launcher"
-sudo add-apt-repository -y ppa:agornostal/ulauncher
-sudo apt -y update && sudo apt install -y ulauncher
 
 echo -e "\n>>> Nicer fonts"
 sudo apt-get install -y fonts-inconsolata

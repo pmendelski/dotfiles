@@ -109,9 +109,19 @@ function setupDotfiles() {
     if [ -f "$dir/install.sh" ]; then
       runInstallScript "$dir/install.sh"
     fi
-    for file in $(find $dir -maxdepth 1 -mindepth 1 ! -name '_*' ! -name 'readme.md' ! -name 'install.sh'); do
+    for file in $(find $dir -maxdepth 1 -mindepth 1 -name '.*'); do
       setupSymlink "$file" "$HOME/$(basename $file)"
     done
+  done
+}
+
+function updateDotfiles() {
+  printInfo "Updating dotfiles"
+  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
+  for dir in $dotfileDirs; do
+    if [ -f "$dir/update.sh" ]; then
+      runInstallScript "$dir/update.sh"
+    fi
   done
 }
 
@@ -128,7 +138,8 @@ function install() {
 function updateDotfiles() {
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
-  git submodule update --remote --merge
+  updateDotfiles
+
 }
 
 function printHelp() {

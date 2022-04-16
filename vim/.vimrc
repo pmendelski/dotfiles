@@ -83,8 +83,6 @@ set wrapscan                 " searches wrap around end of file
 "" Diff
 set diffopt+=filler
 set diffopt+=iwhite
-set diffopt+=algorithm:patience
-set diffopt+=indent-heuristic
 
 "" Temporary files
 set noswapfile              " don't use swapfile
