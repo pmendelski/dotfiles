@@ -4,6 +4,7 @@ function _M.keymap()
   local map = require('util').keymap
   map('n', '<leader>fx', ':Telescope<cr>')
   map('n', '<leader>ff', ':Telescope find_files<cr>')
+  map('n', '<leader>fv', ':Telescope git_files<cr>')
   map('n', '<leader>fb', ':Telescope buffers<cr>')
   map('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find<cr>')
   map('n', '<leader>fg', ':Telescope live_grep<cr>')
@@ -24,17 +25,51 @@ end
 
 function _M.config()
   local actions = require('telescope.actions')
+  local action_layout = require("telescope.actions.layout")
   local telescope = require('telescope')
+  local previewers = require("telescope.previewers")
+
+  -- Ignore files bigger than a threshold
+  local new_maker = function(filepath, bufnr, opts)
+    opts = opts or {}
+    filepath = vim.fn.expand(filepath)
+    vim.loop.fs_stat(filepath, function(_, stat)
+      if not stat then return end
+      if stat.size > 100000 then
+        return
+      else
+        previewers.buffer_previewer_maker(filepath, bufnr, opts)
+      end
+    end)
+  end
+
   telescope.setup({
     defaults = {
+      buffer_previewer_maker = new_maker,
       mappings = {
         i = {
-          ["<esc>"] = actions.close
+          ["<esc>"] = actions.close,
+          ["<C-u>"] = false,
+          ["<C-Down>"] = actions.cycle_history_next,
+          ["<C-Up>"] = actions.cycle_history_prev,
+          ["<C-p>"] = action_layout.toggle_preview,
+          ["<C-h>"] = "which_key"
         },
         n = {
-          ['q'] = actions.close
-        },
+          ['q'] = actions.close,
+          ["<C-p>"] = action_layout.toggle_preview
+        }
       },
+      vimgrep_arguments = {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        "--trim" -- add this value to remove indentation
+      }
     },
     extensions = {
       media_files = {

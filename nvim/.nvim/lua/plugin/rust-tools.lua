@@ -111,7 +111,7 @@ require('rust-tools').setup({
       ['rust-analyzer'] = {
         assist = {
           importGranularity = "module",
-          importPrefix = "by_self",
+          importPrefix = "self",
         },
         cargo = {
           loadOutDirsFromCheck = true

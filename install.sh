@@ -102,8 +102,8 @@ function runInstallScript() {
   fi
 }
 
-function setupDotfiles() {
-  printInfo "Installing symlinks"
+function installModules() {
+  printInfo "Installing modules"
   local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
   for dir in $dotfileDirs; do
     if [ -f "$dir/install.sh" ]; then
@@ -115,17 +115,22 @@ function setupDotfiles() {
   done
 }
 
-function setupGitSubmodules() {
-  printInfo "Installing submodules"
-  git submodule update --init
+function setupDotfiles() {
+  printInfo "Installing dotfiles symlinks"
+  local -r dotfileDirs="$(find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort)"
+  for dir in $dotfileDirs; do
+    for file in $(find $dir -maxdepth 1 -mindepth 1 ! -name '_*' ! -name 'readme.md' ! -name 'install.sh' ! -name 'update.sh'); do
+      setupSymlink "$file" "$HOME/$(basename $file)"
+    done
+  done
 }
 
 function install() {
-  setupGitSubmodules
   setupDotfiles
+  installModules
 }
 
-function updateDotfiles() {
+function update() {
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
   printInfo "Updating dotfiles"
@@ -184,7 +189,7 @@ while (($#)); do
       exit 0;
       ;;
     --update|-u)
-      updateDotfiles
+      update
       exit 0;
       ;;
     --) # End of all options.

@@ -86,7 +86,7 @@ packer.startup({
     use {
       "kyazdani42/nvim-tree.lua",
       after = "tokyonight.nvim",
-      config = [[require("plugin/nvim-tree").config()]],
+      config = [[require("plugin/nvim-tree/config").config()]],
     }
     -- Tabs for buffers
     use {
@@ -101,7 +101,7 @@ packer.startup({
       "nvim-telescope/telescope.nvim",
       requires = {
         "nvim-lua/popup.nvim",
-        { "nvim-telescope/telescope-fzf-native.nvim", run = "make"},
+        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
         "nvim-telescope/telescope-project.nvim",
         "nvim-telescope/telescope-media-files.nvim",
         "crispgm/telescope-heading.nvim",
@@ -123,7 +123,7 @@ packer.startup({
       'phaazon/hop.nvim',
       event = "BufWinEnter",
       config = [[require("plugin/hop")]],
-  }
+    }
     -- Editorconfig
     use "editorconfig/editorconfig-vim"
     -- Debugging

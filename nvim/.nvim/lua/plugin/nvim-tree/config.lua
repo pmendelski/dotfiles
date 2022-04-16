@@ -53,6 +53,9 @@ function _M.config()
       symlink_open = "",
     }
   }
+  local function custom_callback(callback_name)
+    return string.format(":lua require('plugin/nvim-tree/telescope').%s()<CR>", callback_name)
+  end
   local tree = require('nvim-tree')
   tree.setup({
     -- Completely disable netrw
@@ -84,9 +87,9 @@ function _M.config()
         custom_only = true,
         list = {
           { key = {"<CR>", "<2-LeftMouse>"}, action = "edit" },
-          { key = "+", cb = "<cmd>lua require('plugin/nvim-tree').resize('+10')<cr>" },
-          { key = "-", cb = "<cmd>lua require('plugin/nvim-tree').resize('-10')<cr>" },
-          { key = "=", cb = "<cmd>lua require('plugin/nvim-tree').reset_size()<cr>" },
+          { key = "+", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('+10')<cr>" },
+          { key = "-", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('-10')<cr>" },
+          { key = "=", cb = "<cmd>lua require('plugin/nvim-tree/config').reset_size()<cr>" },
           { key = "<C-[>", action = "dir_up" },
           { key = "<C-]>", action = "cd" },
           { key = "nv", action = "vsplit" },
@@ -98,12 +101,14 @@ function _M.config()
           { key = "t", action = "tabnew" },
           { key = "<F3>", cb = "<c-w>l<cr>" },
           { key = "<esc>", cb = "" },
+          { key = "<c-f>", cb = custom_callback "find_files" },
+          { key = "<c-g>", cb = custom_callback "live_grep" },
         }
       }
     },
     update_focused_file = {
-      enable      = false,
-      update_cwd  = false
+      enable = false,
+      update_cwd = false
     },
     diagnostics = {
       enable = true,
