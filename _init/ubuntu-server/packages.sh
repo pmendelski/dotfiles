@@ -89,8 +89,10 @@ package iptables-persistent
 # Docker
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt -y update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
@@ -100,3 +102,11 @@ sudo curl -L "https://github.com/docker/compose/releases/download/${docker_compo
 sudo chmod +x /usr/local/bin/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+
+# sdkvm
+cd ~
+git clone git@github.com:pmendelski/sdkvm.git .sdkvm
+sdkvm install jdk
+sdkvm install gradle
+sdkvm install node
+sdkvm install python

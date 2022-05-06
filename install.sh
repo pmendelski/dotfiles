@@ -126,7 +126,9 @@ function symlinkDotfiles() {
 
 function install() {
   symlinkDotfiles
+  git config credential.helper cache
   installDotfiles
+  git credential-cache exit
 }
 
 function updateDotfiles() {
@@ -139,9 +141,11 @@ function updateDotfiles() {
 }
 
 function update() {
+  git config credential.helper cache
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin $banchName
   updateDotfiles
+  git credential-cache exit
 }
 
 function printHelp() {

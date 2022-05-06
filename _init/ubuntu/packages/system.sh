@@ -30,6 +30,9 @@ sudo apt-get install htop
 sudo add-apt-repository -y ppa:lazygit-team/release
 sudo apt-get update
 sudo apt-get install -y lazygit
+# tmux
+# https://gist.github.com/indrayam/ebf53ba970241694865e1dd2b1313945
+# https://github.com/tmux/tmux/wiki/Installing#building-dependencies
 
 echo -e "\n>>> Neovim"
 sudo snap install nvim --classic
@@ -106,20 +109,22 @@ sudo apt-get install -y \
   john \
   macchanger
 
-echo -e "\n>>> Docker"
+# Docker
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt -y update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
 # Docker compose https://docs.docker.com/compose
-dockerComposeVersion="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
-sudo curl -L "https://github.com/docker/compose/releases/download/${dockerComposeVersion}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+docker_compose_version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
+sudo curl -L "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${dockerComposeVersion}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${dockerComposeVersion}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 
 echo -e "\n>>> Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -151,3 +156,6 @@ sudo apt-get install -y cowsay
 # Ascii art
 # figlet -f slant <Some Text>
 sudo apt-get install -y figlet
+
+# sdkvm
+git clone git@github.com:pmendelski/sdkvm.git "$HOME/.sdkvm"

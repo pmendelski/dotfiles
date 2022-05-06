@@ -150,6 +150,7 @@ cp ./automator/* $HOME/Library/Services/
 # Create ssh key
 if [ ! -f ~/.ssh/config ]; then
   echo "Generating initial ssh key"
+  eval "$(ssh-agent -s)"
   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
   ssh-add ~/.ssh/id_ed25519
   echo "Host *" > ~/.ssh/config
@@ -164,6 +165,9 @@ if [ ! -f ~/.ssh/config ]; then
     echo "Remember to generate GPG key with: gpg-generate-key-for-github"
   fi
 fi
+
+# sdkvm
+git clone git@github.com:pmendelski/sdkvm.git "$HOME/.sdkvm"
 
 echo ""
 echo "NEXT STEPS"

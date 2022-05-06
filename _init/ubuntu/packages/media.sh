@@ -19,7 +19,9 @@ echo -e "\n>>> Video"
 sudo snap install vlc
 sudo snap install ffmpeg
 # Subtitle downloader
-sudo apt install -y qnapi
+sudo add-apt-repository ppa:krzemin/qnapi
+sudo apt-get update
+sudo apt-get install qnapi
 # Camera recorder
 sudo apt install -y cheese
 # Screen recorder
@@ -47,3 +49,6 @@ sudo apt install -y calibre
 
 echo -e "\n>>> PDF"
 sudo apt-get install poppler-utils
+
+echo -e "\n>>> Flash cards"
+sudo snap install anki-ppd
