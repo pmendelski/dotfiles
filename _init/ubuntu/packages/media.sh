@@ -19,9 +19,7 @@ echo -e "\n>>> Video"
 sudo snap install vlc
 sudo snap install ffmpeg
 # Subtitle downloader
-sudo add-apt-repository ppa:krzemin/qnapi
-sudo apt-get update
-sudo apt-get install qnapi
+sudo apt install qnapi
 # Camera recorder
 sudo apt install -y cheese
 # Screen recorder
@@ -29,7 +27,7 @@ sudo apt install -y kazam
 # Vide editing tool
 sudo snap install shotcut --classic
 # mpeg thumbnails
-apt-get install -y ffmpegthumbnailer
+sudo apt install -y ffmpegthumbnailer
 
 echo -e "\n>>> Music"
 # Music tag tools
@@ -48,7 +46,7 @@ echo -e "\n>>> Ebooks"
 sudo apt install -y calibre
 
 echo -e "\n>>> PDF"
-sudo apt-get install poppler-utils
+sudo apt install poppler-utils
 
 echo -e "\n>>> Flash cards"
 sudo snap install anki-ppd

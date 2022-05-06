@@ -30,7 +30,6 @@ fi
 
 # Local variables
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
-# bash_plugins=(jvm mvn-color !less)
 source "$HOME/.bash/index.sh"
 
 if [ -e "$HOME/.sdkvm/init.sh" ]; then

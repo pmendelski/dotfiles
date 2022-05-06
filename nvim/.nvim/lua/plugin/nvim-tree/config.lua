@@ -68,8 +68,6 @@ function _M.config()
     hijack_cursor = true,
     -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
     update_cwd = true,
-    -- closes neovim automatically when the tree is the last **WINDOW** in the view
-    auto_close = false,
     actions = {
       open_file = {
         window_picker = {
@@ -82,7 +80,6 @@ function _M.config()
       }
     },
     view = {
-      auto_resize = true,
       mappings = {
         custom_only = true,
         list = {

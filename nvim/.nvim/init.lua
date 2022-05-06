@@ -66,7 +66,6 @@ vim.defer_fn(function()
   vim.opt.shadafile = ""
   vim.cmd([[
     rshada!
-    doautocmd BufRead
     syntax on
     filetype on
     filetype plugin indent on

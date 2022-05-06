@@ -15,27 +15,31 @@ sudo apt-get install -y \
   fd-find \
   tree \
   ripgrep
-ln -s $(which fdfind) ~/.local/bin/fd
+
+sudo apt install fd-find
+if [ ! -f ~/.local/bin/fd ]; then
+  ln -s $(which fdfind) ~/.local/bin/fd
+fi
 sudo snap install fasd --beta
 sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
 # cat with highlighting
 sudo apt install bat
-if command -v batcat &> /dev/null; then
+if [ ! -f ~/.local/bin/bat ]; then
   ln -s $(which batcat) ~/.local/bin/bat
 fi
 # htop
 sudo apt-get install htop
 # Lazygit
 # Replace with gitui when it's in apt-get/snap
-sudo add-apt-repository -y ppa:lazygit-team/release
-sudo apt-get update
-sudo apt-get install -y lazygit
-# tmux
-# https://gist.github.com/indrayam/ebf53ba970241694865e1dd2b1313945
-# https://github.com/tmux/tmux/wiki/Installing#building-dependencies
+# sudo add-apt-repository -y ppa:lazygit-team/release
+# sudo apt-get update
+# sudo apt-get install -y lazygi
 
-echo -e "\n>>> Neovim"
-sudo snap install nvim --classic
+echo -e "\n>>> Vim & Neovim"
+sudo apt install vim
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt-get update
+sudo snap install nvim
 
 echo -e "\n>>> Rar/zip"
 sudo apt-get install -y \
@@ -110,9 +114,13 @@ sudo apt-get install -y \
   macchanger
 
 # Docker
-sudo apt-get remove -y docker docker-engine docker.io containerd runc
+sudo apt-get remove -y docker || true
+sudo apt-get remove -y docker-engine || true
+sudo apt-get remove -y docker.io || true
+sudo apt-get remove -y containerd || true
+sudo apt-get remove -y runc || true
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -121,15 +129,18 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
 # Docker compose https://docs.docker.com/compose
 docker_compose_version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
-sudo curl -L "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 
 echo -e "\n>>> Rust"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+if ! command -v rustup &> /dev/null; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  export PATH="$PATH:~/.cargo/bin"
+fi
 
 echo -e "\n>>> Other"
+# Another package installer
+sudo apt-get install -y gdebi
 # Mounting remote file system by ssh
 sudo apt-get install -y sshfs
 # Copy to clipboard
@@ -156,6 +167,3 @@ sudo apt-get install -y cowsay
 # Ascii art
 # figlet -f slant <Some Text>
 sudo apt-get install -y figlet
-
-# sdkvm
-git clone git@github.com:pmendelski/sdkvm.git "$HOME/.sdkvm"
