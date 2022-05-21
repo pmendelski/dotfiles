@@ -81,14 +81,14 @@ gpg-generate-key-for-github() {
   local key="$(gpg --armor --export $id)"
   gpg-send-key-to-keyserver "$sid"
 
-  echo "\n\nPaste below key to github.com.\nHint: it's already in the clipboard.\n$key\n"
+  echo -e "\n\nPaste below key to github.com.\nHint: it's already in the clipboard.\n$key\n"
   echo "$key" | pbcopy
 
   if [ -z "(git config --global user.signingkey)" ]; then
     git config --global user.signingkey "$sid"
     echo "registered gpg key as default one"
   else
-    echo "\n\nThere already is a default GPG key."
+    echo -e "\n\nThere already is a default GPG key."
     echo "Paste config to ~/.gitconfig"
     echo "[user]"
     echo "  signingkey: $sid"

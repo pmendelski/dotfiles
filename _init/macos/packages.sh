@@ -74,7 +74,6 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-complet
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
-brew install --cask alfred
 brew install --cask iterm2
 brew install --cask github
 brew install --cask visual-studio-code
@@ -89,6 +88,7 @@ brew install --cask intellij-idea
 brew install --cask intellij-idea-ce
 brew install --cask insomnia
 brew install --cask sublime-text
+brew install --cask google-chrome
 
 # VS Code extenstions
 code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
@@ -127,25 +127,36 @@ brew install nghttp2
 brew cleanup
 
 # Use GNU tools by defaults
-if ! grep -q "/opt/homebrew/opt/coreutils/libexec/gnubin" ~/.path; then
-  echo "/opt/homebrew/opt/coreutils/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/findutils/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/gnu-indent/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/gnu-sed/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/gnu-which/libexec/gnubin" >> ~/.path
-  echo "/opt/homebrew/opt/grep/libexec/gnubin" >> ~/.path
-  # echo "/opt/homebrew/opt/binutils/bin" >> ~/.path
-  # echo "/opt/homebrew/opt/diffutils/bin" >> ~/.path
+if [ -d /opt/homebrew/opt/coreutils/libexec/gnubin ]; then
+  if ! grep -q "/opt/homebrew/opt/coreutils/libexec/gnubin" ~/.path; then
+    echo "/opt/homebrew/opt/coreutils/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/findutils/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/gnu-indent/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/gnu-sed/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/gnu-which/libexec/gnubin" >> ~/.path
+    echo "/opt/homebrew/opt/grep/libexec/gnubin" >> ~/.path
+  fi
+fi
+if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
+  if ! grep -q "/usr/local/opt/coreutils/libexec/gnubin" ~/.path; then
+    echo "/usr/local/opt/coreutils/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/findutils/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/gnu-indent/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/gnu-which/libexec/gnubin" >> ~/.path
+    echo "/usr/local/opt/grep/libexec/gnubin" >> ~/.path
+  fi
 fi
 
 # Copy some scripts to loaded path
-mkdir -pf $HOME/Scripts
+mkdir -p $HOME/Scripts
 cp ./scripts/* $HOME/Scripts/
 
 # Copy automator actions
 mkdir -pf $HOME/Library/Services
-cp ./automator/* $HOME/Library/Services/
+cp -r ./automator/* $HOME/Library/Services/
 
 # Create ssh key
 if [ ! -f ~/.ssh/config ]; then
@@ -160,14 +171,11 @@ if [ ! -f ~/.ssh/config ]; then
   echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
 
   if command -v pbcopy &> /dev/null; then
-    cat ~/.ssh/id_ed25519 | pbcopy
+    cat ~/.ssh/id_ed25519.pub | pbcopy
     echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
     echo "Remember to generate GPG key with: gpg-generate-key-for-github"
   fi
 fi
-
-# sdkvm
-git clone git@github.com:pmendelski/sdkvm.git "$HOME/.sdkvm"
 
 echo ""
 echo "NEXT STEPS"
