@@ -5,7 +5,7 @@
 # https://rust-analyzer.github.io/manual.html#rustup
 
 
-# rustup run nightly rust-analyzer $@
+rustup run nightly rust-analyzer $@
 
 # Use it when rust-analyzer newer version has some issues
-rustup run nightly-2022-02-08 rust-analyzer $@
+# rustup run nightly-2022-02-08 rust-analyzer $@

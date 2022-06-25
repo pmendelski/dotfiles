@@ -148,7 +148,6 @@ packer.startup({
     -- Syntax hightligting
     use {
       "nvim-treesitter/nvim-treesitter",
-      event = "BufRead",
       run = ":TSUpdate",
       config = [[require("plugin/treesitter")]],
     }

@@ -45,10 +45,10 @@ return function(client, bufnr)
   buf_set_keymap('v', '<c-s>', '<esc>:w<cr>:silent FormatWrite<cr>', opts)
 
   -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.document_formatting then
     buf_set_keymap("n", "<space>fo", "<cmd>lua vim.lsp.buf.formatting()<cr>", opts)
   end
-  if client.resolved_capabilities.document_range_formatting then
+  if client.server_capabilities.document_range_formatting then
     buf_set_keymap("v", "<space>fo", "<cmd>lua vim.lsp.buf.range_formatting()<cr>", opts)
   end
 end

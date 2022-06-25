@@ -1,5 +1,13 @@
 require('nvim-treesitter.configs').setup({
-  ensure_installed = 'maintained', -- one of 'all', 'maintained' (parsers with maintainers), or a list of languages
+  ensure_installed = {
+    "bash", "clojure", "c", "cpp",
+    "dockerfile", "go", "graphql",
+    "html", "java", "javascript", "json", "json5",
+    "kotlin", "latex", "lua", "php", "python",
+    "rust", "ruby", "scala", "scss",
+    "svelte", "toml", "tsx", "typescript",
+    "vim", "vue", "yaml"
+  },
   autopairs = { enable = true },
   highlight = {
     enable = true,
