@@ -2,7 +2,10 @@ local on_attach = require('plugin/lspconfig/on-attach')
 
 local extension_path = vim.fn.expand("~/.vscode/extensions/vadimcn.vscode-lldb-*")
 local codelldb_path = extension_path .. '/adapter/codelldb'
-local liblldb_path = extension_path .. '/lldb/lib/liblldb.so'
+local liblldb_path = vim.fn.expand(extension_path .. '/lldb/lib/liblldb.*')
+-- local liblldb_path = extension_path .. '/lldb/lib/liblldb.dylib' -- macos
+-- local liblldb_path = extension_path .. '/lldb/lib/liblldb.so' -- linux
+
 
 require('rust-tools').setup({
   tools = { -- rust-tools options

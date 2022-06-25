@@ -66,7 +66,7 @@ brew install rustup-init
 rustup-init -y --no-modify-path
 
 # Docker
-brew cask install docker
+brew install --cask docker
 brew install docker-compose
 # link zsh completion files
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion /usr/local/share/zsh/site-functions/_docker || echo "Completion file _docker exists"
@@ -89,6 +89,7 @@ brew install --cask intellij-idea-ce
 brew install --cask insomnia
 brew install --cask sublime-text
 brew install --cask google-chrome
+brew install --cask dbeaver-community
 
 # VS Code extenstions
 code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim

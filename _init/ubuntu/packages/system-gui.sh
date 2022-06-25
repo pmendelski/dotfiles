@@ -37,9 +37,12 @@ sudo apt-get update
 sudo apt-get install sublime-text
 
 echo -e "\n>>> DB Managers"
-sudo snap install squirrelsql
 sudo snap install redis-desktop-manager
 sudo snap install robo3t-snap
+# DBeaver
+wget -qO - https://dbeaver.io/debs/dbeaver.gpg.key | sudo apt-key add -
+echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list.d/dbeaver.list
+sudo apt-get update
 
 echo -e "\n>>> MongoDb Compass"
 if ! command -v mongodb-compass &> /dev/null; then

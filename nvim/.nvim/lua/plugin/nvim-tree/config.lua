@@ -24,35 +24,6 @@ function _M.refresh()
 end
 
 function _M.config()
-  vim.g.nvim_tree_special_files = {}
-  vim.g.nvim_tree_git_hl = 1
-  vim.g.nvim_tree_icons = {
-    default = '',
-    symlink = '',
-    git = {
-      -- unstaged = "✗",
-      unstaged = "+",
-      -- staged = "✓",
-      staged = "",
-      unmerged = "",
-      renamed = "➜",
-      -- untracked = "★",
-      untracked = "*",
-      deleted = "",
-      -- ignored = "◌"
-      ignored = ""
-    },
-    folder = {
-      arrow_open = "",
-      arrow_closed = "",
-      default = "",
-      open = "",
-      empty = "",
-      empty_open = "",
-      symlink = "",
-      symlink_open = "",
-    }
-  }
   local function custom_callback(callback_name)
     return string.format(":lua require('plugin/nvim-tree/telescope').%s()<CR>", callback_name)
   end
@@ -80,6 +51,7 @@ function _M.config()
       }
     },
     view = {
+      width = 30,
       mappings = {
         custom_only = true,
         list = {
@@ -114,6 +86,39 @@ function _M.config()
         info = "",
         warning = "",
         error = "",
+      }
+    },
+    renderer = {
+      highlight_git = true,
+      special_files = {},
+      icons = {
+        glyphs = {
+          default = '',
+          symlink = '',
+          git = {
+            -- unstaged = "✗",
+            unstaged = "+",
+            -- staged = "✓",
+            staged = "",
+            unmerged = "",
+            renamed = "➜",
+            -- untracked = "★",
+            untracked = "*",
+            deleted = "",
+            -- ignored = "◌"
+            ignored = ""
+          },
+          folder = {
+            arrow_open = "",
+            arrow_closed = "",
+            default = "",
+            open = "",
+            empty = "",
+            empty_open = "",
+            symlink = "",
+            symlink_open = "",
+          }
+        }
       }
     },
     actions = {

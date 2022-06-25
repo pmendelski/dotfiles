@@ -69,7 +69,7 @@ function __flexiPromptUserAtHostText() {
   fi
 
   # Only show username@host in special cases
-  [ -z "$userhost" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] && \
+  [ -z "$userhost" ] || [ -z "$user" ] || [ -z "$host" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] || [ "$userhost" = "${PROMPT_DEFAULT_USERHOST}.local" ] && \
     [ -z "$SSH_CONNECTION" ] && \
     [ ! "$SUDO_USER" ] && \
     [ "$isRoot" = 0 ] && \
