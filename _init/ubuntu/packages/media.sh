@@ -8,6 +8,7 @@ echo ">>>>"
 
 echo -e "\n>>> Graphics"
 sudo snap install inkscape
+sudo apt install -y imagemagick
 sudo apt install -y \
   gimp \
   gimp-data \
@@ -46,7 +47,7 @@ echo -e "\n>>> Ebooks"
 sudo apt install -y calibre
 
 echo -e "\n>>> PDF"
-sudo apt install poppler-utils
+sudo apt install -y poppler-utils
 
 echo -e "\n>>> Flash cards"
 sudo snap install anki-ppd

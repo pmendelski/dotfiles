@@ -30,10 +30,12 @@ fi
 # Git merge tool
 sudo apt-get install -y meld
 # Sublime
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-sudo apt-get install apt-transport-https
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
+if [ ! -f /etc/apt/sources.list.d/sublime-text.list ]; then
+  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+  sudo apt-get install apt-transport-https
+  echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+  sudo apt-get update
+fi
 sudo apt-get install sublime-text
 
 echo -e "\n>>> DB Managers"
@@ -66,7 +68,7 @@ installGithubDesktop() {
   local path="$(curl -sL https://github.com/shiftkey/desktop/releases/latest | grep -o "/releases/download/.\+GitHubDesktop.\+\.deb" | head -n 1)"
   local file="$(echo "$path" | grep -o "GitHubDesktop.\+\.deb" | head -n 1)"
   local tmpdir="$(mktemp -d -t github-desktop-XXXX)"
-  (cd "$tmpdir" && wget -O "$file" "https://github.com/shiftkey/desktop${path}" && sudo gdebi -y "$file")
+  (cd "$tmpdir" && wget -O "$file" "https://github.com/shiftkey/desktop${path}" && sudo gdebi -n "$file")
   rm -rf "$tmpdir"
 }
 if ! command -v github-desktop &> /dev/null; then

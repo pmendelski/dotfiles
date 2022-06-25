@@ -8,7 +8,7 @@ echo ">>>"
 
 echo -e "\n>>> Terminal"
 mkdir -p ~/.local/bin
-sudo apt-get install -y \
+sudo apt install -y \
   tmux \
   zsh \
   fzf \
@@ -16,33 +16,33 @@ sudo apt-get install -y \
   tree \
   ripgrep
 
-sudo apt install fd-find
+sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
   ln -s $(which fdfind) ~/.local/bin/fd
 fi
 sudo snap install fasd --beta
-sudo apt install -o Dpkg::Options::="--force-overwrite" bat ripgrep
+sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
 # cat with highlighting
-sudo apt install bat
+sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
   ln -s $(which batcat) ~/.local/bin/bat
 fi
 # htop
-sudo apt-get install htop
+sudo apt install -y htop
 # Lazygit
-# Replace with gitui when it's in apt-get/snap
+# Replace with gitui when it's in apt/snap
 # sudo add-apt-repository -y ppa:lazygit-team/release
-# sudo apt-get update
-# sudo apt-get install -y lazygi
+# sudo apt update
+# sudo apt install -y lazygi
 
 echo -e "\n>>> Vim & Neovim"
 sudo apt install vim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo apt-get update
-sudo snap install nvim
+sudo apt update
+sudo apt install -y neovim
 
 echo -e "\n>>> Rar/zip"
-sudo apt-get install -y \
+sudo apt install -y \
   unace \
   unrar \
   zip \
@@ -60,7 +60,7 @@ sudo apt-get install -y \
   alien
 
 echo -e "\n>>> Build tools"
-sudo apt-get install -y \
+sudo apt install -y \
   build-essential \
   automake \
   make \
@@ -79,46 +79,46 @@ sudo apt-get install -y \
   autoconf
 
 echo -e "\n>>> C"
-sudo apt-get install -y \
+sudo apt install -y \
   gcc \
   g++ \
   gobjc
 
 echo -e "\n>>> GIT"
 sudo add-apt-repository -y ppa:git-core/ppa
-sudo apt-get update
-sudo apt-get install -y \
+sudo apt update
+sudo apt install -y \
   git \
   gitk \
   gitg
 
 echo -e "\n>>> HTTP clients"
-sudo apt-get install -y \
+sudo apt install -y \
   curl \
   httpie \
   dnsutils
 
 echo -e "\n>>> HTTP perf test tools"
-sudo apt-get install -y \
+sudo apt install -y \
   nghttp2-client \
   apache2-utils
 
 echo -e "\n>>> JSON parser"
-sudo apt-get install -y \
+sudo apt install -y \
   jq
 
 echo -e "\n>>> Penetration testing tools"
-sudo apt-get install -y \
+sudo apt install -y \
   aircrack-ng \
   john \
   macchanger
 
 # Docker
-sudo apt-get remove -y docker || true
-sudo apt-get remove -y docker-engine || true
-sudo apt-get remove -y docker.io || true
-sudo apt-get remove -y containerd || true
-sudo apt-get remove -y runc || true
+sudo apt remove -y docker || true
+sudo apt remove -y docker-engine || true
+sudo apt remove -y docker.io || true
+sudo apt remove -y containerd || true
+sudo apt remove -y runc || true
 sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
@@ -140,30 +140,30 @@ fi
 
 echo -e "\n>>> Other"
 # Another package installer
-sudo apt-get install -y gdebi
+sudo apt install -y gdebi
 # Mounting remote file system by ssh
-sudo apt-get install -y sshfs
+sudo apt install -y sshfs
 # Copy to clipboard
-sudo apt-get install -y xclip xsel
+sudo apt install -y xclip xsel
 # Utils like: sponge
-sudo apt-get install -y moreutils tree
+sudo apt install -y moreutils tree
 # Listen to file changes
-sudo apt-get install -y inotify-tools
+sudo apt install -y inotify-tools
 # GUI for GnuPG
-sudo apt-get install -y seahorse seahorse-nautilus
+sudo apt install -y seahorse seahorse-nautilus
 # Looking for files inside packages
 # Example: apt-file search /usr/lib/jvm/java-6-openjdk/jre/lib/i386/xawt/libmawt.so
 # See: https://www.howtoforge.com/apt_file_debian_ubuntu
-sudo apt-get install -y apt-file
+sudo apt install -y apt-file
 sudo apt-file update
 # Quote of the day
-sudo apt-get install -y fortune
+sudo apt install -y fortune
 # Funny creatures
 # fortune | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n1)
 # for f in `cowsay -l | tac | head -n -1 | tac | tr ' ' '\n' | sort`; do
 #     cowsay -f $f "Hello from $f"
 # done
-sudo apt-get install -y cowsay
+sudo apt install -y cowsay
 # Ascii art
 # figlet -f slant <Some Text>
-sudo apt-get install -y figlet
+sudo apt install -y figlet

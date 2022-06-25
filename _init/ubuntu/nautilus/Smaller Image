@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+for f in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS; do
+  mogrify -resize 80% "$f"
+done
+IFS=$SAVEIFS

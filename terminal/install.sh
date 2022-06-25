@@ -4,8 +4,6 @@ set -euf -o pipefail
 # Does not work on ubuntu
 # For macos import manually from _init/macos/iterm2
 if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
-  export TERMINAL="gnome-terminal"
-
   if [ -d "$HOME/.gogh" ]; then
     cd "$HOME/.gogh"
     git fetch

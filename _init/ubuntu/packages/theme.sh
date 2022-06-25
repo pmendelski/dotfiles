@@ -28,9 +28,6 @@ sudo apt-get install -y \
 echo -e "\n>>> Community Theme"
 sudo snap install communitheme
 
-echo -e "\n>>> Gnome Tweak Tool"
-sudo apt-get install gnome-tweak-tool
-
 echo -e "\n>>> Gnome extensions"
 sudo apt-get install -y \
   gnome-shell-extensions \

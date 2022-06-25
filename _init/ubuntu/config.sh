@@ -9,8 +9,8 @@ echo -e "\n>>> Copy template files"
 cp "$PWD/templates/"* "$HOME/Templates/"
 
 echo -e "\n>>> Copy template files"
-mkdir -p "$HOME/.local/share/nautilus/scripts"
-cp "$PWD/nautilus/"* "$HOME/.local/share/nautilus/scripts/"
+rm -r "$HOME/.local/share/nautilus/scripts"
+ln -fs "$PWD/nautilus" "$HOME/.local/share/nautilus/scripts"
 
 echo -e "\n>>> Set ZSH as default shell"
 chsh -s "$(which zsh)"
@@ -21,7 +21,7 @@ chsh -s "$(which zsh)"
 
 # Create ssh key
 if [ ! -f ~/.ssh/config ]; then
-  echo "Generating initial ssh key"
+  echo -e "\n >>> Generating initial ssh key"
   eval "$(ssh-agent -s)"
   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
   ssh-add ~/.ssh/id_ed25519

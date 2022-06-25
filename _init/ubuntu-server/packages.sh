@@ -17,35 +17,6 @@ snap() {
   sudo snap install "$@"
 }
 
-# Better terminal
-mkdir -p ~/.local/bin
-package zsh
-package tmux
-package tree
-package fzf
-package ripgrep
-package fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
-snap fasd --beta
-
-# cat with highlighting
-sudo apt install bat
-if command -v batcat &> /dev/null; then
-  ln -s $(which batcat) ~/.local/bin/bat
-fi
-
-# Packages
-package zip
-package unzip
-
-# Neovim
-package neovim
-package python3-neovim
-
-# Ascii art
-# figlet -f slant <Some Text>
-package figlet
-
 # Build tools
 package build-essential
 package automake
@@ -103,10 +74,45 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
 sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
 
-# sdkvm
-cd ~
-git clone git@github.com:pmendelski/sdkvm.git .sdkvm
-sdkvm install jdk
-sdkvm install gradle
-sdkvm install node
-sdkvm install python
+# Better terminal
+mkdir -p ~/.local/bin
+package zsh
+package tmux
+package tree
+package fzf
+package ripgrep
+package fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
+snap fasd --beta
+
+# cat with highlighting
+package bat
+if command -v batcat &> /dev/null; then
+  ln -s $(which batcat) ~/.local/bin/bat
+fi
+
+# Compression tools
+package zip
+package unzip
+
+# Neovim
+package neovim
+package python3-neovim
+
+# Ascii art
+# figlet -f slant <Some Text>
+package figlet
+
+# Image manipulation
+package imagemagick
+
+# Better terminal
+mkdir -p ~/.local/bin
+package zsh
+package tmux
+package tree
+package fzf
+package ripgrep
+package fd-find
+ln -s $(which fdfind) ~/.local/bin/fd
+snap fasd --beta
