@@ -35,3 +35,7 @@ source "$HOME/.bash/index.sh"
 if [ -e "$HOME/.sdkvm/init.sh" ]; then
   source "$HOME/.sdkvm/init.sh";
 fi
+
+if [ -e "$HOME/.bashrc-local" ]; then
+  source "$HOME/.bashrc-local";
+fi

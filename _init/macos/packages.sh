@@ -42,6 +42,7 @@ brew install vbindiff
 brew install cowsay
 brew install figlet
 brew install jq
+brew install yq
 brew install tmux
 brew install zsh
 brew install bash
