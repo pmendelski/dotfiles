@@ -27,7 +27,7 @@ vim.cmd([[
   augroup end
 ]])
 
--- Trim whitespaces
+-- Trim whitespaces before write
 vim.cmd([[
 augroup TrimWhitespaces
   autocmd!
@@ -44,7 +44,7 @@ augroup SpellCheckFiletypes
 augroup END
 ]])
 
--- Authighlight current word
+-- Autohighlight current word
 vim.cmd([[
   " Highlight all instances of word under cursor, when idle.
   " Type z/ to toggle highlighting on/off.

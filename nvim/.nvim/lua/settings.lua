@@ -12,7 +12,6 @@ g.mapleader = ' '             -- change leader to a space
 opt.encoding= 'utf8'          -- utf8 by default
 opt.mouse = 'a'               -- enable mouse in all in all modes
 opt.clipboard = 'unnamed,unnamedplus' -- copy/paste to system clipboard
-opt.shell = '/usr/bin/zsh'    -- use zsh for executing shell commands
 opt.compatible = false        -- some compatybility issues
 opt.updatetime = 150
 -- opt.timeoutlen = 1000

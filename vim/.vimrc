@@ -32,7 +32,6 @@ let mapleader="\<space>"
 set encoding=utf8             " utf8 by default
 set mouse=a                   " enable mouse in all in all modes
 set clipboard=unnamed,unnamedplus " copy/paste to system clipboard
-set shell=/bin/sh             " use sh for executing shell commands
 set nocompatible              " some compatybility issues
 set updatetime=150
 set synmaxcol=240             " max column for syntax highlight
