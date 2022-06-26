@@ -56,6 +56,15 @@ syntax on
 set termguicolors
 colorscheme nord
 
+" Cursor
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+augroup myCmds
+  au!
+  autocmd VimEnter * silent !echo -ne "\e[2 q"
+augroup END
+
 " Folding
 set foldcolumn=0        " column to show folds
 set foldenable          " enable folding
