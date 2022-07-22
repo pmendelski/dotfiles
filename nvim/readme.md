@@ -50,6 +50,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `gu`/`gU`/`g~`     | N | **change** to lowercase/uppercase/switch up to motion |
 | `<Alt>-j`          | * | **move** down (custom) |
 | `<Alt>-k`          | * | **move** up (custom) |
+| `<Ctrl>-d`         | * | **duplicate** line |
 | `<leader>-'`       | N | **add** add new line in N mode (custom) |
 | `<leader>-"`       | N | **remove** add new line in N mode (custom) |
 

@@ -41,6 +41,9 @@ alias lg='lazygit'
 # fd
 alias fd="fd --hidden"
 
+# rg
+alias rg="rg --hidden --glob '!.git'"
+
 # Portable shebang
 alias shebang='echo "#!/usr/bin/env bash"'
 

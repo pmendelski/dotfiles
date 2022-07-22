@@ -35,6 +35,7 @@ package dh-make
 package libtool
 package autoconf
 package gcc
+package ninja-build
 
 # GIT
 repository ppa:git-core/ppa

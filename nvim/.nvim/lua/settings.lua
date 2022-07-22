@@ -1,7 +1,6 @@
 -- Neovim API aliases
 -----------------------------------------------------------
 local cmd = vim.cmd
-local exec = vim.api.nvim_exec
 local fn = vim.fn
 local g = vim.g
 local opt = vim.opt
@@ -30,7 +29,7 @@ opt.splitright = true         -- vertical split to the right
 opt.splitbelow = true         -- horizontal split to the bottom
 opt.showcmd = true            -- show (partial) command in status line
 opt.completeopt = 'menu,menuone,noselect' -- autocompletion settings
-opt.ttyfast = true                   -- send more characters at a given time
+opt.ttyfast = true            -- send more characters at a given time
 opt.lazyredraw = true         -- faster scrolling
 opt.synmaxcol = 500           -- max column for syntax highlight
 opt.termguicolors = true      -- enable 24-bit RGB colors
@@ -116,4 +115,3 @@ cmd 'filetype plugin on' --  load filetype-specific plugins
 cmd 'autocmd FileType text,markdown,xml,json,yaml,yml,html,xhtml,javascript setlocal cc=0'
 -- 2 spaces for selected filetypes
 cmd 'autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml,yml setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab'
-

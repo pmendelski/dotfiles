@@ -5,7 +5,6 @@ local function get_listed_buffers()
   local len = 0
   local vim_fn = vim.fn
   local buflisted = vim_fn.buflisted
-  local treeView = require('nvim-tree.view')
   for buffer = 1, vim_fn.bufnr('$') do
     if buflisted(buffer) == 1 then
       len = len + 1
@@ -48,7 +47,7 @@ end
 function _M.close_other_buffers()
   local active = vim.api.nvim_get_current_buf()
   local buffers = get_listed_buffers()
-  for index, value in ipairs(buffers) do
+  for _, value in ipairs(buffers) do
     if value ~= active then
       _M.close_buffer(value)
     end
@@ -86,17 +85,16 @@ function _M.config()
   map('v', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   map('n', 'bc', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   map('n', 'bo', "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr>")
-  map('n', 'ba', "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr><cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   -- cycling buffers
-  map('n', 'b[', '<cmd>:BufferLineCycleNext<cr>')
-  map('n', 'b]', '<cmd>:BufferLineCyclePrev<cr>')
+  map('n', 'b]', '<cmd>:BufferLineCycleNext<cr>')
+  map('n', 'b[', '<cmd>:BufferLineCyclePrev<cr>')
   -- moving buffers
-  map('n', 'B[', '<cmd>:BufferLineMoveNext<cr>')
-  map('n', 'B]', '<cmd>:BufferLineMovePrev<cr>')
+  map('n', 'B]', '<cmd>:BufferLineMoveNext<cr>')
+  map('n', 'B[', '<cmd>:BufferLineMovePrev<cr>')
   -- picking buffers
   local numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
   for _, num in pairs(numbers) do
-    map('n', '<leader>'..num, '<cmd>BufferLinePick '..num..'<cr>')
+    map('n', 'bb'..num, '<cmd>BufferLineGoToBuffer '..num..'<cr>')
   end
 end
 

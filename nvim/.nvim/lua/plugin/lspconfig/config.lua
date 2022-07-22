@@ -91,21 +91,17 @@ local eslint = {
   formatStdin = true
 }
 
-lspconfig.efm.setup {
+lspconfig.efm.setup({
   init_options = {documentFormatting = true},
   filetypes = {'javascript', 'typescript'},
-  root_dir = function(fname)
-    return util.root_pattern('tsconfig.json')(fname) or
-    util.root_pattern('.eslintrc.js', '.git')(fname);
-  end,
   settings = {
     rootMarkers = {'.eslintrc.js', '.git/'},
     languages = {
       javascript = {eslint},
-      typescript = {eslint}
+      typescript = {eslint},
     }
   }
-}
+})
 
 -- Docker
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#dockerls
@@ -210,3 +206,29 @@ lspconfig.tsserver.setup(lsconfig())
 -- https://github.com/vuejs/vetur/tree/master/server
 -- npm i -g vls
 lspconfig.vuels.setup(lsconfig())
+
+-- Lua
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+-- https://github.com/sumneko/lua-language-serve
+-- https://www.chiarulli.me/Neovim/28-neovim-lua-development/
+local lua_dir = vim.fn.stdpath('data') .. '/lang-servers/lua-language-server'
+lspconfig.sumneko_lua.setup(lsconfig({
+  cmd = { lua_dir .. '/bin/lua-language-server', "-E", lua_dir .. "/main.lua" },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = vim.split(package.path, ';')
+      },
+      diagnostics = {
+        globals = {'vim'},
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}))

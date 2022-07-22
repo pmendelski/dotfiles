@@ -29,17 +29,16 @@ if not present then
   end
 end
 
+local snapshots = require('snapshots')
 local config = {
+  snapshot_path = snapshots.path(),
   display = {
     open_fn = require('packer.util').float,
   }
 }
 
--- To test with nvim v7
--- https://github.com/mrjones2014/legendary.nvim
-
 packer.startup({
-  function()
+  function(use)
     -- Packer manager
     use {
       "wbthomason/packer.nvim",
@@ -270,9 +269,10 @@ vim.defer_fn(function()
   -- use PackerInstall or PackerSync, useful for generating the
   -- `plugin/packer_compiled.lua` on first doom launch
   local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
-  if installed == 1 then
+  if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
+    snapshots.create_snapshot()
     vim.cmd("PackerSync")
-  else
+  elseif installed == 0 then
     vim.cmd("PackerClean")
     vim.cmd("PackerInstall")
   end

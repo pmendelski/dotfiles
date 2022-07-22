@@ -14,6 +14,7 @@ brew install findutils
 brew install binutils
 brew install diffutils
 brew install watch
+brew install ninja
 brew install wget
 brew install wdiff
 brew install gawk
@@ -21,6 +22,7 @@ brew install gnu-indent
 brew install gnu-sed
 brew install gnu-tar
 brew install gnu-which
+brew install cmake
 brew install grep
 brew install gzip
 brew install zlib
@@ -200,12 +202,7 @@ echo "- Remove Dropbox from finder top menu:"
 echo "  - Finder > Right Click Toolbar > Customize > ..."
 echo ""
 echo "iTerm2"
-echo "- Import tokyo-night from _init/macos/iterm2"
-echo "- Use font: FirCode Nerd Font"
-echo "- Transparency: 5"
-echo "- Make Option and Command behave:"
-echo "  - Preferences > Profile > Select profile > Keys > Select Left/Right option: +Esc"
-echo "  - Key Mappings > Presets: Natural Text Editing"
+echo "- Import tokyo-night colors and profile from from _init/macos/iterm2"
 echo ""
 echo "Other"
 echo "- Fix keyboard shortcurs"

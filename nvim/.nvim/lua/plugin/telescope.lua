@@ -3,7 +3,7 @@ local _M = {}
 function _M.keymap()
   local map = require('util').keymap
   map('n', '<leader>fx', ':Telescope<cr>')
-  map('n', '<leader>ff', ':Telescope find_files<cr>')
+  map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>')
   map('n', '<leader>fv', ':Telescope git_files<cr>')
   map('n', '<leader>fb', ':Telescope buffers<cr>')
   map('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find<cr>')
@@ -62,6 +62,7 @@ function _M.config()
       },
       vimgrep_arguments = {
         "rg",
+        "--hidden",
         "--color=never",
         "--no-heading",
         "--with-filename",

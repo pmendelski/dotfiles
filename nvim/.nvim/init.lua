@@ -49,7 +49,7 @@ vim.cmd([[
 -- Detect single file mode
 vim.g.single_file_mode = 0
 local argv = vim.api.nvim_eval("argv()")
-if table.getn(argv) == 1 and vim.fn.filereadable(argv[1]) == 1 then
+if #argv == 1 and vim.fn.filereadable(argv[1]) == 1 then
   vim.g.single_file_mode = 1
 end
 

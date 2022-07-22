@@ -74,6 +74,7 @@ sudo apt install -y \
   xutils \
   lintian \
   cmake \
+  ninja-build \
   dh-make \
   libtool \
   autoconf

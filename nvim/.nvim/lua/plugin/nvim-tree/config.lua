@@ -39,17 +39,6 @@ function _M.config()
     hijack_cursor = true,
     -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
     update_cwd = true,
-    actions = {
-      open_file = {
-        window_picker = {
-          enable = true,
-          exclude = {
-            ["filetype"] = { "notify", "packer", "qf", "Outline" },
-            ["buftype"] = { "terminal" }
-          }
-        }
-      }
-    },
     view = {
       width = 30,
       mappings = {
