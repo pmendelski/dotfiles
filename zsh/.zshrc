@@ -1,8 +1,9 @@
 #!/bin/zsh
 
 # Defaults
+: ${TERM:="xterm-256color"}
 : ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
-: ${ZSH_PROMPT:=flexi}
+: ${ZSH_PROMPT:="flexi"}
 
 # Force tmux
 if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ]; then

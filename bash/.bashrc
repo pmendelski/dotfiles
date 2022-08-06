@@ -21,6 +21,7 @@ case $- in
 esac
 
 # Defaults
+: ${TERM:="xterm-256color"}
 : ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
 
 # Force tmux

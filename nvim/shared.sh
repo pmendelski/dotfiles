@@ -77,3 +77,5 @@ installPlugins() {
       || echo "Could not install plugins"
   fi
 }
+
+installLuaLangServer
