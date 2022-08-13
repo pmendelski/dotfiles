@@ -63,8 +63,7 @@ local diagnostics = {
   color_warn = colors.yellow,
   color_info = colors.cyan,
   cond = function()
-    return conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+    return conditions.buffer_not_tree()
   end
 }
 
@@ -147,7 +146,25 @@ local lsp_progress = {
     use = true,
   },
   cond = function()
-    return conditions.buffer_wide()
+    return conditions.buffer_not_tree()
+  end
+}
+
+
+local lsp_progress_short = {
+  'lsp_progress',
+  display_components = {{ 'percentage'}},
+  -- spinner_symbols = { '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ', '⣾ ' },
+  colors = {
+    percentage  = colors.cyan,
+    -- title  = colors.cyan,
+    -- message  = colors.cyan,
+    -- spinner = colors.orange,
+    -- lsp_client_name = colors.orange,
+    use = true,
+  },
+  cond = function()
+    return not conditions.buffer_wide()
       and conditions.buffer_not_tree()
   end
 }

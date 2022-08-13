@@ -27,8 +27,10 @@ function _M.config()
   local function custom_callback(callback_name)
     return string.format(":lua require('plugin/nvim-tree/telescope').%s()<CR>", callback_name)
   end
+
   local tree = require('nvim-tree')
   tree.setup({
+    auto_reload_on_write = true,
     -- Completely disable netrw
     disable_netrw = false,
     -- Hijack netrw window on startup
@@ -44,7 +46,7 @@ function _M.config()
       mappings = {
         custom_only = true,
         list = {
-          { key = {"<CR>", "<2-LeftMouse>"}, action = "edit" },
+          { key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
           { key = "+", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('+10')<cr>" },
           { key = "-", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('-10')<cr>" },
           { key = "=", cb = "<cmd>lua require('plugin/nvim-tree/config').reset_size()<cr>" },
@@ -58,8 +60,9 @@ function _M.config()
           { key = "s", action = "split" },
           { key = "t", action = "tabnew" },
           { key = "a", action = "create" },
-          { key = "d", action = "delete" },
-          { key = "D", action = "trash" },
+          { key = "d", action = "trash" },
+          { key = "D", action = "remove" },
+          { key = "<c-r>", action = "reload" },
           { key = "r", action = "rename" },
           { key = "R", action = "full_rename" },
           { key = "x", action = "cut" },

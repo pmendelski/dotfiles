@@ -33,7 +33,7 @@ map('n', '<leader><leader>', '<c-^>')
 -- Delete buffer
 map('n', '<leader>d', ':bp<bar>sp<bar>bn<bar>bd<cr>')
 -- Open new file adjacent to current file
-map('n', '<leader>n', ':e <C-R>=expand("%:p:h") . "/" <cr>', {silent = false})
+map('n', '<leader>n', ':e <C-R>=expand("%:p:h") . "/" <cr>', { silent = false })
 
 -- Splits
 -----------------------------------------------------------
@@ -95,13 +95,6 @@ _G.indent_i = function()
 end
 map('n', 'i', 'v:lua.indent_i()', { expr = true })
 map('n', 'a', 'v:lua.indent_i()', { expr = true })
--- Indent without leaving mode
-map('n', '<tab>', '>>')
-map('n', '<s-tab>', '<<')
-map('i', '<tab>', '<C-t>')
-map('i', '<s-tab>', '<C-d>')
-map('v', '>', '>gv')
-map('v', '<', '<gv')
 -- New lines from normal mode
 map('n', "<leader>'", ':<c-u>call append(line("."),   repeat([""], v:count1))<cr>')
 map('n', '<leader>"', ':<c-u>call append(line(".")-1, repeat([""], v:count1))<cr>')
@@ -112,7 +105,13 @@ map('n', '<c-d>', 'yyp')
 map('i', '<c-d>', '<esc>yypi')
 map('v', '<c-d>', 'yP')
 -- Copy whole line
-map('n', 'Y', 'Vy<esc>')
+map('n', 'Y', 'mzVy<esc>`z')
+-- Copy whole file
+map('v', 'Y', 'mz<esc>ggV<cr>Gy`z')
+
+-- Select
+-----------------------------------------------------------
+map('v', 'v', '<esc>ggV<cr>G')
 
 -- Undo and redo
 -----------------------------------------------------------

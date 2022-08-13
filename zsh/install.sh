@@ -21,4 +21,3 @@ installPlugins() {
 }
 
 installPlugins
-

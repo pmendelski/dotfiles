@@ -10,14 +10,13 @@ if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SS
   exec tmux && exit;
 fi
 
+# Local variables
+[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
+[ -r "$HOME/.zsh_exports" ] && source "$HOME/.zsh_exports"
+
 # zsh_plugins=(jvm) # By default all plugins are loaded
 # zsh_plugins=(!someplugin)   # Skip some plugins with '!'
 source ~/.zsh/index.zsh
-
-# Local variables
-for file in $HOME/.{bash,zsh}_exports; do
-  [ -r "$file" ] && source "$file"
-done
 
 # Load prompt
 autoload -U promptinit && promptinit
@@ -25,10 +24,8 @@ prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT \
   && prompt $ZSH_PROMPT \
   || echo "Could not load zsh prompt: \"$ZSH_PROMPT\""
 
-if [ -e "$HOME/.sdkvm/init.sh" ]; then
-  source "$HOME/.sdkvm/init.sh";
-fi
-
-if [ -e "$HOME/.zshrc-local" ]; then
-  source "$HOME/.zshrc-local";
-fi
+# Init scripts
+[ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
+[ -f "$HOME/.zshrc_local" ] && source "$HOME/.zshrc_local"
+[ -f "$HOME/.sdkvm/init.sh" ] && source "$HOME/.sdkvm/init.sh"
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"

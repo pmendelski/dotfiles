@@ -64,12 +64,7 @@ vim.defer_fn(function()
 
   -- Restore options after initialziations
   vim.opt.shadafile = ""
-  vim.cmd([[
-    rshada!
-    syntax on
-    filetype on
-    filetype plugin indent on
-  ]])
+  require('filetype')
 
   print("Lazy Loaded in " .. vim.fn.printf("%.3f",vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time))) .. "s")
 end, 0)

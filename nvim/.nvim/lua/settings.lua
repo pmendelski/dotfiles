@@ -83,7 +83,7 @@ opt.printoptions = 'paper:A4'
 opt.autoindent = true     -- copy indent from last line when starting new line
 opt.copyindent = true
 opt.backspace = 'indent,eol,start'
-opt.expandtab = true      -- use spaces for tabs
+-- opt.expandtab = true      -- use spaces for tabs
 opt.shiftwidth = 4
 opt.softtabstop = 4       -- number of spaces in tab when editing
 opt.tabstop = 4           -- number of visual spaces per TAB
@@ -96,7 +96,7 @@ opt.formatoptions = opt.formatoptions + 'n'  -- detect lists for formatting
 opt.formatoptions = opt.formatoptions + 'b'  -- auto-wrap in insert mode, and do not wrap old long lines
 -- Whitespace characters
 opt.list = true                -- by default present whitecharacters
-opt.listchars = 'space:·,eol:¬,tab:▸ ,nbsp:±,trail:·,extends:»,precedes:«' -- secure mapping for white characters
+opt.listchars = 'space:·,eol:¬,tab:▸ ,nbsp:_,trail:·,extends:»,precedes:«' -- secure mapping for white characters
 
 -- Spellcheck
 -----------------------------------------------------------
@@ -105,13 +105,3 @@ opt.spelllang = 'en,cjk'
 -- Signs
 -----------------------------------------------------------
 vim.o.signcolumn = 'yes'
-
-
--- File type related
------------------------------------------------------------
-cmd 'filetype indent on' -- load filetype-specific indent files
-cmd 'filetype plugin on' --  load filetype-specific plugins
--- remove line lenght marker for selected filetypes
-cmd 'autocmd FileType text,markdown,xml,json,yaml,yml,html,xhtml,javascript setlocal cc=0'
--- 2 spaces for selected filetypes
-cmd 'autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml,yml setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab'

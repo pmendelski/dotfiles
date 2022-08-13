@@ -114,7 +114,7 @@ sudo apt install -y \
   john \
   macchanger
 
-# Docker
+echo -e "\n>>> Docker"
 sudo apt remove -y docker || true
 sudo apt remove -y docker-engine || true
 sudo apt remove -y docker.io || true
@@ -132,12 +132,19 @@ sudo usermod -aG docker "${USER}"
 docker_compose_version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
 sudo curl -L "https://github.com/docker/compose/releases/download/v${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+# Dockerfile linter
+sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
+sudo chmod +x /bin/hadolint
 
 echo -e "\n>>> Rust"
 if ! command -v rustup &> /dev/null; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   export PATH="$PATH:~/.cargo/bin"
 fi
+
+echo -e "\n>>> Haskell"
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | \
+  BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
 echo -e "\n>>> Other"
 # Another package installer

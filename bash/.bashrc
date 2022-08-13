@@ -31,12 +31,9 @@ fi
 
 # Local variables
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
+
+# Init scripts
 source "$HOME/.bash/index.sh"
-
-if [ -e "$HOME/.sdkvm/init.sh" ]; then
-  source "$HOME/.sdkvm/init.sh";
-fi
-
-if [ -e "$HOME/.bashrc-local" ]; then
-  source "$HOME/.bashrc-local";
-fi
+[ -f "$HOME/.sdkvm/init.sh" ] && source "$HOME/.sdkvm/init.sh"
+[ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
