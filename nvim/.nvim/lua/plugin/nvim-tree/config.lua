@@ -24,8 +24,12 @@ function _M.refresh()
 end
 
 function _M.config()
-  local function custom_callback(callback_name)
-    return string.format(":lua require('plugin/nvim-tree/telescope').%s()<CR>", callback_name)
+  local function tree_action(callback_name)
+    return string.format(":lua require('plugin/nvim-tree/config').%s<cr>", callback_name)
+  end
+
+  local function telescope_action(callback_name)
+    return string.format(":lua require('plugin.nvim-tree.telescope').%s<cr>", callback_name)
   end
 
   local tree = require('nvim-tree')
@@ -47,11 +51,12 @@ function _M.config()
         custom_only = true,
         list = {
           { key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
-          { key = "+", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('+10')<cr>" },
-          { key = "-", cb = "<cmd>lua require('plugin/nvim-tree/config').resize('-10')<cr>" },
-          { key = "=", cb = "<cmd>lua require('plugin/nvim-tree/config').reset_size()<cr>" },
-          { key = "<C-[>", action = "dir_up" },
-          { key = "<C-]>", action = "cd" },
+          { key = "+", cb = tree_action("resize('+10')") },
+          { key = "-", cb = tree_action("resize('-10')") },
+          { key = "=", cb = tree_action("reset_size()") },
+          { key = "<c-[>", action = "dir_up" },
+          { key = "<c-]>", action = "cd" },
+          { key = "<c-r>", action = "reload" },
           { key = "nv", action = "vsplit" },
           { key = "nh", action = "split" },
           { key = "nt", action = "tabnew" },
@@ -62,7 +67,6 @@ function _M.config()
           { key = "a", action = "create" },
           { key = "d", action = "trash" },
           { key = "D", action = "remove" },
-          { key = "<c-r>", action = "reload" },
           { key = "r", action = "rename" },
           { key = "R", action = "full_rename" },
           { key = "x", action = "cut" },
@@ -72,8 +76,8 @@ function _M.config()
           { key = "Y", action = "copy_path" },
           { key = "<F3>", cb = "<c-w>l<cr>" },
           { key = "<esc>", cb = "" },
-          { key = "<c-f>", cb = custom_callback "find_files" },
-          { key = "<c-g>", cb = custom_callback "live_grep" },
+          { key = "f", cb = telescope_action("find_files()") },
+          { key = "g", cb = telescope_action("live_grep()") },
         }
       }
     },
@@ -122,6 +126,9 @@ function _M.config()
           }
         }
       }
+    },
+    git = {
+      ignore = false
     },
     actions = {
       open_file = {

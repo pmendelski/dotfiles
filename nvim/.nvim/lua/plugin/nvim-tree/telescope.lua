@@ -1,21 +1,4 @@
-local lib = require'nvim-tree.lib'
-local openfile = require'nvim-tree.actions.open-file'
-local actions = require'telescope.actions'
-local action_state = require'telescope.actions.state'
 local M = {}
-
-local view_selection = function(prompt_bufnr, map)
-  actions.select_default:replace(function()
-    actions.close(prompt_bufnr)
-    local selection = action_state.get_selected_entry()
-    local filename = selection.filename
-    if (filename == nil) then
-      filename = selection[1]
-    end
-    openfile.fn('preview', filename)
-  end)
-  return true
-end
 
 function M.live_grep(opts)
   return M.launch_telescope("live_grep", opts)
@@ -43,8 +26,7 @@ function M.launch_telescope(func_name, opts)
   opts = opts or {}
   opts.cwd = basedir
   opts.search_dirs = { basedir }
-  opts.attach_mappings = view_selection
-  return require("telescope.builtin.files")[func_name](opts)
+  return require("telescope.builtin")[func_name](opts)
 end
 
 return M
