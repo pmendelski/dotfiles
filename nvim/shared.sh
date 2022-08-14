@@ -46,6 +46,7 @@ installDependencies() {
 installLuaLangServer() {
   local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless 2>&1 -u NONE)"
   local -r luaDir="$dataDir/lang-servers/lua-language-server"
+  local -r zshrc="$(cat $HOME/.zshrc)"
   if [ -d "$luaDir" ]; then
     cd "$luaDir"
     git fetch
@@ -63,6 +64,8 @@ installLuaLangServer() {
   ./compile/install.sh
   cd ../..
   ./3rd/luamake/luamake rebuild
+  # don't you dare changing my zshrc
+  echo "$zshrc" > $HOME/.zshrc
 }
 
 installPlugins() {
@@ -72,10 +75,5 @@ installPlugins() {
   if [ ! -d "$packerDir" ]; then
     git clone --depth 1 https://github.com/wbthomason/packer.nvim "$packerDir"
     echo "Installed Packer - Nvim Package manager"
-    nvim --headless --cmd 'autocmd User PackerComplete quitall' -cmd 'PackerSync' -u "$configDir/lua/plugins.lua" \
-      && echo "Installed Plugins" \
-      || echo "Could not install plugins"
   fi
 }
-
-installLuaLangServer

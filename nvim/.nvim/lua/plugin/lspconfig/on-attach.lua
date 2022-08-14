@@ -1,4 +1,4 @@
-return function(_, bufnr)
+return function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -31,9 +31,15 @@ return function(_, bufnr)
     '<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "' .. border .. '", focusable = false }})<cr>', opts)
   buf_set_keymap('n', prefix .. 'l', '<cmd>lua vim.diagnostic.set_loclist()<cr>', opts)
   -- Save and format
-  buf_set_keymap('n', '<c-s>', '<cmd>lua vim.lsp.buf.format()<cr>:w<cr>', opts)
-  buf_set_keymap('i', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
-  buf_set_keymap('v', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
+  if client.server_capabilities.documentFormattingProvider then
+    buf_set_keymap('n', '<c-s>', '<cmd>lua vim.lsp.buf.format()<cr>:w<cr>', opts)
+    buf_set_keymap('i', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
+    buf_set_keymap('v', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
+  else
+    buf_set_keymap('n', '<c-s>', '<cmd>:w<cr>', opts)
+    buf_set_keymap('i', '<c-s>', '<c-o>:w<cr>', opts)
+    buf_set_keymap('v', '<c-s>', '<c-o>:w<cr>', opts)
+  end
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,

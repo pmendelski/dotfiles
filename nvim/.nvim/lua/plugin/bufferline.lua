@@ -59,7 +59,7 @@ function _M.config()
     highlights = {
       fill = {
         -- tweak for onedark theme
-        guibg = '#17191e',
+        bg = '#17191e',
       },
     },
     options = {
@@ -73,7 +73,7 @@ function _M.config()
       max_prefix_length = 15,
       diagnostics = false,
       show_close_icon = false,
-      offsets = {{filetype = "NvimTree", text = "Files", text_align = "center"}},
+      offsets = { { filetype = "NvimTree", text = "Files", text_align = "center" } },
       always_show_bufferline = false,
     }
   })
@@ -92,9 +92,9 @@ function _M.config()
   map('n', 'B]', '<cmd>:BufferLineMoveNext<cr>')
   map('n', 'B[', '<cmd>:BufferLineMovePrev<cr>')
   -- picking buffers
-  local numbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+  local numbers = { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
   for _, num in pairs(numbers) do
-    map('n', 'bb'..num, '<cmd>BufferLineGoToBuffer '..num..'<cr>')
+    map('n', 'bb' .. num, '<cmd>BufferLineGoToBuffer ' .. num .. '<cr>')
   end
 end
 
