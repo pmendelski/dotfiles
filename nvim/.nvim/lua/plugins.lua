@@ -94,7 +94,7 @@ packer.startup({
       config = [[require("plugin/bufferline").config()]],
     }
     -- Telescope select
-    use {'nvim-telescope/telescope-ui-select.nvim' }
+    use { 'nvim-telescope/telescope-ui-select.nvim' }
     -- Telescope
     use {
       "nvim-telescope/telescope.nvim",
@@ -113,7 +113,7 @@ packer.startup({
     -- Zen editing
     use {
       "Pocco81/TrueZen.nvim",
-      cmd = {"TZAtaraxis", "TZFocus", "TZMinimalist"},
+      cmd = { "TZAtaraxis", "TZFocus", "TZMinimalist" },
       setup = [[require("plugin/truezen").keymap()]],
       config = [[require("plugin/truezen").config()]],
     }
@@ -132,7 +132,7 @@ packer.startup({
     }
     use {
       "rcarriga/nvim-dap-ui",
-      requires = {"mfussenegger/nvim-dap"},
+      requires = { "mfussenegger/nvim-dap" },
       config = [[require("plugin/dapui")]],
     }
     -- Expand visual selection
@@ -247,7 +247,7 @@ packer.startup({
     use {
       "saecki/crates.nvim",
       ft = "toml",
-      requires = { "nvim-lua/plenary.nvim"}
+      requires = { "nvim-lua/plenary.nvim" }
     }
     -- Toml
     use {
@@ -257,7 +257,7 @@ packer.startup({
     -- CSS
     use {
       "norcalli/nvim-colorizer.lua",
-      ft = {"css", "html", "javascript", "lua", "typescript"},
+      ft = { "css", "html", "javascript", "lua", "typescript" },
       config = [[require("colorizer").setup()]],
     }
   end,
