@@ -33,7 +33,7 @@ local lsconfig = function(opts)
 end
 
 -- Global LSP key bindings
-map('n', 'gx', '<cmd>:LspRestart<cr>')
+map('n', 'gq', '<cmd>:LspRestart<cr>')
 
 -- Customize dioagnostics UI
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
