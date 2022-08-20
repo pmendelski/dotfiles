@@ -31,9 +31,9 @@ fi
 sudo apt install -y htop
 # Lazygit
 # Replace with gitui when it's in apt/snap
-# sudo add-apt-repository -y ppa:lazygit-team/release
-# sudo apt update
-# sudo apt install -y lazygi
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
 
 echo -e "\n>>> Vim & Neovim"
 sudo apt install vim
@@ -145,6 +145,12 @@ fi
 echo -e "\n>>> Haskell"
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | \
   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
+
+echo -e "\n>>> GO"
+if command -v go &> /dev/null; then
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
+    sh -s -- -b $(go env GOPATH)/bin
+fi
 
 echo -e "\n>>> Other"
 # Another package installer

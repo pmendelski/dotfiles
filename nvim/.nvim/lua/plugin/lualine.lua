@@ -36,7 +36,7 @@ local file_size = {
     local function format_file_size(file)
       local size = vim.fn.getfsize(file)
       if size <= 0 then return '' end
-      local sufixes = {'b', 'k', 'm', 'g'}
+      local sufixes = { 'b', 'k', 'm', 'g' }
       local i = 1
       while size > 1024 do
         size = size / 1024
@@ -44,21 +44,22 @@ local file_size = {
       end
       return string.format('%.1f%s', size, sufixes[i])
     end
+
     local file = vim.fn.expand('%:p')
     if string.len(file) == 0 then return '' end
     return format_file_size(file)
   end,
   cond = function()
     return conditions.buffer_not_empty()
-      and conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_wide()
+        and conditions.buffer_not_tree()
   end
 }
 
 local diagnostics = {
   'diagnostics',
-  sources = {'nvim_diagnostic'},
-  symbols = {error = ' ', warn = ' ', info = ' '},
+  sources = { 'nvim_diagnostic' },
+  symbols = { error = ' ', warn = ' ', info = ' ' },
   color_error = colors.red,
   color_warn = colors.yellow,
   color_info = colors.cyan,
@@ -69,13 +70,13 @@ local diagnostics = {
 
 local diff = {
   'diff',
-  symbols = {added = ' ', modified = '柳 ', removed = ' '},
+  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
   color_added = colors.green,
   color_modified = colors.orange,
   color_removed = colors.red,
   cond = function()
     return conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_not_tree()
   end
 }
 
@@ -92,7 +93,7 @@ local encoding = {
   end,
   cond = function()
     return conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_not_tree()
   end
 }
 
@@ -107,7 +108,7 @@ local location = {
   'location',
   cond = function()
     return conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_not_tree()
   end
 }
 
@@ -115,7 +116,7 @@ local progress = {
   'progress',
   cond = function()
     return conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_not_tree()
   end
 }
 
@@ -135,15 +136,15 @@ local branch = {
 
 local lsp_progress = {
   'lsp_progress',
-  display_components = { 'lsp_client_name', 'spinner', { 'title', 'percentage', 'message' }},
+  display_components = { 'lsp_client_name', 'spinner', { 'title', 'percentage', 'message' } },
   spinner_symbols = { '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ', '⣾ ' },
   colors = {
-    percentage  = colors.cyan,
-    title  = colors.cyan,
-    message  = colors.cyan,
-    spinner = colors.orange,
+    percentage      = colors.cyan,
+    title           = colors.cyan,
+    message         = colors.cyan,
+    spinner         = colors.orange,
     lsp_client_name = colors.orange,
-    use = true,
+    use             = true,
   },
   cond = function()
     return conditions.buffer_not_tree()
@@ -153,19 +154,19 @@ local lsp_progress = {
 
 local lsp_progress_short = {
   'lsp_progress',
-  display_components = {{ 'percentage'}},
+  display_components = { { 'percentage' } },
   -- spinner_symbols = { '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ', '⣾ ' },
   colors = {
-    percentage  = colors.cyan,
+    percentage = colors.cyan,
     -- title  = colors.cyan,
     -- message  = colors.cyan,
     -- spinner = colors.orange,
     -- lsp_client_name = colors.orange,
-    use = true,
+    use        = true,
   },
   cond = function()
     return not conditions.buffer_wide()
-      and conditions.buffer_not_tree()
+        and conditions.buffer_not_tree()
   end
 }
 
@@ -173,6 +174,9 @@ local filename = {
   function()
     if vim.bo.filetype == "NvimTree" then
       return "NvimTree"
+    end
+    if vim.bo.modified then
+      return vim.fn.expand('%:t') .. ' ●'
     end
     return vim.fn.expand('%:t')
   end,
@@ -183,17 +187,17 @@ require('lualine').setup {
     theme = 'tokyonight'
   },
   sections = {
-    lualine_a = {mode},
-    lualine_b = {branch},
-    lualine_c = {filename, lsp_progress},
-    lualine_x = {diagnostics, filetype, file_size, encoding},
-    lualine_y = {progress},
-    lualine_z = {location}
+    lualine_a = { mode },
+    lualine_b = { branch },
+    lualine_c = { filename, lsp_progress },
+    lualine_x = { diagnostics, filetype, file_size, encoding },
+    lualine_y = { progress },
+    lualine_z = { location }
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {filename},
+    lualine_c = { filename },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {}

@@ -32,13 +32,13 @@ return function(client, bufnr)
   buf_set_keymap('n', prefix .. 'l', '<cmd>lua vim.diagnostic.set_loclist()<cr>', opts)
   -- Save and format
   if client.server_capabilities.documentFormattingProvider then
-    buf_set_keymap('n', '<c-s>', '<cmd>lua vim.lsp.buf.format()<cr>:w<cr>', opts)
-    buf_set_keymap('i', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
-    buf_set_keymap('v', '<c-s>', '<c-o><cmd>lua vim.lsp.buf.format()<cr><c-o>:w<cr>', opts)
+    buf_set_keymap('n', '<c-s>', '<cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
+    buf_set_keymap('i', '<c-s>', '<c-o><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
+    buf_set_keymap('v', '<c-s>', '<esc><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
   else
     buf_set_keymap('n', '<c-s>', '<cmd>:w<cr>', opts)
     buf_set_keymap('i', '<c-s>', '<c-o>:w<cr>', opts)
-    buf_set_keymap('v', '<c-s>', '<c-o>:w<cr>', opts)
+    buf_set_keymap('v', '<c-s>', '<esc>:w<cr>', opts)
   end
   -- Autohighlight references
   if client.server_capabilities.documentHighlightProvider then

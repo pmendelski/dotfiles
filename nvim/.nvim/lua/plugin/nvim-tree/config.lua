@@ -1,7 +1,7 @@
 local _M = {}
 
 local function resize(size)
-  local view = require("nvim-tree.view")
+  local view = require("nvim-tree/view")
   view.View.width = size
   view.resize()
 end
@@ -17,9 +17,9 @@ function _M.reset_size()
 end
 
 function _M.refresh()
-  local view = require('nvim-tree.view')
+  local view = require('nvim-tree/view')
   if view.is_visible() then
-    require("nvim-tree.lib").refresh_tree()
+    require("nvim-tree/lib").refresh_tree()
   end
 end
 
@@ -29,7 +29,7 @@ function _M.config()
   end
 
   local function telescope_action(callback_name)
-    return string.format(":lua require('plugin.nvim-tree.telescope').%s<cr>", callback_name)
+    return string.format(":lua require('plugin/nvim-tree/telescope').%s<cr>", callback_name)
   end
 
   local tree = require('nvim-tree')

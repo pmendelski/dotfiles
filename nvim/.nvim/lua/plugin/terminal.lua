@@ -33,12 +33,12 @@ function _M.toggle(name)
     if is_opened(current) then
       current:close()
     end
-    local terminal = commands[name] ~= ""
-      and fterm:new({ cmd = commands[name] })
-      or fterm:new({})
-    terms_by_name[name] = terminal
-    terminal:toggle()
-    current = terminal
+    local term = commands[name] ~= ""
+        and fterm:new({ cmd = commands[name] })
+        or fterm:new({})
+    terms_by_name[name] = term
+    term:toggle()
+    current = term
   elseif current == terminal then
     if is_opened(current) then
       current:close()
@@ -80,7 +80,8 @@ map('t', '<a-5>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term5"
 map('n', '<a-t>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map('t', '<a-t>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map('t', '<a-x>', '<c-\\><c-n><cmd>lua require("plugin/terminal").close_active()<cr>')
-map('t', '<esc>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
+-- map('t', '<esc>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
+map('t', '§', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map('t', '<S-Down>', '<c-\\><c-n><c-E>')
 map('t', '<S-Up>', '<c-\\><c-n><c-Y>')
 -- map('t', '<esc>', '<c-\\><c-n>') -- go to normal mode

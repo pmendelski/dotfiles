@@ -76,16 +76,16 @@ cmp.setup({
         fallback()
       end
     end,
-    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item({
-      behavior = cmp.SelectBehavior.Select
-    }), {'i', 'c'}),
-    ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item({
-      behavior = cmp.SelectBehavior.Select
-    }), {'i', 'c'}),
+    -- ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item({
+    --   behavior = cmp.SelectBehavior.Select
+    -- }), { 'i', 'c' }),
+    -- ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item({
+    --   behavior = cmp.SelectBehavior.Select
+    -- }), { 'i', 'c' }),
   },
   sources = {
     { name = 'calc' },
-    { name = 'nvim_lsp'},
+    { name = 'nvim_lsp' },
     -- { name = 'luasnip' },
     -- { name = 'buffer' },
     -- { name = 'path' },

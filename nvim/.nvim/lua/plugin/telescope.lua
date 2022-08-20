@@ -75,13 +75,13 @@ function _M.config()
     extensions = {
       media_files = {
         -- defaults to {'png', 'jpg', 'mp4', 'webm', 'pdf'}
-        filetypes = {'png', 'webp', 'jpg', 'jpeg', 'mp4', 'webm', 'pdf'},
+        filetypes = { 'png', 'webp', 'jpg', 'jpeg', 'mp4', 'webm', 'pdf' },
         -- defaults to `fd`)
         find_cmd = 'rg'
       },
       project = {
         base_dirs = {
-          {'~/Development', max_depth = 4},
+          { '~/Development', max_depth = 4 },
         }
       },
       ["ui-select"] = {

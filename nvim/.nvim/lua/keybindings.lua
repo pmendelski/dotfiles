@@ -10,6 +10,13 @@ map('n', '<leader>ve', ':split $MYVIMRC<cr>')
 -- Reload vimrc configuration file
 map('n', '<leader>vr', ':source $MYVIMRC<cr>:echo "Reloaded: " . $MYVIMRC<cr>')
 
+-- MacOS
+-----------------------------------------------------------
+-- Map ESC to physical key
+map('n', '§', '<esc>')
+map('i', '§', '<esc>')
+map('v', '§', '<esc>')
+
 -- Movement
 -----------------------------------------------------------
 -- Move by visual line not actual line
@@ -57,8 +64,11 @@ map('n', '*', '*zz')
 map('n', '#', '#zz')
 -- Clear highlighting on escape in normal mode
 map('n', '<esc>', ':noh<return><esc>')
+map('n', '§', ':noh<return><esc>')
+-- Clear highlight and enter intert mode
+-- map('n', '<cr>', ':noh<return><esc>i<cr>')
 -- map('n', '<esc>^[', '<esc>^[')
--- Search for visually hightlighted text
+-- Search for visually hightlig hted text
 map('v', '<c-f>', 'y<esc>/<c-r>"<cr>')
 map('v', '<c-r>', '"0y<esc>:%s/<c-r>0//g<left><left>')
 
@@ -108,6 +118,9 @@ map('v', '<c-d>', 'yP')
 map('n', 'Y', 'mzVy<esc>`z')
 -- Copy whole file
 map('v', 'Y', 'mz<esc>ggV<cr>Gy`z')
+-- Indent without leaving mode
+map('v', '>', '>gv')
+map('v', '<', '<gv')
 
 -- Select
 -----------------------------------------------------------
@@ -141,8 +154,11 @@ map('i', '<F10>', '<c-O>:set spell!<cr>')
 -- Toggle word wrap
 -- map('n', '<leader>w', ':set wrap!<cr>')
 -- Save
-map('n', '<c-s>', ':w<cr>')
-map('i', '<c-s>', '<esc>:w<cr>')
+map('n', '<c-s>', '<cmd>:w<cr>')
+map('i', '<c-s>', '<c-o>:w<cr>')
+map('v', '<c-s>', '<esc>:w<cr>')
+
+
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')
 map('n', 'Q', ':confirm qall<cr>')

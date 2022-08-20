@@ -57,6 +57,7 @@ brew install git-delta
 brew install lazygit
 brew install htop
 brew install transmission
+brew install golangci-lint
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer
@@ -99,6 +100,7 @@ brew install --cask insomnia
 brew install --cask sublime-text
 brew install --cask google-chrome
 brew install --cask dbeaver-community
+brew install --cask google-web-designer
 
 # VS Code extenstions
 code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
