@@ -5,15 +5,15 @@ return function(client, bufnr)
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- Mappings
-  local border = "single";
+  local border = 'single';
   local prefix = 'g';
   local opts = { noremap = true, silent = true }
   buf_set_keymap('n', prefix .. 'D', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
   buf_set_keymap('n', prefix .. 'd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
   buf_set_keymap('n', prefix .. 'i', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
   buf_set_keymap('n', prefix .. 's', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-  buf_set_keymap('n', prefix .. 'f', "<cmd>lua vim.lsp.buf.format()<cr>", opts)
-  buf_set_keymap('v', prefix .. 'f', "<cmd>lua vim.lsp.buf.range_format()<cr>", opts)
+  buf_set_keymap('n', prefix .. 'f', '<cmd>lua vim.lsp.buf.format()<cr>', opts)
+  buf_set_keymap('x', prefix .. 'f', '<cmd>lua vim.lsp.buf.range_format()<cr>', opts)
   buf_set_keymap('n', prefix .. 'h', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
   buf_set_keymap('n', prefix .. 'H', '<cmd>lua vim.lsp.buf.clear_references() vim.lsp.buf.document_highlight()<cr>', opts)
   buf_set_keymap('n', prefix .. 't', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
@@ -34,11 +34,11 @@ return function(client, bufnr)
   if client.server_capabilities.documentFormattingProvider then
     buf_set_keymap('n', '<c-s>', '<cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
     buf_set_keymap('i', '<c-s>', '<c-o><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
-    buf_set_keymap('v', '<c-s>', '<esc><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
+    buf_set_keymap('x', '<c-s>', '<esc><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
   else
     buf_set_keymap('n', '<c-s>', '<cmd>:w<cr>', opts)
     buf_set_keymap('i', '<c-s>', '<c-o>:w<cr>', opts)
-    buf_set_keymap('v', '<c-s>', '<esc>:w<cr>', opts)
+    buf_set_keymap('x', '<c-s>', '<esc>:w<cr>', opts)
   end
   -- Autohighlight references
   if client.server_capabilities.documentHighlightProvider then

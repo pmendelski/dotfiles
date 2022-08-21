@@ -82,7 +82,8 @@ function _M.config()
   -- closing buffers
   map('n', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   map('i', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
-  map('v', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('x', '<c-x>', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
+  map('n', 'bx', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   map('n', 'bc', "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
   map('n', 'bo', "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr>")
   -- cycling buffers

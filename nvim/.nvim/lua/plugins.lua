@@ -32,6 +32,7 @@ end
 local snapshots = require('snapshots')
 local config = {
   snapshot_path = snapshots.path(),
+  autoremove = true,
   display = {
     open_fn = require('packer.util').float,
   }
@@ -207,11 +208,17 @@ packer.startup({
         { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
         { 'hrsh7th/cmp-calc', after = 'nvim-cmp' },
-        { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
-        { 'L3MON4D3/LuaSnip', after = 'nvim-cmp' },
+        { 'hrsh7th/cmp-vsnip', after = 'nvim-cmp' },
+        { 'hrsh7th/vim-vsnip', after = 'nvim-cmp' },
       },
       event = 'InsertEnter',
       config = [[require("plugin/nvim-cmp")]],
+    }
+    -- Surround text with quotes/tags/brackets
+    use {
+      "kylechui/nvim-surround",
+      tag = "*",
+      config = [[require("plugin/surround")]]
     }
     -- Auto pair parenthesis
     use {
@@ -273,9 +280,12 @@ vim.defer_fn(function()
   local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
   if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
     snapshots.create_snapshot()
-    vim.cmd("PackerSync")
+    packer.sync()
   elseif installed == 0 then
-    vim.cmd("PackerClean")
-    vim.cmd("PackerInstall")
+    packer.clean()
+    packer.install()
+    vim.cmd(":exe \"normal \\<c-w>w\"")
+    vim.cmd(":exe \"normal \\<c-w>w\"")
+    vim.cmd(":exe \"normal \\<c-w>w\"")
   end
 end, 200)

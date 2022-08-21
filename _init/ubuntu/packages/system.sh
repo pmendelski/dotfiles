@@ -31,9 +31,20 @@ fi
 sudo apt install -y htop
 # Lazygit
 # Replace with gitui when it's in apt/snap
-LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')
-curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
+installLazygit() {
+  echo "Installing lazygit"
+  local version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  local tmpdir="$(mktemp -d -t lazygit-XXXX)"
+  (
+    cd "$tmpdir" && \
+      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" && \
+      sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
+  )
+  rm -rf "$tmpdir"
+}
+if ! command -v lazygit &> /dev/null; then
+  installLazygit
+fi
 
 echo -e "\n>>> Vim & Neovim"
 sudo apt install vim

@@ -2,8 +2,8 @@ local _M = {}
 
 function _M.keymap()
   local remap = vim.api.nvim_set_keymap
-  remap('n', '<F10>', ':Format<cr>', {noremap = true, silent = true})
-  remap('v', '<F10>', ':Format<cr>', {noremap = true, silent = true})
+  remap('n', '<F10>', ':Format<cr>', { noremap = true, silent = true })
+  remap('x', '<F10>', ':Format<cr>', { noremap = true, silent = true })
 
   -- vim.api.nvim_exec([[
   --   augroup FormatAutogroup
@@ -23,7 +23,7 @@ function _M.config()
     function()
       return {
         exe = 'clang-format',
-        args = {'--style=LLVM'},
+        args = { '--style=LLVM' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -34,7 +34,7 @@ function _M.config()
     function()
       return {
         exe = 'clang-format',
-        args = {'--style=LLVM'},
+        args = { '--style=LLVM' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -45,7 +45,7 @@ function _M.config()
     function()
       return {
         exe = 'prettier',
-        args = {'--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = { '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -56,7 +56,7 @@ function _M.config()
     function()
       return {
         exe = 'prettier',
-        args = {'--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = { '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -67,7 +67,7 @@ function _M.config()
     function()
       return {
         exe = 'prettier',
-        args = {'--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = { '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -78,7 +78,7 @@ function _M.config()
     function()
       return {
         exe = 'prettier',
-        args = {'--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = { '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote' },
         stdin = true,
         ignore_exitcode = true
       }
@@ -89,7 +89,7 @@ function _M.config()
     function()
       return {
         exe = 'luafmt',
-        args = {'--indent-count', 2, '--stdin'},
+        args = { '--indent-count', 2, '--stdin' },
         stdin = true
       }
     end
@@ -99,7 +99,7 @@ function _M.config()
     function()
       return {
         exe = 'prettier',
-        args = {'--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = { '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote' },
         stdin = true
       }
     end
@@ -109,7 +109,7 @@ function _M.config()
     function()
       return {
         exe = 'black',
-        args = {'-'},
+        args = { '-' },
         stdin = true
       }
     end
@@ -119,7 +119,7 @@ function _M.config()
     function()
       return {
         exe = 'rustfmt',
-        args = {'--edition=2018', '--emit=stdout'},
+        args = { '--edition=2018', '--emit=stdout' },
         stdin = true
       }
     end

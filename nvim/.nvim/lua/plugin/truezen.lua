@@ -1,9 +1,7 @@
 local _M = {}
 
 function _M.config()
-  local cmd = vim.cmd
   local true_zen = require('true-zen')
-
   true_zen.setup({
     integrations = {
       lualine = true,
@@ -17,7 +15,7 @@ function _M.keymap()
   local map = require('util').keymap
   map('n', '<F12>', '<CMD>TZAtaraxis<cr>')
   map('i', '<F12>', '<CMD>TZAtaraxis<cr>')
-  map('v', '<F12>', '<CMD>TZAtaraxis<cr>')
+  map('x', '<F12>', '<CMD>TZAtaraxis<cr>')
 end
 
 return _M
