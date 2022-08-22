@@ -13,6 +13,7 @@ installDependencies() {
   npm i -g \
     bash-language-server \
     vscode-langservers-extracted \
+    prettier \
     pyright \
     sql-language-server \
     svelte-language-server \

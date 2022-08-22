@@ -3,27 +3,27 @@ local util = lspconfig.util
 
 local _M = {}
 
+-- Get the value of the module name from go.mod in PWD
+local goModuleName = function()
+  local f = io.open("go.mod", "rb")
+  if f then
+    f:close()
+  else
+    return nil
+  end
+  for line in io.lines("go.mod") do
+    if vim.startswith(line, "module") then
+      local items = vim.split(line, " ")
+      return vim.trim(items[2])
+    end
+  end
+  return nil
+end
+
 function _M.setup(config)
   -- Imports:
   -- https://github.com/neovim/nvim-lspconfig/issues/115
   -- https://github.com/neovim/nvim-lspconfig/issues/115
-
-  -- Get the value of the module name from go.mod in PWD
-  function goModuleName()
-    local f = io.open("go.mod", "rb")
-    if f then
-      f:close()
-    else
-      return nil
-    end
-    for line in io.lines("go.mod") do
-      if vim.startswith(line, "module") then
-        local items = vim.split(line, " ")
-        return vim.trim(items[2])
-      end
-    end
-    return nil
-  end
 
   lspconfig.gopls.setup(config({
     cmd = { "gopls" },

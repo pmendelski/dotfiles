@@ -70,4 +70,8 @@ return function(client, bufnr)
       })
     end
   })
+  if client.name == "yamlls" then
+    -- https://github.com/redhat-developer/yaml-language-server/issues/486
+    client.server_capabilities.documentFormattingProvider = true
+  end
 end

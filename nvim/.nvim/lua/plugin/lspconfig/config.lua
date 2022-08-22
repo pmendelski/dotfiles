@@ -72,15 +72,8 @@ lspconfig.bashls.setup(config())
 -- npm i -g vscode-langservers-extracted
 lspconfig.cssls.setup(config())
 lspconfig.html.setup(config())
-lspconfig.jsonls.setup(config({
-  commands = {
-    Format = {
-      function()
-        vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line('$'), 0 })
-      end
-    }
-  }
-}))
+lspconfig.jsonls.setup(config())
+lspconfig.yamlls.setup(config())
 
 -- Eslint
 -- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#eslint_d
@@ -194,12 +187,6 @@ lspconfig.svelte.setup(config())
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
 -- https://github.com/theia-ide/typescript-language-server
 -- npm i -g typescript typescript-language-server
-lspconfig.tsserver.setup(config())
-
--- Yaml
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#yamlls
--- https://github.com/redhat-developer/yaml-language-server
--- npm i -g yaml-language-server
 lspconfig.tsserver.setup(config())
 
 -- Vue

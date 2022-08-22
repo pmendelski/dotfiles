@@ -16,7 +16,7 @@
 | `C-a`         | **Prefix** for most other tmux keybindings |
 | `C-[`         | **Copy Mode** enters so called copy mode |
 | `:`           | **Command mode** |
-| `C-a z`       | **zen mode** toggles status bar |
+| `C-a <F12>`   | **zen mode** toggle |
 
 ### Sessions
 
@@ -59,14 +59,16 @@ tmux kill-session -t myname
 | `C-a |`       | **split** vertically |
 | `C-a -`       | **split** horizontally |
 | `C-a x`       | **kill** pane |
-| `A-<Arrow>`   | **change** pane |
+| `A-<Arrow>`   | **go to** pane |
+| `C-a ;`       | **go to** previously selected pane |
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
 | `C-a-<Arrow>` | **resize** current pane |
 | `C-a P`       | **move to top** current pane |
-| `C-a C-o`     | **cycle** location of panes |
-| `C-a C-{`     | **swap with previous** |
-| `C-a C-}`     | **swap with next** |
+| `C-a {`     | **swap with previous** |
+| `C-a }`     | **swap with next** |
+| `C-a [`     | **rotate up** |
+| `C-a ]`     | **rotate down** |
 
 ### Misc
 
@@ -76,7 +78,6 @@ tmux kill-session -t myname
 | `C-a _`       | **sync all panes** |
 | `C-a q`       | **show pane indexes** |
 | `C-a ?`       | **show keybindings** |
-| `C-a :`       | **prompt** |
 
 
 ## Copy mode
