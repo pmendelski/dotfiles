@@ -112,3 +112,6 @@ sudo groupadd -f wireshark
 sudo usermod -a -G wireshark $USER
 sudo chgrp wireshark /usr/bin/dumpcap
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
+
+echo -e "\n>>> Insomnia"
+snap install insomnia

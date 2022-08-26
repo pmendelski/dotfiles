@@ -64,7 +64,7 @@ bind - split-window -v -c "#{pane_current_path}"
 unbind '"'
 unbind %
 # Move pane to the top
-bind P swap-pane -t 1
+bind P swap-pane -t 3
 # Switch panes using Alt-Arrow without prefix
 bind -n M-Left select-pane -L
 bind -n M-Right select-pane -R
@@ -74,9 +74,14 @@ bind -n M-Down select-pane -D
 bind x kill-pane
 # Synchronize all panes in a window
 bind _ setw synchronize-panes
-# Rotate panes in window
-bind [ rotate-window -U
-bind ] rotate-window -D
+# Rotate panes
+bind '{' rotate-window -U
+bind '}' rotate-window -D
+# Swap panes in window
+bind -n C-S-Up swap-pane -t '{up-of}'
+bind -n C-S-Down swap-pane -t '{down-of}'
+bind -n C-S-Left swap-pane -t '{left-of}'
+bind -n C-S-Right swap-pane -t '{right-of}'
 
 # Copy mode
 # =========
