@@ -1,31 +1,8 @@
 local _M = {}
 
-local function resize(size)
-  local view = require('nvim-tree/view')
-  view.View.width = size
-  view.resize()
-end
-
-function _M.resize(size)
-  local width = tonumber(size) + vim.api.nvim_win_get_width(0)
-  resize(width)
-end
-
-function _M.reset_size()
-  local default_width = 30
-  resize(default_width)
-end
-
-function _M.refresh()
-  local view = require('nvim-tree/view')
-  if view.is_visible() then
-    require('nvim-tree/lib').refresh_tree()
-  end
-end
-
 function _M.config()
   local function tree_action(callback_name)
-    return string.format(':lua require("plugin/nvim-tree/config").%s<cr>', callback_name)
+    return string.format(':lua require("nvim-tree").%s<cr>', callback_name)
   end
 
   local function telescope_action(callback_name)
@@ -53,7 +30,7 @@ function _M.config()
           { key = { '<CR>', '<2-LeftMouse>' }, action = 'edit' },
           { key = '+', cb = tree_action('resize("+10")') },
           { key = '-', cb = tree_action('resize("-10")') },
-          { key = '=', cb = tree_action('reset_size()') },
+          { key = '=', cb = tree_action('resize("30")') },
           { key = '<c-[>', action = 'dir_up' },
           { key = '<c-]>', action = 'cd' },
           { key = '<c-r>', action = 'reload' },

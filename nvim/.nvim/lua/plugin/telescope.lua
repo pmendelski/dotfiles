@@ -6,7 +6,8 @@ function _M.keymap()
   map('n', '<leader>ff', ':Telescope find_files hidden=true<cr>')
   map('n', '<leader>fv', ':Telescope git_files<cr>')
   map('n', '<leader>fb', ':Telescope buffers<cr>')
-  map('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find<cr>')
+  map('n', '<leader>fc', ':Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<cr>')
+  map('n', '<leader>fC', ':Telescope current_buffer_fuzzy_find fuzzy=false<cr>')
   map('n', '<leader>fg', ':Telescope live_grep<cr>')
   map('n', '<leader>fp', ':Telescope project<cr>')
   map('n', '<leader>fm', ':Telescope media_files<cr>')
@@ -35,7 +36,7 @@ function _M.config()
     filepath = vim.fn.expand(filepath)
     vim.loop.fs_stat(filepath, function(_, stat)
       if not stat then return end
-      if stat.size > 100000 then
+      if stat.size > 10000000 then
         return
       else
         previewers.buffer_previewer_maker(filepath, bufnr, opts)

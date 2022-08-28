@@ -6,12 +6,12 @@ vim.cmd(":command PackerSnapshotList :lua require('snapshots').print_snapshots()
 vim.cmd(":command PackerSnapshotRollbackLast :lua require('snapshots').rollback_last()")
 vim.cmd(":command PackerSnapshotLock :lua require('snapshots').lock_snapshot()")
 vim.cmd(":command PackerSnapshotUnlock :lua require('snapshots').unlock_snapshot()")
-vim.cmd(":command PackerSnapshotPath :lua require('snapshots').path()")
+vim.cmd(":command PackerSnapshotPath :lua require('snapshots').print_path()")
 vim.cmd(":command PackerSnapshotCreate :lua require('snapshots').create_snapshot()")
 vim.cmd(":command PackerSnapshotRemove :lua require('snapshots').remove_snapshot()")
 
 local function file_exists(name)
-  local f = io.open(name,"r")
+  local f = io.open(name, "r")
   if f ~= nil then
     io.close(f)
     return true
@@ -43,9 +43,12 @@ local function remove_oldest_snapshot()
   os.remove(snapshot_lock_path .. '/' .. last)
 end
 
-
 local function last_snapshot()
   return list_snapshots()[1]
+end
+
+function _M.print_path()
+  print(_M.path())
 end
 
 function _M.path()
@@ -86,12 +89,9 @@ end
 
 function _M.lock_snapshot()
   local f = io.open(snapshot_lock_path, "w")
-  if f ~= nil then
-    io.output(f)
-    io.write(os.date('%Y-%m-%d'))
-    io.close(f)
-    print('Packer snapshot locked')
-  end
+  io.write(os.date('%Y-%m-%d'))
+  io.close(f)
+  print('Packer snapshot locked')
 end
 
 function _M.unlock_snapshot()
@@ -108,6 +108,7 @@ function _M.rollback_last()
   local last = last_snapshot()
   if last ~= nil then
     packer.rollback(last)
+    print("Rollbacked packer snapshot: " .. last)
   else
     print("No snapshot found")
   end
