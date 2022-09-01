@@ -30,7 +30,7 @@ local disabled_built_ins = {
   "logipat",
   "rrhelper",
   "spellfile_plugin",
-  "matchit"
+  "matchit",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
@@ -54,18 +54,18 @@ if #argv == 1 and vim.fn.filereadable(argv[1]) == 1 then
 end
 
 -- Load Essentials
-require('settings')
-require('automatic')
+require("settings")
+require("automatic")
 
 -- Lazy-load Others
 vim.defer_fn(function()
-  require('keybindings')
-  require('plugins')
+  require("keybindings")
+  require("plugins")
 
   -- Restore options after initialziations
   vim.opt.shadafile = ""
-  require('filetype')
+  require("filetype")
 
-  print("Lazy Loaded in " .. vim.fn.printf("%.3f",vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time))) .. "s")
+  print("Lazy Loaded in " .. vim.fn.printf("%.3f", vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time))) .. "s")
 end, 0)
-print("Loaded in " .. vim.fn.printf("%.3f",vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time))) .. "s")
+print("Loaded in " .. vim.fn.printf("%.3f", vim.fn.reltimefloat(vim.fn.reltime(vim.g.start_time))) .. "s")

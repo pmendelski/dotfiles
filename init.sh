@@ -7,7 +7,7 @@ if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
 fi
 
 # Constant values
-declare -r INIT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )/_init"
+declare -r INIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo $PWD)/_init"
 
 # Make sure we're in the init directory
 cd "$INIT_DIR"

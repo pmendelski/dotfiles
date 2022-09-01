@@ -220,4 +220,4 @@ echo "  - Preferences > Keyboard > Shortcuts > Mission Control > Disable: Move l
 echo "- Turn off trackpad dictionary"
 echo "  - Preferences > Trackpad > Point & Click > Disable: Look up & data detectors"
 echo "- Fix fullscreen open during presentations"
-echo "  - Preferences > Mission Control > Chck “Displays have separate spaces""
+echo "  - Preferences > Mission Control > Check 'Displays have separate spaces'"

@@ -1,11 +1,11 @@
 -- https://github.com/neovim/nvim-lspconfig
 
-local lspconfig = require('lspconfig')
-local on_attach = require('plugin/lspconfig/on-attach')
-local map = require('util').keymap
+local lspconfig = require("lspconfig")
+local on_attach = require("plugin/lspconfig/on-attach")
+local map = require("util").keymap
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.preselectSupport = true
 capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
@@ -14,41 +14,41 @@ capabilities.textDocument.completion.completionItem.deprecatedSupport = true
 capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
 capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
 capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  },
+	properties = {
+		"documentation",
+		"detail",
+		"additionalTextEdits",
+	},
 }
 
 local flags = {
-  debounce_text_changes = 500,
+	debounce_text_changes = 500,
 }
 
 local config = function(opts)
-  local options = { on_attach = on_attach, capabilities = capabilities, flags = flags }
-  if opts then options = vim.tbl_extend('force', options, opts) end
-  return options
+	local options = { on_attach = on_attach, capabilities = capabilities, flags = flags }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	return options
 end
 
 -- Global LSP key bindings
-map('n', 'gq', '<cmd>:LspRestart<cr>')
+map("n", "gq", "<cmd>:LspRestart<cr>")
 
 -- Customize dioagnostics UI
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-  underline = true,
-  -- show error messages next to the code
-  virtual_text = {
-    spacing = 4,
-    prefix = '●',
-    severity_limit = 'Warning',
-  },
-  signs = true,
-  severity_sort = true,
-  update_in_insert = true,
-}
-)
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+	underline = true,
+	-- show error messages next to the code
+	virtual_text = {
+		spacing = 4,
+		prefix = "●",
+		severity_limit = "Warning",
+	},
+	signs = true,
+	severity_sort = true,
+	update_in_insert = true,
+})
 
 -- Add border
 local border = "single"
@@ -58,8 +58,8 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 -- Change gutter icons
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- Bash
@@ -95,11 +95,11 @@ lspconfig.graphql.setup(config())
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#groovyls
 -- https://github.com/prominic/groovy-language-server.git
 lspconfig.groovyls.setup(config({
-  cmd = { vim.fn.expand('~/.nvim/lang/groovy/run.sh') },
+	cmd = { vim.fn.expand("~/.nvim/lang/groovy/run.sh") },
 }))
 
 -- Go
-require('plugin/lspconfig/lang/go').setup(config)
+require("plugin/lspconfig/lang/go").setup(config)
 
 -- Rust
 -- Handled by rust-tools
@@ -134,14 +134,14 @@ require('plugin/lspconfig/lang/go').setup(config)
 -- https://github.com/georgewfraser/java-language-server
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#java_language_server
 lspconfig.java_language_server.setup(config({
-  cmd = { vim.fn.expand('~/.nvim/lang/java/run.sh') },
+	cmd = { vim.fn.expand("~/.nvim/lang/java/run.sh") },
 }))
 
 -- Kotlin
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#kotlin_language_server
 -- https://github.com/fwcd/kotlin-language-server
 lspconfig.kotlin_language_server.setup(config({
-  cmd = { vim.fn.expand('~/.nvim/lang/kotlin/bin/kotlin-language-server') },
+	cmd = { vim.fn.expand("~/.nvim/lang/kotlin/bin/kotlin-language-server") },
 }))
 
 -- Python
@@ -178,24 +178,24 @@ lspconfig.vuels.setup(config())
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
 -- https://github.com/sumneko/lua-language-serve
 -- https://www.chiarulli.me/Neovim/28-neovim-lua-development/
-local lua_dir = vim.fn.stdpath('data') .. '/lang-servers/lua-language-server'
+local lua_dir = vim.fn.stdpath("data") .. "/lang-servers/lua-language-server"
 lspconfig.sumneko_lua.setup(config({
-  cmd = { lua_dir .. '/bin/lua-language-server', "-E", lua_dir .. "/main.lua" },
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = vim.split(package.path, ';')
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+	cmd = { lua_dir .. "/bin/lua-language-server", "-E", lua_dir .. "/main.lua" },
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+				path = vim.split(package.path, ";"),
+			},
+			diagnostics = {
+				globals = { "vim" },
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
 }))
