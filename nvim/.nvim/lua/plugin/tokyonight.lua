@@ -1,6 +1,6 @@
 -- vim.g.tokyonight_style = 'storm'
 -- vim.g.tokyonight_style = 'day'
-vim.cmd('colorscheme tokyonight')
+vim.cmd("colorscheme tokyonight")
 
 vim.cmd([[
 augroup TokyoNightOverrides
