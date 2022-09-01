@@ -189,6 +189,12 @@ packer.startup({
       "folke/trouble.nvim",
       config = [[require("plugin/trouble")]],
     }
+    -- External formatters with diagnostics
+    use {
+      "jose-elias-alvarez/null-ls.nvim",
+      config = [[require("plugin/null-ls").config()]],
+      requires = { "nvim-lua/plenary.nvim" }
+    }
     -- Formatter
     use {
       "mhartington/formatter.nvim",

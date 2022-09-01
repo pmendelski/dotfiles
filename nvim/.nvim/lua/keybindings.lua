@@ -68,7 +68,7 @@ map('n', '§', ':noh<return><esc>')
 -- Clear highlight and enter intert mode
 -- map('n', '<cr>', ':noh<return><esc>i<cr>')
 -- map('n', '<esc>^[', '<esc>^[')
--- Search for visually hightlig hted text
+-- Search for visually hightlighted text
 map('x', '<c-f>', 'y<esc>/<c-r>"<cr>')
 map('x', '<c-r>', '"0y<esc>:%s/<c-r>0//g<left><left>')
 
@@ -148,6 +148,14 @@ map('i', '<expr> <insert>', 'mode() ==# "R" ? "<esc>i" : "<esc>R"')
 -----------------------------------------------------------
 map('n', '<F10>', ':set spell!<cr>')
 map('i', '<F10>', '<c-O>:set spell!<cr>')
+
+-- Open link under cursor
+-- ---------------------------------------------------------
+if vim.fn.has("mac") == 1 then
+  map('n', 'gx', '<cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<cr>', {})
+elseif vim.fn.has("unix") == 1 then
+  map("n", 'gx', '<cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<cr>', {})
+end
 
 -- Others
 -----------------------------------------------------------

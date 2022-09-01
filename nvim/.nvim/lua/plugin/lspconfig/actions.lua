@@ -6,7 +6,9 @@ function _M.format()
   if ft == "go" then
     go.organizeImports()
   end
-  vim.lsp.buf.format()
+  vim.lsp.buf.format({
+    timeout_ms = 2000
+  })
 end
 
 return _M

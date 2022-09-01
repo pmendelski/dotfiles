@@ -17,4 +17,11 @@ function _M.execute(cmd, raw)
   return s
 end
 
+function _M.contains(list, x)
+  for _, v in pairs(list) do
+    if v == x then return true end
+  end
+  return false
+end
+
 return _M

@@ -271,3 +271,4 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `gx`               | N | **open** link under cursor |
 | `za`               | N | **toggle** fold |
 | `<Leader> w`       | N | **toggle** word wrap |
+| `<C-q> <tab>`      | I | **insert tab** character |

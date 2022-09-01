@@ -25,9 +25,10 @@ function _M.keymap()
 end
 
 function _M.config()
-  local actions = require('telescope.actions')
+  local trouble = require("trouble.providers.telescope")
+  local actions = require("telescope.actions")
   local action_layout = require("telescope.actions.layout")
-  local telescope = require('telescope')
+  local telescope = require("telescope")
   local previewers = require("telescope.previewers")
 
   -- Ignore files bigger than a threshold
@@ -50,6 +51,7 @@ function _M.config()
       mappings = {
         i = {
           ["<esc>"] = actions.close,
+          ["<C-t>"] = trouble.open_with_trouble,
           ["<C-u>"] = false,
           ["<C-Down>"] = actions.cycle_history_next,
           ["<C-Up>"] = actions.cycle_history_prev,
@@ -57,7 +59,8 @@ function _M.config()
           ["<C-h>"] = "which_key"
         },
         n = {
-          ['q'] = actions.close,
+          ["q"] = actions.close,
+          ["<C-t>"] = trouble.open_with_trouble,
           ["<C-p>"] = action_layout.toggle_preview
         }
       },
@@ -95,6 +98,9 @@ function _M.config()
       lsp_document_symbols = {
         symbol_width = 60,
         symbol_type_width = 100
+      },
+      live_grep = {
+        only_sort_text = true
       }
     }
   })

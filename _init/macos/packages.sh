@@ -58,6 +58,7 @@ brew install lazygit
 brew install htop
 brew install transmission
 brew install golangci-lint
+brew install shellcheck
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer

@@ -36,6 +36,7 @@ package libtool
 package autoconf
 package gcc
 package ninja-build
+package shellcheck
 
 # GIT
 repository ppa:git-core/ppa
@@ -72,8 +73,8 @@ sudo usermod -aG docker "${USER}"
 docker_compose_version="$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | grep -Eo "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)"
 sudo curl -L "https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-sudo curl -L https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose > ~/.zsh/completion/_docker-compose
+sudo curl -L "https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/bash/docker-compose" -o /etc/bash_completion.d/docker-compose
+curl -L "https://raw.githubusercontent.com/docker/compose/${docker_compose_version}/contrib/completion/zsh/_docker-compose" -o ~/.zsh/completion/_docker-compose
 
 # Better terminal
 mkdir -p ~/.local/bin
@@ -83,13 +84,13 @@ package tree
 package fzf
 package ripgrep
 package fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
+ln -s "$(which fdfind)" ~/.local/bin/fd
 snap fasd --beta
 
 # cat with highlighting
 package bat
 if command -v batcat &> /dev/null; then
-  ln -s $(which batcat) ~/.local/bin/bat
+  ln -s "$(which batcat)" ~/.local/bin/bat
 fi
 
 # Compression tools
@@ -115,5 +116,5 @@ package tree
 package fzf
 package ripgrep
 package fd-find
-ln -s $(which fdfind) ~/.local/bin/fd
+ln -s "$(which fdfind)" ~/.local/bin/fd
 snap fasd --beta

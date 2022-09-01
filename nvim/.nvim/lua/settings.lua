@@ -12,9 +12,6 @@ opt.mouse = 'a' -- enable mouse in all in all modes
 opt.clipboard = 'unnamed,unnamedplus' -- copy/paste to system clipboard
 opt.compatible = false -- some compatybility issues
 opt.updatetime = 150
--- opt.timeoutlen = 1000
--- opt.ttimeoutlen = 0
-opt.synmaxcol = 240 -- max column for syntax highlight
 
 -- UI
 -----------------------------------------------------------

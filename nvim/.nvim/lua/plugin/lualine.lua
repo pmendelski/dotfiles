@@ -1,5 +1,7 @@
 -- Onedark color table for highlights
 -- https://github.com/Th3Whit3Wolf/onebuddy/blob/main/lua/onebuddy.lua#L75
+local null_ls = require("plugin/null-ls")
+
 local colors = {
   yellow = '#e5c07b',
   cyan = '#8abeb7',
@@ -182,6 +184,28 @@ local filename = {
   end,
 }
 
+local function lsp_client(msg)
+  msg = msg or ""
+  local buf_clients = vim.lsp.buf_get_clients()
+  if next(buf_clients) == nil then
+    if type(msg) == "boolean" or #msg == 0 then
+      return ""
+    end
+    return msg
+  end
+
+  local buf_ft = vim.bo.filetype
+  local buf_client_names = {}
+  for _, client in pairs(buf_clients) do
+    if client.name ~= "null-ls" then
+      table.insert(buf_client_names, client.name)
+    end
+  end
+  local supported_formatters = null_ls.list_registered_providers(buf_ft)
+  vim.list_extend(buf_client_names, supported_formatters)
+  return "[" .. table.concat(buf_client_names, ", ") .. "]"
+end
+
 require('lualine').setup {
   options = {
     theme = 'tokyonight'
@@ -190,7 +214,7 @@ require('lualine').setup {
     lualine_a = { mode },
     lualine_b = { branch },
     lualine_c = { filename, lsp_progress },
-    lualine_x = { diagnostics, filetype, file_size, encoding },
+    lualine_x = { lsp_client, diagnostics, filetype, file_size, encoding },
     lualine_y = { progress },
     lualine_z = { location }
   },

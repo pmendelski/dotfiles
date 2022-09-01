@@ -88,7 +88,8 @@ sudo apt install -y \
   ninja-build \
   dh-make \
   libtool \
-  autoconf
+  autoconf \
+  shellcheck
 
 echo -e "\n>>> C"
 sudo apt install -y \

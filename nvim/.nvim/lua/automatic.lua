@@ -8,7 +8,14 @@ vim.cmd([[
     autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
     " Notification after file change
     " https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
-    autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl Noine
+    autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+  augroup end
+]])
+
+-- Disable replacement/search visualization for huge files (>10MB)
+vim.cmd([[
+  augroup HandleHugeFiles
+    autocmd BufReadPre * if getfsize(expand("%")) > 10000000 | set inccommand= | endif
   augroup end
 ]])
 

@@ -76,29 +76,10 @@ lspconfig.jsonls.setup(config())
 lspconfig.yamlls.setup(config())
 
 -- Eslint
--- https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#eslint_d
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#eslint
 -- go install github.com/mattn/efm-langserver@latest
 -- npm install -g eslint_d
-local eslint = {
-  lintCommand = 'eslint_d -f unix --stdin --stdin-filename ${INPUT}',
-  lintStdin = true,
-  lintFormats = { '%f:%l:%c: %m' },
-  lintIgnoreExitCode = true,
-  formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}',
-  formatStdin = true
-}
-
-lspconfig.efm.setup({
-  init_options = { documentFormatting = true },
-  filetypes = { 'javascript', 'typescript' },
-  settings = {
-    rootMarkers = { '.eslintrc.js', '.git/' },
-    languages = {
-      javascript = { eslint },
-      typescript = { eslint },
-    }
-  }
-})
+lspconfig.eslint.setup(config())
 
 -- Docker
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#dockerls
@@ -173,9 +154,7 @@ lspconfig.pyright.setup(config())
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sqlls
 -- https://github.com/joe-re/sql-language-server
 -- npm i -g sql-language-server
-lspconfig.sqlls.setup(config({
-  cmd = { 'sql-language-server', 'up', '--method', 'stdio' },
-}))
+lspconfig.sqlls.setup(config())
 
 -- Svelte
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#svelte
