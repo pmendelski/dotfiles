@@ -6,9 +6,9 @@
 : ${ZSH_PROMPT:="flexi"}
 
 # Force tmux
-if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] && [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
-  exec tmux && exit;
-fi
+# if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] && [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
+#   exec tmux && exit;
+# fi
 
 # Local variables
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
