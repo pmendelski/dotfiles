@@ -25,6 +25,7 @@ installDependencies() {
     graphql-language-service-cli \
     dockerfile-language-server-nodejs \
     diagnostic-languageserver \
+    stylelint-lsp \
     eslint &&
     echo "Installed Node.js based language servers" ||
     echo "Could not installed Node.js based language servers"
@@ -73,6 +74,33 @@ installLuaLangServer() {
 
 installJavaLangServer() {
   local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
+  local -r serverDir="$dataDir/lang-servers/java-language-server"
+  if [ -d "$serverDir" ]; then
+    cd "$serverDir"
+    git fetch
+    if [ "$(git rev-parse HEAD)" == "$(git rev-parse "@{u}")" ]; then
+      # up to date
+      return
+    fi
+    git pull
+  else
+    git clone git@github.com:georgewfraser/java-language-server.git "$serverDir"
+    cd "$serverDir"
+  fi
+  if [ ! -f "$serverDir/dist/launch_linux.bak.sh" ]; then
+    cd "$serverDir/dist"
+    mv launch_linux.sh launch_linux.bak.sh
+    sed 's|$DIR/linux/bin/java|java|' launch_linux.bak.sh >launch_linux.sh
+    mv launch_mac.sh launch_mac.bak.sh
+    sed 's|$DIR/mac/bin/java|java|' launch_mac.bak.sh >launch_mac.sh
+    chmod u+x launch_linux.sh launch_mac.sh
+    cd "$serverDir"
+  fi
+  mvn package -DskipTests
+}
+
+installJavaLangServer2222() {
+  local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
   local -r serverDir="$dataDir/lang-servers/jdtls"
   local -r version="$(
     curl -s "https://download.eclipse.org/jdtls/milestones/" |
@@ -109,5 +137,3 @@ installPlugins() {
     echo "Installed Packer - Nvim Package manager"
   fi
 }
-
-installJavaLangServer

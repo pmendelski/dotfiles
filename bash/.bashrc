@@ -16,8 +16,8 @@
 
 # If not running interactively just exit
 case $- in
-  *i*) ;;
-  *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # Defaults
@@ -25,8 +25,8 @@ esac
 : ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
 
 # Force tmux
-if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ]; then
-  exec tmux && exit;
+if [ "$USER" != "root" ] && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] && [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
+  exec tmux && exit
 fi
 
 # Local variables

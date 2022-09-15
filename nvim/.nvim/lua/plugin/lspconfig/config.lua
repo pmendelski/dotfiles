@@ -3,6 +3,7 @@
 local lspconfig = require("lspconfig")
 local on_attach = require("plugin/lspconfig/on-attach")
 local map = require("util").keymap
+local data_dir = vim.fn.stdpath("data")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
@@ -131,11 +132,12 @@ require("plugin/lspconfig/lang/go").setup(config)
 -- }))
 
 -- Java
+-- java-language-server is unmaintained, migrated to jdtls
 -- https://github.com/georgewfraser/java-language-server
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#java_language_server
-lspconfig.java_language_server.setup(config({
-	cmd = { vim.fn.expand("~/.nvim/lang/java/run.sh") },
-}))
+-- lspconfig.java_language_server.setup(config({
+-- 	cmd = { data_dir .. "/lang-servers/java-language-server/dist/lang_server_linux.sh" },
+-- }))
 
 -- Kotlin
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#kotlin_language_server
@@ -173,6 +175,17 @@ lspconfig.tsserver.setup(config())
 -- https://github.com/vuejs/vetur/tree/master/server
 -- npm i -g vls
 lspconfig.vuels.setup(config())
+
+-- Stylelint
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#stylelint_lsp
+-- npm i -g stylelint-lsp
+lspconfig.stylelint_lsp.setup(config({
+	filetypes = {
+		"css",
+		"scss",
+		"vue",
+	},
+}))
 
 -- Lua
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua

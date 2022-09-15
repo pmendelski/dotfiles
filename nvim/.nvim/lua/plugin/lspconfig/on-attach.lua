@@ -95,11 +95,22 @@ return function(client, bufnr)
 		opts
 	)
 	buf_set_keymap("n", prefix .. "l", "<cmd>lua vim.diagnostic.set_loclist()<cr>", opts)
-	-- Save and format
-	buf_set_keymap("n", "<c-s>", '<cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
-	buf_set_keymap("i", "<c-s>", '<c-o><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
-	buf_set_keymap("x", "<c-s>", '<esc><cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
 	highlightReferences(client, bufnr)
 	diagnosticsOnHold(bufnr)
+	-- Save and format
 	null_ls.configure_client(client, bufnr)
+	local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+	local force_format = { "eslint" }
+	local supports_format = util.contains(force_format, client.name)
+		or client.server_capabilities.documentFormattingProvider
+		or null_ls.has_formatter(filetype)
+	if supports_format == true then
+		buf_set_keymap("n", "<c-s>", '<cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
+		buf_set_keymap("i", "<c-s>", '<c-o><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)
+		buf_set_keymap("x", "<c-s>", '<esc><cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
+	else
+		buf_set_keymap("n", "<c-s>", "<cmd>:w<cr>", opts)
+		buf_set_keymap("i", "<c-s>", "<c-o>:w<cr>", opts)
+		buf_set_keymap("x", "<c-s>", "<esc>:w<cr>", opts)
+	end
 end

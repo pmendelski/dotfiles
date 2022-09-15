@@ -1,6 +1,7 @@
 -- Onedark color table for highlights
 -- https://github.com/Th3Whit3Wolf/onebuddy/blob/main/lua/onebuddy.lua#L75
 local null_ls = require("plugin/null-ls")
+local util = require("util")
 
 local colors = {
 	yellow = "#e5c07b",
@@ -182,16 +183,7 @@ local filename = {
 
 local lsp_client = {
 	function()
-		local buf_clients = vim.lsp.buf_get_clients()
-		if next(buf_clients) == nil then
-			return ""
-		end
-		local clients = {}
-		for _, client in pairs(buf_clients) do
-			if client.name ~= "null-ls" then
-				table.insert(clients, client.name)
-			end
-		end
+		local clients = util.get_buf_lsp_clients()
 		local null_ls_providers = null_ls.list_registered_providers(vim.bo.filetype)
 		for _, provider in pairs(null_ls_providers) do
 			table.insert(clients, provider)

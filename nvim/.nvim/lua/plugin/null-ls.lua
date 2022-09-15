@@ -1,6 +1,4 @@
 local null_ls = require("null-ls")
-local sources = require("null-ls/sources")
-local methods = require("null-ls/methods")
 local formatting = null_ls.builtins.formatting
 local FORMATTING = null_ls.methods.FORMATTING
 

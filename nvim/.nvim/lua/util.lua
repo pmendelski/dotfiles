@@ -30,4 +30,18 @@ function _M.contains(list, x)
 	return false
 end
 
+function _M.get_buf_lsp_clients()
+	local buf_clients = vim.lsp.buf_get_clients()
+	if next(buf_clients) == nil then
+		return ""
+	end
+	local clients = {}
+	for _, client in pairs(buf_clients) do
+		if client.name ~= "null-ls" then
+			table.insert(clients, client.name)
+		end
+	end
+	return clients
+end
+
 return _M
