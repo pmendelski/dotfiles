@@ -30,12 +30,23 @@
   submoduleSummary = true
 
 [merge]
-  # Linux UI merge tool
-  tool = meld
+    tool = vimdiff
+    conflictstyle = diff3
 
 [mergetool]
-  # No backup files (rm *.orig)
-  keepBackup = false
+    keepBackup = false
+    prompt = false
+
+# [merge]
+#	tool = nvimdiff
+#[mergetool "nvimdiff"]
+#	cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
+#    keepBackup = false
+
+#[diff]
+#	tool = nvimdiff
+#[difftool "nvimdiff"]\
+#	cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd L\"
 
 [rerere]
   # REplay REsolved REsolution

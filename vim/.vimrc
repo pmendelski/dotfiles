@@ -105,9 +105,9 @@ set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp
 set wildmode=list:longest
 
 "" Print options
-set printfont=:h10
-set printencoding=utf-8
-set printoptions=paper:A4
+" set printfont=:h10
+" set printencoding=utf-8
+" set printoptions=paper:A4
 
 "" Wrapping, spaces & tabs
 set autoindent        " copy indent from last line when starting new line
