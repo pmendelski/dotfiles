@@ -1,4 +1,4 @@
-#/bin/bash
+#!/usr/bin/env bash
 
 if type "apt-get" &> /dev/null; then
   update() {

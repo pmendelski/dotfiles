@@ -17,7 +17,7 @@ function _M.config()
 		-- Hijack netrw window on startup
 		hijack_netrw = true,
 		-- open the tree when running this setup function
-		open_on_setup = false,
+		open_on_setup = true,
 		-- hijack the cursor in the tree to put it at the start of the filename
 		hijack_cursor = true,
 		-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
@@ -46,6 +46,9 @@ function _M.config()
 					{ key = "x", action = "cut" },
 					{ key = "y", action = "copy" },
 					{ key = "p", action = "paste" },
+					{ key = "i", action = "toggle_file_info" },
+					{ key = "<BS>", action = "close_node" },
+					{ key = "<Tab>", action = "preview" },
 					{ key = "c", action = "copy_name" },
 					{ key = "C", action = "copy_path" },
 					{ key = "h", cb = ":lua require('hop').hint_char1()<cr>" },

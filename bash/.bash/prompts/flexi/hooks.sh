@@ -37,7 +37,7 @@ function __flexiPromptHandleTimer() {
 
 function __flexiPromptStartTimer() {
   __FLEXI_PROMPT_TIMER_START=${__FLEXI_PROMPT_TIMER_START:-$(epoch)}
-  if [ -z "$__FLEXI_PROMPT_TIMER_DIFF" ]; then
+  if [ -z "${__FLEXI_PROMPT_TIMER_DIFF-}" ]; then
     unset __FLEXI_PROMPT_TIMER_DIFF
   fi
 }

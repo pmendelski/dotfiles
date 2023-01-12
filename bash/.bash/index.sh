@@ -2,12 +2,12 @@
 
 function __loadBashFiles() {
   local -r DIR="$1"
-  local -r NAMES=$2
+  local -r NAMES="${2-}"
   [ ! -d "$DIR" ] && return;
 
   if [ -z $NAMES ]; then
-    for file in $DIR/*.sh; do
-      source $file
+    for file in $(find $DIR -mindepth 1 -type f -name "*.sh"); do
+      source "$file"
     done
   else
     for plugin in ${NAMES[@]}; do
@@ -35,12 +35,12 @@ function __loadLocalBashFiles() {
 function bashChangePrompt() {
   local -r defaultPrompt="${BASH_PROMPT:-flexi}"
   local -r promptName="${1:-$defaultPrompt}"
-  local promptFile="$theme"
+  local promptFile="$promptName"
   [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName.sh"
   [ ! -f "$promptFile" ] && promptFile="$BASH_DIR/prompts/$promptName/index.sh"
   if [ -f "$promptFile" ]; then
     source "$promptFile"
-    if [ -z "$__LOAD_BASH_PROMPT_NEXT_CHANGE" ]; then
+    if [ -z "${__LOAD_BASH_PROMPT_NEXT_CHANGE-}" ]; then
       __LOAD_BASH_PROMPT_NEXT_CHANGE="1"
     else
       echo "Switched to prompt: $promptFile"
@@ -67,11 +67,11 @@ function __loadBash() {
   source "$HOME/.bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
-  __loadBashFiles "$HOME/.bash/plugins" $bash_plugins
+  __loadBashFiles "$HOME/.bash/plugins" "${bash_plugins-}"
   # Lib should be loaded by bash only
-  [ -n "$BASH_VERSION" ] && __loadBashFiles "$HOME/.bash/lib"
+  [ -n "${BASH_VERSION-}" ] && __loadBashFiles "$HOME/.bash/lib"
   # Bash propmpt should be loaded by bash only
-  [ -n "$BASH_VERSION" ] && bashChangePrompt
+  [ -n "${BASH_VERSION-}" ] && bashChangePrompt
 }
 
 __loadBash

@@ -7,7 +7,7 @@
   # Aliases
     # List or find an alias
     aliases = "!f() {\
-      sh ~/.git_aliases/aliases.sh | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
+      bash ~/.git_aliases/aliases.sh | grep \"^[a-z\\-]*$1[a-z\\-]*\"; \
     }; f"
   # Root
     # Print repository root directory
@@ -227,10 +227,10 @@
       git push origin $2 \
     }; f"
   # Commit traversal
-    prev-commit = "!sh ~/.git_aliases/prev-commit.sh"
-    next-commit = "!sh ~/.git_aliases/next-commit.sh"
-    prev-tag = "!sh ~/.git_aliases/prev-tag.sh"
-    next-tag = "!sh ~/.git_aliases/next-tag.sh"
+    prev-commit = "!bash ~/.git_aliases/prev-commit.sh"
+    next-commit = "!bash ~/.git_aliases/next-commit.sh"
+    prev-tag = "!bash ~/.git_aliases/prev-tag.sh"
+    next-tag = "!bash ~/.git_aliases/next-tag.sh"
   # Push
     # Secure force push
     # World is not yet ready for --atomic
@@ -332,12 +332,14 @@
       done; \
     }; f"
     fnch = !git find-commit-by-hash
-  # Contribution
+  # Stats
     contributors = !git log --all --format='%<(20)%aN <%cE>' | sort -u
-    file-stats = "!sh ~/.git_aliases/file-stats.sh"
-    contribution-stats = "!sh ~/.git_aliases/contribution-stats.sh"
+    contribution-stats = "!bash ~/.git_aliases/contribution-stats.sh"
+    file-stats = "!bash ~/.git_aliases/file-stats.sh"
+    churn = "!bash ~/.git_aliases/churn.sh \"$@\""
+    churn-year = "!bash ~/.git_aliases/churn.sh  --since 12.month \"$@\""
   # Submodules
-    submodule-rm = "!sh ~/.git_aliases/submodule-rm.sh"
+    submodule-rm = "!bash ~/.git_aliases/submodule-rm.sh"
   # Branch
     # Shorter version
     br = branch
@@ -443,5 +445,5 @@
     # Check if any file in repo has whitespace errors
     check-whitespaces = !git diff-tree --check $(git hash-object -t tree /dev/null) HEAD
     # Github aliases
-    github-fetch-pr = "!sh -c 'git fetch origin pull/$0/head:pr/$0'"
-    github-pr = "!sh -c 'git github-fetch-pr $0 && git checkout pr/$0 && git pull'"
+    github-fetch-pr = "!bash -c 'git fetch origin pull/$0/head:pr/$0'"
+    github-pr = "!bash -c 'git github-fetch-pr $0 && git checkout pr/$0 && git pull'"

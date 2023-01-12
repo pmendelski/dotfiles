@@ -78,13 +78,13 @@ return function(client, bufnr)
 	)
 	buf_set_keymap(
 		"n",
-		"[p",
+		prefix .. "[",
 		'<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "' .. border .. '", focusable = false }})<cr>',
 		opts
 	)
 	buf_set_keymap(
 		"n",
-		"]p",
+		prefix .. "]",
 		'<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "' .. border .. '", focusable = false }})<cr>',
 		opts
 	)
@@ -100,10 +100,7 @@ return function(client, bufnr)
 	-- Save and format
 	null_ls.configure_client(client, bufnr)
 	local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-	local force_format = { "eslint" }
-	local supports_format = util.contains(force_format, client.name)
-		or client.server_capabilities.documentFormattingProvider
-		or null_ls.has_formatter(filetype)
+	local supports_format = client.server_capabilities.documentFormattingProvider or null_ls.has_formatter(filetype)
 	if supports_format == true then
 		buf_set_keymap("n", "<c-s>", '<cmd>lua require("plugin/lspconfig/actions").format()<cr>:w<cr>', opts)
 		buf_set_keymap("i", "<c-s>", '<c-o><cmd>lua require("plugin/lspconfig/actions").format()<cr><c-o>:w<cr>', opts)

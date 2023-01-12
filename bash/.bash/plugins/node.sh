@@ -19,6 +19,7 @@ export NODE_ENV="development"
 
 # Easy way to reinstall npm dependencies
 alias npm-please="rm -rf node_modules && rm -rf package-lock.json && npm i"
+
 # Easy way to update all npm dependencies
 function npm-modules-update {
   if ! command -v ncu; then

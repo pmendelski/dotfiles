@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 git_branch_status() {
   local repo_info rev_parse_exit_code
   repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
@@ -177,7 +179,11 @@ git_prompt() {
   local dirtyStatus=""
   [ git_has_staged_changes ] && dirtyStatus="$dirtyStatus+"
   [ git_has_unstaged_changes ] && dirtyStatus="$dirtyStatus*"
-  [ git_has_untracked_files ] && dirtyStatus="$dirtyStatus%${ZSH_VERSION+%}"
+  if [ -n "${ZSH_VERSION-}" ]; then
+    [ git_has_untracked_files ] && dirtyStatus="$dirtyStatus%${ZSH_VERSION+%}"
+  else
+    [ git_has_untracked_files ] && dirtyStatus="$dirtyStatus%"
+  fi
 
   # stash status
   local stashStatus="$(git_stash_size)"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euf -o pipefail
 
 ./packages/system.sh
 ./packages/system-gui.sh

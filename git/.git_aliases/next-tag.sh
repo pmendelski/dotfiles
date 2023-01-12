@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 findNextTag() {
   local branch="$1";

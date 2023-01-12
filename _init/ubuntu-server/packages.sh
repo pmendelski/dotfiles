@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 key() {
   curl -fsSL "$1" | sudo apt-key add -

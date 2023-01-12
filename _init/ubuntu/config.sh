@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -e
+set -euf -o pipefail
+
 declare -r PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
 
 echo -e "\n>>> Copy conky config"

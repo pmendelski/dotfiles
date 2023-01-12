@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
+
 source "./bash/.bash/util/terminal.sh"
 
 initFile() {

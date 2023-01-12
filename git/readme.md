@@ -375,7 +375,7 @@ and [`git update-index`](http://stackoverflow.com/a/11366713/2284884).
 - **`git gitignore-edit`** - Edit local `.gitignore` file with vim.
 - **`git gitignore-fix`** - [Fix `.gitignore`](http://stackoverflow.com/a/1139797/2284884).
 
-### Contribution aliases
+### Stats aliases
 
 Aliases for presenting statistics on about contribution.
 
@@ -384,6 +384,10 @@ Aliases for presenting statistics on about contribution.
     - Columns: added, removed, sum (added + removed), commits
 - **`git file-stats`** - Show file statistics grouped by file extension.
     - Columns: count, lines, size
+- **`git churn`** - List most frequently modified files
+    - **`git churn-yr`** - List most frequently modified files in last 12 months
+    - **`git churn src`** - List most frequently modified files in dir `src`
+    - **`git churn --since='3 months ago'`** - List most frequently modified files in last 3 months
 
 ### Other aliases
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 # Install brew
 if [[ $(command -v brew) == "" ]]; then
@@ -93,7 +94,6 @@ brew install --cask keepassx
 brew install --cask spotify
 brew install --cask transmission
 brew install --cask robo-3t
-brew install --cask deluge
 brew install --cask opera
 brew install --cask intellij-idea
 brew install --cask intellij-idea-ce
@@ -102,6 +102,7 @@ brew install --cask sublime-text
 brew install --cask google-chrome
 brew install --cask dbeaver-community
 brew install --cask google-web-designer
+brew tap homebrew/cask && brew install --cask gimp
 
 # VS Code extenstions
 code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
@@ -171,6 +172,9 @@ cp ./scripts/* $HOME/Scripts/
 mkdir -pf $HOME/Library/Services
 cp -r ./automator/* $HOME/Library/Services/
 
+# Install xcode
+xcode-select --install
+
 # Create ssh key
 if [ ! -f ~/.ssh/config ]; then
   echo "Generating initial ssh key"
@@ -183,8 +187,8 @@ if [ ! -f ~/.ssh/config ]; then
   echo "  UseKeychain yes" >> ~/.ssh/config
   echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
 
-  if command -v pbcopy &> /dev/null; then
-    cat ~/.ssh/id_ed25519.pub | pbcopy
+  if command -v clipcopy &> /dev/null; then
+    cat ~/.ssh/id_ed25519.pub | clipcopy
     echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
     echo "Remember to generate GPG key with: gpg-generate-key-for-github"
   fi

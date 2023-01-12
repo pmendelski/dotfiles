@@ -1,3 +1,8 @@
+-- disable diagnostics in dependencies
+vim.cmd([[
+  autocmd BufRead,BufNewFile */node_modules/* lua vim.diagnostic.disable(0)
+]])
+
 -- Automatically refresh buffers on file change
 vim.cmd([[
   augroup AutoRefreshBuffersOnFileChange

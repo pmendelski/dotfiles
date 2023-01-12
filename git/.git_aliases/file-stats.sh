@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 max() {
   [ "$1" -gt "$2" ] && \

@@ -71,9 +71,9 @@ opt.wildignore =
 
 -- Print options
 -----------------------------------------------------------
-opt.printfont = ":h10"
-opt.printencoding = "utf-8"
-opt.printoptions = "paper:A4"
+-- opt.printfont = ":h10"
+-- opt.printencoding = "utf-8"
+-- opt.printoptions = "paper:A4"
 
 -- Wrapping, spaces & tabs
 -----------------------------------------------------------

@@ -16,11 +16,11 @@ function __loadZshPlugin() {
 
 function __loadZshPlugins() {
   local -r DIR="$1"
-  local -r NAMES=$2
+  local -r NAMES="${2-}"
   [ ! -d "$DIR" ] && return;
 
   if [ -z $NAMES ]; then
-    for plugin in $DIR/*; do
+    for plugin in $(find $DIR -mindepth 1 -maxdepth 1); do
       __loadZshPlugin "$plugin"
     done
   else
@@ -49,7 +49,7 @@ function __loadZsh() {
   source "$HOME/.zsh/exports.zsh"
   source "$HOME/.zsh/aliases.zsh"
   __loadLocalZshFiles
-  __loadZshPlugins "$HOME/.zsh/plugins" $zsh_plugins
+  __loadZshPlugins "$HOME/.zsh/plugins" "${zsh_plugins-}"
   __loadZshPlugins "$HOME/.zsh/lib"
 }
 

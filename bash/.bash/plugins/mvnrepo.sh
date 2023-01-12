@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 mvnrepo() {
   local -r query="${1:?Expected query}"

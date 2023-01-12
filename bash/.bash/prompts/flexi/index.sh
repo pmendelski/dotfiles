@@ -22,7 +22,7 @@ function __flexiPromptIsRoot() {
 
 function __flexiPromptUnprintable() {
   [ -z $1 ] && return
-  echo -ne "${__FLEXI_PROMPT_UNPRINTABLE_PREFIX}$1${__FLEXI_PROMPT_UNPRINTABLE_SUFFIX}"
+  echo -ne "${__FLEXI_PROMPT_UNPRINTABLE_PREFIX-}$1${__FLEXI_PROMPT_UNPRINTABLE_SUFFIX-}"
 }
 
 function __flexiPromptPwd() {
@@ -62,7 +62,7 @@ function __flexiPromptUserAtHostText() {
   local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
   local userhost="$user@$host"
 
-  if [ -z "$SSH_CONNECTION" ]; then
+  if [ -z "${SSH_CONNECTION-}" ]; then
     [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
     [ "$host" = "${PROMPT_DEFAULT_USERHOST##*@}" ] && host="" || host="@$host"
     userhost="$user$host"
@@ -70,8 +70,8 @@ function __flexiPromptUserAtHostText() {
 
   # Only show username@host in special cases
   [ -z "$userhost" ] || [ -z "$user" ] || [ -z "$host" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] || [ "$userhost" = "${PROMPT_DEFAULT_USERHOST}.local" ] && \
-    [ -z "$SSH_CONNECTION" ] && \
-    [ ! "$SUDO_USER" ] && \
+    [ -z "${SSH_CONNECTION-}" ] && \
+    [ ! "${SUDO_USER-}" ] && \
     [ "$isRoot" = 0 ] && \
     return $exit;
 
@@ -91,7 +91,7 @@ function __flexiPromptUserAtHost() {
     suffix="$__FLEXI_PROMPT_USERHOST_ROOT_AFTER"
   fi
 
-  if [ -n "$SSH_CONNECTION" ] && [ -n "$__FLEXI_PROMPT_SSH_INDICATOR" ]; then
+  if [ -n "${SSH_CONNECTION-}" ] && [ -n "$__FLEXI_PROMPT_SSH_INDICATOR" ]; then
     prefix="$__FLEXI_PROMPT_SSH_INDICATOR$prefix"
   fi
 
@@ -177,7 +177,7 @@ function __flexiPromptTimer() {
   local treshold=$__FLEXI_PROMPT_TIMER
   local prefix="$__FLEXI_PROMPT_TIMER_BEFORE"
   local suffix="$__FLEXI_PROMPT_TIMER_AFTER"
-  [ ! $__FLEXI_PROMPT_TIMER_DIFF ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] && \
+  [ -z "${__FLEXI_PROMPT_TIMER_DIFF-}" ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] && \
     return $exit
   [ $treshold -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt "$treshold" ] && \
     echo -ne "$prefix$(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)$suffix"
@@ -288,7 +288,7 @@ function flexiPromptTheme() {
     __flexiPromptSetupDefaults
     source "$themeFile"
     __flexiRebuildPrompts
-    if [ -z "$__FLEXI_PROMPT_NEXT_THEME_CHANGE" ]; then
+    if [ -z "${__FLEXI_PROMPT_NEXT_THEME_CHANGE-}" ]; then
       __FLEXI_PROMPT_NEXT_THEME_CHANGE="1"
     else
       echo "Switched to flexi prompt theme: $themeFile"

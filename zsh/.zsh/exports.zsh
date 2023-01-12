@@ -27,3 +27,7 @@ PS1="%n@%m:%~%# "
 if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
   export TERMINAL="gnome-terminal"
 fi
+
+if [ -z "${LS_COLORS-}" ] && type "dircolors" > /dev/null; then
+  eval "$(dircolors)"
+fi

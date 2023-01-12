@@ -41,7 +41,7 @@ __flexiPromptDefineSwitch Shlvl SHLVL 1
 # Show GIT status
 __flexiPromptDefineSwitch Git GIT $(hash git 2>/dev/null && echo 1)
 # Long running cmd notification (-1=all, 0=never, x>0=mesure those above x ms)
-__flexiPromptDefineSwitch Notify NOTIFY $([ -z "$SSH_CONNECTION" ] && echo 5000 || echo 0)
+__flexiPromptDefineSwitch Notify NOTIFY $([ -z "${SSH_CONNECTION-}" ] && echo 5000 || echo 0)
 # Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
 __flexiPromptDefineSwitch Timer TIMER 5000
 # Add timestamp to prompt (date format)

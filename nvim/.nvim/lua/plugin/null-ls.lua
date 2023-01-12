@@ -1,5 +1,6 @@
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
 local FORMATTING = null_ls.methods.FORMATTING
 
 local M = {}
@@ -10,9 +11,11 @@ function M.config()
 			-- formatting
 			formatting.stylua,
 			formatting.shfmt,
-			formatting.prettier.with({
-				filetypes = { "html", "css", "markdown", "json" },
-			}),
+			formatting.prettier,
+			-- liting
+			diagnostics.golangci_lint,
+			diagnostics.hadolint,
+			diagnostics.yamllint,
 		},
 	})
 end

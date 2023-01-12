@@ -20,7 +20,7 @@
 : ${__FLEXI_PROMPT_PS4:=1}
 : ${__FLEXI_PROMPT_UNPRINTABLE_PREFIX:="\x01"}
 : ${__FLEXI_PROMPT_UNPRINTABLE_SUFFIX:="\x02"}
-: ${__FLEXI_PROMPT_TITLE:="[ -z "$SSH_CONNECTION" ] echo 1 || echo 0"}
+: ${__FLEXI_PROMPT_TITLE:="[ -z "${SSH_CONNECTION-}" ] echo 1 || echo 0"}
 : ${__FLEXI_PROMPT_TITLE_PREFIX:="\033]0;"}
 : ${__FLEXI_PROMPT_TITLE_SUFFIX:="\007"}
 
@@ -55,7 +55,7 @@
 ################################################################################
 # Timestamp
 ################################################################################
-: ${__FLEXI_PROMPT_NOTIFY:="[ -z "$SSH_CONNECTION" ] echo 5000 || echo 0"}
+: ${__FLEXI_PROMPT_NOTIFY:="[ -z "${SSH_CONNECTION-}" ] echo 5000 || echo 0"}
 : ${__FLEXI_PROMPT_TIMESTAMP_BEFORE:="$(__flexiPromptUnprintable $COLOR_GRAY)["}
 : ${__FLEXI_PROMPT_TIMESTAMP_AFTER:="]$(__flexiPromptUnprintable $COLOR_RESET)"}
 

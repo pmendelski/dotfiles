@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+gpg-key-id-by-email() {
+  local -r email="${1:-Expected email}"
+  gpg --list-keys "$email" --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
+}
+
+gpg-key-id-long-by-email() {
+  local -r email="${1:-Expected email}"
+  gpg --list-keys "$email" --keyid-format long | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
+}
+
 gpg-default-key-id() {
   gpg --list-keys --keyid-format short | grep "^pub" | sed -En 's|^.*/([^ ]*).*$|\1|p' | head -n 1
 }
@@ -31,17 +41,9 @@ gpg-delete-key() {
   gpg --delete-key $id
 }
 
-gpg-delete-default-key() {
-  gpg-delete-key "$(gpg-default-key-id)"
-}
-
 gpg-send-key-to-keyserver() {
   local id="${1:?Expected key id}"
   gpg --keyserver hkp://pool.sks-keyservers.net --send-keys $id
-}
-
-gpg-send-default-key-to-keyserver() {
-  gpg-send-key-to-keyserver "$(gpg-default-key-id)"
 }
 
 gpg-generate-default-key() {
@@ -82,7 +84,7 @@ gpg-generate-key-for-github() {
   gpg-send-key-to-keyserver "$sid"
 
   echo -e "\n\nPaste below key to github.com.\nHint: it's already in the clipboard.\n$key\n"
-  echo "$key" | pbcopy
+  echo "$key" | clipcopy
 
   if [ -z "(git config --global user.signingkey)" ]; then
     git config --global user.signingkey "$sid"

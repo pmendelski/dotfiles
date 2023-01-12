@@ -1,4 +1,27 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
+
+replaceDiacritics() {
+  sed \
+    -e 's|ą|a|g' \
+    -e 's|Ą|A|g' \
+    -e 's|ć|c|g' \
+    -e 's|Ć|C|g' \
+    -e 's|ę|e|g' \
+    -e 's|Ę|E|g' \
+    -e 's|ł|l|g' \
+    -e 's|Ł|L|g' \
+    -e 's|ń|n|g' \
+    -e 's|Ń|N|g' \
+    -e 's|ó|o|g' \
+    -e 's|Ó|O|g' \
+    -e 's|ś|s|g' \
+    -e 's|Ś|S|g' \
+    -e 's|ź|z|g' \
+    -e 's|Ź|Z|g' \
+    -e 's|ż|z|g' \
+    -e 's|Ż|Z|g'
+}
 
 max() {
   [ "$1" -gt "$2" ] && \
@@ -29,18 +52,46 @@ sumAuthorChanges() {
 }
 
 printAuthorName() {
-  echo ${1:-'<empty>'} |
-    sed -e 's|\ \+|_|g' -e 's|^\(.\{20\}\).*|\1|'
+  echo ${1:-'<empty>'} | sed \
+    -e 's|ą|a|g' \
+    -e 's|Ą|A|g' \
+    -e 's|ć|c|g' \
+    -e 's|Ć|C|g' \
+    -e 's|ę|e|g' \
+    -e 's|Ę|E|g' \
+    -e 's|ł|l|g' \
+    -e 's|Ł|L|g' \
+    -e 's|ń|n|g' \
+    -e 's|Ń|N|g' \
+    -e 's|ó|o|g' \
+    -e 's|Ó|O|g' \
+    -e 's|ś|s|g' \
+    -e 's|Ś|S|g' \
+    -e 's|ź|z|g' \
+    -e 's|Ź|Z|g' \
+    -e 's|ż|z|g' \
+    -e 's|Ż|Z|g' \
+    -e 's|\ \+|_|g' \
+    -e 's|^\(.\{20\}\).*|\1|'
 }
 
 createTableBody() {
-  git log --format='%aN' |
-  sort -u |
-  while read name; do
-    local changes="$(sumAuthorChanges "$name" "$1")";
-    local commits="$(sumAuthorCommits "$name" "$2")";
-    echo "$(printAuthorName "$name") $changes $commits"
-  done
+  local -r contrubutors="$(\
+    (cat "$(git rev-parse --show-toplevel)/.contributors" "$HOME/.contributors" 2>/dev/null || echo "")\
+      | sed -e 's|\([^=[[:space:]]]*\)[[:space:]]*=[[:space:]]*\(.*\)|\1=\2|'\
+  )"
+  git log --format='%aN' | \
+    sort -u | \
+    while read name; do
+      local changes="$(sumAuthorChanges "$name" "$1")";
+      local commits="$(sumAuthorCommits "$name" "$2")";
+      local name="$(printAuthorName "$name")";
+      local mapped="$(echo "$contrubutors" | grep "${name}=" | cut -d '=' -f2)"
+      if [ -n "$mapped" ]; then
+        name="$mapped"
+      fi
+      echo "$name $changes $commits"
+    done
 }
 
 sumCommits() {
@@ -64,8 +115,9 @@ contributionStats() {
   local totalChanges="$(( $totalAdded + $totalRemoved + $totalModified ))";
   local totalCommits="$(sumCommits)";
   local table="$(
-    createTableBody $totalChanges $totalCommits |
-    ([ "$sortby" = "1" ] && LC_ALL=C sort || sort -hr -k $sortby)
+    createTableBody $totalChanges $totalCommits | \
+      awk '{ added[$1] += $2; removed[$1] += $3; modified[$1] += $4; changes[$1] += $5; changes_proc[$1] += $6; commits[$1] += $7; commits_proc[$1] += $8 } END { for (i in added) print i, added[i], removed[i], modified[i], changes[i], changes_proc[i], commits[i], commits_proc[i] }' | \
+      ([ "$sortby" = "1" ] && LC_ALL=C sort || sort -hr -k $sortby)
   )";
   local columnSep="---------- ---";
   local separator="-------------------- ---------- ---------- ---------- $columnSep $columnSep";

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change

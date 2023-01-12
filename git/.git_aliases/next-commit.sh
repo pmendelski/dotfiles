@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 exists() {
   git show "$1" 1>/dev/null 2>/dev/null;

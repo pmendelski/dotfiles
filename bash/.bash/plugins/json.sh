@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function json-prettify() {
   local -r json="$([ ! -t 0 ] && cat || echo "$1")"
   node -e "console.log(JSON.stringify(JSON.parse(process.argv[1]), null, 2))" "$json"

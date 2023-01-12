@@ -20,9 +20,6 @@ echo -e "\n>>> Zoom"
 wget -O zoom.deb https://zoom.us/client/latest/zoom_amd64.deb && \
 sudo apt install -y ./zoom.deb)
 
-echo -e "\n>>> Skype"
-sudo snap install skype --classic
-
 echo -e "\n>>> Zoom"
 sudo snap install zoom-client
 

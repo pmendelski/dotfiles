@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
 ssh-generate-default-key() {
-  local email=""
-  while [ -z "$email" ]; do
-    printf "Enter your email (john.doe@gmail.com): "
-    read -r email
-  done
-  ssh-keygen -t rsa -b 4096 -C "$email" \
-    && git config --global user.signingkey "$(gpg-key-id-long)"
+  local -r email="${1:?Expected email}"
+  ssh-keygen -t ed25519 -C "$email"
+  eval "$(ssh-agent -s)"
+  ssh-add ~/.ssh/id_ed25519
+  git config --global user.signingkey "$(gpg-default-key-id)"
 }
 
 ssh-show-default-key() {
@@ -27,10 +25,7 @@ ssh-show-key-hex() {
 }
 
 ssh-generate-key() {
-  local email=""
-  while [ -z "$email" ]; do
-    printf "Enter email (john.doe@gmail.com): "
-    read -r email
-  done
-  ssh-keygen -t rsa -b 4096 -C "$email"
+  local -r email="${1:?Expected email}"
+  ssh-keygen -t ed25519 -f "~/.ssh/id_$email"
+  ssh-add "~/.ssh/id_$email"
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
 echo "Turnoff sleep mode on lid close"
 if ! grep -q '^HandleLidSwitch=ignore' /etc/systemd/logind.conf; then
