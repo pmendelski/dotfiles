@@ -1,64 +1,48 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-key() {
-  curl -fsSL "$1" | sudo apt-key add -
-}
-
-repository() {
-  sudo add-apt-repository -y "$1"
-  sudo apt-get update
-}
-
-package() {
-  sudo apt install -y "$1"
-}
-
-snap() {
-  sudo snap install "$@"
-}
-
 # Build tools
-package build-essential
-package automake
-package make
-package checkinstall
-package dpatch
-package patchutils
-package autotools-dev
-package debhelper
-package quilt
-package fakeroot
-package xutils
-package lintian
-package cmake
-package dh-make
-package libtool
-package autoconf
-package gcc
-package ninja-build
-package shellcheck
+sudo apt install -y build-essential
+sudo apt install -y automake
+sudo apt install -y make
+sudo apt install -y checkinstall
+sudo apt install -y dpatch
+sudo apt install -y patchutils
+sudo apt install -y autotools-dev
+sudo apt install -y debhelper
+sudo apt install -y quilt
+sudo apt install -y fakeroot
+sudo apt install -y xutils
+sudo apt install -y lintian
+sudo apt install -y cmake
+sudo apt install -y dh-make
+sudo apt install -y libtool
+sudo apt install -y autoconf
+sudo apt install -y gcc
+sudo apt install -y ninja-build
+sudo apt install -y shellcheck
 
 # GIT
-repository ppa:git-core/ppa
-package git
+sudo add-apt-repository -y "ppa:git-core/ppa"
+sudo apt-get update
+sudo apt install -y git
 
 # HTTP clients
-package curl
-package httpie
+sudo apt install -y curl
+sudo apt install -y httpie
 
 # HTTP utils like dig
-package dnsutils
+sudo apt install -y dnsutils
 
 # JSON parser
-package jq
+sudo apt install -y jq
 
 # Network
-package apt-transport-https
-package ca-certificates
-package gnupg-agent
-package software-properties-common
-package iptables-persistent
+sudo apt install -y apt-transport-https
+sudo apt install -y ca-certificates
+sudo apt install -y gnupg-agent
+sudo apt install -y software-properties-common
+sudo apt install -y iptables-persistent
 
 # Docker
 sudo apt-get remove -y docker docker-engine docker.io containerd runc
@@ -66,7 +50,7 @@ sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent softwar
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt -y update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
@@ -79,43 +63,43 @@ curl -L "https://raw.githubusercontent.com/docker/compose/${docker_compose_versi
 
 # Better terminal
 mkdir -p ~/.local/bin
-package zsh
-package tmux
-package tree
-package fzf
-package ripgrep
-package fd-find
+sudo apt install -y zsh
+sudo apt install -y tmux
+sudo apt install -y tree
+sudo apt install -y fzf
+sudo apt install -y ripgrep
+sudo apt install -y fd-find
 ln -s "$(which fdfind)" ~/.local/bin/fd
-snap fasd --beta
+sudo snap install fasd --beta
 
 # cat with highlighting
-package bat
-if command -v batcat &> /dev/null; then
+sudo apt install -y bat
+if command -v batcat &>/dev/null; then
   ln -s "$(which batcat)" ~/.local/bin/bat
 fi
 
 # Compression tools
-package zip
-package unzip
+sudo apt install -y zip
+sudo apt install -y unzip
 
 # Neovim
-package neovim
-package python3-neovim
+sudo apt install -y neovim
+sudo apt install -y python3-neovim
 
 # Ascii art
 # figlet -f slant <Some Text>
-package figlet
+sudo apt install -y figlet
 
 # Image manipulation
-package imagemagick
+sudo apt install -y imagemagick
 
 # Better terminal
 mkdir -p ~/.local/bin
-package zsh
-package tmux
-package tree
-package fzf
-package ripgrep
-package fd-find
+sudo apt install -y zsh
+sudo apt install -y tmux
+sudo apt install -y tree
+sudo apt install -y fzf
+sudo apt install -y ripgrep
+sudo apt install -y fd-find
 ln -s "$(which fdfind)" ~/.local/bin/fd
-snap fasd --beta
+sudo snap install fasd --beta

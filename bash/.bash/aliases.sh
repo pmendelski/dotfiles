@@ -48,12 +48,12 @@ alias rg="rg --hidden --glob '!.git'"
 alias shebang='echo "#!/usr/bin/env bash"'
 
 # Easy access to hosts file
-alias hosts="sudo $EDITOR /etc/hosts"
+alias hosts="sudo \$EDITOR /etc/hosts"
 
 # Editor
 alias v="vim"
-alias editor="$EDITOR"
-alias e="$EDITOR"
+alias editor="\$EDITOR"
+alias e="\$EDITOR"
 
 # Nvim
 alias nvim-update="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
@@ -85,7 +85,7 @@ alias urldecode='node -e "console.log(decodeURIComponent(process.argv[1]))"'
 alias map="xargs -n1"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="exec ${SHELL} -l"
+alias reload="exec \${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n} | grep . --color=never'
@@ -115,10 +115,12 @@ alias dotfiles-vim-edit="editor ~/.dotfiles/vim"
 # Simplified HTTP methods
 if [ -x "$(command -v httpie)" ]; then
   for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
+    # shellcheck disable=SC2139
     alias "$method"="http $method"
   done
 elif [ -x "$(command -v curl)" ]; then
   for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
+    # shellcheck disable=SC2139
     alias "$method"="curl -X '$method'"
   done
 fi

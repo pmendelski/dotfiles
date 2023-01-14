@@ -33,7 +33,7 @@ end
 function _M.get_buf_lsp_clients()
 	local buf_clients = vim.lsp.buf_get_clients()
 	if next(buf_clients) == nil then
-		return ""
+		return {}
 	end
 	local clients = {}
 	for _, client in pairs(buf_clients) do

@@ -1,4 +1,3 @@
-local util = require("util")
 local null_ls = require("plugin/null-ls")
 
 local function highlightReferences(client, bufnr)

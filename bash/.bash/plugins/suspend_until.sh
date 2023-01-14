@@ -11,7 +11,7 @@
 # suspend_until 14:23 && echo "Finished"
 function suspend_until() {
   # Argument check
-  if [ $# -lt 1 -o $# -gt 2 ]; then
+  if [ $# -lt 1 ] || [ $# -gt 2 ]; then
     echo "Usage: sleep_until HH:MM "
     echo "... or: sleep_until HH:MM YYYY-MM-DD"
     exit
@@ -21,21 +21,21 @@ function suspend_until() {
   if [ $# -eq 1 ]; then
     # Check whether specified time is today or tomorrow
     DESIRED="$(date +%s -d "$1")"
-    if [ $DESIRED -lt $NOW ]; then
-      DESIRED=$((`date +%s -d "$1"` + 24*60*60))
+    if [ "$DESIRED" -lt "$NOW" ]; then
+      DESIRED=$(($(date +%s -d "$1") + 24 * 60 * 60))
     fi
   else
     DESIRED=$(date +%s -d "$1 $2")
   fi
-  echo "Wakeup time: $(date -d @$DESIRED)"
+  echo "Wakeup time: $(date -d "@$DESIRED")"
 
   # Kill rtcwake if already running
-  sudo killall rtcwake 2>/dev/null || true;
+  sudo killall rtcwake 2>/dev/null || true
 
   # Set RTC wakeup time
   # N.B. change "mem" for the suspend option
   # find this by "man rtcwake"
-  sudo rtcwake -l -m mem -t $DESIRED 1>/dev/null &
+  sudo rtcwake -l -m mem -t "$DESIRED" 1>/dev/null &
 
   # feedback
   echo "Suspending..."

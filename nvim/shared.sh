@@ -35,6 +35,7 @@ installDependencies() {
     echo "Could not install stylua"
 
   go install golang.org/x/tools/gopls@latest &&
+    go install mvdan.cc/sh/v3/cmd/shfmt@latest &&
     echo "Installed GO based language servers" ||
     echo "Could not install GO based language servers"
 
@@ -90,9 +91,9 @@ installJavaLangServer() {
   if [ ! -f "$serverDir/dist/launch_linux.bak.sh" ]; then
     cd "$serverDir/dist"
     mv launch_linux.sh launch_linux.bak.sh
-    sed 's|$DIR/linux/bin/java|java|' launch_linux.bak.sh >launch_linux.sh
+    sed "s|$DIR/linux/bin/java|java|" launch_linux.bak.sh >launch_linux.sh
     mv launch_mac.sh launch_mac.bak.sh
-    sed 's|$DIR/mac/bin/java|java|' launch_mac.bak.sh >launch_mac.sh
+    sed "s|$DIR/mac/bin/java|java|" launch_mac.bak.sh >launch_mac.sh
     chmod u+x launch_linux.sh launch_mac.sh
     cd "$serverDir"
   fi

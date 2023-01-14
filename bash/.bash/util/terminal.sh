@@ -9,39 +9,41 @@ declare -i verbose=0
 declare -i force=0
 
 askForConfirmation() {
-  [ $force != 0 ] && return 0;
+  [ $force != 0 ] && return 0
   printQuestion "$1 [Y/n] "
   read -r response
   case $response in
-    [yY][eE][sS]|[Y]) # deliberately no 'y'
-      return 0;
-      ;;
-    [nN][oO]|[nN])
-      return 1;
-      ;;
-    *)
-      askForConfirmation "$1"
-      return $?
-      ;;
+  [yY][eE][sS] | [Y]) # deliberately no 'y'
+    return 0
+    ;;
+  [nN][oO] | [nN])
+    return 1
+    ;;
+  *)
+    askForConfirmation "$1"
+    return $?
+    ;;
   esac
 }
 
 execute() {
-  $1 &> /dev/null
+  $1 &>/dev/null
   printResult $? "${2:-$1}"
 }
 
 printResult() {
-  [ $1 -eq 0 ] \
-    && printSuccess "$2" \
-    || printError "$2"
+  if [ "$1" -eq 0 ]; then
+    printSuccess "$2"
+  else
+    printError "$2"
+  fi
 
-  [ "$3" = "true" ] && [ $1 -ne 0 ] \
-    && exit
+  [ "$3" = "true" ] && [ "$1" -ne 0 ] &&
+    exit
 }
 
 print() {
-  [ $silent = 0 ] && printf "$1"
+  [ $silent = 0 ] && printf "%s" "$1"
 }
 
 println() {
@@ -61,23 +63,23 @@ printlnColor() {
 }
 
 printQuestion() {
-  printColor $COLOR_YELLOW "  [?] $1"
+  printColor "$COLOR_YELLOW" "  [?] $1"
 }
 
 printSuccess() {
-  printlnColor $COLOR_GREEN "  [ok] $1"
+  printlnColor "$COLOR_GREEN" "  [ok] $1"
 }
 
 printError() {
-  printlnColor $COLOR_RED "  [error] $1"
+  printlnColor "$COLOR_RED" "  [error] $1"
 }
 
 printWarn() {
-  printlnColor $COLOR_MAGENTA "  [warn] $1"
+  printlnColor "$COLOR_MAGENTA" "  [warn] $1"
 }
 
 printInfo() {
-  printlnColor $COLOR_CYAN "  $1"
+  printlnColor "$COLOR_CYAN" "  $1"
 }
 
 printDebug() {

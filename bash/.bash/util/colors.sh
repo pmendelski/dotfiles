@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 
 declare -gr COLOR_ESC="\e"
 declare -gr COLOR_RESET="\e[0m"
@@ -37,10 +38,10 @@ function defineColors() {
     color_val=${COLOR_COLORS[${color}]}
     for format in "${!COLOR_FORMATS[@]}"; do
       format_val=${COLOR_FORMATS[${format}]}
-      [ "$format" = "NORMAL" ] && \
-        format="" || \
+      [ "$format" = "NORMAL" ] &&
+        format="" ||
         format="_$format"
-      eval COLOR_${color}${format}="'\e[${format_val};${color_val}m'";
+      eval "COLOR_${color}${format}=\"\e[${format_val};${color_val}m\""
     done
   done
 }

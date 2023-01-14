@@ -8,10 +8,13 @@ initFile() {
   local -r target="$HOME/.$1"
   local -r host="${HOST:-$HOSTNAME}"
   if [ ! -f "$target" ]; then
-    local -r content="S(cat "$file" | sed \
-      -e "s|@PROMPT_DEFAULT_USERHOST@|$USER@$host|" \
-      -e "s|@HOME@|$HOME|")"
-    echo "$content" >> "$target"
+    local -r content="$(
+      sed \
+        -e "s|@PROMPT_DEFAULT_USERHOST@|$USER@$host|" \
+        -e "s|@HOME@|$HOME|" \
+        "$file"
+    )"
+    echo "$content" >>"$target"
     printSuccess "Created: ~/.$1"
   else
     printInfo "File already exists. Skipping: ~/.$1"
@@ -22,10 +25,13 @@ appendFile() {
   local -r file="bash/_$1"
   local -r target="$HOME/.$1"
   local -r host="${HOST:-$HOSTNAME}"
-  local -r content="$(cat "$file" | sed \
+  local -r content="$(
+    sed \
       -e "s|@PROMPT_DEFAULT_USERHOST@|$USER@$host|" \
-      -e "s|@HOME@|$HOME|")"
-  echo "$content" >> "$target"
+      -e "s|@HOME@|$HOME|" \
+      "$file"
+  )"
+  echo "$content" >>"$target"
   if [ ! -f "$target" ]; then
     printSuccess "Created: ~/.$1"
   elif ! grep -q "$(echo "$content" | head -n 1)" "$target"; then

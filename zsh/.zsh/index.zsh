@@ -19,12 +19,13 @@ function __loadZshPlugins() {
   local -r NAMES="${2-}"
   [ ! -d "$DIR" ] && return;
 
-  if [ -z $NAMES ]; then
-    for plugin in $(find $DIR -mindepth 1 -maxdepth 1); do
-      __loadZshPlugin "$plugin"
-    done
+  if [ -z "$NAMES" ]; then
+    find "$DIR" -mindepth 1 -maxdepth 1 -print0 |
+      while read -r -d $'\0' plugin; do
+        __loadZshPlugin "$plugin"
+      done
   else
-    for plugin in ${NAMES[@]}; do
+    for plugin in "${NAMES[@]}"; do
       if [ "${plugin:0:1}" != "!" ]; then
         __loadZshPlugin "$DIR/$plugin"
       fi
@@ -49,8 +50,8 @@ function __loadZsh() {
   source "$HOME/.zsh/exports.zsh"
   source "$HOME/.zsh/aliases.zsh"
   __loadLocalZshFiles
-  __loadZshPlugins "$HOME/.zsh/plugins" "${zsh_plugins-}"
   __loadZshPlugins "$HOME/.zsh/lib"
+  __loadZshPlugins "$HOME/.zsh/plugins" "${zsh_plugins-}"
 }
 
 __loadZsh

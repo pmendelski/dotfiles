@@ -73,17 +73,6 @@ local diagnostics = {
 	end,
 }
 
-local diff = {
-	"diff",
-	symbols = { added = " ", modified = "柳 ", removed = " " },
-	color_added = colors.green,
-	color_modified = colors.orange,
-	color_removed = colors.red,
-	cond = function()
-		return conditions.buffer_wide() and conditions.buffer_not_tree()
-	end,
-}
-
 local encoding = {
 	-- 'encoding',
 	function()
@@ -149,23 +138,6 @@ local lsp_progress = {
 	},
 	cond = function()
 		return conditions.buffer_not_tree()
-	end,
-}
-
-local lsp_progress_short = {
-	"lsp_progress",
-	display_components = { { "percentage" } },
-	-- spinner_symbols = { '⣷ ', '⣯ ', '⣟ ', '⡿ ', '⢿ ', '⣻ ', '⣽ ', '⣾ ' },
-	colors = {
-		percentage = colors.cyan,
-		-- title  = colors.cyan,
-		-- message  = colors.cyan,
-		-- spinner = colors.orange,
-		-- lsp_client_name = colors.orange,
-		use = true,
-	},
-	cond = function()
-		return not conditions.buffer_wide() and conditions.buffer_not_tree()
 	end,
 }
 

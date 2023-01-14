@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-declare -r PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
-
-echo -e "\n>>> Copy conky config"
-ln -fs "$PWD/conky" "$HOME/.conky"
+declare -r PWD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
 
 echo -e "\n>>> Copy template files"
 cp "$PWD/templates/"* "$HOME/Templates/"
@@ -26,14 +23,16 @@ if [ ! -f ~/.ssh/config ]; then
   eval "$(ssh-agent -s)"
   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
   ssh-add ~/.ssh/id_ed25519
-  echo "Host *" > ~/.ssh/config
-  echo "  IgnoreUnknown UseKeychain" >> ~/.ssh/config
-  echo "  AddKeysToAgent yes" >> ~/.ssh/config
-  echo "  UseKeychain yes" >> ~/.ssh/config
-  echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
+  {
+    echo "Host *"
+    echo "  IgnoreUnknown UseKeychain"
+    echo "  AddKeysToAgent yes"
+    echo "  UseKeychain yes"
+    echo "  IdentityFile ~/.ssh/id_ed25519"
+  } >~/.ssh/config
 
-  if command -v xclip &> /dev/null; then
-    cat ~/.ssh/id_ed25519.pub | xclip -selection clipboard
+  if command -v xclip &>/dev/null; then
+    xclip -selection clipboard <~/.ssh/id_ed25519.pub
     echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
     echo "Remember to generate GPG key with one of following commands:"
     echo "  gpg --default-new-key-algo rsa4096 --gen-key"

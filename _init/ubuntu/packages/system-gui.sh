@@ -15,7 +15,7 @@ sudo snap install keepassxc
 echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
 # VSCode
-if ! command -v code &> /dev/null; then
+if ! command -v code &>/dev/null; then
   sudo snap install code --classic
   code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
   code --install-extension ms-python.vscode-pylance
@@ -47,16 +47,16 @@ echo "deb https://dbeaver.io/debs/dbeaver-ce /" | sudo tee /etc/apt/sources.list
 sudo apt-get update
 
 echo -e "\n>>> MongoDb Compass"
-if ! command -v mongodb-compass &> /dev/null; then
+if ! command -v mongodb-compass &>/dev/null; then
   (
-    cd `mktemp -d` && \
-    wget -O compass.deb \
-      "$(curl -s "https://www.mongodb.com/try/download/compass" | \
-      grep "window.__serverData" | \
-      sed -nE "s|^[^{]*\{(.*)\}.*$|{\1}|p" | jq . | \
-      grep -Po "https://downloads.mongodb.com/compass/mongodb-compass[-_]\d+(\.\d+){0,2}[-_.][^.]+\.deb" | \
-      head -n 1)" && \
-    sudo apt install -y ./compass.deb
+    cd "$(mktemp -d)" &&
+      wget -O compass.deb \
+        "$(curl -s "https://www.mongodb.com/try/download/compass" |
+          grep "window.__serverData" |
+          sed -nE "s|^[^{]*\{(.*)\}.*$|{\1}|p" | jq . |
+          grep -Po "https://downloads.mongodb.com/compass/mongodb-compass[-_]\d+(\.\d+){0,2}[-_.][^.]+\.deb" |
+          head -n 1)" &&
+      sudo apt install -y ./compass.deb
   )
 fi
 
@@ -71,7 +71,7 @@ installGithubDesktop() {
   (cd "$tmpdir" && wget -O "$file" "https://github.com/shiftkey/desktop${path}" && sudo gdebi -n "$file")
   rm -rf "$tmpdir"
 }
-if ! command -v github-desktop &> /dev/null; then
+if ! command -v github-desktop &>/dev/null; then
   installGithubDesktop
 fi
 
@@ -85,14 +85,14 @@ installNerdFonts() {
   local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
   cd "$tmpdir"
   for font in "$@"; do
-    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
-      && unzip -o "$font.zip" -d ~/.local/share/fonts \
-      && echo "Installed nerd font: $font"
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" &&
+      unzip -o "$font.zip" -d ~/.local/share/fonts &&
+      echo "Installed nerd font: $font"
   done
   rm -rf "$tmpdir"
   cd "$dir"
 }
-if [ ! -f "~/.local/share/fonts/Fira Code Retina Nerd Font Complete.ttf" ]; then
+if [ ! -f "$HOME/.local/share/fonts/Fira Code Retina Nerd Font Complete.ttf" ]; then
   installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
   fc-cache -fv
 fi
@@ -109,7 +109,7 @@ echo -e "\n>>> Wireshark"
 # https://ask.wireshark.org/questions/7523/ubuntu-machine-no-interfaces-listed
 sudo apt-get install -y wireshark
 sudo groupadd -f wireshark
-sudo usermod -a -G wireshark $USER
+sudo usermod -a -G wireshark "$USER"
 sudo chgrp wireshark /usr/bin/dumpcap
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
 

@@ -18,14 +18,14 @@ sudo apt install -y \
 
 sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
-  ln -s $(which fdfind) ~/.local/bin/fd
+  ln -s "$(which fdfind)" ~/.local/bin/fd
 fi
 sudo snap install fasd --beta
 sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
 # cat with highlighting
 sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
-  ln -s $(which batcat) ~/.local/bin/bat
+  ln -s "$(which batcat)" ~/.local/bin/bat
 fi
 # htop
 sudo apt install -y htop
@@ -36,13 +36,13 @@ installLazygit() {
   local version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
   local tmpdir="$(mktemp -d -t lazygit-XXXX)"
   (
-    cd "$tmpdir" && \
-      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" && \
+    cd "$tmpdir" &&
+      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
       sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
   )
   rm -rf "$tmpdir"
 }
-if ! command -v lazygit &> /dev/null; then
+if ! command -v lazygit &>/dev/null; then
   installLazygit
 fi
 
@@ -136,7 +136,7 @@ sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent softwar
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt -y update
 sudo apt install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker "${USER}"
@@ -149,19 +149,19 @@ sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/downloa
 sudo chmod +x /bin/hadolint
 
 echo -e "\n>>> Rust"
-if ! command -v rustup &> /dev/null; then
+if ! command -v rustup &>/dev/null; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   export PATH="$PATH:~/.cargo/bin"
 fi
 
 echo -e "\n>>> Haskell"
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | \
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
 echo -e "\n>>> GO"
-if command -v go &> /dev/null; then
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
-    sh -s -- -b $(go env GOPATH)/bin
+if command -v go &>/dev/null; then
+  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh |
+    sh -s -- -b "$(go env GOPATH)/bin"
 fi
 
 echo -e "\n>>> Other"

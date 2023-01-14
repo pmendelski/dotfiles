@@ -3,21 +3,20 @@
 function __loadBashFiles() {
   local -r DIR="$1"
   local -r NAMES="${2-}"
-  [ ! -d "$DIR" ] && return;
+  [ ! -d "$DIR" ] && return
 
-  if [ -z $NAMES ]; then
-    for file in $(find $DIR -mindepth 1 -type f -name "*.sh"); do
+  if [ -z "$NAMES" ]; then
+    # shellcheck disable=SC2044
+    for file in $(find "$DIR" -mindepth 1 -type f -name "*.sh"); do
       source "$file"
     done
   else
-    for plugin in ${NAMES[@]}; do
-      [ ${plugin:0:1} -ne "!" ] \
-        && [ -r "$DIR/$plugin.sh" ] \
-        && source $DIR/$plugin.sh
+    for file in "${NAMES[@]}"; do
+      if [ "${file:0:1}" != "!" ] && [ -r "$DIR/$file.sh" ]; then
+        source "$DIR/$file.sh"
+      fi
     done
-    unset plugin
   fi
-  unset file
 }
 
 function __loadLocalBashFiles() {
@@ -25,13 +24,14 @@ function __loadLocalBashFiles() {
     [ -r "$file" ] && source "$file"
   done
   if [ -d "$HOME/.bash_plugins" ]; then
-    for file in $HOME/.bash_plugins/*.sh; do
+    for file in "$HOME"/.bash_plugins/*.sh; do
       [ -r "$file" ] && source "$file"
     done
   fi
   unset file
 }
 
+# shellcheck disable=SC2120
 function bashChangePrompt() {
   local -r defaultPrompt="${BASH_PROMPT:-flexi}"
   local -r promptName="${1:-$defaultPrompt}"
@@ -67,10 +67,8 @@ function __loadBash() {
   source "$HOME/.bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
-  __loadBashFiles "$HOME/.bash/plugins" "${bash_plugins-}"
-  # Lib should be loaded by bash only
   [ -n "${BASH_VERSION-}" ] && __loadBashFiles "$HOME/.bash/lib"
-  # Bash propmpt should be loaded by bash only
+  __loadBashFiles "$HOME/.bash/plugins" "${bash_plugins-}"
   [ -n "${BASH_VERSION-}" ] && bashChangePrompt
 }
 

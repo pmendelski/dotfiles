@@ -1,4 +1,4 @@
-# Switch between vim and terminal
+# Switch between vim/nvim and terminal
 # https://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then

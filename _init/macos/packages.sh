@@ -72,7 +72,7 @@ brew install rustup-init
 rustup-init -y --no-modify-path
 
 # Haskell
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | \
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
 # Docker
@@ -125,9 +125,9 @@ installNerdFonts() {
   local -r tmpdir="$(mktemp -d -t nerd-fonts)"
   cd "$tmpdir"
   for font in "$@"; do
-    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" \
-      && unzip -qq -o "$font.zip" -d ~/Library/Fonts \
-      && echo "Installed nerd font: $font"
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" &&
+      unzip -qq -o "$font.zip" -d ~/Library/Fonts &&
+      echo "Installed nerd font: $font"
   done
   rm -rf "$tmpdir"
   cd "$dir"
@@ -143,34 +143,38 @@ brew cleanup
 # Use GNU tools by defaults
 if [ -d /opt/homebrew/opt/coreutils/libexec/gnubin ]; then
   if ! grep -q "/opt/homebrew/opt/coreutils/libexec/gnubin" ~/.path; then
-    echo "/opt/homebrew/opt/coreutils/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/findutils/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/gnu-indent/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/gnu-sed/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/gnu-which/libexec/gnubin" >> ~/.path
-    echo "/opt/homebrew/opt/grep/libexec/gnubin" >> ~/.path
+    {
+      echo "/opt/homebrew/opt/coreutils/libexec/gnubin"
+      echo "/opt/homebrew/opt/findutils/libexec/gnubin"
+      echo "/opt/homebrew/opt/gnu-indent/libexec/gnubin"
+      echo "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+      echo "/opt/homebrew/opt/gnu-tar/libexec/gnubin"
+      echo "/opt/homebrew/opt/gnu-which/libexec/gnubin"
+      echo "/opt/homebrew/opt/grep/libexec/gnubin"
+    } >>~/.path
   fi
 fi
 if [ -d /usr/local/opt/coreutils/libexec/gnubin ]; then
   if ! grep -q "/usr/local/opt/coreutils/libexec/gnubin" ~/.path; then
-    echo "/usr/local/opt/coreutils/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/findutils/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/gnu-indent/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/gnu-tar/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/gnu-which/libexec/gnubin" >> ~/.path
-    echo "/usr/local/opt/grep/libexec/gnubin" >> ~/.path
+    {
+      echo "/usr/local/opt/coreutils/libexec/gnubin"
+      echo "/usr/local/opt/findutils/libexec/gnubin"
+      echo "/usr/local/opt/gnu-indent/libexec/gnubin"
+      echo "/usr/local/opt/gnu-sed/libexec/gnubin"
+      echo "/usr/local/opt/gnu-tar/libexec/gnubin"
+      echo "/usr/local/opt/gnu-which/libexec/gnubin"
+      echo "/usr/local/opt/grep/libexec/gnubin"
+    } >>~/.path
   fi
 fi
 
 # Copy some scripts to loaded path
-mkdir -p $HOME/Scripts
-cp ./scripts/* $HOME/Scripts/
+mkdir -p "$HOME/Scripts"
+cp ./scripts/* "$HOME/Scripts/"
 
 # Copy automator actions
-mkdir -pf $HOME/Library/Services
-cp -r ./automator/* $HOME/Library/Services/
+mkdir -pf "$HOME/Library/Services"
+cp -r ./automator/* "$HOME/Library/Services/"
 
 # Install xcode
 xcode-select --install
@@ -181,14 +185,16 @@ if [ ! -f ~/.ssh/config ]; then
   eval "$(ssh-agent -s)"
   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
   ssh-add ~/.ssh/id_ed25519
-  echo "Host *" > ~/.ssh/config
-  echo "  IgnoreUnknown UseKeychain" >> ~/.ssh/config
-  echo "  AddKeysToAgent yes" >> ~/.ssh/config
-  echo "  UseKeychain yes" >> ~/.ssh/config
-  echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
+  {
+    echo "Host *"
+    echo "  IgnoreUnknown UseKeychain"
+    echo "  AddKeysToAgent yes"
+    echo "  UseKeychain yes"
+    echo "  IdentityFile ~/.ssh/id_ed25519"
+  } >~/.ssh/config
 
-  if command -v clipcopy &> /dev/null; then
-    cat ~/.ssh/id_ed25519.pub | clipcopy
+  if command -v pbcopy &>/dev/null; then
+    pbcopy <~/.ssh/id_ed25519.pub
     echo "New SSH key is in the clipboard. Register the key on https://github.com/settings/keys"
     echo "Remember to generate GPG key with: gpg-generate-key-for-github"
   fi

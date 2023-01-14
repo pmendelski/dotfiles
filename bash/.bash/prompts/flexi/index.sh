@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 # This prompt inspired by:
 #   https://github.com/alrra/dotfiles/blob/master/shell/bash_prompt
@@ -15,13 +15,13 @@ export FLEXI_PROMPT_DIR="$BASH_DIR/prompts/flexi"
 source "$FLEXI_PROMPT_DIR/switches.sh"
 
 function __flexiPromptIsRoot() {
-  [[ "${USER}" == *"root" ]] \
-    && return 0 \
-    || return 1
+  [[ "${USER}" == *"root" ]] &&
+    return 0 ||
+    return 1
 }
 
 function __flexiPromptUnprintable() {
-  [ -z $1 ] && return
+  [ -z "$1" ] && return
   echo -ne "${__FLEXI_PROMPT_UNPRINTABLE_PREFIX-}$1${__FLEXI_PROMPT_UNPRINTABLE_SUFFIX-}"
 }
 
@@ -30,24 +30,24 @@ function __flexiPromptPwd() {
   local mode="$__FLEXI_PROMPT_PWD_MODE"
   local prefix="$__FLEXI_PROMPT_PWD_BEFORE"
   local suffix="$__FLEXI_PROMPT_PWD_AFTER"
-  if [ $PWD = $HOME ]; then
+  if [ "$PWD" = "$HOME" ]; then
     [ "$__FLEXI_PROMPT_PWD_SKIP_HOME" = 1 ] && return $exit
     echo -ne "${prefix}~${suffix}"
     return $exit
   fi
-  if [ $PWD = "/" ]; then
+  if [ "$PWD" = "/" ]; then
     echo -ne "$prefix/$suffix"
     return $exit
   fi
   local result=""
   local homeShort="~"
-  if [ $mode = 1 ]; then
+  if [ "$mode" = 1 ]; then
     # First letters: ~/D/n/project
-    result="$(dirname $PWD | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename $PWD)"
-  elif [ $mode = 2 ]; then
+    result="$(dirname "$PWD" | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename "$PWD")"
+  elif [ "$mode" = 2 ]; then
     # First letters with dots: .../D/n/project
-    result="$(dirname $PWD | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename $PWD)"
-    result="$(echo $result | sed -re "s|((/[^/]+){3,})((/[^/]+){3})$|...\3|")"
+    result="$(dirname "$PWD" | sed -re "s|/$||;s|$HOME|~|;s|/(.)[^/]*|/\1|g")/$(basename "$PWD")"
+    result="$(echo "$result" | sed -re "s|((/[^/]+){3,})((/[^/]+){3})$|...\3|")"
   else
     result="${PWD/#$HOME/$homeShort}"
   fi
@@ -69,11 +69,11 @@ function __flexiPromptUserAtHostText() {
   fi
 
   # Only show username@host in special cases
-  [ -z "$userhost" ] || [ -z "$user" ] || [ -z "$host" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] || [ "$userhost" = "${PROMPT_DEFAULT_USERHOST}.local" ] && \
-    [ -z "${SSH_CONNECTION-}" ] && \
-    [ ! "${SUDO_USER-}" ] && \
-    [ "$isRoot" = 0 ] && \
-    return $exit;
+  [ -z "$userhost" ] || [ -z "$user" ] || [ -z "$host" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] || [ "$userhost" = "${PROMPT_DEFAULT_USERHOST}.local" ] &&
+    [ -z "${SSH_CONNECTION-}" ] &&
+    [ ! "${SUDO_USER-}" ] &&
+    [ "$isRoot" = 0 ] &&
+    return $exit
 
   echo -ne "$userhost"
   return $exit
@@ -109,7 +109,7 @@ function __flexiPromptDebianChroot() {
   if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     chroot="$prefix$(cat /etc/debian_chroot)$suffix"
   fi
-  echo -ne $chroot
+  echo -ne "$chroot"
   return $exit
 }
 
@@ -130,9 +130,9 @@ function __flexiPromptGitStatus() {
 
   # stash status
   local stashStatus="$(git_stash_size)"
-  [ ! -z "$stashStatus" ] && [ "$stashStatus" -gt 0 ] &&
-    stashStatus="$stashStatus" ||
+  if [ -z "$stashStatus" ] || [ "$stashStatus" = 0 ]; then
     stashStatus=""
+  fi
 
   # upstream status
   local upstreamStatus="$(git_upstream_status)"
@@ -164,12 +164,12 @@ function __flexiPromptTimestamp() {
     ts="$(date +"%F %T")"
   elif [ "$format" = "4" ]; then
     ts="$(date +"%F %T.%3N")"
-  elif [ ! -z "$format" ]; then
+  elif [ -n "$format" ]; then
     ts="$(date +"$format")"
   fi
 
   [ -z "$ts" ] || echo -ne "$prefix$ts$suffix"
-  return $exit;
+  return $exit
 }
 
 function __flexiPromptTimer() {
@@ -177,10 +177,10 @@ function __flexiPromptTimer() {
   local treshold=$__FLEXI_PROMPT_TIMER
   local prefix="$__FLEXI_PROMPT_TIMER_BEFORE"
   local suffix="$__FLEXI_PROMPT_TIMER_AFTER"
-  [ -z "${__FLEXI_PROMPT_TIMER_DIFF-}" ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] && \
+  [ -z "${__FLEXI_PROMPT_TIMER_DIFF-}" ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -lt "0" ] &&
     return $exit
-  [ $treshold -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt "$treshold" ] && \
-    echo -ne "$prefix$(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)$suffix"
+  [ "$treshold" -lt 0 ] || [ "$__FLEXI_PROMPT_TIMER_DIFF" -gt "$treshold" ] &&
+    echo -ne "$prefix$(formatMsMin "$__FLEXI_PROMPT_TIMER_DIFF")$suffix"
   return $exit
 }
 
@@ -189,8 +189,8 @@ function __flexiPromptShlvl() {
   local treshold=$__FLEXI_PROMPT_SHLVL
   local prefix="$__FLEXI_PROMPT_SHLVL_BEFORE"
   local suffix="$__FLEXI_PROMPT_SHLVL_AFTER"
-  [ $treshold -lt 0 ] || [ $SHLVL -gt $treshold ] && \
-    [[ ! $TERM =~ ^screen ]] && \
+  [ "$treshold" -lt 0 ] || [ $SHLVL -gt "$treshold" ] &&
+    [[ ! $TERM =~ ^screen ]] &&
     echo -ne "$prefix$SHLVL$suffix"
   return $exit
 }
@@ -198,7 +198,7 @@ function __flexiPromptShlvl() {
 function __flexiPromptNewLinePreCmd() {
   local exit=$?
   local counter=${__FLEXI_PROMPT_CMD_COUNTER:-2}
-  [ $counter != 1 ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
+  [ "$counter" != 1 ] && echo -e "\n$(__flexiPromptUnprintable "$COLOR_RESET")"
   return $exit
 }
 
@@ -206,12 +206,12 @@ function __flexiPromptNewLine() {
   local exit=$?
   local userAtHost="$(__flexiPromptUserAtHostText)"
   case "$__FLEXI_PROMPT_NEWLINE" in
-    2)
-      [ "$PWD" != "$HOME" ] || [ -n "$userAtHost" ] && echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
-      ;;
-    *)
-      echo -e "\n$(__flexiPromptUnprintable $COLOR_RESET)"
-      ;;
+  2)
+    [ "$PWD" != "$HOME" ] || [ -n "$userAtHost" ] && echo -e "\n$(__flexiPromptUnprintable "$COLOR_RESET")"
+    ;;
+  *)
+    echo -e "\n$(__flexiPromptUnprintable "$COLOR_RESET")"
+    ;;
   esac
   return $exit
 }
@@ -225,13 +225,13 @@ function __flexiPromptSetupDefaults() {
 function __flexiRebuildPrompts() {
 
   function buildPS1() {
-    if [ $__FLEXI_PROMPT_SIMPLE -eq 1 ]; then
-      if [ ! $__FLEXI_PROMPT_COLORS -eq 0 ]; then
+    if [ "$__FLEXI_PROMPT_SIMPLE" -eq 1 ]; then
+      if [ ! "$__FLEXI_PROMPT_COLORS" -eq 0 ]; then
         echo "$__FLEXI_PROMPT_BASIC"
       else
         echo "$__FLEXI_PROMPT_BASIC_NO_COLORS"
       fi
-      return;
+      return
     fi
     local PS1=''
     [ -n "$__FLEXI_PROMPT_NEWLINE_PRECMD" ] && PS1+='$(__flexiPromptNewLinePreCmd)'
@@ -243,42 +243,44 @@ function __flexiRebuildPrompts() {
     [ -n "$__FLEXI_PROMPT_GIT" ] && PS1+='$(__flexiPromptGitStatus)'
     [ -n "$__FLEXI_PROMPT_TIMER" ] && PS1+='$(__flexiPromptTimer)'
     [ -n "$__FLEXI_PROMPT_NEWLINE" ] && PS1+='$(__flexiPromptNewLine)'
+    # shellcheck disable=SC2154
     PS1+='$(declare cmdstatus=${?:-0}; [ $cmdstatus != 0 ] && echo "$__FLEXI_PROMPT_CMD_ERROR" || echo "$__FLEXI_PROMPT_CMD_SUCCESS"; exit $cmdstatus)'
     echo "$PS1"
   }
 
   function buildPS4() {
-    if [ $__FLEXI_PROMPT_SIMPLE -eq 1 ]; then
+    if [ "$__FLEXI_PROMPT_SIMPLE" -eq 1 ]; then
       echo "+ "
-      return;
+      return
     fi
     local gray blue reset cyan magenta
-    if [ $__FLEXI_PROMPT_COLORS != 0 ]; then
-      local gray="$(__flexiPromptUnprintable $COLOR_GRAY_INT_BOLD)"
-      local blue="$(__flexiPromptUnprintable $COLOR_BLUE_BOLD)"
-      local reset="$(__flexiPromptUnprintable $COLOR_RESET)"
-      local cyan="$(__flexiPromptUnprintable $COLOR_CYAN_BOLD)"
-      local magenta="$(__flexiPromptUnprintable $COLOR_MAGENTA)"
+    if [ "$__FLEXI_PROMPT_COLORS" != 0 ]; then
+      local gray="$(__flexiPromptUnprintable "$COLOR_GRAY_INT_BOLD")"
+      local blue="$(__flexiPromptUnprintable "$COLOR_BLUE_BOLD")"
+      local reset="$(__flexiPromptUnprintable "$COLOR_RESET")"
+      local cyan="$(__flexiPromptUnprintable "$COLOR_CYAN_BOLD")"
+      local magenta="$(__flexiPromptUnprintable "$COLOR_MAGENTA")"
     fi
     local tab="\011"
-    local PS4="+ ";
+    local PS4="+ "
     PS4+="$gray\D{%H:%M:%S} "
     PS4+="$blue\${BASH_SOURCE/#\$HOME/\~}$reset:$cyan\${LINENO}"
     PS4+="$reset$tab\${FUNCNAME[0]:+$magenta\${FUNCNAME[0]}$gray()$reset:$tab }"
     PS4+="$reset"
-    echo "$PS4";
+    echo "$PS4"
   }
 
   __flexiPromptSetupDefaults
 
-  export PS1="$(buildPS1)"                                  # Prompt string
-  [ $__FLEXI_PROMPT_PS2 != 0 ] && export PS2="> "           # Subshell prompt string
-  [ $__FLEXI_PROMPT_PS4 != 0 ] && export PS4="$(buildPS4)"  # Debug prompt string  (when using `set -x`)
+  export PS1="$(buildPS1)"                                   # Prompt string
+  [ "$__FLEXI_PROMPT_PS2" != 0 ] && export PS2="> "          # Subshell prompt string
+  [ "$__FLEXI_PROMPT_PS4" != 0 ] && export PS4="$(buildPS4)" # Debug prompt string  (when using `set -x`)
 
   # Make propmpt extensible
   type "__flexiRebuildPromptsExt" >/dev/null 2>&1 && __flexiRebuildPromptsExt
 }
 
+# shellcheck disable=SC2120
 function flexiPromptTheme() {
   local -r defaultTheme="${FLEXI_PROMPT_THEME:-pure}"
   local -r theme="${1:-$defaultTheme}"

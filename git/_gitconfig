@@ -14,9 +14,6 @@
   process = git-lfs filter-process
   required = true
 
-[url "git@github.com:pmendelski/"]
-  insteadOf = git://github.com/pmendelski/
-
 # For work notebook
 # [includeIf "gitdir:~/Development/personal/"]
 #   path = .gitconfig_personal
@@ -30,3 +27,18 @@
 #   email = <email>
 #   name = <name>
 #   signingkey = <8-digit-gpg-key-id>
+# [url "github-personal"]
+#   insteadOf = git@github.com
+
+# Content of .ssh/config
+# Host github-personal
+#   HostName github.com
+#   User git
+#   AddKeysToAgent yes
+#   IdentityFile ~/.ssh/id_personal
+
+# Host *
+#   IgnoreUnknown UseKeychain
+#   AddKeysToAgent yes
+#   UseKeychain yes
+#   IdentityFile ~/.ssh/id_ed25519

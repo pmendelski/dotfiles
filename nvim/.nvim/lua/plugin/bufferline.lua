@@ -37,6 +37,7 @@ function _M.close_buffer(buffer)
 	end
 
 	-- delete initially open buffer
+	---@diagnostic disable-next-line: param-type-mismatch
 	pcall(vim.cmd, "bdelete! " .. buffer)
 end
 

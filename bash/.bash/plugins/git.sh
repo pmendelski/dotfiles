@@ -77,25 +77,29 @@ git_branch_status() {
     else
       local head=""
       if ! __git_eread "$g/HEAD" head; then
-        return $exit
+        return
       fi
       # is it a symbolic ref?
       rebaseBranch="${head#ref: }"
       if [ "$head" = "$rebaseBranch" ]; then
         # detached=yes
         rebaseBranch="$(
-        case "${GIT_PROMPT_DESCRIBE_STYLE-}" in
-        (contains)
-          git describe --contains HEAD ;;
-        (branch)
-          git describe --contains --all HEAD ;;
-        (describe)
-          git describe HEAD ;;
-        (* | default)
-          git describe --tags --exact-match HEAD ;;
-        esac 2>/dev/null)" ||
-
-        rebaseBranch="$short_sha..."
+          case "${GIT_PROMPT_DESCRIBE_STYLE-}" in
+          contains)
+            git describe --contains HEAD
+            ;;
+          branch)
+            git describe --contains --all HEAD
+            ;;
+          describe)
+            git describe HEAD
+            ;;
+          default | *)
+            git describe --tags --exact-match HEAD
+            ;;
+          esac 2>/dev/null
+        )" ||
+          rebaseBranch="$short_sha..."
         rebaseBranch="($rebaseBranch)"
       fi
     fi
@@ -118,12 +122,12 @@ git_branch_status() {
 
 git_upstream_status() {
   # Find how many commits we are ahead/behind our upstream
-  local count="$(git rev-list --count --left-right @{upstream}...HEAD 2>/dev/null)"
-  local result;
+  local count="$(git rev-list --count --left-right "@{upstream}...HEAD" 2>/dev/null)"
+  local result
 
   # calculate the result
   case "$count" in
-  "")   # no upstream
+  "") # no upstream
     result="" ;;
   "0	0") # equal to upstream
     result="=" ;;
@@ -131,14 +135,14 @@ git_upstream_status() {
     result="+${count#0	}" ;;
   *"	0") # behind upstream
     result="-${count%	0}" ;;
-  *)    # diverged from upstream
+  *) # diverged from upstream
     result="+${count#*	}-${count%	*}" ;;
   esac
   echo "$result"
 }
 
 git_upstream_name() {
-  git rev-parse --abbrev-ref @{upstream} 2>/dev/null
+  git rev-parse --abbrev-ref "@{upstream}" 2>/dev/null
 }
 
 git_has_unstaged_changes() {
@@ -162,12 +166,12 @@ git_has_stashed_changes() {
 }
 
 git_stash_size() {
-  local lines="$(git --no-pager stash list -n 100 2> /dev/null)" || return
+  local lines="$(git --no-pager stash list -n 100 2>/dev/null)" || return
   local count=0
   if [ "${#lines}" -gt 0 ]; then
     count=$(echo "$lines" | wc -l | sed 's/^[ \t]*//') # strip tabs
   fi
-  echo ${count#}
+  echo "${count#}"
 }
 
 git_prompt() {
@@ -177,19 +181,19 @@ git_prompt() {
 
   # dirty status
   local dirtyStatus=""
-  [ git_has_staged_changes ] && dirtyStatus="$dirtyStatus+"
-  [ git_has_unstaged_changes ] && dirtyStatus="$dirtyStatus*"
+  git_has_staged_changes && dirtyStatus="$dirtyStatus+"
+  git_has_unstaged_changes && dirtyStatus="$dirtyStatus*"
   if [ -n "${ZSH_VERSION-}" ]; then
-    [ git_has_untracked_files ] && dirtyStatus="$dirtyStatus%${ZSH_VERSION+%}"
+    git_has_untracked_files && dirtyStatus="$dirtyStatus%${ZSH_VERSION+%}"
   else
-    [ git_has_untracked_files ] && dirtyStatus="$dirtyStatus%"
+    git_has_untracked_files && dirtyStatus="$dirtyStatus%"
   fi
 
   # stash status
   local stashStatus="$(git_stash_size)"
-  [ ! -z "$stashStatus" ] && [ "$stashStatus" -gt 0 ] &&
-    stashStatus="$stashStatus" ||
+  if [ -z "$stashStatus" ] || [ ! "$stashStatus" -gt 0 ]; then
     stashStatus=""
+  fi
 
   # upstream status
   local upstreamStatus="$(git_upstream_status)"
@@ -203,8 +207,8 @@ git_prompt() {
   echo "$result"
 }
 
-__git_eread () {
-   local f="$1"
-   shift
-   test -r "$f" && read "$@" <"$f"
+__git_eread() {
+  local f="$1"
+  shift
+  test -r "$f" && read -r "$@" <"$f"
 }

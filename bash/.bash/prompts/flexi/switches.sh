@@ -1,27 +1,28 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 function __flexiPromptDefineSwitch() {
   local funcname="flexiPromptSwitch$1"
   local varname="__FLEXI_PROMPT_$2"
   local default=$3
   # Setup default value
+  # shellcheck disable=SC2086,SC1083
   eval $varname=\${$varname-$default}
   # Setup switch function
-  eval "$(echo "
+  eval "
   function $funcname() {
-    local a=\$(echo "\$1" | tr '[:lower:]' '[:upper:]')
+    local a=\$(echo \"\$1\" | tr '[:lower:]' '[:upper:]')
     if [ -z \$a ]; then
       [ \$$varname = 0 ] && $varname=1 || $varname=0;
-    elif [ "\$a" = "TRUE" ] || [ "\$a" = "T" ] || [ "\$a" = "1" ]; then
+    elif [ \"\$a\" = \"TRUE\" ] || [ \"\$a\" = \"T\" ] || [ \"\$a\" = \"1\" ]; then
       $varname=1
-    elif [ "\$a" = "FALSE" ] || [ "\$a" = "F" ] || [ "\$a" = "0" ]; then
+    elif [ \"\$a\" = \"FALSE\" ] || [ \"\$a\" = \"F\" ] || [ \"\$a\" = \"0\" ]; then
       $varname=0
     else
       $varname=\$1
     fi
     echo \"$varname=\$$varname\"
     __flexiRebuildPrompts
-  }")"
+  }"
 }
 
 # Use colors
@@ -39,9 +40,9 @@ __flexiPromptDefineSwitch PwdMode PWD_MODE 2
 # Show subshell count from SHLVL (-1=all, 0=never, x>0=mesure those above x sublevels)
 __flexiPromptDefineSwitch Shlvl SHLVL 1
 # Show GIT status
-__flexiPromptDefineSwitch Git GIT $(hash git 2>/dev/null && echo 1)
+__flexiPromptDefineSwitch Git GIT "$(hash git 2>/dev/null && echo 1)"
 # Long running cmd notification (-1=all, 0=never, x>0=mesure those above x ms)
-__flexiPromptDefineSwitch Notify NOTIFY $([ -z "${SSH_CONNECTION-}" ] && echo 5000 || echo 0)
+__flexiPromptDefineSwitch Notify NOTIFY "$([ -z "${SSH_CONNECTION-}" ] && echo 5000 || echo 0)"
 # Time cmd execution (-1=all, 0=never, x>0=mesure those above x ms)
 __flexiPromptDefineSwitch Timer TIMER 5000
 # Add timestamp to prompt (date format)

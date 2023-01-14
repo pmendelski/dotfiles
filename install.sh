@@ -11,7 +11,7 @@ fi
 # It will prompt when overriding files.
 
 # Constant values
-declare -r PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && echo $PWD )"
+declare -r PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
 declare -r BACKUP_DIR="$HOME/.dotfiles.bak"
 
 # Make sure we're in the project root directory
@@ -33,15 +33,15 @@ declare backups=""
 declare skipped=""
 
 function shorten() {
-  local -r projectBasename="$(basename $PROJECT_ROOT)"
+  local -r projectBasename="$(basename "$PROJECT_ROOT")"
   echo "$1" | sed -e "s|$PROJECT_ROOT|$projectBasename|" -e "s|$HOME|~|"
 }
 
 function link() {
   local -r destDir="$(dirname "$2")"
   if [ $dryrun = 0 ]; then
-    [ ! -d "$destDir" ] && \
-    mkdir -p "$destDir"
+    [ ! -d "$destDir" ] &&
+      mkdir -p "$destDir"
     ln -fs "$1" "$2" && printSuccess "Symlink: $(shorten "$2") → $(shorten "$1")"
   else
     printSuccess "[dryrun] Symlink: $(shorten "$2") → $(shorten "$1")"
@@ -51,17 +51,17 @@ function link() {
 function backupAndRemove() {
   local -r file="$1"
   local -r destDir="$(dirname "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
-  local -r backupLocation="$(echo "$file" | sed -e "s|$HOME|$BACKUP_DIR|")"
+  local -r backupLocation="${file//$HOME/$BACKUP_DIR}"
   if [ $dryrun = 0 ]; then
     if [ ! -d "$BACKUP_DIR" ]; then
       mkdir -p "$BACKUP_DIR"
       printWarn "Created a backup directory: $BACKUP_DIR"
     fi
-    [ ! -d "$destDir" ] && \
+    [ ! -d "$destDir" ] &&
       mkdir -p "$destDir"
-    cp -rfP "$file" "$destDir" && \
-      printDebug "Created a backup: $file" && \
-      rm -rf "$file" && \
+    cp -rfP "$file" "$destDir" &&
+      printDebug "Created a backup: $file" &&
+      rm -rf "$file" &&
       printDebug "Removed: $(shorten "$file")"
     printSuccess "Backed up: $(shorten "$file") → $(shorten "$backupLocation")"
   else
@@ -72,11 +72,11 @@ function backupAndRemove() {
 
 function setupSymlink() {
   local -r linkFrom="$1"
-  local -r linkTo="$(echo "$2" | sed 's|_\+$||')"
+  local -r linkTo="${2//_\+$/}"
   if [ ! -e "$linkTo" ] && [ ! -L "$linkTo" ]; then
     link "$linkFrom" "$linkTo"
   elif [ "$(readlink "$linkTo")" == "$linkFrom" ]; then
-    printInfo "Symbolic link already exists. Skipping: $(shorten $linkTo) → $(shorten "$linkFrom")"
+    printInfo "Symbolic link already exists. Skipping: $(shorten "$linkTo") → $(shorten "$linkFrom")"
   elif [ $no != 0 ]; then
     printInfo "File already exists. Skipping: $(shorten "$linkTo") → $(shorten "$linkFrom")"
   elif [ $yes != 0 ]; then
@@ -84,7 +84,7 @@ function setupSymlink() {
   else
     if askForConfirmation "'$(shorten "$linkTo")' already exists, do you want to overwrite it?"; then
       backupAndRemove "$linkTo"
-      link $linkFrom "$linkTo"
+      link "$linkFrom" "$linkTo"
     else
       printWarn "Omitted: $(shorten "$linkFrom")"
       skipped+="link: $(shorten "$linkFrom")\n"
@@ -95,15 +95,15 @@ function setupSymlink() {
 function runInstallScript() {
   local -r script="$1"
   if [ $dryrun = 0 ]; then
-    $script \
-      || printError "Install script failure: $(shorten "$script")"
+    $script ||
+      printError "Install script failure: $(shorten "$script")"
   else
     printSuccess "[dryrun] Install script: $(shorten "$script")"
   fi
 }
 
 function dotfileDirs() {
-  find $PROJECT_ROOT -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort
+  find "$PROJECT_ROOT" -mindepth 1 -maxdepth 1 -type d ! -name '.*' ! -name '_*' | sort
 }
 
 function installDotfiles() {
@@ -118,8 +118,8 @@ function installDotfiles() {
 function symlinkDotfiles() {
   printInfo "Symlinking dotfiles"
   for dir in $(dotfileDirs); do
-    for file in $(find $dir -maxdepth 1 -mindepth 1 -name '.*'); do
-      setupSymlink "$file" "$HOME/$(basename $file)"
+    find "$dir" -maxdepth 1 -mindepth 1 -name '.*' -print0 | while read -d $'\0' -r file; do
+      setupSymlink "$file" "$HOME/$(basename "$file")"
     done
   done
 }
@@ -143,7 +143,7 @@ function updateDotfiles() {
 function update() {
   git config credential.helper cache
   local banchName="$(git rev-parse --abbrev-ref HEAD)"
-  git pull --rebase origin $banchName
+  git pull --rebase origin "$banchName"
   updateDotfiles
   git credential-cache exit
 }
@@ -172,41 +172,41 @@ function printHelp() {
 
 while (($#)); do
   case $1 in
-    --yes|-y)
-      yes=1
-      ;;
-    --no|-n)
-      no=1
-      ;;
-    --silent|-s)
-      silent=1
-      ;;
-    --dryrun|-d)
-      dryrun=1
-      ;;
-    --nocolor|-c)
-      nocolor=1
-      ;;
-    --verbose|-v)
-      verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
-      ;;
-    --help|-h)
-      printHelp
-      exit 0;
-      ;;
-    --update|-u)
-      update
-      exit 0;
-      ;;
-    --) # End of all options.
-      shift
-      break
-      ;;
-    -?*) # Unidentified option.
-      println "Unknown option: $1"
-      println "Try --help option"
-      exit 1;
-      ;;
+  --yes | -y)
+    yes=1
+    ;;
+  --no | -n)
+    no=1
+    ;;
+  --silent | -s)
+    silent=1
+    ;;
+  --dryrun | -d)
+    dryrun=1
+    ;;
+  --nocolor | -c)
+    nocolor=1
+    ;;
+  --verbose | -v)
+    verbose=$((verbose + 1)) # Each -v argument adds 1 to verbosity.
+    ;;
+  --help | -h)
+    printHelp
+    exit 0
+    ;;
+  --update | -u)
+    update
+    exit 0
+    ;;
+  --) # End of all options.
+    shift
+    break
+    ;;
+  -?*) # Unidentified option.
+    println "Unknown option: $1"
+    println "Try --help option"
+    exit 1
+    ;;
   esac
   shift
 done

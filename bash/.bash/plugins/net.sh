@@ -7,18 +7,18 @@ net_procs() {
 }
 
 net_proc() {
-  local -r port="${1:?Expected port}"
-  lsof -nP -iTCP:$port -sTCP:LISTEN
+  local -r port=${1:?Expected port}
+  lsof -nP -iTCP:"$port" -sTCP:LISTEN
 }
 
 net_proc_pid() {
-  local -r port="${1:?Expected port}"
-  lsof -nP -iTCP:$port -sTCP:LISTEN -t
+  local -r port=${1:?Expected port}
+  lsof -nP -iTCP:"$port" -sTCP:LISTEN -t
 }
 
 net_proc_kill() {
-  local -r port="${1:?Expected port}"
-  local -r pid="$(net_proc_pid $port | head -n1)"
+  local -r port=${1:?Expected port}
+  local -r pid="$(net_proc_pid "$port" | head -n1)"
   [ -n "$pid" ] && kill -9 "$pid"
 }
 
@@ -28,7 +28,7 @@ net_ip_public() {
 
 if [[ "$OSTYPE" == darwin* ]]; then
   net_mac() {
-    local -r iface="$(net_iface)"
+    local -r iface=$(net_iface)
     ifconfig "$iface" | grep ether | sed 's|\tether ||'
   }
 
@@ -37,13 +37,13 @@ if [[ "$OSTYPE" == darwin* ]]; then
   }
 
   net_ip() {
-    local -r iface="$(net_iface)"
-    ifconfig $iface | grep 'inet ' | sed -nE 's|^.*inet ([^ ]+) .*$|\1|p'
+    local -r iface=$(net_iface)
+    ifconfig "$iface" | grep 'inet ' | sed -nE 's|^.*inet ([^ ]+) .*$|\1|p'
   }
 
   net_ip6() {
-    local -r iface="$(net_iface)"
-    ifconfig $iface | grep inet6 | sed -nE 's|^.*inet6 ([^ %]+).*$|\1|p'
+    local -r iface=$(net_iface)
+    ifconfig "$iface" | grep inet6 | sed -nE 's|^.*inet6 ([^ %]+).*$|\1|p'
   }
 
   net_dns() {
@@ -62,7 +62,7 @@ else
 
   net_mac() {
     local -r iface="$(net_iface)"
-    cat /sys/class/net/$iface/address
+    cat "/sys/class/net/$iface/address"
   }
 
   net_iface() {
@@ -91,18 +91,18 @@ net_info() {
     if [ "$1" = "-a" ]; then
       echo ""
       echo ">> Resolve.conf (cat /etc/resolv.conf):"
-      cat /etc/resolv.conf | grep -v '^#' | grep -v '^$'
+      grep -v '^#' /etc/resolv.conf | grep -v '^$'
       echo ""
       echo ">> Open Ports:"
       net_procs
       if hash systemd-resolve 2>/dev/null; then
         echo ""
         echo ">> DNS from systemd-resolve:"
-        systemd-resolve $(net_iface) --status | grep -A 3 'DNS Servers: '
+        systemd-resolve "$(net_iface)" --status | grep -A 3 'DNS Servers: '
       fi
     fi
   else
-    (>&2 echo "No Internet")
+    (echo >&2 "No Internet")
     return 1
   fi
 }

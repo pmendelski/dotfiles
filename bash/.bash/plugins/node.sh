@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2030,SC2031
 
 # Node.js
-export NODE_REPL_HISTORY="$HOME/.node_history"; # Enable persistent REPL history for `node`.
-export NODE_REPL_HISTORY_SIZE="32768";      # Allow 32^3 entries; the default is 1000.
-export NODE_REPL_MODE="sloppy";             # Use sloppy mode by default, matching web browsers.
+export NODE_REPL_HISTORY="$HOME/.node_history" # Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY_SIZE="32768"          # Allow 32^3 entries; the default is 1000.
+export NODE_REPL_MODE="sloppy"                 # Use sloppy mode by default, matching web browsers.
 
 # Running locally installed npm executables
 # http://www.2ality.com/2016/01/locally-installed-npm-executables.html
 function npmbin {
-  (PATH=$(npm bin):$PATH; eval $@;)
+  (
+    PATH=$(npm bin):$PATH
+    eval "$*"
+  )
 }
 
 # Use binaries from local node_modules

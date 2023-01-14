@@ -6,8 +6,8 @@ export BASH_TMP_DIR="$BASH_DIR/tmp"
 
 # Internationalization
 # Prefer US English and use UTF-8
-export LANG="en_US.UTF-8";
-export LC_ALL="en_US.UTF-8";
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 # Custom Globals
 # Make vim the default editor
@@ -20,6 +20,13 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Bat defaults
 export BAT_THEME="TwoDark"
+
+# Git switches
+# Limit git guesses on checkout: https://stackoverflow.com/a/43747486
+# export GIT_COMPLETION_CHECKOUT_NO_GUESS=1
+
+# ShellCheck ignore some errors by default
+export SHELLCHECK_OPTS="-e SC2155 -e SC1090 -e SC1091"
 
 # SDKVM - Global packages
 export SDKVM_NODE_PACKAGES="neovim http-server npm-check-updates eslint eslint_d bash-language-server vscode-langservers-extracted pyright sql-language-server svelte-language-server typescript typescript-language-server yaml-language-server vls graphql-language-service-cli dockerfile-language-server-nodejs diagnostic-languageserver"

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2296,2298
 
 print_tmux_colors () {
   for i in {0..255}; do

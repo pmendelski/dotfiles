@@ -6,25 +6,6 @@ echo ">>>>"
 echo ">>> THEME"
 echo ">>>>"
 
-echo -e "\n>>> Wallpapers"
-sudo apt-get install -y \
-  ubuntu-wallpapers-karmic \
-  ubuntu-wallpapers-lucid \
-  ubuntu-wallpapers-maverick \
-  ubuntu-wallpapers-natty \
-  ubuntu-wallpapers-oneiric \
-  ubuntu-wallpapers-precise \
-  ubuntu-wallpapers-quantal \
-  ubuntu-wallpapers-raring \
-  ubuntu-wallpapers-saucy \
-  ubuntu-wallpapers-trusty \
-  ubuntu-wallpapers-utopic \
-  ubuntu-wallpapers-vivid \
-  ubuntu-wallpapers-wily \
-  ubuntu-wallpapers-xenial \
-  ubuntu-wallpapers-bionic \
-  ubuntu-wallpapers-artful
-
 echo -e "\n>>> Community Theme"
 sudo snap install communitheme
 

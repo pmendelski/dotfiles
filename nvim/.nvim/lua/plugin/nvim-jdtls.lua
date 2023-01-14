@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	local on_attach = function(client, bufnr)
+	local on_attach = function(_, bufnr)
 		require("jdtls.setup").add_commands()
 		require("jdtls").setup_dap()
 		require("lsp-status").register_progress()

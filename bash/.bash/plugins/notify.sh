@@ -8,31 +8,31 @@ notify() {
   if [[ "$1" == -* ]]; then
     while (($#)); do
       case $1 in
-        --title|-t)
-          title="$2"
-          shift
-          ;;
-        --subtitle|-s)
-          subtitle="$2"
-          shift
-          ;;
-        --help|-h)
-          echo "Notify user"
-          echo "Sample: notify --title 'Lorem' --subtitle 'ipsum' \"Loferm Ipsum\" "
-          return
-          ;;
-        --error|-e)
-          error=1;
-          ;;
-        *)
-          message="$@"
-          break
-          ;;
+      --title | -t)
+        title="$2"
+        shift
+        ;;
+      --subtitle | -s)
+        subtitle="$2"
+        shift
+        ;;
+      --help | -h)
+        echo "Notify user"
+        echo "Sample: notify --title 'Lorem' --subtitle 'ipsum' \"Loferm Ipsum\" "
+        return
+        ;;
+      --error | -e)
+        error=1
+        ;;
+      *)
+        message="$*"
+        break
+        ;;
       esac
       shift
     done
   else
-    message="$@"
+    message="$*"
   fi
   if [ -x "$(command -v notify-send)" ]; then
     if [ -z "$title" ]; then
@@ -57,12 +57,12 @@ notify() {
 
 notifyLastCmd() {
   local -r lastStatus="$?"
-  local -r lastCmd="$( \
-    \history | \
-    tail -n 1 | \
-    sed -e 's/^\s*[0-9]*\s*[0-9-]*\s[0-9:]*\s*//' \
+  local -r lastCmd="$(
+    \history |
+      tail -n 1 |
+      sed -e 's/^\s*[0-9]*\s*[0-9-]*\s[0-9:]*\s*//'
   )"
-  while read cmd; do
+  while read -r cmd; do
     if [[ "$lastCmd" == "$cmd" ]] || [[ "$lastCmd" == ^$cmd\ .* ]]; then
       return
     fi

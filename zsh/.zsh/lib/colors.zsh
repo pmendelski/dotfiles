@@ -1,5 +1,15 @@
 autoload -U colors && colors
+
 [[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
+
+# enable color support of ls
+if [ -x /usr/bin/dircolors ]; then
+  if [ -r ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+fi
 
 declare -rg COLOR_ESC="\e"
 declare -rg COLOR_RESET="\e[0m"

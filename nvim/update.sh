@@ -6,3 +6,4 @@ source "$DIR/shared.sh"
 
 installDependencies
 installPlugins
+nvim -c ":TSUpdate all" -c "q" --headless 2>&1

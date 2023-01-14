@@ -17,15 +17,15 @@ ssh-show-default-key-hex() {
 }
 
 ssh-show-key() {
-  cat ~/.ssh/${1?:Expected key name}.pub
+  cat "$HOME/.ssh/${1?:Expected key name}.pub"
 }
 
 ssh-show-key-hex() {
-  awk '{print $2}' ~/.ssh/${1?:Expected key name}.pub | base64 -d | md5sum | sed 's/../&:/g; s/: .*$//'
+  awk '{print $2}' "$HOME/.ssh/${1?:Expected key name}.pub" | base64 -d | md5sum | sed 's/../&:/g; s/: .*$//'
 }
 
 ssh-generate-key() {
   local -r email="${1:?Expected email}"
-  ssh-keygen -t ed25519 -f "~/.ssh/id_$email"
-  ssh-add "~/.ssh/id_$email"
+  ssh-keygen -t ed25519 -f "$HOME/.ssh/id_$email"
+  ssh-add "$HOME/.ssh/id_$email"
 }

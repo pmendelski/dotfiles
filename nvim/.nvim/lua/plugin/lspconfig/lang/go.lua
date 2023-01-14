@@ -54,8 +54,8 @@ function _M.setup(config)
 					fieldalignment = false, -- find structs that would use less memory if their fields were sorted
 					nilness = true, -- check for redundant or impossible nil comparisons
 					shadow = true, -- check for possible unintended shadowing of variables
-					unusedparams = true, -- check for unused parameters of functions
-					unusedwrite = true, -- checks for unused writes, an instances of writes to struct fields and arrays that are never read
+					unusedparams = true,
+					unusedwrite = true,
 				},
 			},
 		},

@@ -2,38 +2,38 @@
 
 _rerun_action() {
   clear
-  echo "> rerun ($(date)): $@"
-  eval "$@"
+  echo "> rerun ($(date)): $*"
+  eval "$*"
 }
 
 _rerun_script() {
   clear
-  echo "> rerun ($(date)): $@"
-  $@
+  echo "> rerun ($(date)): $*"
+  $1
 }
 
 rerun() {
-  local -r watchpath="$1"
+  local -r watchpath="${1:?Expected path to watch}"
   shift
-  local -r action="$@"
+  local -r action="$*"
   if [ -z "$watchpath" ] || [ ! -e "$watchpath" ]; then
-    (>&2 echo "Missing path to watch.")
-    exit 1;
+    (echo >&2 "Missing path to watch.")
+    exit 1
   fi
   if [ -n "$action" ]; then
     _rerun_action "$action"
-    inotifywait --quiet --recursive --monitor --event modify --format "%w%f" "$watchpath" \
-      | while read change; do
+    inotifywait --quiet --recursive --monitor --event modify --format "%w%f" "$watchpath" |
+      while read -r _change; do
         _rerun_action "$action"
       done
   elif [ -f "$watchpath" ]; then
-    _rerun_script $watchpath
-    inotifywait --quiet --monitor --event modify --format "%w%f" "$watchpath" \
-      | while read change; do
-        _rerun_script $watchpath
+    _rerun_script "$watchpath"
+    inotifywait --quiet --monitor --event modify --format "%w%f" "$watchpath" |
+      while read -r _change; do
+        _rerun_script "$watchpath"
       done
   else
-    (>&2 echo "Could not run empty action or execute a directory.")
-    exit 1;
+    (echo >&2 "Could not run empty action or execute a directory.")
+    exit 1
   fi
 }

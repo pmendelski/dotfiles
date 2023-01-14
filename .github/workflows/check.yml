@@ -1,0 +1,34 @@
+name: Check
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') == false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Skip duplicates and docs
+        id: skip
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          paths_ignore: '["**/README.md", "LICENSE", ".gitignore", ".editorconfig"]'
+
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v9
+        with:
+          luaVersion: "5.1.5"
+
+      - name: Install Lua Rocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install luacheck
+        run: |
+          luarocks install luacheck
+
+      - name: Check
+        run: ./check

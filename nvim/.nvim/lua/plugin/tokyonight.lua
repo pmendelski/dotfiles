@@ -15,9 +15,3 @@ augroup TokyoNightOverrides
   autocmd ColorScheme tokyonight highlight DapStoppedSign gui=NONE guifg=#e0af68 guibg=NONE guisp=NONE
 augroup end
 ]])
-
--- -- "#565f89",
--- SpellBad = { sp = c.error, style = "undercurl" }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
--- SpellCap = { sp = c.warning, style = "undercurl" }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
--- SpellLocal = { sp = c.info, style = "undercurl" }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
--- SpellRare = { sp = c.hint, style = "undercurl" }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.

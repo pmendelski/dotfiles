@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 # Just unset all prompt setting variables.
 # They will restored using default ones.

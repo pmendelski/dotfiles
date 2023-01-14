@@ -15,7 +15,8 @@ function M.config()
 			-- liting
 			diagnostics.golangci_lint,
 			diagnostics.hadolint,
-			diagnostics.yamllint,
+			diagnostics.yamllint.with({ extra_args = { "-d", "{extends: relaxed, rules: {line-length: {max: 120}}}" } }),
+			diagnostics.zsh,
 		},
 	})
 end

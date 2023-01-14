@@ -3,7 +3,6 @@
 local lspconfig = require("lspconfig")
 local on_attach = require("plugin/lspconfig/on-attach")
 local map = require("util").keymap
-local data_dir = vim.fn.stdpath("data")
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
