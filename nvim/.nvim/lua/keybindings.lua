@@ -147,10 +147,10 @@ map("i", "<expr> <insert>", 'mode() ==# "R" ? "<esc>i" : "<esc>R"')
 -- Spell check
 -----------------------------------------------------------
 map("n", "<F10>", ":set spell!<cr>")
-map("i", "<F10>", "<c-O>:set spell!<cr>")
+map("i", "<F10>", "<c-o>:set spell!<cr>")
 
 -- Open link under cursor
--- ---------------------------------------------------------
+------------------------------------------------------------
 if vim.fn.has("mac") == 1 then
 	map("n", "gx", '<cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<cr>', {})
 elseif vim.fn.has("unix") == 1 then
@@ -160,9 +160,8 @@ end
 -- Others
 -----------------------------------------------------------
 -- Toggle word wrap
--- map('n', '<leader>w', ':set wrap!<cr>')
 -- Save
-map("n", "<c-s>", "<cmd>:w<cr>")
+map("n", "<c-s>", ":w<cr>")
 map("i", "<c-s>", "<c-o>:w<cr>")
 map("x", "<c-s>", "<esc>:w<cr>")
 

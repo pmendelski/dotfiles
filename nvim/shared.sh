@@ -50,8 +50,7 @@ installDependencies() {
 
 installLuaLangServer() {
   local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
-  local -r luaDir="$dataDir/lang-servers/sumneko_lua"
-  local -r zshrc="$(cat "$HOME/.zshrc")"
+  local -r luaDir="$dataDir/lang-servers/lua_ls"
   if [ -d "$luaDir" ]; then
     cd "$luaDir"
     git fetch
@@ -61,73 +60,10 @@ installLuaLangServer() {
     fi
     git pull
   else
-    git clone --depth=1 https://github.com/sumneko/lua-language-server "$luaDir"
+    git clone --depth=1 https://github.com/luals/lua-language-server "$luaDir"
     cd "$luaDir"
   fi
-  git submodule update --depth 1 --init --recursive
-  cd 3rd/luamake
-  ./compile/install.sh
-  cd ../..
-  ./3rd/luamake/luamake rebuild
-  # don't you dare changing my zshrc
-  echo "$zshrc" >"$HOME/.zshrc"
-}
-
-installJavaLangServer() {
-  local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
-  local -r serverDir="$dataDir/lang-servers/java-language-server"
-  if [ -d "$serverDir" ]; then
-    cd "$serverDir"
-    git fetch
-    if [ "$(git rev-parse HEAD)" == "$(git rev-parse "@{u}")" ]; then
-      # up to date
-      return
-    fi
-    git pull
-  else
-    git clone git@github.com:georgewfraser/java-language-server.git "$serverDir"
-    cd "$serverDir"
-  fi
-  if [ ! -f "$serverDir/dist/launch_linux.bak.sh" ]; then
-    cd "$serverDir/dist"
-    mv launch_linux.sh launch_linux.bak.sh
-    sed "s|$DIR/linux/bin/java|java|" launch_linux.bak.sh >launch_linux.sh
-    mv launch_mac.sh launch_mac.bak.sh
-    sed "s|$DIR/mac/bin/java|java|" launch_mac.bak.sh >launch_mac.sh
-    chmod u+x launch_linux.sh launch_mac.sh
-    cd "$serverDir"
-  fi
-  mvn package -DskipTests
-}
-
-installJavaLangServer2222() {
-  local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
-  local -r serverDir="$dataDir/lang-servers/jdtls"
-  local -r version="$(
-    curl -s "https://download.eclipse.org/jdtls/milestones/" |
-      grep -oP "/jdtls/milestones/([0-9.]+)" | grep -oP "([0-9.]+)" |
-      sort -V | tail -n 1
-  )"
-  local -r link="https://download.eclipse.org/$(
-    curl -s "https://download.eclipse.org/jdtls/milestones/${version}/" | grep -oP "/jdtls/milestones/${version}/([^']+).tar.gz" |
-      tail -n 1
-  )"
-  if [ ! -f "$serverDir/version" ] || [ "$(cat "$serverDir/version")" -lt "$version" ]; then
-    echo "Installing Java language server: JDTLS $version"
-    rm -rf "$serverDir"
-    mkdir -p "$serverDir"
-    local -r tmpdir="$(mktemp -d -t jdtls-XXXX)"
-    (
-      cd "$tmpdir" &&
-        curl -sLo jdtls.tar.gz "$link" &&
-        tar xf jdtls.tar.gz -C "$serverDir"
-    )
-    rm -rf "$tmpdir"
-    echo "$version" >"$serverDir/version"
-  else
-    echo "Java language server (jdtls) - up to date"
-  fi
-
+  ./make.sh
 }
 
 installPlugins() {

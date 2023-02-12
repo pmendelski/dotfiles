@@ -34,6 +34,8 @@ fi
 
 # Init scripts
 source "$HOME/.bash/index.sh"
-[ -f "$HOME/.sdkvm/init.sh" ] && source "$HOME/.sdkvm/init.sh"
-[ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+if [ -f "$HOME/.sdkvm/init.sh" ]; then source "$HOME/.sdkvm/init.sh"; fi
+if [ -f "$HOME/.bashrc_local" ]; then source "$HOME/.bashrc_local"; fi
+if [ -f "$HOME/.ghcup/env" ]; then source "$HOME/.ghcup/env"; fi
+if [ -f "$HOME/.gcloud/path.bash.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
+if [ -f "$HOME/.gcloud/completion.bash.inc" ]; then source "$HOME/.gcloud/completion.zsh.inc"; fi

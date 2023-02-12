@@ -79,6 +79,7 @@ opt.wildignore =
 -----------------------------------------------------------
 opt.autoindent = true -- copy indent from last line when starting new line
 opt.copyindent = true
+opt.preserveindent = true
 opt.backspace = "indent,eol,start"
 -- opt.expandtab = true      -- use spaces for tabs
 opt.shiftwidth = 4

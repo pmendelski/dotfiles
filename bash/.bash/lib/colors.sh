@@ -2,15 +2,6 @@
 
 [[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
 
-# enable color support of ls
-if [ -x /usr/bin/dircolors ]; then
-  if [ -r ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
-  fi
-fi
-
 # Import colors definition
 source "$BASH_DIR/util/colors.sh"
 
@@ -33,7 +24,7 @@ function lscolors() {
   done
 }
 
-function lscolorcodes() {
+function lscolors_codes() {
   for clfg in {30..37} {90..97} 39; do
     for attr in 0 1 2 4 5 7; do
       echo -en "\e[${attr};${clfg}m\\\e[${attr};${clfg}m\e[0m   "

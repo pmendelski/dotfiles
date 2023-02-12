@@ -33,9 +33,11 @@ sudo apt install -y httpie
 
 # HTTP utils like dig
 sudo apt install -y dnsutils
+sudo apt install -y iperf3
 
-# JSON parser
+# CLI parser
 sudo apt install -y jq
+sudo snap install yq
 
 # Network
 sudo apt install -y apt-transport-https

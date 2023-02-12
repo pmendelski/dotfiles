@@ -1,5 +1,4 @@
-# Must be loaded after syntax-highlighting
-source $ZSH_DIR/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#!/bin/zsh
 
 # https://github.com/zsh-users/zsh-history-substring-search
 bindkey -M emacs '^P' history-substring-search-up

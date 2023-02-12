@@ -1,10 +1,12 @@
+#!/bin/zsh
+
 # Completion cache location
 ZSH_COMP_DIR="$ZSH_TMP_DIR/comp"
 ZSH_COMPCACHE_DIR="$ZSH_COMP_DIR/cache"
 mkdir -p "$ZSH_COMPCACHE_DIR"
 
 # Add zsh-completions
-fpath=($ZSH_DIR/completion $ZSH_TMP_DIR/bundle/completions/src $fpath)
+fpath=($ZSH_DIR/completions $ZSH_DIR/plugins/*/(N) $ZSH_DIR/ohmyzsh/*/(N) $fpath)
 
 # Initilize completion mechanism.
 # http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fcomplist-Module

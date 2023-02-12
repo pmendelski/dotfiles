@@ -720,56 +720,56 @@ _rustup_commands() {
 (( $+functions[_rustup__show__active-toolchain_commands] )) ||
 _rustup__show__active-toolchain_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup show active-toolchain commands' commands "$@"
 }
 (( $+functions[_rustup__add_commands] )) ||
 _rustup__add_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup add commands' commands "$@"
 }
 (( $+functions[_rustup__component__add_commands] )) ||
 _rustup__component__add_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup component add commands' commands "$@"
 }
 (( $+functions[_rustup__override__add_commands] )) ||
 _rustup__override__add_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override add commands' commands "$@"
 }
 (( $+functions[_rustup__target__add_commands] )) ||
 _rustup__target__add_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target add commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__add_commands] )) ||
 _rustup__toolchain__add_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain add commands' commands "$@"
 }
 (( $+functions[_rustup__check_commands] )) ||
 _rustup__check_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup check commands' commands "$@"
 }
 (( $+functions[_rustup__completions_commands] )) ||
 _rustup__completions_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup completions commands' commands "$@"
 }
@@ -786,175 +786,175 @@ _rustup__component_commands() {
 (( $+functions[_rustup__default_commands] )) ||
 _rustup__default_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup default commands' commands "$@"
 }
 (( $+functions[_rustup__set__default-host_commands] )) ||
 _rustup__set__default-host_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup set default-host commands' commands "$@"
 }
 (( $+functions[_rustup__doc_commands] )) ||
 _rustup__doc_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup doc commands' commands "$@"
 }
 (( $+functions[_docs_commands] )) ||
 _docs_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'docs commands' commands "$@"
 }
 (( $+functions[_rustup__docs_commands] )) ||
 _rustup__docs_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup docs commands' commands "$@"
 }
 (( $+functions[_rustup__dump-testament_commands] )) ||
 _rustup__dump-testament_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup dump-testament commands' commands "$@"
 }
 (( $+functions[_rustup__component__help_commands] )) ||
 _rustup__component__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup component help commands' commands "$@"
 }
 (( $+functions[_rustup__help_commands] )) ||
 _rustup__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup help commands' commands "$@"
 }
 (( $+functions[_rustup__override__help_commands] )) ||
 _rustup__override__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override help commands' commands "$@"
 }
 (( $+functions[_rustup__self__help_commands] )) ||
 _rustup__self__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup self help commands' commands "$@"
 }
 (( $+functions[_rustup__set__help_commands] )) ||
 _rustup__set__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup set help commands' commands "$@"
 }
 (( $+functions[_rustup__show__help_commands] )) ||
 _rustup__show__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup show help commands' commands "$@"
 }
 (( $+functions[_rustup__target__help_commands] )) ||
 _rustup__target__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target help commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__help_commands] )) ||
 _rustup__toolchain__help_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain help commands' commands "$@"
 }
 (( $+functions[_rustup__show__home_commands] )) ||
 _rustup__show__home_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup show home commands' commands "$@"
 }
 (( $+functions[_rustup__install_commands] )) ||
 _rustup__install_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup install commands' commands "$@"
 }
 (( $+functions[_rustup__target__install_commands] )) ||
 _rustup__target__install_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target install commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__install_commands] )) ||
 _rustup__toolchain__install_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain install commands' commands "$@"
 }
 (( $+functions[_rustup__show__keys_commands] )) ||
 _rustup__show__keys_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup show keys commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__link_commands] )) ||
 _rustup__toolchain__link_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain link commands' commands "$@"
 }
 (( $+functions[_rustup__component__list_commands] )) ||
 _rustup__component__list_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup component list commands' commands "$@"
 }
 (( $+functions[_rustup__override__list_commands] )) ||
 _rustup__override__list_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override list commands' commands "$@"
 }
 (( $+functions[_rustup__target__list_commands] )) ||
 _rustup__target__list_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target list commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__list_commands] )) ||
 _rustup__toolchain__list_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain list commands' commands "$@"
 }
 (( $+functions[_rustup__man_commands] )) ||
 _rustup__man_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup man commands' commands "$@"
 }
@@ -971,56 +971,56 @@ _rustup__override_commands() {
 (( $+functions[_rustup__set__profile_commands] )) ||
 _rustup__set__profile_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup set profile commands' commands "$@"
 }
 (( $+functions[_rustup__show__profile_commands] )) ||
 _rustup__show__profile_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup show profile commands' commands "$@"
 }
 (( $+functions[_rustup__component__remove_commands] )) ||
 _rustup__component__remove_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup component remove commands' commands "$@"
 }
 (( $+functions[_rustup__override__remove_commands] )) ||
 _rustup__override__remove_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override remove commands' commands "$@"
 }
 (( $+functions[_rustup__remove_commands] )) ||
 _rustup__remove_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup remove commands' commands "$@"
 }
 (( $+functions[_rustup__target__remove_commands] )) ||
 _rustup__target__remove_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target remove commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__remove_commands] )) ||
 _rustup__toolchain__remove_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain remove commands' commands "$@"
 }
 (( $+functions[_rustup__run_commands] )) ||
 _rustup__run_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup run commands' commands "$@"
 }
@@ -1037,7 +1037,7 @@ _rustup__self_commands() {
 (( $+functions[_rustup__override__set_commands] )) ||
 _rustup__override__set_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override set commands' commands "$@"
 }
@@ -1085,84 +1085,84 @@ _rustup__toolchain_commands() {
 (( $+functions[_rustup__self__uninstall_commands] )) ||
 _rustup__self__uninstall_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup self uninstall commands' commands "$@"
 }
 (( $+functions[_rustup__target__uninstall_commands] )) ||
 _rustup__target__uninstall_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup target uninstall commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__uninstall_commands] )) ||
 _rustup__toolchain__uninstall_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain uninstall commands' commands "$@"
 }
 (( $+functions[_rustup__uninstall_commands] )) ||
 _rustup__uninstall_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup uninstall commands' commands "$@"
 }
 (( $+functions[_rustup__override__unset_commands] )) ||
 _rustup__override__unset_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup override unset commands' commands "$@"
 }
 (( $+functions[_rustup__self__update_commands] )) ||
 _rustup__self__update_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup self update commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__update_commands] )) ||
 _rustup__toolchain__update_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup toolchain update commands' commands "$@"
 }
 (( $+functions[_rustup__update_commands] )) ||
 _rustup__update_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup update commands' commands "$@"
 }
 (( $+functions[_rustup__upgrade_commands] )) ||
 _rustup__upgrade_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup upgrade commands' commands "$@"
 }
 (( $+functions[_upgrade_commands] )) ||
 _upgrade_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'upgrade commands' commands "$@"
 }
 (( $+functions[_rustup__self__upgrade-data_commands] )) ||
 _rustup__self__upgrade-data_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup self upgrade-data commands' commands "$@"
 }
 (( $+functions[_rustup__which_commands] )) ||
 _rustup__which_commands() {
     local commands; commands=(
-        
+
     )
     _describe -t commands 'rustup which commands' commands "$@"
 }

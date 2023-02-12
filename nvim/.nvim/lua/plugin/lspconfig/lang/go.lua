@@ -44,7 +44,6 @@ function _M.setup(config)
 					vendor = true, -- Runs go mod vendor for a module
 				},
 				diagnosticsDelay = "300ms",
-				experimentalWatchedFileDelay = "100ms",
 				symbolMatcher = "fuzzy",
 				completeUnimported = true,
 				staticcheck = true,

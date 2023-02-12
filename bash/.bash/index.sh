@@ -1,22 +1,12 @@
 #!/usr/bin/env bash
 
-function __loadBashFiles() {
+function __loadBashPlugins() {
   local -r DIR="$1"
-  local -r NAMES="${2-}"
   [ ! -d "$DIR" ] && return
-
-  if [ -z "$NAMES" ]; then
-    # shellcheck disable=SC2044
-    for file in $(find "$DIR" -mindepth 1 -type f -name "*.sh"); do
-      source "$file"
-    done
-  else
-    for file in "${NAMES[@]}"; do
-      if [ "${file:0:1}" != "!" ] && [ -r "$DIR/$file.sh" ]; then
-        source "$DIR/$file.sh"
-      fi
-    done
-  fi
+  # shellcheck disable=SC2044
+  for file in $(find "$DIR" -mindepth 1 -type f -name "*.sh"); do
+    source "$file"
+  done
 }
 
 function __loadLocalBashFiles() {
@@ -67,8 +57,8 @@ function __loadBash() {
   source "$HOME/.bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
-  [ -n "${BASH_VERSION-}" ] && __loadBashFiles "$HOME/.bash/lib"
-  __loadBashFiles "$HOME/.bash/plugins" "${bash_plugins-}"
+  [ -n "${BASH_VERSION-}" ] && __loadBashPlugins "$HOME/.bash/lib"
+  __loadBashPlugins "$HOME/.bash/plugins"
   [ -n "${BASH_VERSION-}" ] && bashChangePrompt
 }
 

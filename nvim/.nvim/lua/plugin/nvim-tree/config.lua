@@ -16,12 +16,12 @@ function _M.config()
 		disable_netrw = false,
 		-- Hijack netrw window on startup
 		hijack_netrw = true,
-		-- open the tree when running this setup function
-		open_on_setup = true,
 		-- hijack the cursor in the tree to put it at the start of the filename
 		hijack_cursor = true,
 		-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 		update_cwd = true,
+		-- Hide .git directory
+		filters = { custom = { "^.git$" } },
 		view = {
 			width = 30,
 			mappings = {
@@ -60,7 +60,7 @@ function _M.config()
 			},
 		},
 		update_focused_file = {
-			enable = false,
+			enable = true,
 			update_cwd = false,
 		},
 		diagnostics = {
@@ -75,6 +75,7 @@ function _M.config()
 		renderer = {
 			highlight_git = true,
 			special_files = {},
+			-- git_placement = "after",
 			icons = {
 				glyphs = {
 					default = "",
@@ -119,6 +120,23 @@ function _M.config()
 			},
 		},
 	})
+
+	-- Auto open
+	local function open_nvim_tree(data)
+		-- buffer is a directory
+		local directory = vim.fn.isdirectory(data.file) == 1
+
+		if not directory then
+			return
+		end
+
+		-- change to the directory
+		vim.cmd.cd(data.file)
+
+		-- open the tree
+		require("nvim-tree.api").tree.open()
+	end
+	vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
 	-- Keybindings
 	local map = require("util").keymap

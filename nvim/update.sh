@@ -6,4 +6,5 @@ source "$DIR/shared.sh"
 
 installDependencies
 installPlugins
+# Update treeSitters modules
 nvim -c ":TSUpdate all" -c "q" --headless 2>&1

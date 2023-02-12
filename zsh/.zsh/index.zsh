@@ -1,14 +1,15 @@
 #!/bin/zsh
 
 function __loadZshPlugin() {
-  local -r PLUGIN="$1"
-  if [ -r "$PLUGIN/plugin.zsh" ]; then
-    source "$PLUGIN/plugin.zsh";
-    fpath=("$PLUGIN" $fpath);
-  elif [ -r "$PLUGIN.zsh" ]; then
-    source "$PLUGIN.zsh";
-  elif [ -r "$PLUGIN" ]; then
-    source "$PLUGIN";
+  local -r plugin="$1"
+  local -r name="$(basename "$1")"
+
+  if [ -r "$plugin/plugin.zsh" ]; then
+    source "$plugin/plugin.zsh";
+  elif [ -r "$plugin/$name.plugin.zsh" ]; then
+    source "$plugin/$name.plugin.zsh";
+  elif [ -r "$plugin" ]; then
+    source "$plugin";
   else
     echo "Plugin not found: $PLUGIN"
   fi
@@ -16,21 +17,11 @@ function __loadZshPlugin() {
 
 function __loadZshPlugins() {
   local -r DIR="$1"
-  local -r NAMES="${2-}"
   [ ! -d "$DIR" ] && return;
-
-  if [ -z "$NAMES" ]; then
-    find "$DIR" -mindepth 1 -maxdepth 1 -print0 |
-      while read -r -d $'\0' plugin; do
-        __loadZshPlugin "$plugin"
-      done
-  else
-    for plugin in "${NAMES[@]}"; do
-      if [ "${plugin:0:1}" != "!" ]; then
-        __loadZshPlugin "$DIR/$plugin"
-      fi
+  find "$DIR" -mindepth 1 -maxdepth 1 -not -name "setup.*" -print0 |
+    while read -r -d $'\0' plugin; do
+      __loadZshPlugin "$plugin"
     done
-  fi
 }
 
 function __loadLocalZshFiles() {
@@ -51,7 +42,10 @@ function __loadZsh() {
   source "$HOME/.zsh/aliases.zsh"
   __loadLocalZshFiles
   __loadZshPlugins "$HOME/.zsh/lib"
-  __loadZshPlugins "$HOME/.zsh/plugins" "${zsh_plugins-}"
+  # zsh-syntax-highligting must be loaded before others
+  __loadZshPlugin "$HOME/.zsh/plugins/zsh-syntax-highlighting.zsh"
+  __loadZshPlugins "$HOME/.zsh/plugins"
+  __loadZshPlugins "$HOME/.zsh/ohmyzsh"
 }
 
 __loadZsh

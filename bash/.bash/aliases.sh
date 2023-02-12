@@ -58,31 +58,20 @@ alias e="\$EDITOR"
 # Nvim
 alias nvim-update="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
 
-# Shortcuts
-alias g="git"
-alias git-cd="cd \$(git rev-parse --show-toplevel)"
-alias gcd="cd \$(git rev-parse --show-toplevel)"
-
 # Tmux
 alias ta='tmux attach'
 alias tls='tmux ls'
+alias tmux-kill='tmux kill-server'
+alias tmux-kill-windows='tmux kill-window -a'
+alias tmux-kill-sessions='tmux kill-session -a'
 
 # File/Directory Sizes
 alias ducks='du -cksh * | sort -hr'
 alias ducks15='du -cksh * | sort -hr | head -n 15'
 
-# ASCII
-alias dailyepigram="fortune -as | cowsay -f \$(ls /usr/share/cowsay/cows/ | shuf -n1)"
-alias asciitext="figlet -f slant"
-
 # URL
 alias urlencode='node -e "console.log(encodeURIComponent(process.argv[1]))"'
 alias urldecode='node -e "console.log(decodeURIComponent(process.argv[1]))"'
-
-# Intuitive map function
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
-alias map="xargs -n1"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec \${SHELL} -l"
@@ -95,11 +84,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 fi
 
-# TMUX
-alias tmux-kill='tmux kill-server'
-alias tmux-kill-windows='tmux kill-window -a'
-alias tmux-kill-sessions='tmux kill-session -a'
-
 # HELP
 alias dotfiles-git-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/git/readme.md' &>/dev/null"
 alias dotfiles-git-edit="editor ~/.dotfiles/git"
@@ -111,16 +95,3 @@ alias dotfiles-zsh-doc="sensible-browser 'https://github.com/pmendelski/dotfiles
 alias dotfiles-zsh-edit="editor ~/.dotfiles/zsh"
 alias dotfiles-vim-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/vim/readme.md' &>/dev/null"
 alias dotfiles-vim-edit="editor ~/.dotfiles/vim"
-
-# Simplified HTTP methods
-if [ -x "$(command -v httpie)" ]; then
-  for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
-    # shellcheck disable=SC2139
-    alias "$method"="http $method"
-  done
-elif [ -x "$(command -v curl)" ]; then
-  for method in GET HEAD PATCH POST PUT DELETE TRACE OPTIONS; do
-    # shellcheck disable=SC2139
-    alias "$method"="curl -X '$method'"
-  done
-fi

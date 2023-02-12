@@ -160,7 +160,7 @@ local lsp_client = {
 		for _, provider in pairs(null_ls_providers) do
 			table.insert(clients, provider)
 		end
-		return table.concat(clients, ", ")
+		return table.concat(clients, ",")
 	end,
 	cond = function()
 		return conditions.buffer_wide() and conditions.buffer_not_tree()

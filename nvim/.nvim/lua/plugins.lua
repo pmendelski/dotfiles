@@ -80,8 +80,6 @@ packer.startup({
 			"numtostr/FTerm.nvim",
 			config = [[require("plugin/terminal").config()]],
 		})
-		-- cd to project root
-		use("ygm2/rooter.nvim")
 		-- Tree
 		use({
 			"kyazdani42/nvim-tree.lua",
@@ -124,8 +122,6 @@ packer.startup({
 			event = "BufWinEnter",
 			config = [[require("plugin/hop")]],
 		})
-		-- Editorconfig
-		use("editorconfig/editorconfig-vim")
 		-- Debugging
 		use({
 			"mfussenegger/nvim-dap",
@@ -291,7 +287,7 @@ vim.defer_fn(function()
 		packer.clean()
 		packer.install()
 		vim.cmd(':exe "normal \\<c-w>w"')
-		vim.cmd(':exe "normal \\<c-w>w"')
-		vim.cmd(':exe "normal \\<c-w>w"')
+		-- vim.cmd(':exe "normal \\<c-w>w"')
+		-- vim.cmd(':exe "normal \\<c-w>w"')
 	end
 end, 200)

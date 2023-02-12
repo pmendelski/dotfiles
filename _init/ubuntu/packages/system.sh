@@ -108,23 +108,50 @@ sudo apt install -y \
 echo -e "\n>>> HTTP clients"
 sudo apt install -y \
   curl \
-  httpie \
-  dnsutils
+  httpie
 
-echo -e "\n>>> HTTP perf test tools"
+echo -e "\n>>> Network tools"
+sudo apt install -y \
+  dnsutils \
+  iperf3
+
+echo -e "\n>>> Network perf test tools"
 sudo apt install -y \
   nghttp2-client \
   apache2-utils
 
-echo -e "\n>>> JSON parser"
-sudo apt install -y \
-  jq
+echo -e "\n>>> CLI parsers"
+sudo apt install -y jq
+sudo snap install yq
 
 echo -e "\n>>> Penetration testing tools"
 sudo apt install -y \
   aircrack-ng \
   john \
   macchanger
+
+echo -e ">>> gcloud"
+[ ! -d "$HOME/.gcloud" ] && (
+  GCLOUD_VERSION="$(
+    curl -s "https://hub.docker.com/v2/repositories/google/cloud-sdk/tags/?page_size=1000" |
+      jq '.results | .[] | .name' -r |
+      sed 's/latest//' |
+      grep -E "^[0-9]+.[0-9]+.[0-9]+$" |
+      sort --version-sort |
+      tail -n 1
+  )"
+  echo "Downloading gcloud v$GCLOUD_VERSION"
+  cd "$(mktemp -d -t gcloud-XXX)" &&
+    wget -O "gcloud.tar.gz" "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION-linux-$(uname -m).tar.gz" &&
+    echo "Extracting gcloud v$GCLOUD_VERSION..." &&
+    tar -xf "gcloud.tar.gz" &&
+    mv ./google-cloud-sdk "$HOME/.gcloud" &&
+    cd "$HOME/.gcloud" &&
+    ./install.sh --usage-reporting false --install-python false --command-completion false --path-update false
+  gcloud components install alpha
+  gcloud components install beta
+  gcloud components install cloud-run-proxy
+) || echo "Already installed"
 
 echo -e "\n>>> Docker"
 sudo apt remove -y docker || true
@@ -147,6 +174,21 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Dockerfile linter
 sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
 sudo chmod +x /bin/hadolint
+# Docker image inspector
+installDive() {
+  echo "Installing Docker dive"
+  local version="$(curl -s "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  local tmpdir="$(mktemp -d -t dive-XXXX)"
+  (
+    cd "$tmpdir" &&
+      wget -O dive.deb "https://github.com/wagoodman/dive/releases/download/v${version}/dive_${version}_linux_amd64.deb" &&
+      sudo apt install ./dive.deb
+  )
+  rm -rf "$tmpdir"
+}
+if ! command -v dive &>/dev/null; then
+  installDive
+fi
 
 echo -e "\n>>> Rust"
 if ! command -v rustup &>/dev/null; then

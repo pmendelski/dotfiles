@@ -5,7 +5,7 @@ if [ -e "$HOME/.cargo/bin" ]; then
 fi
 
 if [ -e "$HOME/.cargo/env" ]; then
-  source "$HOME/.cargo/env";
+  source "$HOME/.cargo/env"
 fi
 
 function rust-update() {
@@ -17,13 +17,15 @@ function rust-update() {
   echo ""
 
   echo "Updating rust analyzer"
-  rustup +nightly component remove rust-analyzer-preview \
-    && echo "Removed previous rust-analyzer" \
-    || echo "No previous version of rust-analyzer"
-  rustup +nightly component add rust-analyzer-preview \
-    && echo "Installed new rust-analyzer" \
-    || echo "Could not install new version of rust-analyzer"
+  rustup +nightly component remove rust-analyzer-preview &&
+    echo "Removed previous rust-analyzer" ||
+    echo "No previous version of rust-analyzer"
+  rustup +nightly component add rust-analyzer-preview &&
+    echo "Installed new rust-analyzer" ||
+    echo "Could not install new version of rust-analyzer"
   rust-analyzer --version
 
   # rustup component add rls rust-analysis rust-src rustfmt clippy
 }
+
+alias rust-analyzer='rustup run nightly rust-analyzer'

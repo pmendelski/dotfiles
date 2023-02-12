@@ -39,6 +39,7 @@ function _M.close_buffer(buffer)
 	-- delete initially open buffer
 	---@diagnostic disable-next-line: param-type-mismatch
 	pcall(vim.cmd, "bdelete! " .. buffer)
+	require("bufferline.ui").refresh()
 end
 
 function _M.close_active_buffer()
@@ -70,10 +71,11 @@ function _M.config()
 			close_command = function(buff)
 				return _M.close_buffer(buff)
 			end,
-			right_mouse_command = "vert sbuffer %d",
+			-- right_mouse_command = "vert sbuffer %d",
 			max_prefix_length = 15,
 			diagnostics = false,
 			show_close_icon = false,
+			-- show_buffer_close_icons = false,
 			offsets = { { filetype = "NvimTree", text = "Files", text_align = "center" } },
 			always_show_bufferline = false,
 		},
