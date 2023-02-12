@@ -190,7 +190,7 @@ lspconfig.stylelint_lsp.setup(config({
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
 -- https://github.com/luals/lua-language-server/wiki/Getting-Started#command-line
 local lua_dir = vim.fn.stdpath("data") .. "/lang-servers/lua_ls"
-lspconfig.sumneko_lua.setup(config({
+lspconfig.lua_ls.setup(config({
 	cmd = { lua_dir .. "/bin/lua-language-server" },
 	settings = {
 		Lua = {
