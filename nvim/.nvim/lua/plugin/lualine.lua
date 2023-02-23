@@ -141,13 +141,14 @@ local lsp_progress = {
 	end,
 }
 
+vim.cmd([[hi LualineFileModified guifg=#ff966c]])
 local filename = {
 	function()
 		if vim.bo.filetype == "NvimTree" then
 			return "NvimTree"
 		end
 		if vim.bo.modified then
-			return vim.fn.expand("%:t") .. " ●"
+			return vim.fn.expand("%:t") .. " %#LualineFileModified#●"
 		end
 		return vim.fn.expand("%:t")
 	end,

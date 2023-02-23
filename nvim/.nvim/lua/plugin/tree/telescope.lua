@@ -18,6 +18,9 @@ function M.launch_telescope(func_name, opts)
 		return
 	end
 	local node = lib.get_node_at_cursor()
+	if node == nil then
+		return
+	end
 	local is_folder = node.has_children and true
 	local basedir = is_folder and node.absolute_path or vim.fn.fnamemodify(node.absolute_path, ":h")
 	if node.name == ".." and TreeExplorer ~= nil then

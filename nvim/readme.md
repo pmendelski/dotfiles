@@ -1,16 +1,17 @@
 # NVIM
 
-[Neovim](https://neovim.io/) - hyperextensible Vim-based text editor
+[Neovim](https://neovim.io/) - hyper-extensible Vim-based text editor
 
-## Keybindings
-Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
+## Basic keybindings
+Basic keybindings are unchanged and the same as for vim.
+See [vim readme](../vim) to recall the basics.
 
-### Movement
+## Movement
 
 | Keybinding         | Action  |
 |--------------------|--------|---------|
 | `h`/`j`/`k`/`l`    | **move** left/down/up/right |
-| `<C-o>`/`<C-l>`    | **jump** to next/previous visited position |
+| `<C-o>`/`<C-i>`    | **jump** to next/previous visited position |
 | `H`/`M`/`L`        | **jump** to top/middle/bottom of the screen |
 | `]]`/`[[`          | **jump** to the next/previous `{` |
 | `gg`/`G`           | **jump** to the end of the document |
@@ -26,7 +27,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `t{char}`/`T`      | **jump** to before next (previous) character `{char}` in line |
 | `;`/`,`            | **repeat** last jump done with `f`, `F`, `t`, `T` (backwards) |
 
-### Search and replace
+## Search and replace
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -38,7 +39,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `#`                | **search and jump to previous** occurrence of word under cursor |
 | `<Esc>`            | **turn off** search highlight |
 
-### Editing
+## Editing
 
 | Keybinding         | Mode   | Action  |
 |--------------------|--------|---------|
@@ -69,7 +70,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `<Alt>-v`          | N | enter `VISUAL-BLOCK` mode (custom, by default it's ctrl-v) |
 | `<Insert>` or `R`  | * | enter `REPLACE` mode from any mode, then toggle with `INSERT` (custom) |
 
-### Visual
+## Visual
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -82,7 +83,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | `>` (or `<Tab>`)   | **indent** |
 | `<` (or `<S-Tab>`) | **unindent** |
 
-### Motion
+## Motion
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -117,7 +118,7 @@ Most keybindings come from [vim.rtorr.com](https://vim.rtorr.com/).
 | ``a` ``             | a string in backticks (with backticks) |
 | ``i` ``             | inner string in backticks |
 
-### Copy-Paste
+## Copy-Paste
 
 Enabled `Ctrl-[cvx]` keybindings and made vim use system clipboard.
 
@@ -127,7 +128,7 @@ Enabled `Ctrl-[cvx]` keybindings and made vim use system clipboard.
 | `<Ctrl>-v`         | I | **paste** |
 | `<Ctrl>-x`         | V | **cut** selection |
 
-### Undo-Redo
+## Undo-Redo
 
 | Keybinding         | Mode   | Action  |
 |--------------------|--------|---------|
@@ -136,7 +137,7 @@ Enabled `Ctrl-[cvx]` keybindings and made vim use system clipboard.
 | `<Ctrl>-z`         | I | **undo** |
 | `<Ctrl>-y`         | I | **redo** |
 
-### Spellchecking
+## Spellchecking
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -146,7 +147,7 @@ Enabled `Ctrl-[cvx]` keybindings and made vim use system clipboard.
 | `]s`    | **go to previous** error |
 | `<F9>` | **toggle** spellcheck |
 
-### Git
+## Git
 
 Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 
@@ -158,7 +159,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `:Git`             | C | **show** changed files |
 | `:Gdiffsplit`      | C | **diff** current file changes |
 
-### Configuration file
+## Configuration file
 
 | Keybinding         | Mode   | Action  |
 |--------------------|--------|---------|
@@ -181,7 +182,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `<leader> t`       | N | **toggle** terminal pane |
 | `<Alt>-t`          | N | **focus** terminal pane |
 
-# Hopping
+## Hopping
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -191,7 +192,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `<leader>hl`       | **hop to line** in whole file |
 | `<leader>h/`       | **hop to pattern** in whole file |
 
-# Code
+## Code
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -212,7 +213,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `[d`/`gx`          | **go to** next diagnostic problem |
 | `]d`               | **go to** previous diagnostic problem |
 
-### Buffers
+## Buffers
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -225,7 +226,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `<Ctrl>-x` or `bc` | **close** active tab buffer |
 | `ba`/`bo`          | **close** all/other tab buffers |
 
-### Tree
+## Tree
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -255,7 +256,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `I`                 | **toggle visibility of folders** hidden via `g:nvim_tree_ignore` |
 | `H`                 | **toggle visibility of dotfiles** |
 
-### F Keys
+## F Keys
 
 | Keybinding         | Action  |
 |--------------------|---------|
@@ -264,7 +265,7 @@ Uses: [vim-fugitive](https://github.com/tpope/vim-fugitive), [vim-gitgutter](htt
 | `F3`               | **Locate file in file tree** |
 | `F12`              | **Zen Mode** |
 
-### Others
+## Others
 
 | Keybinding         | Mode   | Action  |
 |--------------------|--------|---------|

@@ -38,3 +38,4 @@ if [ ! -f /etc/apt/sources.list.d/teamviewer.list ]; then
   sudo apt update
 fi
 sudo apt install -y teamviewer
+sudo teamviewer daemon disable

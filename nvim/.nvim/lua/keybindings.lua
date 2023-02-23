@@ -24,23 +24,23 @@ map("n", "k", "gk")
 map("n", "j", "gj")
 map("n", "k", "gk")
 -- Faster movement
-map("n", "<s-j>", "4j")
-map("n", "<s-k>", "4k")
-map("n", "<s-h>", "4h")
-map("n", "<s-l>", "4l")
-map("x", "<s-j>", "4j")
-map("x", "<s-k>", "4k")
-map("x", "<s-h>", "4h")
-map("x", "<s-l>", "4l")
+map("n", "<s-j>", "5j")
+map("n", "<s-k>", "5k")
+map("n", "<s-h>", "5h")
+map("n", "<s-l>", "5l")
+map("x", "<s-j>", "5j")
+map("x", "<s-k>", "5k")
+map("x", "<s-h>", "5h")
+map("x", "<s-l>", "5l")
 
 -- Buffers
 -----------------------------------------------------------
 -- Toggle buffers
 map("n", "<leader><leader>", "<c-^>")
--- Delete buffer
-map("n", "<leader>d", ":bp<bar>sp<bar>bn<bar>bd<cr>")
+-- Close buffer
+map("n", "<leader>q", ":bp<bar>sp<bar>bn<bar>bd<cr>")
 -- Open new file adjacent to current file
-map("n", "<leader>n", ':e <C-R>=expand("%:p:h") . "/" <cr>', { silent = false })
+map("n", "<leader>e", ':e <C-R>=expand("%:p:h") . "/" <cr>', { silent = false })
 
 -- Splits
 -----------------------------------------------------------
@@ -50,10 +50,10 @@ map("n", "<c-Down>", "<cmd>wincmd j<cr>")
 map("n", "<c-Up>", "<cmd>wincmd k<cr>")
 map("n", "<c-Right>", "<cmd>wincmd l<cr>")
 --ctrl-hjkl to change split size
-map("n", "<c-h>", "<cmd>resize -5<cr>")
-map("n", "<c-j>", "<cmd>vertical resize -5<cr>")
-map("n", "<c-k>", "<cmd>vertical resize +5<cr>")
-map("n", "<c-l>", "<cmd>resize +5<cr>")
+map("n", "<c-h>", "<cmd>vertical resize -5<cr>")
+map("n", "<c-j>", "<cmd>resize -5<cr>")
+map("n", "<c-k>", "<cmd>resize +5<cr>")
+map("n", "<c-l>", "<cmd>vertical resize +5<cr>")
 
 -- Search
 -----------------------------------------------------------
@@ -65,12 +65,12 @@ map("n", "#", "#zz")
 -- Clear highlighting on escape in normal mode
 map("n", "<esc>", ":noh<return><esc>")
 map("n", "§", ":noh<return><esc>")
--- Clear highlight and enter intert mode
--- map('n', '<cr>', ':noh<return><esc>i<cr>')
--- map('n', '<esc>^[', '<esc>^[')
 -- Search for visually hightlighted text
-map("x", "<c-f>", 'y<esc>/<c-r>"<cr>')
-map("x", "<c-r>", '"0y<esc>:%s/<c-r>0//g<left><left>')
+map("x", "<leader>//", 'y<esc>/<c-r>"<cr>', { silent = false })
+map("x", "<leader>/?", 'y<esc>:%s/<c-r>"//g<left><left>', { silent = false })
+-- Search for current word
+map("n", "<leader>//", 'yiw/<c-r>"<cr>', { silent = false })
+map("n", "<leader>/?", 'yiw:%s/<c-r>"//g<left><left>', { silent = false })
 
 -- Scroll
 -----------------------------------------------------------
@@ -87,10 +87,14 @@ map("i", "<a-j>", "<esc>:m .+1<cr>gi")
 map("i", "<a-k>", "<esc>:m .-2<cr>gi")
 map("x", "<a-j>", ":m '>+1<cr>gv")
 map("x", "<a-k>", ":m '<-2<cr>gv")
--- d is for deleting - skip buffer
-map("n", "d", '"_d')
-map("n", "D", '"_D')
-map("x", "d", '"_d')
+-- -- d is for deleting - skip buffer
+-- map("n", "d", '"_d')
+-- map("n", "D", '"_D')
+-- map("x", "d", '"_d')
+-- -- Duplicate lines
+-- map("n", "<c-d>", "yyp")
+-- map("i", "<c-d>", "<esc>yypi")
+-- map("x", "<c-d>", "yP")
 -- Add indentation when entering I mode
 _G.indent_i = function()
 	if fn.len(fn.getline(".")) == 0 then
@@ -105,27 +109,16 @@ _G.indent_i = function()
 end
 map("n", "i", "v:lua.indent_i()", { expr = true })
 map("n", "a", "v:lua.indent_i()", { expr = true })
--- New lines from normal mode
-map("n", "<leader>'", ':<c-u>call append(line("."),   repeat([""], v:count1))<cr>')
-map("n", '<leader>"', ':<c-u>call append(line(".")-1, repeat([""], v:count1))<cr>')
--- Join lines
-map("n", "<c-tab>", ":join!")
--- Duplicate lines
-map("n", "<c-d>", "yyp")
-map("i", "<c-d>", "<esc>yypi")
-map("x", "<c-d>", "yP")
--- Copy whole line
-map("n", "Y", "mzVy<esc>`z")
--- Copy whole file
-map("x", "Y", "mz<esc>ggV<cr>Gy`z")
 -- Indent without leaving mode
 map("x", ">", ">gv")
 map("x", "<", "<gv")
-
--- Select
------------------------------------------------------------
--- Select whole file
-map("x", "a", "<esc>ggV<cr>G")
+-- Whole file actions
+-- copy file content
+map("n", "yY", ":%y")
+-- delete file content
+map("n", "dD", ":%d")
+-- change file content
+map("n", "cC", ":gg0cG")
 
 -- Undo and redo
 -----------------------------------------------------------
@@ -159,11 +152,14 @@ end
 
 -- Others
 -----------------------------------------------------------
--- Toggle word wrap
 -- Save
 map("n", "<c-s>", ":w<cr>")
 map("i", "<c-s>", "<c-o>:w<cr>")
 map("x", "<c-s>", "<esc>:w<cr>")
+-- Save all buffers
+map("n", "<leader>s", ":wa<cr>")
+map("i", "<leader>s", "<c-o>:wa<cr>")
+map("x", "<leader>s", "<esc>:wa<cr>")
 
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')

@@ -2,8 +2,8 @@
 set -euf -o pipefail
 
 ./packages/system.sh
+./packages/docker.sh
 ./packages/system-gui.sh
 ./packages/media.sh
 ./packages/net.sh
 ./packages/theme.sh
-

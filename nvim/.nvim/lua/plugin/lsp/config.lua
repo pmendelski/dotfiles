@@ -1,7 +1,7 @@
 -- https://github.com/neovim/nvim-lspconfig
 
 local lspconfig = require("lspconfig")
-local on_attach = require("plugin/lspconfig/on-attach")
+local on_attach = require("plugin/lsp/on-attach")
 local map = require("util").keymap
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -99,7 +99,7 @@ lspconfig.groovyls.setup(config({
 }))
 
 -- Go
-require("plugin/lspconfig/lang/go").setup(config)
+require("plugin/lsp/lang/go").setup(config)
 
 -- Rust
 -- Handled by rust-tools
@@ -203,6 +203,7 @@ lspconfig.lua_ls.setup(config({
 			},
 			workspace = {
 				library = vim.api.nvim_get_runtime_file("", true),
+				checkThirdParty = false,
 			},
 			telemetry = {
 				enable = false,

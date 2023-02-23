@@ -61,7 +61,6 @@ brew install htop
 brew install transmission
 brew install golangci-lint
 brew install shellcheck
-brew install dive
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer
@@ -80,6 +79,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
 # Docker
 brew install --cask docker
 brew install docker-compose
+brew install dive
+brew install ctop
 brew install hadolint
 
 # link zsh completion files

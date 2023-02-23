@@ -16,8 +16,8 @@ require("dapui").setup({
 				"stacks",
 				"watches",
 			},
-			size = 40,
-			position = "left",
+			size = 80,
+			position = "right",
 		},
 		{
 			elements = {
@@ -54,5 +54,5 @@ map("n", "<leader>dl", ":lua require('dap').set_breakpoint(nil, nil, vim.fn.inpu
 
 -- How to debug?
 -- Setup breakpoints with: <leader>-b
--- Run code with actions with hover: gh
+-- Run code with actions with hover: ga
 -- Open dapui: <F5>

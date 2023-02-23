@@ -40,10 +40,10 @@ opt.history = 1000 -- increase history from 20 default to 1000
 -- Search & replace
 -----------------------------------------------------------
 opt.inccommand = "nosplit" -- present substitutions in realtime
-opt.ignorecase = true -- ignore case letters when search
+opt.ignorecase = false -- ignore case letters when search
 opt.smartcase = true -- ignore lowercase for the whole pattern
 opt.incsearch = true
-opt.gdefault = true
+opt.gdefault = false
 
 -- Make diffing better
 -- https://vimways.org/2018/the-power-of-diff/

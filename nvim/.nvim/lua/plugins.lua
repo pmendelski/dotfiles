@@ -84,13 +84,7 @@ packer.startup({
 		use({
 			"kyazdani42/nvim-tree.lua",
 			after = "tokyonight.nvim",
-			config = [[require("plugin/nvim-tree/config").config()]],
-		})
-		-- Tabs for buffers
-		use({
-			"akinsho/nvim-bufferline.lua",
-			after = "nvim-tree.lua",
-			config = [[require("plugin/bufferline").config()]],
+			config = [[require("plugin/tree/config").config()]],
 		})
 		-- Telescope select
 		use({ "nvim-telescope/telescope-ui-select.nvim" })
@@ -125,12 +119,12 @@ packer.startup({
 		-- Debugging
 		use({
 			"mfussenegger/nvim-dap",
-			config = [[require("plugin/dap")]],
+			config = [[require("plugin/dap/config")]],
 		})
 		use({
 			"rcarriga/nvim-dap-ui",
 			requires = { "mfussenegger/nvim-dap" },
-			config = [[require("plugin/dapui")]],
+			config = [[require("plugin/dap/ui")]],
 		})
 		-- Expand visual selection
 		use({
@@ -179,7 +173,7 @@ packer.startup({
 		-- LSP
 		use({
 			"neovim/nvim-lspconfig",
-			config = [[require("plugin/lspconfig/config")]],
+			config = [[require("plugin/lsp/config")]],
 		})
 		use({
 			"folke/trouble.nvim",
@@ -248,6 +242,12 @@ packer.startup({
 			"lewis6991/spellsitter.nvim",
 			event = "BufEnter",
 			config = [[require("plugin/spellsitter")]],
+		})
+		-- Go
+		use({
+			"leoluz/nvim-dap-go",
+			ft = "go",
+			config = [[require("plugin/dap/lang/go")]],
 		})
 		-- Rust
 		use({

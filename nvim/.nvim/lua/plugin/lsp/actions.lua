@@ -1,4 +1,4 @@
-local go = require("plugin/lspconfig/lang/go")
+local go = require("plugin/lsp/lang/go")
 local _M = {}
 
 function _M.format()

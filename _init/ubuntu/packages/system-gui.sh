@@ -81,11 +81,13 @@ sudo apt-get install -y fonts-firacode
 sudo apt-get install -y fonts-hack-ttf
 installNerdFonts() {
   mkdir -p ~/.local/share/fonts
+  local -r version="$(curl -sL https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest |
+    jq -r ".tag_name")"
   local -r dir="$(pwd)"
   local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
   cd "$tmpdir"
   for font in "$@"; do
-    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" &&
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/$version/$font.zip" &&
       unzip -o "$font.zip" -d ~/.local/share/fonts &&
       echo "Installed nerd font: $font"
   done
@@ -114,7 +116,7 @@ sudo chgrp wireshark /usr/bin/dumpcap
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
 
 echo -e "\n>>> Insomnia"
-echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" \
-    | sudo tee -a /etc/apt/sources.list.d/insomnia.list
+echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" |
+  sudo tee -a /etc/apt/sources.list.d/insomnia.list
 sudo apt-get update
 sudo apt-get install insomnia

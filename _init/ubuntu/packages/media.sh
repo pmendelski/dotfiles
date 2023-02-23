@@ -25,8 +25,6 @@ sudo apt install qnapi
 sudo apt install -y cheese
 # Screen recorder
 sudo apt install -y kazam
-# Vide editing tool
-sudo snap install shotcut --classic
 # mpeg thumbnails
 sudo apt install -y ffmpegthumbnailer
 

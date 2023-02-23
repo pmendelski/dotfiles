@@ -6,7 +6,7 @@ function _M.config()
 	end
 
 	local function telescope_action(callback_name)
-		return string.format(':lua require("plugin/nvim-tree/telescope").%s<cr>', callback_name)
+		return string.format(':lua require("plugin/tree/telescope").%s<cr>', callback_name)
 	end
 
 	local tree = require("nvim-tree")
