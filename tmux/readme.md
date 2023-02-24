@@ -14,7 +14,7 @@
 | Keybinding    | Action |
 |---------------|--------|
 | `C-a`         | **Prefix** for most other tmux keybindings |
-| `C-[`         | **Copy Mode** enters so called copy mode |
+| `C-[`         | **Copy Mode** enters copy mode |
 | `:`           | **Command mode** |
 | `C-a <F12>`   | **zen mode** toggle |
 
@@ -60,10 +60,11 @@ tmux kill-session -t myname
 | `C-a -`       | **split** horizontally |
 | `C-a x`       | **kill** pane |
 | `A-<Arrow>`   | **go to** pane |
+| `C-a-<Arrow>` | **resize** current pane |
+| `C-S-<Arrow>` | **move** current pane |
 | `C-a ;`       | **go to** previously selected pane |
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
-| `C-a-<Arrow>` | **resize** current pane |
 | `C-a P`       | **move to top** current pane |
 | `C-a {`     | **swap with previous** |
 | `C-a }`     | **swap with next** |
@@ -96,7 +97,7 @@ Copy mode opens new vim like features.
 Copy and paste using [vi bindings](https://awhan.wordpress.com/2010/06/20/copy-paste-in-tmux/)
 
 1. `C-a [` enter copy mode, move to selection start
-2. `v Space` start visual selection (like in vim) move to selection
+2. `Space` start visual selection (like in vim) move to selection
   - `Shift-v Space` to select whole lines
   - `v Space` to start rectangular selection
 3. `y` copy selection to tmux buffer or to system clipboard
