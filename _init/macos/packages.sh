@@ -103,6 +103,7 @@ brew install --cask intellij-idea-ce
 brew install --cask insomnia
 brew install --cask sublime-text
 brew install --cask google-chrome
+brew install --cask firefox
 brew install --cask dbeaver-community
 brew install --cask google-web-designer
 brew tap homebrew/cask && brew install --cask gimp
