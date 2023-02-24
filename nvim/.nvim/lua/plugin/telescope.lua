@@ -6,6 +6,7 @@ function _M.keymap()
 	map("n", "<leader>ff", ":Telescope find_files hidden=true<cr>")
 	map("n", "<leader>fv", ":Telescope git_files<cr>")
 	map("n", "<leader>fb", ":Telescope buffers<cr>")
+	map("n", "<leader>;", ":Telescope buffers<cr>") -- duplicated to sync with vim
 	map("n", "<leader>fc", ":Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<cr>")
 	map("n", "<leader>fC", ":Telescope current_buffer_fuzzy_find fuzzy=false<cr>")
 	map("n", "<leader>fg", ":Telescope live_grep<cr>")

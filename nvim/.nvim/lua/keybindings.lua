@@ -8,7 +8,7 @@ local map = require("util").keymap
 -- Edit vimrc configuration file
 map("n", "<leader>ve", ":split $MYVIMRC<cr>")
 -- Reload vimrc configuration file
-map("n", "<leader>vr", ':source $MYVIMRC<cr>:echo "Reloaded: " . $MYVIMRC<cr>')
+map("n", "<leader>vr", ':source $MYVIMRC<cr>:echo "Reloaded: " . $MYVIMRC<cr>', { silent = false })
 
 -- MacOS
 -----------------------------------------------------------
@@ -16,6 +16,14 @@ map("n", "<leader>vr", ':source $MYVIMRC<cr>:echo "Reloaded: " . $MYVIMRC<cr>')
 map("n", "§", "<esc>")
 map("i", "§", "<esc>")
 map("x", "§", "<esc>")
+
+-- VIM Diff
+-----------------------------------------------------------
+-- ]c - next change
+-- [c - previous change
+map("n", "<leader>ml", ":diffget LOCAL")
+map("n", "<leader>mr", ":diffget BASE")
+map("n", "<leader>mr", ":diffget REMOTE")
 
 -- Movement
 -----------------------------------------------------------

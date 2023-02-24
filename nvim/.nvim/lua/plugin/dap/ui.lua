@@ -54,5 +54,6 @@ map("n", "<leader>dl", ":lua require('dap').set_breakpoint(nil, nil, vim.fn.inpu
 
 -- How to debug?
 -- Setup breakpoints with: <leader>-b
--- Run code with actions with hover: ga
+-- Run code with code actions: ga
+-- ...or simply try running dap with: F9
 -- Open dapui: <F5>

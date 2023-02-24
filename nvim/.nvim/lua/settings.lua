@@ -69,12 +69,6 @@ opt.wildmode = "longest:full,full"
 opt.wildignore =
 	".hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor"
 
--- Print options
------------------------------------------------------------
--- opt.printfont = ":h10"
--- opt.printencoding = "utf-8"
--- opt.printoptions = "paper:A4"
-
 -- Wrapping, spaces & tabs
 -----------------------------------------------------------
 opt.autoindent = true -- copy indent from last line when starting new line

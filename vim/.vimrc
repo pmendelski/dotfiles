@@ -1,3 +1,5 @@
+" Plugin installer
+"-----------------------------------------------------------
 " After adding new plugin run:
 "  :PlugInstall
 " Required at the top by vim-polyglot
@@ -11,23 +13,18 @@ Plug 'tpope/vim-commentary'
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
 " Fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Expand selected region
-Plug 'terryma/vim-expand-region'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-line'
-Plug 'kana/vim-textobj-entire'
 " Nice status bar
 Plug 'itchyny/lightline.vim'
 " Git branchname in statusbar
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " Colorscheme
-Plug 'arcticicestudio/nord-vim'
+Plug 'EdenEast/nightfox.nvim'
 call plug#end()
 
 "" General
+"-----------------------------------------------------------
 let mapleader="\<space>"
 set encoding=utf8             " utf8 by default
 set mouse=a                   " enable mouse in all in all modes
@@ -37,6 +34,7 @@ set updatetime=150
 set synmaxcol=240             " max column for syntax highlight
 
 "" UI
+"-----------------------------------------------------------
 set whichwrap+=<,>,h,l,[,],<>
 set noerrorbells
 set novisualbell
@@ -54,9 +52,10 @@ set synmaxcol=500             " max column for syntax highlight
 set shortmess+=c              " avoid showing extra messages when using completion
 syntax on
 set termguicolors
-colorscheme nord
+colorscheme nightfox
 
 " Cursor
+"-----------------------------------------------------------
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 
@@ -66,6 +65,7 @@ augroup myCmds
 augroup END
 
 " Folding
+"-----------------------------------------------------------
 set foldcolumn=0        " column to show folds
 set foldenable          " enable folding
 set foldlevel=10        " close all folds starting from depth of 10
@@ -74,24 +74,31 @@ set foldminlines=0      " allow folding single lines
 set foldnestmax=10      " set max fold nesting level
 
 "" History
+"-----------------------------------------------------------
 set hidden         " when a buffer is brought to foreground, remember undo history and marks
 set history=1000   " increase history from 20 default to 1000
 
-"" Search & replace
+" Search & replace
+"-----------------------------------------------------------
 set hlsearch                 " highlight all matches
-set ignorecase               " ignore case letters when search
+" set ignorecase               " ignore case letters when search
 set smartcase                " ignore lowercase for the whole pattern
 set incsearch                " search as characters are entered
-set gdefault                 " by default add g flag to search/replace. Add g to toggle
+" set gdefault                 " by default add g flag to search/replace. Add g to toggle
 set magic                    " enable extended regexes
 set regexpengine=1           " use the old regular expression engine (it's faster for certain language syntaxes)
 set wrapscan                 " searches wrap around end of file
 
-"" Diff
+" Make diffing better
+" https://vimways.org/2018/the-power-of-diff/
+"-----------------------------------------------------------
 set diffopt+=filler
 set diffopt+=iwhite
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 
 "" Temporary files
+"-----------------------------------------------------------
 set noswapfile              " don't use swapfile
 set undofile                " persistent Undo
 set backupdir=~/.vim/tmp/backups
@@ -99,17 +106,14 @@ set directory=~/.vim/tmp/swaps
 set undodir=~/.vim/tmp/undo
 
 "" Wildmenu
+"-----------------------------------------------------------
 set wildmenu
 set wildchar=<TAB>
 set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
 set wildmode=list:longest
 
-"" Print options
-" set printfont=:h10
-" set printencoding=utf-8
-" set printoptions=paper:A4
-
 "" Wrapping, spaces & tabs
+"-----------------------------------------------------------
 set autoindent        " copy indent from last line when starting new line
 set copyindent
 set backspace=indent,eol,start
@@ -129,10 +133,12 @@ set list
 set listchars=space:·,eol:¬,tab:▸\ ,nbsp:±,trail:·,extends:»,precedes:«
 
 "" Spellcheck
+"-----------------------------------------------------------
 set spell
 set spelllang=en,cjk
 
 "" File type related
+"-----------------------------------------------------------
 filetype indent on " load filetype-specific indent files
 filetype plugin on "  load filetype-specific plugins
 " remove line lenght marker for selected filetypes
@@ -141,6 +147,7 @@ autocmd FileType text,markdown,xml,json,yaml,html,xhtml,javascript setlocal cc=0
 autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
 
 " Tmux
+"-----------------------------------------------------------
 if &term =~ '^screen'
   " tmux will send xterm-style keys when its xterm-keys option is on
   " http://superuser.com/a/402084
@@ -150,26 +157,22 @@ if &term =~ '^screen'
   execute "set <xLeft>=\e[1;*D"
 endif
 
+
+
+
+"-----------------------------------------------------------
+" Plugins
+"-----------------------------------------------------------
+
 " Plugin: lightline
+"-----------------------------------------------------------
 let g:lightline = {
-  \ 'colorscheme': 'nord',
+  \ 'colorscheme': 'nightfox',
   \ }
 set laststatus=2
 
-" Plugin: vim-expand-region
-" Expand on v and c-v
-vmap v <plug>(expand_region_expand)
-vmap <c-v> <plug>(expand_region_shrink)
-" More expansion boundaries
-call expand_region#custom_text_objects({
-  \ 'a]': 1,
-  \ 'a>': 1,
-  \ 'ab': 1,
-  \ 'aB': 1,
-  \ })
-
-
 " Plugin: fzf
+"-----------------------------------------------------------
 let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
 " Search file by content
 noremap <silent> <leader>s :Rg<cr>
@@ -191,11 +194,34 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 
-" Open new file adjacent to current file
-nnoremap <leader>n :e <C-R>=expand("%:p:h") . "/" <cr>
+
+
+"-----------------------------------------------------------
+" Keybindins
+"-----------------------------------------------------------
+
+" MacOS
+"-----------------------------------------------------------
+" Map ESC to physical key
+nnoremap § <esc>
+inoremap § <esc>
+xnoremap § <esc>
+
+" Buffers
+"-----------------------------------------------------------
 " Open buffer
 nnoremap <silent> <leader>; :Buffers<cr>
+" Open new file adjacent to current file
+nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <cr>
+" Delete buffer
+nnoremap <leader>q :bp<bar>sp<bar>bn<bar>bd<cr>
 " Toggle buffers
 nnoremap <leader><leader> <c-^>
-" Delete buffer
-nnoremap <leader>d :bp<bar>sp<bar>bn<bar>bd<cr>
+
+" VIM Diff
+"-----------------------------------------------------------
+" ]c - next change
+" [c - previous change
+nnoremap <leader>ml :diffget LOCAL
+nnoremap <leader>mr :diffget BASE
+nnoremap <leader>mr :diffget REMOTE
