@@ -87,14 +87,14 @@ map("i", "<a-j>", "<esc>:m .+1<cr>gi")
 map("i", "<a-k>", "<esc>:m .-2<cr>gi")
 map("x", "<a-j>", ":m '>+1<cr>gv")
 map("x", "<a-k>", ":m '<-2<cr>gv")
--- -- d is for deleting - skip buffer
+-- -- Skip buffer on delete - controversial
 -- map("n", "d", '"_d')
 -- map("n", "D", '"_D')
 -- map("x", "d", '"_d')
--- -- Duplicate lines
--- map("n", "<c-d>", "yyp")
--- map("i", "<c-d>", "<esc>yypi")
--- map("x", "<c-d>", "yP")
+-- Duplicate lines
+map("n", "<c-d>", "yyp")
+map("i", "<c-d>", "<esc>yypi")
+map("x", "<c-d>", "yP")
 -- Add indentation when entering I mode
 _G.indent_i = function()
 	if fn.len(fn.getline(".")) == 0 then
@@ -114,9 +114,9 @@ map("x", ">", ">gv")
 map("x", "<", "<gv")
 -- Whole file actions
 -- copy file content
-map("n", "yY", ":%y")
+map("n", "yY", ":%y<cr>")
 -- delete file content
-map("n", "dD", ":%d")
+map("n", "dD", ":%d<cr>")
 -- change file content
 map("n", "cC", ":gg0cG")
 
@@ -155,11 +155,8 @@ end
 -- Save
 map("n", "<c-s>", ":w<cr>")
 map("i", "<c-s>", "<c-o>:w<cr>")
-map("x", "<c-s>", "<esc>:w<cr>")
 -- Save all buffers
 map("n", "<leader>s", ":wa<cr>")
-map("i", "<leader>s", "<c-o>:wa<cr>")
-map("x", "<leader>s", "<esc>:wa<cr>")
 
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')
