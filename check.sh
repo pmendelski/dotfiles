@@ -16,6 +16,7 @@ checkBashScripts() {
     -not -path "*/deps/*" \
     -not -path "*/plugins/*" \
     -not -path "*/tmp/*" \
+    -not -path "*/.luarocks/*" \
     -not -path "./_init/*/templates/*")"
   echo -e "\n>>> Running ShellCheck for bash"
   shellcheck $files
@@ -25,7 +26,10 @@ checkBashScripts() {
 checkLuaScripts() {
   expectCommand luacheck
   echo -e "\n>>> Running Luacheck"
-  local -r files="$(find . -type f -name "*.lua" -not -path "*/deps/*" -not -path "*/tmp/*")"
+  local -r files="$(find . -type f -name "*.lua" \
+    -not -path "*/deps/*" \
+    -not -path "*/.luarocks/*" \
+    -not -path "*/tmp/*")"
   luacheck $files --globals vim TreeExplorer --exclude-files "**/packer_compiled.lua"
   echo -e "<<< Luacheck passed\n"
 }
