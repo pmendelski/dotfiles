@@ -7,7 +7,6 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') == false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,4 +30,4 @@ jobs:
           luarocks install luacheck
 
       - name: Check
-        run: ./check
+        run: ./check.sh
