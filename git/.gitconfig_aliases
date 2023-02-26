@@ -59,11 +59,11 @@
   # Fetch
     # Shorter version
     fe = fetch
-    # Fetch master
-    fetch-master = "!f() { \
-      git fetch ${1:-origin} master; \
+    # Fetch main
+    fetch-main = "!f() { \
+      git fetch ${1:-origin} main; \
     }; f"
-    fem = !git fetch-master
+    fem = !git fetch-main
     # Fetch branch
     fetch-branch = "!f() { \
       git fetch ${2:-origin} ${1:-$(git curr-branch)}; \
@@ -72,9 +72,9 @@
   # Checkout
     # Shorter version
     co = checkout
-    # Checkout master
-    checkout-master = !git checkout master
-    com = !git checkout-master
+    # Checkout main
+    checkout-main = !git checkout main
+    com = !git checkout-main
   # Add
     # Shorter version
     ad = add
@@ -144,14 +144,14 @@
       done; \
     }; f"
     sya = !git sync-all
-    # Sync with remote master
-    sync-master = "!f() { \
-      git sync ${1:-origin}/master; \
+    # Sync with remote main
+    sync-main = "!f() { \
+      git sync ${1:-origin}/main; \
     }; f"
-    sym = !git sync-master
+    sym = !git sync-main
   # Squash
     # Interactive rebase with a branch or a number of latest commits or branch
-    squash = "!f() { git rebase -i ${1:-master}; }; f"
+    squash = "!f() { git rebase -i ${1:-main}; }; f"
     sq = !git squash
     # Squash all commits available on the branch.
     squash-total = !git rebase -i --root
@@ -235,16 +235,16 @@
     # Secure force push
     # World is not yet ready for --atomic
     push-force = "!f() { \
-      [ \"$(git curr-branch)\" = \"master\" ] && \
-        { (>&2 echo \"Sanity check. No force push to master is forbidden.\"); exit 1; }; \
+      [ \"$(git curr-branch)\" = \"main\" ] && \
+        { (>&2 echo \"Sanity check. No force push to main is forbidden.\"); exit 1; }; \
       git push --force-with-lease; \
     }; f"
-    push-force-master = !git push --force-with-lease
+    push-force-main = !git push --force-with-lease
     # Push code review fixes
     push-fix = !git amend-all && git push-force
-    push-fix-master = !git amend-all && git push-force-master
-    # Fix Pull Request conflict with master branch
-    push-conflict-fix = !git sync-master && git push-force
+    push-fix-main = !git amend-all && git push-force-main
+    # Fix Pull Request conflict with main branch
+    push-conflict-fix = !git sync-main && git push-force
   # Diff
     # Shorter version
     df = diff
@@ -268,7 +268,7 @@
     undo-branch-local-commits = !git reset --soft $(git upstream)
     # Undo all branch commits that are ahead of source branch
     undo-branch-commit-range = "!f() { \
-      local n=\"$(git log --oneline ${1:-master}..$(git curr-branch) | wc -l)\"; \
+      local n=\"$(git log --oneline ${1:-main}..$(git curr-branch) | wc -l)\"; \
       git reset --soft HEAD~${n}; \
     }; f"
   # Drop changes
@@ -285,7 +285,7 @@
     # Drop all committed and ucommitted changes made on the branch. Restore branch to inital state.
     drop-branch-local-changes = !git reset --hard $(git curr-upstream) && git clean -df
     drop-branch-change-range = "!f() { \
-      local n=\"$(git log --oneline ${1:-master}..$(git curr-branch) | wc -l)\"; \
+      local n=\"$(git log --oneline ${1:-main}..$(git curr-branch) | wc -l)\"; \
       git reset --hard HEAD~${n} && git clean -df; \
     }; f"
   # Reflog
@@ -366,22 +366,22 @@
       git push -u ${1:-origin} $(git curr-branch); \
     }; f"
     # Dropping branches
-    delete-merged-branches = !git branch --merged=master | grep -Ev '^\\* | master$' | xargs -r git branch -d
+    delete-merged-branches = !git branch --merged=main | grep -Ev '^\\* | main$' | xargs -r git branch -d
     delete-branch="!f() { \
       local branchname=\"${1:-$(git curr-branch)}\"; \
-      [ \"$branchname\" = \"master\" ] && { echo 'Sanity check. Will not remove master branch'; exit 1; }; \
-      [ \"$branchname\" = \"$(git curr-branch)\" ] && git checkout master; \
+      [ \"$branchname\" = \"main\" ] && { echo 'Sanity check. Will not remove main branch'; exit 1; }; \
+      [ \"$branchname\" = \"$(git curr-branch)\" ] && git checkout main; \
       git branch -D $branchname; \
     }; f"
     delete-branch-remotely="!f() { \
       local branchname=\"${1:-$(git curr-branch)}\"; \
-      [ \"$branchname\" = \"master\" ] && { echo 'Sanity check. Will not remove master branch'; exit 1; }; \
+      [ \"$branchname\" = \"main\" ] && { echo 'Sanity check. Will not remove main branch'; exit 1; }; \
       git push ${2:-origin} --delete $branchname; \
       git branch --unset-upstream $branchname; \
     }; f"
     delete-branch-globally="!f() { \
       local branchname=\"${1:-$(git curr-branch)}\"; \
-      [ \"$branchname\" = \"master\" ] && { echo 'Sanity check. Will not remove master branch'; exit 1; }; \
+      [ \"$branchname\" = \"main\" ] && { echo 'Sanity check. Will not remove main branch'; exit 1; }; \
       git delete-branch-remotely $@; \
       git delete-branch $@; \
     }; f"
@@ -420,12 +420,12 @@
         (>&2 echo \"Upstream already created - $upstream\"); \
       git check-whitespaces && \
       git sync && \
-      git sync-master && \
+      git sync-main && \
       git squash; \
     }; f"
     pr-close = "!f() { \
       git fetch && \
-      git checkout master && \
+      git checkout main && \
       git pull && \
       git cleanup; \
     }; f"
