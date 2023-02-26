@@ -13,12 +13,6 @@ function __loadLocalBashFiles() {
   for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
     [ -r "$file" ] && source "$file"
   done
-  if [ -d "$HOME/.bash_plugins" ]; then
-    for file in "$HOME"/.bash_plugins/*.sh; do
-      [ -r "$file" ] && source "$file"
-    done
-  fi
-  unset file
 }
 
 # shellcheck disable=SC2120

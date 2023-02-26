@@ -11,7 +11,7 @@ function __loadZshPlugin() {
   elif [ -r "$plugin" ]; then
     source "$plugin";
   else
-    echo "Plugin not found: $PLUGIN"
+    echo "Plugin not found: $plugin"
   fi
 }
 
@@ -28,12 +28,6 @@ function __loadLocalZshFiles() {
   for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
     [ -r "$file" ] && source "$file"
   done
-  if [ -d "$HOME/.zsh_plugins" ]; then
-    for file in $HOME/.zsh_plugins/*.zsh; do
-      [ -r "$file" ] && source "$file"
-    done
-  fi
-  unset file
 }
 
 function __loadZsh() {

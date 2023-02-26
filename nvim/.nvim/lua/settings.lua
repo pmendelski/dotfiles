@@ -21,6 +21,7 @@ opt.number = true -- show line number
 opt.showmatch = true -- highlight matching parenthesis
 opt.foldmethod = "marker" -- enable folding (default 'foldmarker')
 opt.colorcolumn = "100" -- line lenght marker at 100 columns
+opt.signcolumn = "yes" -- always show sign column
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- horizontal split to the bottom
 opt.showcmd = true -- show (partial) command in status line
@@ -93,7 +94,3 @@ opt.listchars = "space:·,eol:¬,tab:▸ ,nbsp:_,trail:·,extends:»,precedes:«
 -- Spellcheck
 -----------------------------------------------------------
 opt.spelllang = "en,cjk"
-
--- Signs
------------------------------------------------------------
-vim.o.signcolumn = "yes"

@@ -20,7 +20,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 " Colorscheme
-Plug 'EdenEast/nightfox.nvim'
+Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 
 "" General
@@ -40,7 +40,8 @@ set noerrorbells
 set novisualbell
 set number                    " show line number
 set showmatch                 " highlight matching parenthesis
-set colorcolumn=100           " line lenght marker at 100 columns
+"set colorcolumn=100           " line lenght marker at 100 columns
+set signcolumn=yes            " always show sign column
 set splitright                " vertical split to the right
 set splitbelow                " horizontal split to the bottom
 set showcmd                   " show (partial) command in status line
@@ -52,7 +53,8 @@ set synmaxcol=500             " max column for syntax highlight
 set shortmess+=c              " avoid showing extra messages when using completion
 syntax on
 set termguicolors
-colorscheme nightfox
+set background=dark
+colorscheme PaperColor
 
 " Cursor
 "-----------------------------------------------------------
@@ -134,8 +136,8 @@ set listchars=space:·,eol:¬,tab:▸\ ,nbsp:±,trail:·,extends:»,precedes:«
 
 "" Spellcheck
 "-----------------------------------------------------------
-set spell
-set spelllang=en,cjk
+"set spell
+"set spelllang=en,cjk
 
 "" File type related
 "-----------------------------------------------------------
@@ -225,3 +227,20 @@ nnoremap <leader><leader> <c-^>
 nnoremap <leader>ml :diffget LOCAL
 nnoremap <leader>mr :diffget BASE
 nnoremap <leader>mr :diffget REMOTE
+
+" Search
+"-----------------------------------------------------------
+" Search results are in the center of the window
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+" Clear highlighting on escape in normal mode
+nnoremap <esc> :noh<return><esc>
+nnoremap § :noh<return><esc>
+" Search for visually hightlighted text
+xnoremap <leader>// y<esc>/<c-r>"<cr>
+xnoremap <leader>/? y<esc>:%s/<c-r>"//g<left><left>
+" Search for current word
+nnoremap <leader>// yiw/<c-r>"<cr>
+nnoremap <leader>/? yiw:%s/<c-r>"//g<left><left>
