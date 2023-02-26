@@ -11,6 +11,7 @@ nvim/.nvim/.netrwhist
 bash/.bash/tmp
 zsh/.zsh/tmp
 zsh/.zsh/deps
+zsh/.zsh/ohmyzsh
 tmux/.tmux/tmp
 tmux/.tmux/deps
 _init/ubuntu/conky/tmp
