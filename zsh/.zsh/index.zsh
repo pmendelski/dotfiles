@@ -11,7 +11,7 @@ function __loadZshPlugin() {
   elif [ -r "$plugin" ]; then
     source "$plugin";
   else
-    echo "Plugin not found: $plugin"
+    echo "Plugin not found: $plugin // $name"
   fi
 }
 

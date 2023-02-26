@@ -12,6 +12,17 @@ installPlugin() {
   fi
 }
 
+linkOhMyZshPlugins() {
+  local -r plugins=("extract" "sudo")
+  # remove all links
+  rm -rf "$HOME/.zsh/ohmyzsh"
+  mkdir -p "$HOME/.zsh/ohmyzsh"
+  # setup links
+  for plugin in "${plugins[@]}"; do
+    ln -s "$HOME/.zsh/deps/ohmyzsh/plugins/$plugin" "$HOME/.zsh/ohmyzsh/$plugin"
+  done
+}
+
 installPlugins() {
   mkdir -p "$HOME/.zsh/deps"
   installPlugin "zsh-autosuggestions" "git@github.com:zsh-users/zsh-autosuggestions.git"
@@ -19,4 +30,5 @@ installPlugins() {
   installPlugin "zsh-syntax-highlighting" "git@github.com:zsh-users/zsh-syntax-highlighting.git"
   installPlugin "zsh-history-substring-search" "git@github.com:zsh-users/zsh-history-substring-search.git"
   installPlugin "ohmyzsh" "git@github.com:ohmyzsh/ohmyzsh.git"
+  linkOhMyZshPlugins
 }
