@@ -126,15 +126,6 @@ packer.startup({
 			requires = { "mfussenegger/nvim-dap" },
 			config = [[require("plugin/dap/ui")]],
 		})
-		-- Expand visual selection
-		use({
-			"terryma/vim-expand-region",
-			config = [[require("plugin/expand")]],
-		})
-		use({
-			"kana/vim-textobj-line",
-			requires = { "kana/vim-textobj-user" },
-		})
 		-- Syntax hightligting
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -153,12 +144,6 @@ packer.startup({
 			"windwp/nvim-ts-autotag",
 			after = "nvim-treesitter",
 		})
-		-- Required for theme debug only
-		-- use {
-		--   'nvim-treesitter/playground',
-		--   cmd = { 'TSPlaygroundToggle' },
-		--   after = "nvim-treesitter",
-		-- }
 		-- Comments
 		use({
 			"b3nj5m1n/kommentary",
@@ -227,21 +212,6 @@ packer.startup({
 			"lewis6991/gitsigns.nvim",
 			event = "BufEnter",
 			config = [[require("gitsigns").setup({})]],
-		})
-		use({
-			"TimUntersberger/neogit",
-			cmd = {
-				"Neogit",
-				"Neogit commit",
-			},
-			requires = { "sindrets/diffview.nvim" },
-			config = [[require("plugin/neogit")]],
-		})
-		-- Spellchecker
-		use({
-			"lewis6991/spellsitter.nvim",
-			event = "BufEnter",
-			config = [[require("plugin/spellsitter")]],
 		})
 		-- Go
 		use({

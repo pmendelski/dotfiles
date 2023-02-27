@@ -29,19 +29,20 @@
   # https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407#.3hgqh9tul
   submoduleSummary = true
 
-# [merge]
-#   tool = vimdiff
-#   conflictstyle = diff3
-#
-# [mergetool]
-#   keepBackup = false
-
 [merge]
-  tool = nvimdiff
-[mergetool "nvimdiff"]
-  cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
-  prompt = false
+  tool = vimdiff
+  conflictstyle = diff3
+
+[mergetool]
   keepBackup = false
+  prompt = false
+
+# [merge]
+#   tool = nvimdiff
+# [mergetool "nvimdiff"]
+#   cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
+#   prompt = false
+#   keepBackup = false
 
 [diff]
   tool = nvimdiff

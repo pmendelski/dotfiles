@@ -13,6 +13,7 @@ Plug 'tpope/vim-commentary'
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
 " Fuzzy finder
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 " Nice status bar
 Plug 'itchyny/lightline.vim'
@@ -26,31 +27,32 @@ call plug#end()
 "" General
 "-----------------------------------------------------------
 let mapleader="\<space>"
-set encoding=utf8             " utf8 by default
-set mouse=a                   " enable mouse in all in all modes
+set encoding=utf8 " utf8 by default
+set mouse=a " enable mouse in all in all modes
 set clipboard=unnamed,unnamedplus " copy/paste to system clipboard
-set nocompatible              " some compatybility issues
+set nocompatible " some compatybility issues
 set updatetime=150
-set synmaxcol=240             " max column for syntax highlight
+set synmaxcol=240 " max column for syntax highlight
 
 "" UI
 "-----------------------------------------------------------
 set whichwrap+=<,>,h,l,[,],<>
 set noerrorbells
 set novisualbell
-set number                    " show line number
-set showmatch                 " highlight matching parenthesis
-"set colorcolumn=100           " line lenght marker at 100 columns
-set signcolumn=yes            " always show sign column
-set splitright                " vertical split to the right
-set splitbelow                " horizontal split to the bottom
-set showcmd                   " show (partial) command in status line
+set number " show line number
+set showmatch " highlight matching parenthesis
+"set colorcolumn=100 " line lenght marker at 100 columns
+set signcolumn=yes " always show sign column
+set splitright " vertical split to the right
+set splitbelow " horizontal split to the bottom
+set showcmd " show (partial) command in status line
+set laststatus=2 " always present status line
 set completeopt=menuone,noinsert " :help completeopt
-set ttyfast                   " send more characters at a given time
-set lazyredraw                " faster scrolling
-set synmaxcol=500             " max column for syntax highlight
+set ttyfast " send more characters at a given time
+set lazyredraw " faster scrolling
+set synmaxcol=500 " max column for syntax highlight
 " set cursorline
-set shortmess+=c              " avoid showing extra messages when using completion
+set shortmess+=c " avoid showing extra messages when using completion
 syntax on
 set termguicolors
 set background=dark
@@ -68,28 +70,28 @@ augroup END
 
 " Folding
 "-----------------------------------------------------------
-set foldcolumn=0        " column to show folds
-set foldenable          " enable folding
-set foldlevel=10        " close all folds starting from depth of 10
-set foldmethod=syntax   " fold using syntax
-set foldminlines=0      " allow folding single lines
-set foldnestmax=10      " set max fold nesting level
+set foldcolumn=0 " column to show folds
+set foldenable " enable folding
+set foldlevel=10 " close all folds starting from depth of 10
+set foldmethod=syntax " fold using syntax
+set foldminlines=0 " allow folding single lines
+set foldnestmax=10 " set max fold nesting level
 
 "" History
 "-----------------------------------------------------------
-set hidden         " when a buffer is brought to foreground, remember undo history and marks
-set history=1000   " increase history from 20 default to 1000
+set hidden " when a buffer is brought to foreground, remember undo history and marks
+set history=1000 " increase history from 20 default to 1000
 
 " Search & replace
 "-----------------------------------------------------------
-set hlsearch                 " highlight all matches
-" set ignorecase               " ignore case letters when search
-set smartcase                " ignore lowercase for the whole pattern
-set incsearch                " search as characters are entered
-" set gdefault                 " by default add g flag to search/replace. Add g to toggle
-set magic                    " enable extended regexes
-set regexpengine=1           " use the old regular expression engine (it's faster for certain language syntaxes)
-set wrapscan                 " searches wrap around end of file
+set hlsearch " highlight all matches
+" set ignorecase " ignore case letters when search
+set smartcase " ignore lowercase for the whole pattern
+set incsearch " search as characters are entered
+" set gdefault " by default add g flag to search/replace. Add g to toggle
+set magic " enable extended regexes
+set regexpengine=1 " use the old regular expression engine (it's faster for certain language syntaxes)
+set wrapscan " searches wrap around end of file
 
 " Make diffing better
 " https://vimways.org/2018/the-power-of-diff/
@@ -101,8 +103,8 @@ set diffopt+=indent-heuristic
 
 "" Temporary files
 "-----------------------------------------------------------
-set noswapfile              " don't use swapfile
-set undofile                " persistent Undo
+set noswapfile " don't use swapfile
+set undofile " persistent Undo
 set backupdir=~/.vim/tmp/backups
 set directory=~/.vim/tmp/swaps
 set undodir=~/.vim/tmp/undo
@@ -116,20 +118,20 @@ set wildmode=list:longest
 
 "" Wrapping, spaces & tabs
 "-----------------------------------------------------------
-set autoindent        " copy indent from last line when starting new line
+set autoindent " copy indent from last line when starting new line
 set copyindent
 set backspace=indent,eol,start
-set expandtab         " use spaces for tabs
+set expandtab " use spaces for tabs
 set shiftwidth=4
-set softtabstop=4     " number of spaces in tab when editing
-set tabstop=4         " number of visual spaces per TAB
+set softtabstop=4 " number of spaces in tab when editing
+set tabstop=4 " number of visual spaces per TAB
 " Wrapping options
 set nowrap
 set formatoptions+=tc " wrap text and comments using textwidth
-set formatoptions+=r  " continue comments when pressing ENTER in I mode
-set formatoptions+=q  " enable formatting of comments with gq
-set formatoptions+=n  " detect lists for formatting
-set formatoptions+=b  " auto-wrap in insert mode, and do not wrap old long lines
+set formatoptions+=r " continue comments when pressing ENTER in I mode
+set formatoptions+=q " enable formatting of comments with gq
+set formatoptions+=n " detect lists for formatting
+set formatoptions+=b " auto-wrap in insert mode, and do not wrap old long lines
 " Whitespace characters
 set list
 set listchars=space:·,eol:¬,tab:▸\ ,nbsp:±,trail:·,extends:»,precedes:«
@@ -151,8 +153,8 @@ autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth
 " Tmux
 "-----------------------------------------------------------
 if &term =~ '^screen'
-  " tmux will send xterm-style keys when its xterm-keys option is on
-  " http://superuser.com/a/402084
+ " tmux will send xterm-style keys when its xterm-keys option is on
+ " http://superuser.com/a/402084
   execute "set <xUp>=\e[1;*A"
   execute "set <xDown>=\e[1;*B"
   execute "set <xRight>=\e[1;*C"
@@ -161,17 +163,9 @@ endif
 
 
 
-
 "-----------------------------------------------------------
 " Plugins
 "-----------------------------------------------------------
-
-" Plugin: lightline
-"-----------------------------------------------------------
-let g:lightline = {
-  \ 'colorscheme': 'nightfox',
-  \ }
-set laststatus=2
 
 " Plugin: fzf
 "-----------------------------------------------------------
@@ -224,23 +218,15 @@ nnoremap <leader><leader> <c-^>
 "-----------------------------------------------------------
 " ]c - next change
 " [c - previous change
-nnoremap <leader>ml :diffget LOCAL
-nnoremap <leader>mr :diffget BASE
-nnoremap <leader>mr :diffget REMOTE
+nnoremap <silent> <leader>ml :diffget LOCAL<cr>
+nnoremap <silent> <leader>mb :diffget BASE<cr>
+nnoremap <silent> <leader>mr :diffget REMOTE<cr>
 
 " Search
 "-----------------------------------------------------------
 " Search results are in the center of the window
 nnoremap n nzz
 nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap § :noh<return><esc>
-" Search for visually hightlighted text
-xnoremap <leader>// y<esc>/<c-r>"<cr>
-xnoremap <leader>/? y<esc>:%s/<c-r>"//g<left><left>
-" Search for current word
-nnoremap <leader>// yiw/<c-r>"<cr>
-nnoremap <leader>/? yiw:%s/<c-r>"//g<left><left>

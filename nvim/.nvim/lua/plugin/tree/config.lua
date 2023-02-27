@@ -1,5 +1,14 @@
 local _M = {}
 
+function _M.toggle_focus()
+	if vim.bo.filetype == "NvimTree" then
+		vim.cmd("wincmd l")
+	else
+		vim.cmd("NvimTreeFindFile")
+		vim.cmd("NvimTreeRefresh")
+	end
+end
+
 function _M.config()
 	local function tree_action(callback_name)
 		return string.format(':lua require("nvim-tree").%s<cr>', callback_name)
@@ -52,7 +61,6 @@ function _M.config()
 					{ key = "c", action = "copy_name" },
 					{ key = "C", action = "copy_path" },
 					{ key = "h", cb = ":lua require('hop').hint_char1()<cr>" },
-					{ key = "<F3>", cb = "<c-w>l<cr>" },
 					{ key = "<esc>", cb = "" },
 					{ key = "f", cb = telescope_action("find_files()") },
 					{ key = "g", cb = telescope_action("live_grep()") },
@@ -125,14 +133,11 @@ function _M.config()
 	local function open_nvim_tree(data)
 		-- buffer is a directory
 		local directory = vim.fn.isdirectory(data.file) == 1
-
 		if not directory then
 			return
 		end
-
 		-- change to the directory
 		vim.cmd.cd(data.file)
-
 		-- open the tree
 		require("nvim-tree.api").tree.open()
 	end
@@ -141,11 +146,11 @@ function _M.config()
 	-- Keybindings
 	local map = require("util").keymap
 	map("n", "<F2>", ":NvimTreeToggle<cr>")
-	map("n", "<F3>", ":NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
+	map("n", "<F3>", "<cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
 	map("i", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
+	map("i", "<F3>", "<esc><cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
 	map("x", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("x", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeFocus<cr>:NvimTreeRefresh<cr>")
+	map("x", "<F3>", "<esc><cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
 end
 
 return _M

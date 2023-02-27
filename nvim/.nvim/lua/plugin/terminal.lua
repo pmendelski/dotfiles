@@ -2,11 +2,11 @@ local fterm = require("FTerm")
 local tutils = require("FTerm.utils")
 
 local commands = {
-	term1 = "",
-	term2 = "",
-	term3 = "",
-	term4 = "",
-	term5 = "",
+	terminal1 = "",
+	terminal2 = "",
+	terminal3 = "",
+	terminal4 = "",
+	terminal5 = "",
 	htop = "htop",
 	bpytop = "bpytop",
 	lazygit = "lazygit",
@@ -70,11 +70,11 @@ local map = require("util").keymap
 map("t", "<a-h>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("htop")<cr>')
 map("t", "<a-b>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("bpytop")<cr>')
 map("t", "<a-g>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("lazygit")<cr>')
-map("t", "<a-1>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term1")<cr>')
-map("t", "<a-2>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term2")<cr>')
-map("t", "<a-3>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term3")<cr>')
-map("t", "<a-4>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term4")<cr>')
-map("t", "<a-5>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term5")<cr>')
+map("t", "<a-1>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal1")<cr>')
+map("t", "<a-2>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal2")<cr>')
+map("t", "<a-3>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal3")<cr>')
+map("t", "<a-4>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal4")<cr>')
+map("t", "<a-5>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal5")<cr>')
 map("n", "<a-t>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map("t", "<a-t>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map("t", "<a-x>", '<c-\\><c-n><cmd>lua require("plugin/terminal").close_active()<cr>')
@@ -86,14 +86,14 @@ map("t", "<S-Up>", "<c-\\><c-n><c-Y>")
 map("n", "<leader>th", '<cmd>lua require("plugin/terminal").toggle("htop")<cr>')
 map("n", "<leader>tb", '<cmd>lua require("plugin/terminal").toggle("bpytop")<cr>')
 map("n", "<leader>tg", '<cmd>lua require("plugin/terminal").toggle("lazygit")<cr>')
-map("n", "<leader>t1", '<cmd>lua require("plugin/terminal").toggle("term1")<cr>')
-map("n", "<leader>t2", '<cmd>lua require("plugin/terminal").toggle("term2")<cr>')
-map("n", "<leader>t3", '<cmd>lua require("plugin/terminal").toggle("term3")<cr>')
-map("n", "<leader>t4", '<cmd>lua require("plugin/terminal").toggle("term4")<cr>')
-map("n", "<leader>t5", '<cmd>lua require("plugin/terminal").toggle("term5")<cr>')
+map("n", "<leader>t1", '<cmd>lua require("plugin/terminal").toggle("terminal1")<cr>')
+map("n", "<leader>t2", '<cmd>lua require("plugin/terminal").toggle("terminal2")<cr>')
+map("n", "<leader>t3", '<cmd>lua require("plugin/terminal").toggle("terminal3")<cr>')
+map("n", "<leader>t4", '<cmd>lua require("plugin/terminal").toggle("terminal4")<cr>')
+map("n", "<leader>t5", '<cmd>lua require("plugin/terminal").toggle("terminal5")<cr>')
 
-map("t", "<F1>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("term1")<cr>')
-map("n", "<F1>", '<cmd>lua require("plugin/terminal").toggle("term1")<cr>')
-map("i", "<F1>", '<esc><cmd>lua require("plugin/terminal").toggle("term1")<cr>')
+map("t", "<F1>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("terminal1")<cr>')
+map("n", "<F1>", '<cmd>lua require("plugin/terminal").toggle("terminal1")<cr>')
+map("i", "<F1>", '<esc><cmd>lua require("plugin/terminal").toggle("terminal1")<cr>')
 
 return _M

@@ -34,6 +34,7 @@ brew install httpie
 brew install iperf3
 brew install openssh
 brew install git
+brew install vim
 brew install git-lfs
 brew install imagemagick
 brew install lua

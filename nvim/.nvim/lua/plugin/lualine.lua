@@ -21,8 +21,8 @@ local conditions = {
 	buffer_not_empty = function()
 		return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
 	end,
-	buffer_not_tree = function()
-		return vim.bo.filetype ~= "NvimTree"
+	buffer_not_plugin = function()
+		return vim.bo.filetype ~= "NvimTree" and vim.bo.filetype ~= "Trouble"
 	end,
 	buffer_wide = function()
 		return vim.fn.winwidth(0) > 80
@@ -57,7 +57,7 @@ local file_size = {
 		return format_file_size(file)
 	end,
 	cond = function()
-		return conditions.buffer_not_empty() and conditions.buffer_wide() and conditions.buffer_not_tree()
+		return conditions.buffer_not_empty() and conditions.buffer_wide() and conditions.buffer_not_plugin()
 	end,
 }
 
@@ -69,7 +69,7 @@ local diagnostics = {
 	color_warn = colors.yellow,
 	color_info = colors.cyan,
 	cond = function()
-		return conditions.buffer_not_tree()
+		return conditions.buffer_not_plugin()
 	end,
 }
 
@@ -85,42 +85,42 @@ local encoding = {
 		return encoding .. " " .. icon
 	end,
 	cond = function()
-		return conditions.buffer_wide() and conditions.buffer_not_tree()
+		return conditions.buffer_wide() and conditions.buffer_not_plugin()
 	end,
 }
 
 local filetype = {
 	"filetype",
 	cond = function()
-		return conditions.buffer_not_tree()
+		return conditions.buffer_not_plugin()
 	end,
 }
 
 local location = {
 	"location",
 	cond = function()
-		return conditions.buffer_wide() and conditions.buffer_not_tree()
+		return conditions.buffer_wide() and conditions.buffer_not_plugin()
 	end,
 }
 
 local progress = {
 	"progress",
 	cond = function()
-		return conditions.buffer_wide() and conditions.buffer_not_tree()
+		return conditions.buffer_wide() and conditions.buffer_not_plugin()
 	end,
 }
 
 local mode = {
 	"mode",
 	cond = function()
-		return conditions.buffer_not_tree()
+		return conditions.buffer_not_plugin()
 	end,
 }
 
 local branch = {
 	"branch",
 	cond = function()
-		return conditions.buffer_not_tree()
+		return conditions.buffer_not_plugin()
 	end,
 }
 
@@ -137,7 +137,7 @@ local lsp_progress = {
 		use = true,
 	},
 	cond = function()
-		return conditions.buffer_not_tree()
+		return conditions.buffer_not_plugin()
 	end,
 }
 
@@ -164,7 +164,7 @@ local lsp_client = {
 		return table.concat(clients, ",")
 	end,
 	cond = function()
-		return conditions.buffer_wide() and conditions.buffer_not_tree()
+		return conditions.buffer_wide() and conditions.buffer_not_plugin()
 	end,
 }
 

@@ -1,6 +1,7 @@
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
+local actions = null_ls.builtins.code_actions
 local FORMATTING = null_ls.methods.FORMATTING
 
 local M = {}
@@ -17,6 +18,8 @@ function M.config()
 			diagnostics.hadolint,
 			diagnostics.yamllint.with({ extra_args = { "-d", "{extends: relaxed, rules: {line-length: {max: 120}}}" } }),
 			diagnostics.zsh,
+			-- git
+			actions.gitsigns,
 		},
 	})
 end

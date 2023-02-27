@@ -3,30 +3,45 @@ local _M = {}
 function _M.keymap()
 	local map = require("util").keymap
 	map("n", "<leader>fx", ":Telescope<cr>")
+	map("n", "<leader>fr", ":Telescope resume<cr>")
 	map("n", "<leader>ff", ":Telescope find_files hidden=true<cr>")
+	map("n", "<leader>fF", ':Telescope find_files hidden=true search_dirs={"%:p:h"}<cr>')
 	map("n", "<leader>fv", ":Telescope git_files<cr>")
 	map("n", "<leader>fb", ":Telescope buffers<cr>")
-	map("n", "<leader>;", ":Telescope buffers<cr>") -- duplicated to sync with vim
 	map("n", "<leader>fc", ":Telescope current_buffer_fuzzy_find fuzzy=false case_mode=ignore_case<cr>")
 	map("n", "<leader>fC", ":Telescope current_buffer_fuzzy_find fuzzy=false<cr>")
 	map("n", "<leader>fg", ":Telescope live_grep<cr>")
+	map("n", "<leader>fG", ':Telescope live_grep hidden=true search_dirs={"%:p:h"}<cr>')
 	map("n", "<leader>fp", ":Telescope project<cr>")
 	map("n", "<leader>fm", ":Telescope media_files<cr>")
 	map("n", "<leader>fh", ":Telescope heading<cr>")
+	map("n", "<leader>fk", ":Telescope keymaps<cr>")
+	map("n", "<leader>fj", ":Telescope jumplist<cr>")
+	map("n", "<leader>fs", ":Telescope spell_suggest<cr>")
+	map("n", "<leader>ft", ":Telescope filetypes<cr>")
 	map(
 		"n",
 		"<leader>fs",
 		":lua require('telescope.builtin').symbols({ sources = {'emoji', 'kaomoji', 'gitmoji'} })<cr>"
 	)
 	-- lsp
-	map("n", "<leader>c", "") -- added to not trigger change command by mistake
-	map("n", "<leader>cd", ":Telescope lsp_document_symbols<cr>")
-	map("n", "<leader>cc", ":Telescope lsp_workspace_symbols<cr>")
+	map("n", "<leader>c", "") -- added to not trigger a command by mistake
+	map("n", "<leader>cc", ":Telescope lsp_document_symbols<cr>")
+	map("n", "<leader>cC", ":Telescope lsp_workspace_symbols<cr>")
 	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
 	map("n", "<leader>ca", ":Telescope lsp_code_actions<cr>")
 	map("n", "<leader>cx", ":Telescope diagnostics<cr>")
-	map("n", "<leader>cz", ":Telescope lsp_implementations<cr>")
-	map("n", "<leader>cZ", ":Telescope lsp_definitions<cr>")
+	map("n", "<leader>cn", ":Telescope lsp_incomming_calls<cr>")
+	map("n", "<leader>co", ":Telescope lsp_outgoing_calls<cr>")
+	map("n", "<leader>ci", ":Telescope lsp_implementations<cr>")
+	map("n", "<leader>cD", ":Telescope lsp_definitions<cr>")
+	-- git
+	map("n", "<leader>g", "") -- added to not trigger a command by mistake
+	map("n", "<leader>gg", ":Telescope bgit_commits<cr>")
+	map("n", "<leader>gc", ":Telescope git_commit<cr>")
+	map("n", "<leader>gs", ":Telescope git_status<cr>")
+	map("n", "<leader>gb", ":Telescope git_branches<cr>")
+	map("n", "<leader>gt", ":Telescope git_stash<cr>")
 end
 
 function _M.config()

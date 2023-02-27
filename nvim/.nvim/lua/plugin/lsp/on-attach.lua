@@ -77,13 +77,13 @@ return function(client, bufnr)
 	)
 	buf_set_keymap(
 		"n",
-		prefix .. "[",
+		"[" .. prefix,
 		'<cmd>lua vim.diagnostic.goto_prev({ popup_opts = { border = "' .. border .. '", focusable = false }})<cr>',
 		opts
 	)
 	buf_set_keymap(
 		"n",
-		prefix .. "]",
+		"]" .. prefix,
 		'<cmd>lua vim.diagnostic.goto_next({ popup_opts = { border = "' .. border .. '", focusable = false }})<cr>',
 		opts
 	)
@@ -101,9 +101,9 @@ return function(client, bufnr)
 	local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
 	local supports_format = client.server_capabilities.documentFormattingProvider or null_ls.has_formatter(filetype)
 	if supports_format == true then
-		buf_set_keymap("n", "<c-s>", ':execute \'lua require("plugin/lsp/actions").format()\' | :w<cr>', opts)
-		buf_set_keymap("i", "<c-s>", '<c-o>:execute \'lua require("plugin/lsp/actions").format()\' | :w<cr>', opts)
-		buf_set_keymap("x", "<c-s>", '<esc>:execute \'lua require("plugin/lsp/actions").format()\' | :w<cr>', opts)
+		buf_set_keymap("n", "<c-s>", ":execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
+		buf_set_keymap("i", "<c-s>", "<c-o>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
+		buf_set_keymap("x", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 	else
 		buf_set_keymap("n", "<c-s>", "<cmd>:w<cr>", opts)
 		buf_set_keymap("i", "<c-s>", "<c-o>:w<cr>", opts)

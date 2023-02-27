@@ -1,20 +1,29 @@
 local config = require("kommentary.config")
+
 config.configure_language("default", {
 	prefer_single_line_comments = true,
 	use_consistent_indentation = true,
 	ignore_whitespace = true,
 })
 
-local hashComments = {
-	single_line_comment_string = "#",
+local baseConfig = {
 	multi_line_comment_strings = false,
 	prefer_single_line_comments = true,
 	use_consistent_indentation = true,
 	ignore_whitespace = true,
 }
+
+local hashComments = vim.tbl_extend("force", baseConfig, {
+	single_line_comment_string = "#",
+})
+
+local quoteComments = vim.tbl_extend("force", baseConfig, {
+	single_line_comment_string = '"',
+})
+
 config.configure_language("makefile", hashComments)
 config.configure_language("dockerfile", hashComments)
-config.configure_language("vim", hashComments)
+config.configure_language("vim", quoteComments)
 
 -- Keybindings
 -------------------------
