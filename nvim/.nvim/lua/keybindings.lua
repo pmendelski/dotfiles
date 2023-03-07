@@ -104,19 +104,19 @@ map("n", "<c-d>", "yyp")
 map("i", "<c-d>", "<esc>yypi")
 map("x", "<c-d>", "yP")
 -- Add indentation when entering I mode
-_G.indent_i = function()
-	if fn.len(fn.getline(".")) == 0 then
-		-- indent on empty line
-		return '"_cc'
-	elseif string.match(fn.strpart(fn.getline("."), 0, fn.col(".")), "^[ \t]*$") then
-		-- skip whitespaces
-		return "^i"
-	else
-		return "i"
-	end
-end
-map("n", "i", "v:lua.indent_i()", { expr = true })
-map("n", "a", "v:lua.indent_i()", { expr = true })
+-- _G.indent_i = function(ia)
+-- 	if fn.len(fn.getline(".")) == 0 then
+-- 		-- indent on empty line
+-- 		return '"_cc'
+-- 	elseif string.match(fn.strpart(fn.getline("."), 0, fn.col(".")), "^[ \t]*$") then
+-- 		-- skip whitespaces
+-- 		return "^" + ia
+-- 	else
+-- 		return ia
+-- 	end
+-- end
+-- map("n", "i", "v:lua.indent_i('i')", { expr = true })
+-- map("n", "a", "v:lua.indent_i('a')", { expr = true })
 -- Indent without leaving mode
 map("x", ">", ">gv")
 map("x", "<", "<gv")

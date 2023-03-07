@@ -6,7 +6,7 @@ function _M.config()
 		integrations = {
 			lualine = true,
 			gitsigns = true,
-			nvim_bufferline = true,
+			-- nvim_bufferline = true,
 		},
 	})
 end

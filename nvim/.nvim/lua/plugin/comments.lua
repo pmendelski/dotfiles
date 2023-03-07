@@ -21,9 +21,17 @@ local quoteComments = vim.tbl_extend("force", baseConfig, {
 	single_line_comment_string = '"',
 })
 
+local htmlComments = vim.tbl_extend("force", baseConfig, {
+	prefer_single_line_comments = false,
+	prefer_multi_line_comments = true,
+	multi_line_comment_strings = { "<!--", "-->" },
+})
+
 config.configure_language("makefile", hashComments)
 config.configure_language("dockerfile", hashComments)
+config.configure_language("yaml", hashComments)
 config.configure_language("vim", quoteComments)
+config.configure_language("template", htmlComments)
 
 -- Keybindings
 -------------------------

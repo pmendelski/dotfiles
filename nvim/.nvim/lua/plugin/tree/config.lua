@@ -1,23 +1,7 @@
 local _M = {}
 
-function _M.toggle_focus()
-	if vim.bo.filetype == "NvimTree" then
-		vim.cmd("wincmd l")
-	else
-		vim.cmd("NvimTreeFindFile")
-		vim.cmd("NvimTreeRefresh")
-	end
-end
-
 function _M.config()
-	local function tree_action(callback_name)
-		return string.format(':lua require("nvim-tree").%s<cr>', callback_name)
-	end
-
-	local function telescope_action(callback_name)
-		return string.format(':lua require("plugin/tree/telescope").%s<cr>', callback_name)
-	end
-
+	local on_attach = require("plugin/tree/on-attach")
 	local tree = require("nvim-tree")
 	tree.setup({
 		auto_reload_on_write = true,
@@ -31,41 +15,9 @@ function _M.config()
 		update_cwd = true,
 		-- Hide .git directory
 		filters = { custom = { "^.git$" } },
+		on_attach = on_attach,
 		view = {
 			width = 30,
-			mappings = {
-				custom_only = true,
-				list = {
-					{ key = { "<CR>", "<2-LeftMouse>" }, action = "edit" },
-					{ key = "+", cb = tree_action('resize("+10")') },
-					{ key = "-", cb = tree_action('resize("-10")') },
-					{ key = "=", cb = tree_action('resize("30")') },
-					{ key = "[", action = "dir_up" },
-					{ key = "]", action = "cd" },
-					{ key = "r", action = "reload" },
-					{ key = "o", action = "system_open" },
-					{ key = "v", action = "vsplit" },
-					{ key = "s", action = "split" },
-					{ key = "t", action = "tabnew" },
-					{ key = "a", action = "create" },
-					{ key = "d", action = "trash" },
-					{ key = "D", action = "remove" },
-					{ key = "n", action = "rename" },
-					{ key = "N", action = "full_rename" },
-					{ key = "x", action = "cut" },
-					{ key = "y", action = "copy" },
-					{ key = "p", action = "paste" },
-					{ key = "i", action = "toggle_file_info" },
-					{ key = "<BS>", action = "close_node" },
-					{ key = "<Tab>", action = "preview" },
-					{ key = "c", action = "copy_name" },
-					{ key = "C", action = "copy_path" },
-					{ key = "h", cb = ":lua require('hop').hint_char1()<cr>" },
-					{ key = "<esc>", cb = "" },
-					{ key = "f", cb = telescope_action("find_files()") },
-					{ key = "g", cb = telescope_action("live_grep()") },
-				},
-			},
 		},
 		update_focused_file = {
 			enable = true,
@@ -146,11 +98,11 @@ function _M.config()
 	-- Keybindings
 	local map = require("util").keymap
 	map("n", "<F2>", ":NvimTreeToggle<cr>")
-	map("n", "<F3>", "<cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
+	map("n", "<F3>", ":NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
 	map("i", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("i", "<F3>", "<esc><cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
+	map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
 	map("x", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("x", "<F3>", "<esc><cmd>lua require('plugin/tree/config').toggle_focus()<cr>")
+	map("x", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
 end
 
 return _M
