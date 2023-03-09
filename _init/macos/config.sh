@@ -14,6 +14,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###############################################################################
 # General UI/UX                                                               #
 ###############################################################################
+# Turn off the beep alert sound
+defaults write NSGlobalDomain com.apple.sound.beep.volume -int 0
 # Disable the over-the-top focus ring animation
 defaults write NSGlobalDomain NSUseAnimatedFocusRing -bool false
 # Increase window resize speed for Cocoa applications
@@ -54,6 +56,12 @@ sudo systemsetup -setrestartfreeze on
 defaults write NSGlobalDomain CGDisableCursorLocationMagnification -bool true
 # No more .DS_Store files
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+# Stop wallpapaer tinting to make darmode even darker
+defaults write -g AppleReduceDesktopTinting -bool yes
+# Make scrolling more precise
+defaults write .GlobalPreferences com.apple.mouse.scaling -1
+# Make fonts less blurry
+defaults -currentHost write -g AppleFontSmoothing -int 1
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
@@ -270,3 +278,12 @@ done
 ###############################################################################
 chsh -s "$(which zsh)"
 echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+###############################################################################
+# Finding the change in defaults                                                              #
+###############################################################################
+# Source: https://apple.stackexchange.com/a/434205
+# 1. defaults read > before
+# 2. [Change the setting]
+# 3. defaults read > after
+# 4. diff before after

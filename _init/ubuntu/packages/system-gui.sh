@@ -14,19 +14,6 @@ sudo snap install keepassxc
 
 echo -e "\n>>> Editors"
 sudo apt-get install -y gedit-plugins
-# VSCode
-if ! command -v code &>/dev/null; then
-  sudo snap install code --classic
-  code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
-  code --install-extension ms-python.vscode-pylance
-  code --install-extension esbenp.prettier-vscode
-  code --install-extension dbaeumer.vscode-eslint
-  code --install-extension ms-azuretools.vscode-docker
-  code --install-extension golang.Go
-  code --install-extension zhuangtongfa.Material-theme
-  code --install-extension EditorConfig.EditorConfig
-  code --install-extension rust-lang.rust
-fi
 # Git merge tool
 sudo apt-get install -y meld
 # Sublime

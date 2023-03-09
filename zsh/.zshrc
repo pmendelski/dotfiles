@@ -9,7 +9,8 @@
 if [ "$USER" != "root" ] \
   && [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] \
   && [ -z "$INTELLIJ_ENVIRONMENT_READER" ] \
-  && [ -z "$VSCODE_PID" ]; then
+  && [ -z "$VSCODE_PID" ] \
+  && [ -z "$VSCODE_INJECTION" ]; then
   exec tmux && exit;
 fi
 

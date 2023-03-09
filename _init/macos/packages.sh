@@ -109,17 +109,6 @@ brew install --cask dbeaver-community
 brew install --cask google-web-designer
 brew tap homebrew/cask && brew install --cask gimp
 
-# VS Code extenstions
-code --install-extension vadimcn.vscode-lldb # debug extension for rust debugging in nvim
-code --install-extension ms-python.vscode-pylance
-code --install-extension esbenp.prettier-vscode
-code --install-extension dbaeumer.vscode-eslint
-code --install-extension ms-azuretools.vscode-docker
-code --install-extension golang.Go
-code --install-extension zhuangtongfa.Material-theme
-code --install-extension EditorConfig.EditorConfig
-code --install-extension rust-lang.rust
-
 # gcloud
 # https://cloud.google.com/sdk/docs/install#mac
 [ ! -d "$HOME/.gcloud" ] && (
@@ -162,6 +151,9 @@ installNerdFonts() {
   cd "$dir"
 }
 installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
+
+# Fix scrolling issues
+brew install --cask linearmouse
 
 # Performance test tools
 brew install nghttp2
@@ -260,3 +252,5 @@ echo "- Turn off trackpad dictionary"
 echo "  - Preferences > Trackpad > Point & Click > Disable: Look up & data detectors"
 echo "- Fix fullscreen open during presentations"
 echo "  - Preferences > Mission Control > Check 'Displays have separate spaces'"
+echo "- Fix mouse scrolling"
+echo "  - Start Linearmouse > Change scrolling mode to 'Lines' and start with system startup"
