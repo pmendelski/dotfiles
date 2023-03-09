@@ -137,14 +137,18 @@ brew tap homebrew/cask && brew install --cask gimp
 brew tap homebrew/cask-fonts
 brew install font-inconsolata
 brew install font-fira-code
+brew install font-fira-mono
+brew install font-fira-sans
 installNerdFonts() {
   mkdir -p ~/Library/Fonts
+  local -r version="$(curl -sL https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest |
+    jq -r ".tag_name")"
   local -r dir="$(pwd)"
-  local -r tmpdir="$(mktemp -d -t nerd-fonts)"
+  local -r tmpdir="$(mktemp -d -t nerd-fonts-XXXXX)"
   cd "$tmpdir"
   for font in "$@"; do
-    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/$font.zip" &&
-      unzip -qq -o "$font.zip" -d ~/Library/Fonts &&
+    wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/$version/$font.zip" &&
+      unzip -o "$font.zip" -d ~/.local/share/fonts &&
       echo "Installed nerd font: $font"
   done
   rm -rf "$tmpdir"
