@@ -10,6 +10,7 @@ bash
 │   ├── tmp         # All bash temporary files
 │   ├── util        # Some utilities to be sourced by other scripts
 │   ├── exports.sh  # Basic exports
+│   ├── aliases.sh  # Basic aliases
 │   └── index.sh    # Entry point
 ├── .bash_logout    # Actions on bash logout
 ├── .bash_profile   # Just sources `~/.bashrc` for login shell

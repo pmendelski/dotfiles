@@ -116,6 +116,11 @@ packer.startup({
 			event = "BufWinEnter",
 			config = [[require("plugin/hop")]],
 		})
+		-- Programming spellcheck dictionary
+		use({
+			"psliwka/vim-dirtytalk",
+			run = ":DirtytalkUpdate",
+		})
 		-- Debugging
 		use({
 			"mfussenegger/nvim-dap",

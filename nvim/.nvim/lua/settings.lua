@@ -94,4 +94,4 @@ opt.listchars = "space:·,eol:¬,tab:▸ ,nbsp:_,trail:·,extends:»,precedes:«
 
 -- Spellcheck
 -----------------------------------------------------------
-opt.spelllang = "en,cjk"
+opt.spelllang = "en,cjk,programming"

@@ -363,12 +363,16 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>5639C7D5-9E75-4A3F-A91D-0F3A3844EE04</string>
+	<key>DefaultTabStopWidth</key>
+	<integer>4</integer>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>GlobalKeyMap</key>
 	<dict/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
+	<key>HideScrollbar</key>
+	<true/>
 	<key>HideTabNumber</key>
 	<true/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
@@ -380,6 +384,8 @@
 		<dict>
 			<key>ASCII Anti Aliased</key>
 			<true/>
+			<key>ASCII Ligatures</key>
+			<false/>
 			<key>Allow modifyOtherKeys</key>
 			<false/>
 			<key>Ambiguous Double Width</key>
@@ -1369,7 +1375,7 @@
 					<key>Label</key>
 					<string></string>
 					<key>Text</key>
-					<string>[1;3C</string>
+					<string>[1;5D</string>
 					<key>Version</key>
 					<integer>0</integer>
 				</dict>
@@ -1380,7 +1386,7 @@
 					<key>Label</key>
 					<string></string>
 					<key>Text</key>
-					<string>[1;5D</string>
+					<string>[1;3D</string>
 					<key>Version</key>
 					<integer>1</integer>
 				</dict>
@@ -1423,7 +1429,7 @@
 					<key>Label</key>
 					<string></string>
 					<key>Text</key>
-					<string>[1;3D</string>
+					<string>[1;5C</string>
 					<key>Version</key>
 					<integer>0</integer>
 				</dict>
@@ -1434,7 +1440,7 @@
 					<key>Label</key>
 					<string></string>
 					<key>Text</key>
-					<string>[1;5C</string>
+					<string>[1;3C</string>
 					<key>Version</key>
 					<integer>1</integer>
 				</dict>
@@ -1692,6 +1698,8 @@
 			<string>xterm-256color</string>
 			<key>Transparency</key>
 			<real>0.050000000000000003</real>
+			<key>Unicode Version</key>
+			<integer>9</integer>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -4586,6 +4594,8 @@ Paste</string>
 	<integer>9</integer>
 	<key>TabStyleWithAutomaticOption</key>
 	<integer>5</integer>
+	<key>UseMetal</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>WindowNumber</key>

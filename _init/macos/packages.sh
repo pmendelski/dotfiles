@@ -108,6 +108,7 @@ brew install --cask firefox
 brew install --cask dbeaver-community
 brew install --cask google-web-designer
 brew tap homebrew/cask && brew install --cask gimp
+brew install --cask inkscape
 
 # gcloud
 # https://cloud.google.com/sdk/docs/install#mac
@@ -148,7 +149,7 @@ installNerdFonts() {
   cd "$tmpdir"
   for font in "$@"; do
     wget -O "$font.zip" "https://github.com/ryanoasis/nerd-fonts/releases/download/$version/$font.zip" &&
-      unzip -o "$font.zip" -d ~/.local/share/fonts &&
+      unzip -o "$font.zip" -d ~/Library/Fonts &&
       echo "Installed nerd font: $font"
   done
   rm -rf "$tmpdir"

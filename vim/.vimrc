@@ -36,6 +36,7 @@ set synmaxcol=240 " max column for syntax highlight
 
 "" UI
 "-----------------------------------------------------------
+" let &t_ut='' " fix background on some terminals (kitt)
 set whichwrap+=<,>,h,l,[,],<>
 set noerrorbells
 set novisualbell
@@ -98,8 +99,12 @@ set wrapscan " searches wrap around end of file
 "-----------------------------------------------------------
 set diffopt+=filler
 set diffopt+=iwhite
-set diffopt+=algorithm:patience
-set diffopt+=indent-heuristic
+if has('mac') && $VIM == '/usr/share/vim'
+	set diffopt-=internal
+elseif has('patch-8.1.0360')
+  set diffopt+=algorithm:patience
+  set diffopt+=indent-heuristic
+endif
 
 "" Temporary files
 "-----------------------------------------------------------

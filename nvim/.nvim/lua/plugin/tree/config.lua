@@ -98,11 +98,11 @@ function _M.config()
 	-- Keybindings
 	local map = require("util").keymap
 	map("n", "<F2>", ":NvimTreeToggle<cr>")
-	map("n", "<F3>", ":NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
+	map("n", "<F3>", ":NvimTreeFindFile<cr>:NvimTreeRefresh<cr>:NvimTreeFocus<cr>")
 	map("i", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
+	map("i", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>:NvimTreeFocus<cr>")
 	map("x", "<F2>", "<esc>:NvimTreeToggle<cr>")
-	map("x", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>")
+	map("x", "<F3>", "<esc>:NvimTreeFindFile<cr>:NvimTreeRefresh<cr>:NvimTreeFocus<cr>")
 end
 
 return _M

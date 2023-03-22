@@ -2,6 +2,7 @@ local _M = {}
 
 function _M.keymap()
 	local map = require("util").keymap
+	map("n", "<F1>", "<esc>")
 	map("n", "<leader>fx", ":Telescope<cr>")
 	map("n", "<leader>fr", ":Telescope resume<cr>")
 	map("n", "<leader>ff", ":Telescope find_files hidden=true<cr>")
@@ -26,6 +27,7 @@ function _M.keymap()
 	)
 	-- lsp
 	map("n", "<leader>c", "") -- added to not trigger a command by mistake
+	map("n", "<leader>ct", ":Telescope treesitter<cr>")
 	map("n", "<leader>cc", ":Telescope lsp_document_symbols<cr>")
 	map("n", "<leader>cC", ":Telescope lsp_workspace_symbols<cr>")
 	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
@@ -74,16 +76,13 @@ function _M.config()
 				i = {
 					["<esc>"] = actions.close,
 					["<C-t>"] = trouble.open_with_trouble,
-					["<C-u>"] = false,
 					["<C-Down>"] = actions.cycle_history_next,
 					["<C-Up>"] = actions.cycle_history_prev,
-					["<C-p>"] = action_layout.toggle_preview,
 					["<C-h>"] = "which_key",
 				},
 				n = {
 					["q"] = actions.close,
 					["<C-t>"] = trouble.open_with_trouble,
-					["<C-p>"] = action_layout.toggle_preview,
 				},
 			},
 			vimgrep_arguments = {

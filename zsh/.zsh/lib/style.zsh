@@ -4,6 +4,9 @@ autoload -U colors && colors
 
 [[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
 
+# Set visual tab width to 4
+tabs -4
+
 declare -rg COLOR_ESC="\e"
 declare -rg COLOR_RESET="\e[0m"
 typeset -AHg COLOR_COLORS COLOR_FORMATS

@@ -15,3 +15,6 @@ insert_final_newline = true
 [Makefile,.go,.asm]
 indent_style = tab
 indent_size = 4
+
+[{*.go,Makefile,.gitmodules,go.mod,go.sum}]
+indent_style = tab

@@ -2,6 +2,9 @@
 
 [[ "$TERM" == "xterm" ]] && export TERM=xterm-256color
 
+# Set visual tab width to 4
+tabs -4
+
 # Import colors definition
 source "$BASH_DIR/util/colors.sh"
 

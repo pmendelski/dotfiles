@@ -44,7 +44,7 @@ local function remove_oldest_snapshot()
 end
 
 local function last_snapshot()
-	return list_snapshots()[1]
+	return list_snapshots()[2]
 end
 
 function _M.print_path()
