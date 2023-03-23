@@ -86,6 +86,12 @@ packer.startup({
 			after = "tokyonight.nvim",
 			config = [[require("plugin/tree/config").config()]],
 		})
+		-- Tabs for buffers
+		use({
+			"akinsho/nvim-bufferline.lua",
+			after = "nvim-tree.lua",
+			config = [[require("plugin/bufferline").config()]],
+		})
 		-- Telescope select
 		use({ "nvim-telescope/telescope-ui-select.nvim" })
 		-- Telescope
