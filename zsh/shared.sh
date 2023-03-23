@@ -13,7 +13,7 @@ installPlugin() {
 }
 
 linkOhMyZshPlugins() {
-  local -r plugins=("extract" "sudo")
+  local -r plugins=("extract")
   # remove all links
   rm -rf "$HOME/.zsh/ohmyzsh"
   mkdir -p "$HOME/.zsh/ohmyzsh"

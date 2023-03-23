@@ -1,22 +1,8 @@
 #!/usr/bin/env bash
 
 # Create a new directory and enter it
-function mkd() {
+mkd() {
   mkdir -p "$@" && cd "$_" || exit
-}
-
-# Determine size of a file or total size of a directory
-function fs() {
-  if du -b /dev/null >/dev/null 2>&1; then
-    local arg=-sbh
-  else
-    local arg=-sh
-  fi
-  if [ -n "$*" ]; then
-    du $arg -- "$@"
-  else
-    du $arg .[^.]* -- *
-  fi
 }
 
 # Use Git’s colored diff when available
@@ -30,6 +16,17 @@ fi
 # the `.git` directory, listing directories first. The output gets piped into
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
-function tre() {
+tre() {
   tree -aC -I '.git|node_modules|bower_components|build' --dirsfirst "$@" | less -FRNX
+}
+
+fstat() {
+  local -r name="${1:?Expected filename}"
+  local -r size="$(du -sh "$name" | cut -f1)"
+
+}
+
+# List files and dirs by their total sizes
+fsize() {
+  du -csh -- * | sort -hr
 }

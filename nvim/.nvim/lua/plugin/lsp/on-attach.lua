@@ -102,11 +102,11 @@ return function(client, bufnr)
 	local supports_format = client.server_capabilities.documentFormattingProvider or null_ls.has_formatter(filetype)
 	if supports_format == true then
 		buf_set_keymap("n", "<c-s>", ":execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
-		buf_set_keymap("i", "<c-s>", "<c-o>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
+		buf_set_keymap("i", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 		buf_set_keymap("x", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 	else
 		buf_set_keymap("n", "<c-s>", "<cmd>:w<cr>", opts)
-		buf_set_keymap("i", "<c-s>", "<c-o>:w<cr>", opts)
+		buf_set_keymap("i", "<c-s>", "<esc>:w<cr>", opts)
 		buf_set_keymap("x", "<c-s>", "<esc>:w<cr>", opts)
 	end
 end

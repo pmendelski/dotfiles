@@ -70,9 +70,9 @@ sudo apt install -y tmux
 sudo apt install -y tree
 sudo apt install -y fzf
 sudo apt install -y ripgrep
+sudo apt install -y zoxide
 sudo apt install -y fd-find
 ln -s "$(which fdfind)" ~/.local/bin/fd
-sudo snap install fasd --beta
 
 # cat with highlighting
 sudo apt install -y bat
@@ -94,14 +94,3 @@ sudo apt install -y figlet
 
 # Image manipulation
 sudo apt install -y imagemagick
-
-# Better terminal
-mkdir -p ~/.local/bin
-sudo apt install -y zsh
-sudo apt install -y tmux
-sudo apt install -y tree
-sudo apt install -y fzf
-sudo apt install -y ripgrep
-sudo apt install -y fd-find
-ln -s "$(which fdfind)" ~/.local/bin/fd
-sudo snap install fasd --beta

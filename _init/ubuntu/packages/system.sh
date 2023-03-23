@@ -20,8 +20,8 @@ sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
   ln -s "$(which fdfind)" ~/.local/bin/fd
 fi
-sudo snap install fasd --beta
 sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
+sudo apt install zoxide
 # cat with highlighting
 sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then

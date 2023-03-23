@@ -17,6 +17,9 @@ export EDITOR="vim"
 export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --inline-info'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_CTRL_T_OPTS="
+#  --preview 'bat -n --color=always {}'
+#  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
 # Bat defaults
 export BAT_THEME="TwoDark"

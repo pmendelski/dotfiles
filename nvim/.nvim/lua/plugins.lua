@@ -200,6 +200,8 @@ packer.startup({
 			event = "InsertEnter",
 			config = [[require("plugin/nvim-cmp")]],
 		})
+		-- Editorconfig
+		use({ "gpanders/editorconfig.nvim" })
 		-- Surround text with quotes/tags/brackets
 		use({
 			"kylechui/nvim-surround",

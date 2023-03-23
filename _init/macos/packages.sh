@@ -52,7 +52,6 @@ brew install tmux
 brew install zsh
 brew install bash
 brew install bash-completion2
-brew install fasd
 brew install fd
 brew install ripgrep
 brew install bat
@@ -62,6 +61,7 @@ brew install htop
 brew install transmission
 brew install golangci-lint
 brew install shellcheck
+brew install zoxide
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer

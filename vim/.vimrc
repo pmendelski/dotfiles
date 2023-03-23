@@ -127,9 +127,9 @@ set autoindent " copy indent from last line when starting new line
 set copyindent
 set backspace=indent,eol,start
 set expandtab " use spaces for tabs
-set shiftwidth=4
-set softtabstop=4 " number of spaces in tab when editing
-set tabstop=4 " number of visual spaces per TAB
+set shiftwidth=2
+set softtabstop=2 " number of spaces in tab when editing
+set tabstop=2 " number of visual spaces per TAB
 " Wrapping options
 set nowrap
 set formatoptions+=tc " wrap text and comments using textwidth
