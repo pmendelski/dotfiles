@@ -1,6 +1,5 @@
 -- Neovim API aliases
 -----------------------------------------------------------
-local fn = vim.fn
 local map = require("util").keymap
 
 -- Init file

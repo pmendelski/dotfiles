@@ -49,7 +49,6 @@ end
 function _M.config()
 	local trouble = require("trouble.providers.telescope")
 	local actions = require("telescope.actions")
-	local action_layout = require("telescope.actions.layout")
 	local telescope = require("telescope")
 	local previewers = require("telescope.previewers")
 
