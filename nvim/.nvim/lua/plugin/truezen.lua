@@ -5,17 +5,15 @@ function _M.config()
 	true_zen.setup({
 		integrations = {
 			lualine = true,
-			gitsigns = true,
-			nvim_bufferline = true,
 		},
 	})
 end
 
 function _M.keymap()
 	local map = require("util").keymap
-	map("n", "<F12>", "<CMD>TZAtaraxis<cr>")
-	map("i", "<F12>", "<CMD>TZAtaraxis<cr>")
-	map("x", "<F12>", "<CMD>TZAtaraxis<cr>")
+	map("n", "<F12>", ":TZAtaraxis<cr>")
+	map("i", "<F12>", ":TZAtaraxis<cr>")
+	map("v", "<F12>", ":'<,'>TZNarrow<CR>")
 end
 
 return _M

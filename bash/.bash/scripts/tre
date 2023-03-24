@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+
+function printHelp() {
+  echo "NAME"
+  echo "  tre - wrapper for tree:"
+  echo "        - limits printed entries,"
+  echo "        - obeys .gitignore files,"
+  echo "        - and adds pager and colors"
+  echo ""
+  echo "SYNOPSIS"
+  echo "  tre [OPTION] [DIR]"
+  echo ""
+  echo "OPTIONS"
+  echo "  -h, --help     Print help."
+  echo "  -n, --no-pager Use no pager."
+  echo ""
+}
+
+pager_enabled=true
+
+while (($#)); do
+  case $1 in
+  --no-pager | -n)
+    pager_enabled=false
+    ;;
+  --help | -h)
+    printHelp
+    exit 0
+    ;;
+  --) # End of all options.
+    shift
+    break
+    ;;
+  -?*) # Unidentified option.
+    println "Unknown option: $1"
+    println "Try --help option"
+    exit 1
+    ;;
+  esac
+  shift
+done
+
+name="${1:-.}"
+flags=(-aC --gitignore --dirsfirst)
+if [ "$(ls -lA "$name" | wc -l)" -lt 10 ]; then
+  flags=("${flags[@]}" -L 2 --filelimit=10)
+else
+  flags=("${flags[@]}" -L 1)
+fi
+
+if [ "$pager_enabled" == true ]; then
+  tree "${flags[@]}" "$name" |
+    sed "s|entries exceeds.\+|entries]|"
+else
+  tree "${flags[@]}" "$name" |
+    sed "s|entries exceeds.\+|entries]|" |
+    less
+fi

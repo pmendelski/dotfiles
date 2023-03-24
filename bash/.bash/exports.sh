@@ -10,23 +10,15 @@ export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 # Custom Globals
-# Make vim the default editor
-export EDITOR="vim"
-
-# FZF defaults
-export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --inline-info'
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_CTRL_T_OPTS="
-#  --preview 'bat -n --color=always {}'
-#  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+# Make (n)vim the default editor
+if command -v nvim &>/dev/null; then
+  export EDITOR="nvim"
+else
+  export EDITOR="vim"
+fi
 
 # Bat defaults
 export BAT_THEME="TwoDark"
-
-# Git switches
-# Limit git guesses on checkout: https://stackoverflow.com/a/43747486
-# export GIT_COMPLETION_CHECKOUT_NO_GUESS=1
 
 # ShellCheck ignore some errors by default
 export SHELLCHECK_OPTS="-e SC2155 -e SC1090 -e SC1091"

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+file="${1:?Expected file name}"
+shift
+
+if [ ! -r "$file" ]; then
+  echo "File not found ${file}" >&2
+  return 1
+fi
+
+mime="$(file --dereference --mime -- "$file")"
+if [[ "$mime" =~ binary$ ]]; then
+  # binary file or directory
+  fstat "$file"
+  return 0
+fi
+
+if [ $# -eq 0 ]; then
+  bat --color=always --line-range=:500 "$file"
+else
+  bat "$@" "$file"
+fi

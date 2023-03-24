@@ -1,14 +1,34 @@
--- Most of the config taken from: https://github.com/neovim/nvim-lspconfig/wiki/Snippets
+-- Most of the config taken from:
+-- https://github.com/neovim/nvim-lspconfig/wiki/Snippets
+-- https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
+local luasnip = require("luasnip")
 local cmp = require("cmp")
 
-local feedkey = function(key, mode)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+-- buffer source that enables buffer word completion for files under 1MB
+local buffersrc = {
+	name = "buffer",
+	option = {
+		get_bufnrs = function()
+			local buf = vim.api.nvim_get_current_buf()
+			local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+			if byte_size > 1024 * 1024 then -- 1 Megabyte max
+				return {}
+			end
+			return { buf }
+		end,
+	},
+}
+
+local has_words_before = function()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 cmp.setup({
+	-- preselect = cmp.PreselectMode.None,
 	snippet = {
 		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 	formatting = {
@@ -19,9 +39,8 @@ cmp.setup({
 			vim_item.menu = ({
 				buffer = "[Buffer]",
 				nvim_lsp = "[Lsp]",
-				vsnip = "[Snip]",
+				luasnip = "[Snip]",
 				path = "[Path]",
-				calc = "[Calc]",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -34,28 +53,29 @@ cmp.setup({
 		["<c-Space>"] = cmp.mapping.complete(),
 		["<c-e>"] = cmp.mapping.close(),
 		["<cr>"] = cmp.mapping.confirm({
-			-- behavior = cmp.ConfirmBehavior.Replace,
-			behavior = cmp.ConfirmBehavior.Insert,
+			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}),
-		["<Tab>"] = function(fallback)
+		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif vim.fn["vsnip#available"](1) == 1 then
-				feedkey("<Plug>(vsnip-expand-or-jump)", "")
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			elseif has_words_before() then
+				cmp.mapping.complete()
 			else
 				fallback()
 			end
-		end,
-		["<S-Tab>"] = function(fallback)
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif vim.fn["vsnip#available"](-1) == 1 then
-				feedkey("<Plug>(vsnip-jump-prev)", "")
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
 			else
 				fallback()
 			end
-		end,
+		end, { "i", "s" }),
 		-- ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item({
 		--   behavior = cmp.SelectBehavior.Select
 		-- }), { 'i', 'c' }),
@@ -65,10 +85,9 @@ cmp.setup({
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		-- { name = 'buffer' },
 		{ name = "path" },
-		{ name = "vsnip" },
-	}),
+		{ name = "luasnip" },
+	}, { buffersrc }),
 })
 
 -- Lazy load rust crates completions
@@ -84,15 +103,15 @@ cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({
 		{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
 	}, {
-		{ name = "buffer" },
+		buffersrc,
 	}),
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline("/", {
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
-		{ name = "buffer" },
+		buffersrc,
 	},
 })
 

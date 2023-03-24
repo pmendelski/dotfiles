@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ "$(tmux display-message -p -F "#{session_name}")" = "scratch" ]; then
+  tmux detach-client
+else
+  tmux display-popup -d '#{pane_current_path}' -xC -yC -w80% -h80% -E "tmux attach -t scratch || tmux new -s scratch"
+fi

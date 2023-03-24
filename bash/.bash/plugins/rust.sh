@@ -27,5 +27,3 @@ function rust-update() {
 
   # rustup component add rls rust-analysis rust-src rustfmt clippy
 }
-
-alias rust-analyzer='rustup run nightly rust-analyzer'

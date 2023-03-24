@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+file="${1:?Expected file name}"
+format="$(
+  echo \
+    "_    Type: %F," \
+    "    Perm: %A (%a)," \
+    "    User: %U (%u)," \
+    "   Group: %G (%g)," \
+    " Created: %w," \
+    "Accessed: %x," \
+    "Modified: %y," \
+    " Changed: %z," |
+    tr ',' '\n' |
+    tr '_' ' '
+)"
+
+mime="$(file --dereference --mime "$file")"
+filelen=${#file}
+filelen=$((filelen + 2))
+mime="${mime:$filelen}"
+
+filePath="$(readlink -f "$file")"
+echo "     Name: $(basename "$filePath")"
+echo "     Path: $filePath"
+echo "     Size: $(du -sh "$filePath" | cut -f1)"
+echo "     Mime: $mime"
+stat --printf="$format" "$filePath"

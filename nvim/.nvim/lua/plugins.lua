@@ -112,7 +112,7 @@ packer.startup({
 		-- Zen editing
 		use({
 			"Pocco81/TrueZen.nvim",
-			cmd = { "TZAtaraxis", "TZFocus", "TZMinimalist" },
+			cmd = { "TZAtaraxis", "TZFocus", "TZMinimalist", "TZFocus" },
 			setup = [[require("plugin/truezen").keymap()]],
 			config = [[require("plugin/truezen").config()]],
 		})
@@ -188,6 +188,12 @@ packer.startup({
 			setup = [[require("plugin/formatter").keymap()]],
 			config = [[require("plugin/formatter").config()]],
 		})
+		-- Snippets
+		use({ "rafamadriz/friendly-snippets" })
+		use({
+			"L3MON4D3/LuaSnip",
+			config = [[require("plugin/luasnip")]],
+		})
 		-- Autocomplete
 		use({
 			"hrsh7th/nvim-cmp",
@@ -200,8 +206,7 @@ packer.startup({
 				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
 				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
 				{ "hrsh7th/cmp-calc", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-vsnip", after = "nvim-cmp" },
-				{ "hrsh7th/vim-vsnip", after = "nvim-cmp" },
+				{ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
 			},
 			event = "InsertEnter",
 			config = [[require("plugin/nvim-cmp")]],
@@ -224,7 +229,7 @@ packer.startup({
 		use({
 			"lewis6991/gitsigns.nvim",
 			event = "BufEnter",
-			config = [[require("gitsigns").setup({})]],
+			config = [[require("plugin/gitsigns")]],
 		})
 		-- Go
 		use({

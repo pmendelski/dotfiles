@@ -1,4 +1,4 @@
-local on_attach = require("plugin/lspconfig/on-attach")
+local on_attach = require("plugin/lsp/on-attach")
 
 local extension_path = vim.fn.expand("~/.vscode/extensions/vadimcn.vscode-lldb-*")
 local codelldb_path = extension_path .. "/adapter/codelldb"
@@ -11,30 +11,22 @@ require("rust-tools").setup({
 		-- Automatically set inlay hints (type hints)
 		autoSetHints = true,
 
-		-- Whether to show hover actions inside the hover window
-		-- This overrides the default hover handler
-		hover_with_actions = true,
-
 		-- how to execute terminal commands
 		-- options right now: termopen / quickfix
 		executor = require("rust-tools/executors").termopen,
 
-		runnables = {
-			-- whether to use telescope for selection menu or not
-			use_telescope = true,
+		-- callback to execute once rust-analyzer is done initializing the workspace
+		-- The callback receives one parameter indicating the `health` of the server: "ok" | "warning" | "error"
+		on_initialized = nil,
 
-			-- rest of the opts are forwarded to telescope
-		},
-
-		debuggables = {
-			-- whether to use telescope for selection menu or not
-			use_telescope = true,
-
-			-- rest of the opts are forwarded to telescope
-		},
+		-- automatically call RustReloadWorkspace when writing to a Cargo.toml file.
+		reload_workspace_from_cargo_toml = true,
 
 		-- These apply to the default RustSetInlayHints command
 		inlay_hints = {
+			-- automatically set inlay hints (type hints)
+			-- default: true
+			auto = true,
 
 			-- Only show inlay hints for the current line
 			only_current_line = false,

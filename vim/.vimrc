@@ -169,35 +169,6 @@ endif
 
 
 "-----------------------------------------------------------
-" Plugins
-"-----------------------------------------------------------
-
-" Plugin: fzf
-"-----------------------------------------------------------
-let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-" Search file by content
-noremap <silent> <leader>s :Rg<cr>
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
-" Open file
-nnoremap <leader>o :Files<cr>
-" Open file adjacent to current file
-nnoremap <leader>l :Files expand("%:p:h") "/" <cr>
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
-
-
-
-"-----------------------------------------------------------
 " Keybindins
 "-----------------------------------------------------------
 
@@ -235,3 +206,33 @@ nnoremap N Nzz
 " Clear highlighting on escape in normal mode
 nnoremap <esc> :noh<return><esc>
 nnoremap § :noh<return><esc>
+
+
+
+"-----------------------------------------------------------
+" Plugins
+"-----------------------------------------------------------
+
+" Plugin: fzf
+"-----------------------------------------------------------
+" let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --line-range :300 {}'"
+" Search file by content
+noremap <silent> <leader>s :Rg<cr>
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+" Open file
+nnoremap <leader>o :Files<cr>
+" Open file adjacent to current file
+nnoremap <leader>l :Files expand("%:p:h") "/" <cr>
+" Open buffer
+nnoremap <leader>b :Buffers<cr>
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)

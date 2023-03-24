@@ -83,6 +83,8 @@ function _M.config()
 
 	local map = require("util").keymap
 	map("n", "<leader>bb", ":Telescope buffers<cr>")
+	-- reload buffer
+	map("n", "<leader>br", ":bufdo edit!<cr>")
 	-- closing buffers
 	map("n", "<leader>bq", "<cmd>lua require('plugin/bufferline').close_active_buffer()<cr>")
 	map("n", "<leader>bo", "<cmd>lua require('plugin/bufferline').close_other_buffers()<cr>")

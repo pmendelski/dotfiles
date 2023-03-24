@@ -19,6 +19,7 @@ installPlugins() {
   installPlugin "tmux-open" "git@github.com:tmux-plugins/tmux-open.git"
   installPlugin "tmux-copycat" "git@github.com:tmux-plugins/tmux-copycat.git"
   installPlugin "tmux-yank" "git@github.com:tmux-plugins/tmux-yank.git"
+  installPlugin "tmux-fzf-url" "git@github.com:junegunn/tmux-fzf-url.git"
 }
 
 installPlugins

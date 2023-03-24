@@ -15,6 +15,6 @@ if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
     cd .gogh/themes
   fi
 
-  ./atom.sh
+  # ./atom.sh
   ./tokyo-night.sh
 fi
