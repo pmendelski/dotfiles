@@ -44,4 +44,27 @@ function _M.get_buf_lsp_clients()
 	return clients
 end
 
+function _M.get_max_win()
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+	local maxWin = -1
+	local maxArea = -1
+	for _, win in ipairs(wins) do
+		local height = vim.api.nvim_win_get_height(win)
+		local width = vim.api.nvim_win_get_width(win)
+		local area = height * width
+		if area > maxArea then
+			maxArea = area
+			maxWin = win
+		end
+	end
+	return maxWin
+end
+
+function _M.set_current_win_max()
+	local maxWin = _M.get_max_win()
+	if maxWin > 0 then
+		vim.api.nvim_set_current_win(maxWin)
+	end
+end
+
 return _M

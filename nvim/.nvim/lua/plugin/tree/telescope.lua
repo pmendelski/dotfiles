@@ -1,3 +1,5 @@
+local set_current_win_max = require("util").set_current_win_max
+
 local M = {}
 
 function M.live_grep(opts)
@@ -29,6 +31,7 @@ function M.launch_telescope(func_name, opts)
 	opts = opts or {}
 	opts.cwd = basedir
 	opts.search_dirs = { basedir }
+	set_current_win_max()
 	return require("telescope.builtin")[func_name](opts)
 end
 
