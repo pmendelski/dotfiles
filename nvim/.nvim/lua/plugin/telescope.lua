@@ -4,6 +4,8 @@ function _M.keymap()
 	local map = require("util").keymap
 	map("n", "<F1>", "<esc>")
 	map("n", "<leader>fx", ":Telescope<cr>")
+	map("n", "<leader>f;", ":Telescope commands<cr>")
+	map("n", "<leader>f:", ":Telescope command_history<cr>")
 	map("n", "<leader>fr", ":Telescope resume<cr>")
 	map("n", "<leader>ff", ":Telescope find_files hidden=true<cr>")
 	map("n", "<leader>fF", ':Telescope find_files hidden=true search_dirs={"%:p:h"}<cr>')
@@ -18,8 +20,10 @@ function _M.keymap()
 	map("n", "<leader>fh", ":Telescope heading<cr>")
 	map("n", "<leader>fk", ":Telescope keymaps<cr>")
 	map("n", "<leader>fj", ":Telescope jumplist<cr>")
+	map("n", "<leader>fq", ":Telescope quickfix<cr>")
 	map("n", "<leader>fs", ":Telescope spell_suggest<cr>")
 	map("n", "<leader>ft", ":Telescope filetypes<cr>")
+	map("n", "<leader>fT", ":Telescope colorscheme preview=true<cr>")
 	map(
 		"n",
 		"<leader>fs",

@@ -58,12 +58,6 @@ end
 
 function _M.config()
 	require("bufferline").setup({
-		highlights = {
-			fill = {
-				-- tweak for onedark theme
-				bg = "#17191e",
-			},
-		},
 		options = {
 			numbers = function(opts)
 				return string.format("%s ", opts.ordinal)
