@@ -13,23 +13,23 @@
 
 | Keybinding    | Action |
 |---------------|--------|
-| `C-a`         | **prefix** for most other tmux keybindings |
+| `C-a`         | **prefix** for most other tmux keybindings (original from `C-b`) |
 | `C-[`         | **copy Mode** enters copy mode |
 | `:`           | **command mode** |
-| `C-a Z`       | **zen mode** toggle |
-| `C-a a`       | **scratch** popup |
+| `C-a z/Z`     | **zen mode** toggle (Z hides status) |
+| `C-a a`       | **scratch** popup (custom) |
 
 ### Sessions
 
 | Keybinding    | Action |
 |---------------|--------|
-| `C-a C`       | **new** session |
-| `C-a K`       | **kill** session |
-| `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
-| `A->`         | **next** session |
-| `A-<`         | **previous** session |
-| `A-m`         | **last** session |
+| `C-a S`       | **new** session (custom) |
+| `C-a D`       | **kill** session (custom) |
+| `C-a d`       | **detach** from session |
+| `C-a $`       | **rename** session |
+| `C-a )`       | **next** session |
+| `C-a (`       | **previous** session |
 
 ```
 tmux                # Create new session
@@ -44,36 +44,32 @@ tmux kill-session -t myname
 
 | Keybinding    | Action |
 |---------------|--------|
-| `C-a c`       | **create** new window |
-| `C-a k`       | **kill** window |
-| `C-a ,`       | **rename** window |
-| `C-a T`       | **move** window to first the top |
 | `C-a w`       | **list** windows |
+| `C-a c`       | **create** new window |
+| `C-a &`       | **kill** window |
+| `C-a ,`       | **rename** window |
+| `C-a .`       | **reorder** window |
 | `C-a <num>`   | **go to <num>** window |
-| `A-.`         | **next** window |
-| `A-,`         | **previous** window |
-| `A-m`         | **last** window |
+| `C-a n`       | **next** window |
+| `C-a p`       | **previous** window |
+| `C-a l`       | **toggle** last active window |
 
 ### Panes
 
 | Keybinding    | Action |
 |---------------|--------|
-| `C-a |`       | **split** vertically |
-| `C-a -`       | **split** horizontally |
+| `C-a "`       | **split** vertically |
+| `C-a %`       | **split** horizontally |
 | `C-a x`       | **kill** pane |
-| `A-<Arrow>`   | **go to** pane |
+| `A-<Arrow>`   | **go to** pane (custom, `C-a <Arrow>`) |
+| `C-a q`       | **go to** pane by index |
+| `C-a o`       | **go to** next pane |
 | `C-a-<Arrow>` | **resize** current pane |
-| `C-S-<Arrow>` | **move** current pane |
-| `C-a ;`       | **go to** previously selected pane |
+| `C-S-<Arrow>` | **move** current pane (custom, `C-a }/}{`) |
+| `C-a ;`       | **toggle** last active pane |
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
-| `C-a P`       | **move to top** current pane |
-| `C-a {`       | **swap with previous** |
-| `C-a }`       | **swap with next** |
-| `C-a [`       | **rotate up** |
-| `C-a ]`       | **rotate down** |
-| `C-a _`       | **sync all panes** |
-| `C-a q`       | **show pane indexes** |
+| `C-a _`       | **sync all panes** (custom) |
 
 ### Misc
 
