@@ -1,7 +1,41 @@
 #!/usr/bin/env bash
 
-if [ "$(tmux display-message -p -F "#{session_name}")" = "scratch" ]; then
-  tmux detach-client
+toggle() {
+  name="${1:?Expected scratch name}"
+  cmd="${2}"
+  eval "$(tmux show-environment | grep TMUX_SCRATCH)"
+  if [ "$(tmux display-message -p -F "#{session_name}")" = "$name" ]; then
+    tmux detach-client
+  else
+    if [ "$TMUX_SCRATCH" = "1" ]; then
+      tmux detach-client
+    fi
+    export TMUX_SCRATCH=1
+    tmux display-popup -d '#{pane_current_path}' -xC -yC -w80% -h80% -E "TMUX_SCRATCH=1 $HOME/.bash/scripts/tmux-scratch popup '$name' '$cmd'"
+  fi
+}
+
+popup() {
+  name="${1:?Expected scratch name}"
+  cmd="${2}"
+  if tmux attach -t "$name" 2>/dev/null; then
+    return
+  fi
+  if [ -n "$cmd" ]; then
+    tmux new -d -s "$name" &&
+      tmux set-environment -t "$name" TMUX_SCRATCH 1 &&
+      tmux send-keys -t "$name" "$cmd" C-m &&
+      tmux attach -t "$name" -c "$cmd"
+  else
+    tmux new -s "$name" \; setenv TMUX_SCRATCH 1
+  fi
+}
+
+if [ "$1" = "popup" ]; then
+  popup "$2" "$3"
+elif [ "$1" = "toggle" ]; then
+  toggle "$2" "$3"
 else
-  tmux display-popup -d '#{pane_current_path}' -xC -yC -w80% -h80% -E "tmux attach -t scratch || tmux new -s scratch"
+  echo "Expected first argument to be one of: popup|toggle" 1>&2
+  exit 1
 fi

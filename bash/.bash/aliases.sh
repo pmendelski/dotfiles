@@ -85,13 +85,4 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # HELP
-alias dotfiles-git-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/git/readme.md' &>/dev/null"
-alias dotfiles-git-edit="editor ~/.dotfiles/git"
-alias dotfiles-tmux-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/tmux/readme.md' &>/dev/null"
-alias dotfiles-tmux-edit="editor ~/.dotfiles/tmux"
-alias dotfiles-bash-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/bash/readme.md' &>/dev/null"
-alias dotfiles-bash-edit="editor ~/.dotfiles/bash"
-alias dotfiles-zsh-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/zsh/readme.md' &>/dev/null"
-alias dotfiles-zsh-edit="editor ~/.dotfiles/zsh"
-alias dotfiles-vim-doc="sensible-browser 'https://github.com/pmendelski/dotfiles/blob/master/vim/readme.md' &>/dev/null"
-alias dotfiles-vim-edit="editor ~/.dotfiles/vim"
+alias dotfiles="editor ~/.dotfiles"

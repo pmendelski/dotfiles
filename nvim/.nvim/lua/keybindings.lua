@@ -170,5 +170,3 @@ map("n", "<leader>s", ":wa<cr>")
 -- map('n', 'Q', ':qall!<cr>')
 map("n", "Q", ":confirm qall<cr>")
 map("n", "q", "<c-w>q<cr>")
--- semicolon to enter cmd line
-map("n", ";", ":")

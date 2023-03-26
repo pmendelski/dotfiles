@@ -18,6 +18,7 @@
 | `:`           | **command mode** |
 | `C-a z/Z`     | **zen mode** toggle (Z hides status) |
 | `C-a a`       | **scratch** popup (custom) |
+| `C-a X`       | **kill-server** (custom) |
 
 ### Sessions
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-function notes() {
-  if [ -d "$HOME/Dropbox" ]; then
-    nvim "$HOME/Dropbox/Notes"
-  elif [ -d "$HOME/Documents" ]; then
-    nvim "$HOME/Documents/Notes"
-  else
-    nvim "$HOME/Desktop/Notes"
-  fi
-}
+if [ -d "$HOME/Dropbox" ]; then
+  export NOTES="$HOME/Dropbox/Notes"
+elif [ -d "$HOME/Documents" ]; then
+  export NOTES="$HOME/Documents/Notes"
+else
+  export NOTES="$HOME/Desktop/Notes"
+fi
+
+alias notes="$EDITOR $NOTES"

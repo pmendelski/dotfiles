@@ -32,6 +32,9 @@ function M.launch_telescope(func_name, opts)
 	opts.cwd = basedir
 	opts.search_dirs = { basedir }
 	set_current_win_max()
+	if func_name == "live_grep_args" then
+		return require("telescope").extensions.live_grep_args.live_grep_args(opts)
+	end
 	return require("telescope.builtin")[func_name](opts)
 end
 

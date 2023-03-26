@@ -82,9 +82,6 @@ vim.cmd([[
   endfunction
 ]])
 
--- Set autosave
-vim.cmd([[autocmd TextChanged,InsertLeave <buffer> silent! write]])
-
 -- Preserve last editing position
 vim.cmd([[
   autocmd BufReadPost *
