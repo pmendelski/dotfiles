@@ -113,7 +113,7 @@ packer.startup({
 		-- Zen editing
 		use({
 			"Pocco81/TrueZen.nvim",
-			cmd = { "TZAtaraxis", "TZFocus", "TZMinimalist", "TZFocus" },
+			cmd = { "Zen" },
 			setup = [[require("plugin/truezen").keymap()]],
 			config = [[require("plugin/truezen").config()]],
 		})
