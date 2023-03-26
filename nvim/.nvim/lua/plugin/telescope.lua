@@ -29,7 +29,7 @@ function _M.keymap()
 	map("n", "<leader>c", "") -- added to not trigger a command by mistake
 	map("n", "<leader>ct", ":Telescope treesitter<cr>")
 	map("n", "<leader>cc", ":Telescope lsp_document_symbols<cr>")
-	map("n", "<leader>cC", ":Telescope lsp_workspace_symbols<cr>")
+	map("n", "<leader>cC", ":Telescope lsp_dynamic_workspace_symbols<cr>")
 	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
 	map("n", "<leader>ca", ":Telescope lsp_code_actions<cr>")
 	map("n", "<leader>cx", ":Telescope diagnostics<cr>")

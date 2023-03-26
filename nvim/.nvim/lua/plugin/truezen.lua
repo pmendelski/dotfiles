@@ -11,9 +11,7 @@ end
 
 function _M.keymap()
 	local map = require("util").keymap
-	map("n", "<F12>", ":TZAtaraxis<cr>")
-	map("i", "<F12>", ":TZAtaraxis<cr>")
-	map("v", "<F12>", ":'<,'>TZNarrow<CR>")
+	map("n", "<leader>z", ":TZAtaraxis<cr>")
 end
 
 return _M

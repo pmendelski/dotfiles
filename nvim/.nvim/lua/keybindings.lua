@@ -162,6 +162,7 @@ end
 -- Save
 map("n", "<c-s>", ":w<cr>")
 map("i", "<c-s>", "<esc>:w<cr>")
+map("x", "<c-s>", "<esc>:w<cr>")
 -- Save all buffers
 map("n", "<leader>s", ":wa<cr>")
 

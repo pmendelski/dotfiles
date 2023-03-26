@@ -9,9 +9,9 @@ require("gitsigns").setup({
 		end
 
 		-- Navigation
-		map("n", "]c", function()
+		map("n", "]h", function()
 			if vim.wo.diff then
-				return "]c"
+				return "]h"
 			end
 			vim.schedule(function()
 				gs.next_hunk()
@@ -19,9 +19,9 @@ require("gitsigns").setup({
 			return "<Ignore>"
 		end, { expr = true })
 
-		map("n", "[c", function()
+		map("n", "[h", function()
 			if vim.wo.diff then
-				return "[c"
+				return "[h"
 			end
 			vim.schedule(function()
 				gs.prev_hunk()
@@ -30,20 +30,22 @@ require("gitsigns").setup({
 		end, { expr = true })
 
 		-- Actions
-		map({ "n", "v" }, "<leader>Gs", ":Gitsigns stage_hunk<CR>")
-		map({ "n", "v" }, "<leader>Gr", ":Gitsigns reset_hunk<CR>")
-		map("n", "<leader>GS", gs.stage_buffer)
-		map("n", "<leader>Gu", gs.undo_stage_hunk)
-		map("n", "<leader>GR", gs.reset_buffer)
-		map("n", "<leader>gp", gs.preview_hunk)
-		map("n", "<leader>gB", function()
+		map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+		map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
+		map("n", "<leader>hS", gs.stage_buffer)
+		map("n", "<leader>hu", gs.undo_stage_hunk)
+		map("n", "<leader>hR", gs.reset_buffer)
+		map("n", "<leader>hp", gs.preview_hunk)
+		map("n", "<leader>hb", function()
 			gs.blame_line({ full = true })
 		end)
-		map("n", "<leader>gb", gs.toggle_current_line_blame)
-		-- map('n', '<leader>hd', gs.diffthis)
-		-- map('n', '<leader>hD', function() gs.diffthis('~') end)
-		-- map('n', '<leader>td', gs.toggle_deleted)
+		map("n", "<leader>ht", gs.toggle_current_line_blame)
+		map("n", "<leader>hd", gs.diffthis)
+		map("n", "<leader>hD", function()
+			gs.diffthis("~")
+		end)
+		map("n", "<leader>hT", gs.toggle_deleted)
 		-- Text object
-		-- map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 	end,
 })

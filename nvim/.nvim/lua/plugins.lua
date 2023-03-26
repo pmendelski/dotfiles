@@ -116,12 +116,6 @@ packer.startup({
 			setup = [[require("plugin/truezen").keymap()]],
 			config = [[require("plugin/truezen").config()]],
 		})
-		-- Faster movement
-		use({
-			"phaazon/hop.nvim",
-			event = "BufWinEnter",
-			config = [[require("plugin/hop")]],
-		})
 		-- Programming spellcheck dictionary
 		use({
 			"psliwka/vim-dirtytalk",

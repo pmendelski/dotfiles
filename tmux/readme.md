@@ -13,15 +13,17 @@
 
 | Keybinding    | Action |
 |---------------|--------|
-| `C-a`         | **Prefix** for most other tmux keybindings |
-| `C-[`         | **Copy Mode** enters copy mode |
-| `:`           | **Command mode** |
-| `C-a <F12>`   | **zen mode** toggle |
+| `C-a`         | **prefix** for most other tmux keybindings |
+| `C-[`         | **copy Mode** enters copy mode |
+| `:`           | **command mode** |
+| `C-a Z`       | **zen mode** toggle |
+| `C-a a`       | **scratch** popup |
 
 ### Sessions
 
 | Keybinding    | Action |
 |---------------|--------|
+| `C-a C`       | **new** session |
 | `C-a K`       | **kill** session |
 | `C-a $`       | **rename** session |
 | `C-a s`       | **list** sessions |
@@ -66,18 +68,18 @@ tmux kill-session -t myname
 | `C-a z`       | **maximize/minimize** pane in same window |
 | `C-a !`       | **move to a separate window** |
 | `C-a P`       | **move to top** current pane |
-| `C-a {`     | **swap with previous** |
-| `C-a }`     | **swap with next** |
-| `C-a [`     | **rotate up** |
-| `C-a ]`     | **rotate down** |
+| `C-a {`       | **swap with previous** |
+| `C-a }`       | **swap with next** |
+| `C-a [`       | **rotate up** |
+| `C-a ]`       | **rotate down** |
+| `C-a _`       | **sync all panes** |
+| `C-a q`       | **show pane indexes** |
 
 ### Misc
 
 | Keybinding    | Action |
 |---------------|--------|
 | `C-a t`       | **big clock** |
-| `C-a _`       | **sync all panes** |
-| `C-a q`       | **show pane indexes** |
 | `C-a ?`       | **show keybindings** |
 
 
@@ -177,6 +179,14 @@ All log files are saved in `~/.tmux/tmp/logging` directory.
 ### Tmux prefix-highlight
 
 [Tmux Prefix Highlight](https://github.com/tmux-plugins/tmux-prefix-highlight) - Add status placeholder for prefix/copy mode.
+
+### Tmux fzf url
+
+[Tmux fzf url](https://github.com/wfxr/tmux-fzf-url) - A tmux plugin for opening urls from browser quickly without mouse.
+
+| Keybinding    | Action |
+|---------------|--------|
+| `C-a u` | fzf visible urls |
 
 # Credits
 - http://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/

@@ -8,6 +8,7 @@ mkdir -p "$ZSH_COMPCACHE_DIR"
 # Add zsh-completions
 fpath=($ZSH_DIR/completions $ZSH_DIR/plugins/*/(N) $ZSH_DIR/ohmyzsh/*/(N) $fpath)
 
+
 # Initilize completion mechanism.
 # http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fcomplist-Module
 zmodload -i zsh/complist  # Import complist module

@@ -27,6 +27,7 @@ local htmlComments = vim.tbl_extend("force", baseConfig, {
 	multi_line_comment_strings = { "<!--", "-->" },
 })
 
+config.configure_language("conf", hashComments)
 config.configure_language("makefile", hashComments)
 config.configure_language("dockerfile", hashComments)
 config.configure_language("yaml", hashComments)

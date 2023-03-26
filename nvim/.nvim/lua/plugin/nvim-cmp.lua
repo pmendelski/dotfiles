@@ -25,7 +25,7 @@ local has_words_before = function()
 end
 
 cmp.setup({
-	-- preselect = cmp.PreselectMode.None,
+	preselect = cmp.PreselectMode.None,
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
@@ -37,10 +37,10 @@ cmp.setup({
 			vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind
 			-- set a name for each source
 			vim_item.menu = ({
-				buffer = "[Buffer]",
-				nvim_lsp = "[Lsp]",
-				luasnip = "[Snip]",
-				path = "[Path]",
+				buffer = "[buffer]",
+				nvim_lsp = "[lsp]",
+				luasnip = "[snip]",
+				path = "[path]",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -53,8 +53,10 @@ cmp.setup({
 		["<c-Space>"] = cmp.mapping.complete(),
 		["<c-e>"] = cmp.mapping.close(),
 		["<cr>"] = cmp.mapping.confirm({
+			-- behavior = cmp.ConfirmBehavior.Insert,
 			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
+			-- Automatically select first item
+			-- select = true,
 		}),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
