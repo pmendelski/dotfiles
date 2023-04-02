@@ -55,6 +55,7 @@ function _M.config()
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
 	local previewers = require("telescope.previewers")
+	local lga = require("telescope-live-grep-args.actions")
 
 	-- Ignore files bigger than a threshold
 	local new_maker = function(filepath, bufnr, opts)
@@ -82,9 +83,12 @@ function _M.config()
 					["<C-Down>"] = actions.cycle_history_next,
 					["<C-Up>"] = actions.cycle_history_prev,
 					["<C-h>"] = "which_key",
+					["<C-k>"] = lga.quote_prompt(),
+					["<C-i>"] = lga.quote_prompt({ postfix = " --iglob " }),
 				},
 				n = {
 					["q"] = actions.close,
+					["<F1>"] = actions.close,
 					["<C-t>"] = trouble.open_with_trouble,
 				},
 			},
