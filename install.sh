@@ -2,7 +2,12 @@
 set -euf -o pipefail
 
 if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
-  echo "Script requires Bash at least v4. Got bash version: $(bash --version)"
+  echo "Script requires Bash at least v4. Got bash version: $(bash --version). Exitting...."
+  exit 1
+fi
+
+if ! command -v git &>/dev/null; then
+  echo "Script requires git command. Exitting...."
   exit 1
 fi
 
@@ -118,7 +123,7 @@ function installDotfiles() {
 function symlinkDotfiles() {
   printInfo "Symlinking dotfiles"
   for dir in $(dotfileDirs); do
-    find "$dir" -maxdepth 1 -mindepth 1 -name '.*' -print0 | while read -d $'\0' -r file; do
+    for file in $(find "$dir" -maxdepth 1 -mindepth 1 -name '.*' | sort); do
       setupSymlink "$file" "$HOME/$(basename "$file")"
     done
   done
@@ -142,14 +147,14 @@ function updateDotfiles() {
 
 function update() {
   git config credential.helper cache
-  local banchName="$(git rev-parse --abbrev-ref HEAD)"
-  git pull --rebase origin "$banchName"
+  local branchName="$(git rev-parse --abbrev-ref HEAD)"
+  git pull --rebase origin "$branchName"
   updateDotfiles
   git credential-cache exit
 }
 
 function printHelp() {
-  echo "pmendelski dotfiles."
+  echo "dotfiles"
   echo "Source: https://github.com/pmendelski/dotfiles"
   echo ""
   echo "NAME"

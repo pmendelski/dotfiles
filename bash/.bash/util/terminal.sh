@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# This script should be sourced only once
+[[ ${DOTFILES_TERMINAL_UTIL:-} -eq 1 ]] && return || readonly DOTFILES_TERMINAL_UTIL=1
+
 source "$(dirname "${BASH_SOURCE[0]}")/colors.sh"
 
 # Default flags
@@ -20,6 +23,7 @@ askForConfirmation() {
     return 1
     ;;
   *)
+    echo "(invalid response: $response)"
     askForConfirmation "$1"
     return $?
     ;;
@@ -43,7 +47,7 @@ printResult() {
 }
 
 print() {
-  [ $silent = 0 ] && printf "%s" "$1"
+  [ $silent = 0 ] && printf "$1"
 }
 
 println() {
@@ -63,23 +67,23 @@ printlnColor() {
 }
 
 printQuestion() {
-  printColor "$COLOR_YELLOW" "  [?] $1"
+  printColor "$COLOR_YELLOW" "[?] $1"
 }
 
 printSuccess() {
-  printlnColor "$COLOR_GREEN" "  [ok] $1"
+  printlnColor "$COLOR_GREEN" "[ok] $1"
 }
 
 printError() {
-  printlnColor "$COLOR_RED" "  [error] $1"
+  printlnColor "$COLOR_RED" "[error] $1"
 }
 
 printWarn() {
-  printlnColor "$COLOR_MAGENTA" "  [warn] $1"
+  printlnColor "$COLOR_MAGENTA" "[warn] $1"
 }
 
 printInfo() {
-  printlnColor "$COLOR_CYAN" "  $1"
+  printlnColor "$COLOR_CYAN" "$1"
 }
 
 printDebug() {

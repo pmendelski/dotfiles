@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-source "./bash/.bash/util/terminal.sh"
+declare -r DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
+source "$DIR/../bash/.bash/util/terminal.sh"
 
 initFile() {
   local -r file="git/_$1"
@@ -15,3 +16,5 @@ initFile() {
 }
 
 initFile "gitconfig"
+
+printSuccess "Installed: git"

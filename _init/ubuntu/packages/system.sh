@@ -7,47 +7,46 @@ echo ">>> SYSTEM"
 echo ">>>"
 
 echo -e "\n>>> Terminal"
-mkdir -p ~/.local/bin
 sudo apt install -y \
   tmux \
   zsh \
   fzf \
   fd-find \
   tree \
-  ripgrep
+  ripgrep \
+  htop \
+  zoxide
 
 sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
+  mkdir -p ~/.local/bin
   ln -s "$(which fdfind)" ~/.local/bin/fd
 fi
-sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
-sudo apt install zoxide
+# sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
+
 # cat with highlighting
 sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
+  mkdir -p ~/.local/bin
   ln -s "$(which batcat)" ~/.local/bin/bat
 fi
-# htop
-sudo apt install -y htop
-# Lazygit
-# Replace with gitui when it's in apt/snap
-installLazygit() {
-  echo "Installing lazygit"
-  local version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
-  local tmpdir="$(mktemp -d -t lazygit-XXXX)"
-  (
-    cd "$tmpdir" &&
-      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
-      sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
-  )
-  rm -rf "$tmpdir"
-}
-if ! command -v lazygit &>/dev/null; then
-  installLazygit
+
+# Install gogh - theme switcher for terminal
+if [ -d "$HOME/.gogh" ]; then
+  cd "$HOME/.gogh"
+  git fetch
+  git reset --hard @{u}
+  cd themes
+else
+  cd "$HOME"
+  git clone https://github.com/Mayccoll/Gogh.git .gogh
+  cd .gogh/themes
 fi
+# ./atom.sh
+./tokyo-night.sh
 
 echo -e "\n>>> Vim & Neovim"
-sudo apt install vim
+sudo apt install -y vim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt update
 sudo apt install -y neovim
@@ -89,13 +88,8 @@ sudo apt install -y \
   dh-make \
   libtool \
   autoconf \
-  shellcheck
-
-echo -e "\n>>> C"
-sudo apt install -y \
-  gcc \
-  g++ \
-  gobjc
+  shellcheck \
+  gcc
 
 echo -e "\n>>> GIT"
 sudo add-apt-repository -y ppa:git-core/ppa
@@ -105,24 +99,32 @@ sudo apt install -y \
   gitk \
   gitg
 
-echo -e "\n>>> HTTP clients"
-sudo apt install -y \
-  curl \
-  httpie
+# Lazygit
+# Replace with gitui when it's in apt/snap
+installLazygit() {
+  echo "Installing lazygit"
+  local version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  local tmpdir="$(mktemp -d -t lazygit-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
+      sudo tar xf lazygit.tar.gz -C /usr/local/bin lazygit
+  )
+  rm -rf "$tmpdir"
+}
+if ! command -v lazygit &>/dev/null; then
+  installLazygit
+fi
 
 echo -e "\n>>> Network tools"
 sudo apt install -y \
   dnsutils \
-  iperf3
-
-echo -e "\n>>> Network perf test tools"
-sudo apt install -y \
-  nghttp2-client \
+  iperf3 \
+  curl \
   apache2-utils
 
 echo -e "\n>>> CLI parsers"
-sudo apt install -y jq
-sudo snap install yq
+sudo apt install -y jq yq
 
 echo -e "\n>>> Penetration testing tools"
 sudo apt install -y \
@@ -159,9 +161,9 @@ if ! command -v rustup &>/dev/null; then
   export PATH="$PATH:~/.cargo/bin"
 fi
 
-echo -e "\n>>> Haskell"
-curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
-  BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
+# echo -e "\n>>> Haskell"
+# curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
+#   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
 echo -e "\n>>> GO"
 if command -v go &>/dev/null; then

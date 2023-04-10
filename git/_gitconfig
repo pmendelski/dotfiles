@@ -14,23 +14,23 @@
   process = git-lfs filter-process
   required = true
 
-# For work notebook
-# [includeIf "gitdir:~/Development/personal/"]
+# For corp laptop:
+# [includeIf "gitdir:~/Code/personal/"]
 #   path = .gitconfig_personal
 # [includeIf "gitdir:~/.dotfiles/"]
 #   path = .gitconfig_personal
 # [includeIf "gitdir:~/.sdkvm/"]
 #   path = .gitconfig_personal
-
-# Content of .gitconfig_personal
+#
+# === Content of .gitconfig_personal ===
 # [user]
 #   email = <email>
 #   name = <name>
 #   signingkey = <8-digit-gpg-key-id>
 # [url "github-personal"]
 #   insteadOf = git@github.com
-
-# Content of .ssh/config
+#
+# === Content of .ssh/config ===
 # Host github-personal
 #   HostName github.com
 #   User git

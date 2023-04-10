@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+declare -r DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
+source "$DIR/../bash/.bash/util/terminal.sh"
+
 installPlugin() {
   local -r name="${1:?Expected name}"
   local -r url="${2:?Expected url}"
   if [ ! -d "$HOME/.tmux/deps/${name}" ]; then
     git clone "$url" "$HOME/.tmux/deps/${name}"
-    echo "Tmux dependency insalled: $name"
+    echo "Tmux dependency installed: $name"
   else
-    echo "Tmux dependency already insalled: $name"
+    echo "Tmux dependency already installed: $name"
   fi
 }
 
@@ -22,4 +25,9 @@ installPlugins() {
   installPlugin "tmux-fzf-url" "git@github.com:junegunn/tmux-fzf-url.git"
 }
 
-installPlugins
+if command -v tmux &>/dev/null; then
+  installPlugins
+  printSuccess "Installed: tmux"
+else
+  printInfo "Skipped installation: tmux. Command not found."
+fi

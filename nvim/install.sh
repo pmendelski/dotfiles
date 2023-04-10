@@ -3,15 +3,11 @@ set -euf -o pipefail
 
 declare -r DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
 source "$DIR/shared.sh"
+source "$DIR/../bash/.bash/util/terminal.sh"
 
-linkConfig() {
-  local -r configDir="$(nvim --cmd ":echo stdpath('config')" --cmd "qall" --headless 2>&1)"
-  mkdir -p "$(dirname "$configDir")"
-  if [ ! -L "$configDir" ]; then
-    ln -s ~/.nvim "$configDir"
-  fi
-}
-
-linkConfig
-installDependencies
-installPlugins
+if command -v nvim &>/dev/null; then
+  installNvim
+  printSuccess "Installed: nvim"
+else
+  printInfo "Skipped installation: nvim. Command not found."
+fi
