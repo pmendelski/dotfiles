@@ -106,7 +106,9 @@ brew install --cask sublime-text
 brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask dbeaver-community
-brew install --cask google-web-designer
+brew install --cask unnaturalscrollwheels
+brew install --cask rectangle
+brew install --cask hiddenbar
 brew tap homebrew/cask && brew install --cask gimp
 brew install --cask inkscape
 
@@ -156,9 +158,6 @@ installNerdFonts() {
   cd "$dir"
 }
 installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
-
-# Fix scrolling issues
-brew install --cask linearmouse
 
 # Performance test tools
 brew install nghttp2

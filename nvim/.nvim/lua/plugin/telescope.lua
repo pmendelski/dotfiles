@@ -113,7 +113,6 @@ function _M.config()
 			},
 			project = {
 				base_dirs = {
-					{ "~/Development", max_depth = 4 },
 					{ "~/Code", max_depth = 4 },
 				},
 			},
