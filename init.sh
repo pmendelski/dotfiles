@@ -28,4 +28,4 @@ init() {
     echo -e "\n\nFAILURE: Initalizion failure"
 }
 
-init "$1"
+init "${1:-<none>}"

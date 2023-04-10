@@ -6,8 +6,9 @@ export BASH_TMP_DIR="$BASH_DIR/tmp"
 
 # Internationalization
 # Prefer US English and use UTF-8
-export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
+# ...produces problems on VMs
+# export LANG="en_US.UTF-8"
+# export LC_ALL="en_US.UTF-8"
 
 # Custom Globals
 # Make (n)vim the default editor
