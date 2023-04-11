@@ -28,9 +28,23 @@ fi
 
 echo -e "\n>>> Vim & Neovim"
 sudo apt install -y vim
-# sudo add-apt-repository -y ppa:neovim-ppa/unstable
+# sudo add-apt-repository -y ppa:neovim-ppa/stable
 # sudo apt update
 # sudo apt install -y neovim
+(! command -v nvim &>/dev/null) && (
+  echo "Installing nvim"
+  tmpdir="$(mktemp -d -t nvim-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz" &&
+      tar xf nvim.tar.gz -C ~/.local &&
+      mkdir -p ~/.local/app/ &&
+      rm -rf ~/.local/app/nvim &&
+      mv ~/.local/app/nvim-linux64 ~/.local/app/nvim &&
+      ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
+  )
+  rm -rf "$tmpdir"
+) || echo "nvim already installed"
 
 echo -e "\n>>> Build tools"
 sudo apt install -y \
@@ -41,13 +55,13 @@ sudo apt install -y \
 echo -e "\n>>> GIT"
 # sudo add-apt-repository -y ppa:git-core/ppa
 # sudo apt update
-# sudo apt install -y git
+sudo apt install -y git
 
 # Lazygit
 (! command -v lazygit &>/dev/null) && (
   echo "Installing lazygit"
-  local version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
-  local tmpdir="$(mktemp -d -t lazygit-XXXX)"
+  version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  tmpdir="$(mktemp -d -t lazygit-XXXX)"
   (
     cd "$tmpdir" &&
       curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
@@ -59,6 +73,7 @@ echo -e "\n>>> GIT"
 echo -e "\n>>> Network tools"
 sudo apt install -y \
   curl \
+  wget \
   dnsutils \
   apache2-utils \
   iperf3
