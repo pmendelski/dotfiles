@@ -20,9 +20,18 @@ case $- in
 *) return ;;
 esac
 
+# Local variables
+[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
+
 # Defaults
 : ${TERM:="xterm-256color"}
 : ${TMUX_FORCE:="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"}
+: ${ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"}
+
+# Force zsh
+if [ "$USER" != "root" ] && [ "$ZSH_FORCE" = 1 ] && [ -z "$ZSH_VERSION" ]; then
+  exec zsh && exit
+fi
 
 # Force tmux
 if [ "$USER" != "root" ] &&
@@ -32,9 +41,6 @@ if [ "$USER" != "root" ] &&
   [ -z "$VSCODE_INJECTION" ]; then
   exec tmux && exit
 fi
-
-# Local variables
-[ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
 
 # Init scripts
 source "$HOME/.bash/index.sh"
