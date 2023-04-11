@@ -6,7 +6,6 @@ sudo apt install -y \
   tmux \
   zsh \
   fzf \
-  fd-find \
   tree \
   ripgrep \
   htop \
@@ -75,11 +74,12 @@ sudo apt install -y \
   curl \
   wget \
   dnsutils \
-  apache2-utils \
-  iperf3
+  apache2-utils
 
 echo -e "\n>>> CLI parsers"
-sudo apt install -y jq yq
+sudo apt install -y jq
+wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
+  chmod +x ~/.local/bin/yq
 
 echo -e "\n>>> gcloud"
 [ ! -d "$HOME/.gcloud" ] && (
