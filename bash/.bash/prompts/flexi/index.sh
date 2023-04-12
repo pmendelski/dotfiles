@@ -62,15 +62,12 @@ function __flexiPromptUserAtHostText() {
   local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
   local userhost="$user@$host"
 
-  if [ -z "${SSH_CONNECTION-}" ]; then
-    [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
-    [ "$host" = "${PROMPT_DEFAULT_USERHOST##*@}" ] && host="" || host="@$host"
-    userhost="$user$host"
-  fi
+  [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
+  [ "$host" = "${PROMPT_DEFAULT_USERHOST##*@}" ] && host="" || host="@$host"
+  userhost="$user$host"
 
   # Only show username@host in special cases
   [ -z "$userhost" ] || [ -z "$user" ] || [ -z "$host" ] || [ "$userhost" = "$PROMPT_DEFAULT_USERHOST" ] || [ "$userhost" = "${PROMPT_DEFAULT_USERHOST}.local" ] &&
-    [ -z "${SSH_CONNECTION-}" ] &&
     [ ! "${SUDO_USER-}" ] &&
     [ "$isRoot" = 0 ] &&
     return $exit
@@ -91,7 +88,7 @@ function __flexiPromptUserAtHost() {
     suffix="$__FLEXI_PROMPT_USERHOST_ROOT_AFTER"
   fi
 
-  if [ -n "${SSH_CONNECTION-}" ] && [ -n "$__FLEXI_PROMPT_SSH_INDICATOR" ]; then
+  if [ -n "${SSH_CONNECTION-}" ] && [ -n "$__FLEXI_PROMPT_SSH_INDICATOR" ] && [ -n "$userAtHost" ]; then
     prefix="$__FLEXI_PROMPT_SSH_INDICATOR$prefix"
   fi
 
