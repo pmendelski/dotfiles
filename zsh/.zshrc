@@ -35,3 +35,4 @@ if [ -f "$HOME/.sdkvm/init.sh" ]; then source "$HOME/.sdkvm/init.sh"; fi
 if [ -f "$HOME/.ghcup/env" ]; then source "$HOME/.ghcup/env"; fi
 if [ -f "$HOME/.gcloud/path.zsh.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
 if [ -f "$HOME/.gcloud/completion.zsh.inc" ]; then source "$HOME/.gcloud/completion.zsh.inc"; fi
+if [ -f "$HOME/.gvm/scripts/gvm" ]; then source "$HOME/.gvm/scripts/gvm"; fi
