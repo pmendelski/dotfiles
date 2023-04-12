@@ -63,7 +63,7 @@ sudo apt install -y git
   tmpdir="$(mktemp -d -t lazygit-XXXX)"
   (
     cd "$tmpdir" &&
-      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" &&
+      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
       tar xf lazygit.tar.gz -C ~/.local/bin lazygit
   )
   rm -rf "$tmpdir"
