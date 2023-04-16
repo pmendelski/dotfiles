@@ -32,8 +32,11 @@ prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT &&
 if [ -f "$HOME/.bashrc_local" ]; then source "$HOME/.bashrc_local"; fi
 if [ -f "$HOME/.zshrc_local" ]; then source "$HOME/.zshrc_local"; fi
 if [ -f "$HOME/.sdkvm/init.sh" ]; then source "$HOME/.sdkvm/init.sh"; fi
-if [ -f "$HOME/.ghcup/env" ]; then source "$HOME/.ghcup/env"; fi
-if [ -f "$HOME/.gcloud/path.zsh.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
-if [ -f "$HOME/.gcloud/completion.zsh.inc" ]; then source "$HOME/.gcloud/completion.zsh.inc"; fi
 if [ -f "$HOME/.gvm/scripts/gvm" ]; then source "$HOME/.gvm/scripts/gvm"; fi
 if [ -f "$HOME/.gvm/scripts/completion" ]; then source "$HOME/.gvm/scripts/completion"; fi
+if [ -f "$HOME/.gcloud/path.bash.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
+if [ -f "$HOME/.gcloud/completion.bash.inc" ]; then
+  source "$HOME/.gcloud/completion.zsh.inc"
+elif [ -f "/usr/lib/google-cloud-sdk/completion.bash.inc" ]; then
+  source "/usr/lib/google-cloud-sdk/completion.bash.inc"
+fi
