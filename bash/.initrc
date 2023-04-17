@@ -11,9 +11,13 @@ if [ -f "$HOME/.gvm/scripts/gvm" ]; then source "$HOME/.gvm/scripts/gvm"; fi
 if [ -f "$HOME/.gvm/scripts/completion" ]; then source "$HOME/.gvm/scripts/completion"; fi
 
 # gcloud - GCP command line tool
-if [ -f "$HOME/.gcloud/path.bash.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
-if [ -f "$HOME/.gcloud/completion.bash.inc" ]; then
-  source "$HOME/.gcloud/completion.zsh.inc"
-elif [ -f "/usr/lib/google-cloud-sdk/completion.bash.inc" ]; then
-  source "/usr/lib/google-cloud-sdk/completion.bash.inc"
+_SHL="bash"
+if [ -n "$ZSH_VERSION" ]; then
+  _SHL="zsh"
+fi
+if [ -f "$HOME/.gcloud/path.$_SHL.inc" ]; then source "$HOME/.gcloud/path.$_SHL.inc"; fi
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.gcloud/completion.$_SHL.inc" ]; then
+  source "$HOME/.gcloud/completion.$_SHL.inc"
+elif [ -f "/usr/lib/google-cloud-sdk/completion.$_SHL.inc" ]; then
+  source "/usr/lib/google-cloud-sdk/completion.$_SHL.inc"
 fi
