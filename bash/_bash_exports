@@ -1,6 +1,9 @@
 # Setup flexi ZSH prompt
 export ZSH_PROMPT=flexi
 
+# Automatically update nvim plugins
+export NVIM_AUTOUPDATE=1
+
 # Force tmux
 export TMUX_FORCE="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"
 

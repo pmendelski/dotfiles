@@ -258,19 +258,21 @@ packer.startup({
 	config = config,
 })
 
-vim.defer_fn(function()
-	-- Check if there is only packer installed so we can decide if we should
-	-- use PackerInstall or PackerSync, useful for generating the
-	-- `plugin/packer_compiled.lua` on first doom launch
-	local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
-	if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
-		snapshots.create_snapshot()
-		packer.sync()
-	elseif installed == 0 then
-		packer.clean()
-		packer.install()
-		vim.cmd(':exe "normal \\<c-w>w"')
-		-- vim.cmd(':exe "normal \\<c-w>w"')
-		-- vim.cmd(':exe "normal \\<c-w>w"')
-	end
-end, 200)
+if require("os").getenv("NVIM_AUTOUPDATE") == "1" then
+	vim.defer_fn(function()
+		-- Check if there is only packer installed so we can decide if we should
+		-- use PackerInstall or PackerSync, useful for generating the
+		-- `plugin/packer_compiled.lua` on first doom launch
+		local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
+		if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
+			snapshots.create_snapshot()
+			packer.sync()
+		elseif installed == 0 then
+			packer.clean()
+			packer.install()
+			vim.cmd(':exe "normal \\<c-w>w"')
+			-- vim.cmd(':exe "normal \\<c-w>w"')
+			-- vim.cmd(':exe "normal \\<c-w>w"')
+		end
+	end, 200)
+end
