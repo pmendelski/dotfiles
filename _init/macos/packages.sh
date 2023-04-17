@@ -59,7 +59,6 @@ brew install git-delta
 brew install lazygit
 brew install htop
 brew install transmission
-brew install golangci-lint
 brew install shellcheck
 brew install zoxide
 

@@ -161,12 +161,6 @@ fi
 # curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
 #   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
-echo -e "\n>>> GO"
-if command -v go &>/dev/null; then
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh |
-    sh -s -- -b "$(go env GOPATH)/bin"
-fi
-
 echo -e "\n>>> Other"
 # Another package installer
 sudo apt install -y gdebi

@@ -29,7 +29,7 @@ installGolangciLint() {
   mkdir -p "$(dirname "$nvimdir")"
   mkdir -p ~/.local/bin
   mv "$tmpdir/golangci-lint-$version-$os-$arch" "$nvimdir"
-  ln -fs "$nvimdir/golanci-lint" ~/.local/bin/golangci-lint
+  ln -fs "$nvimdir/golangci-lint" ~/.local/bin/golangci-lint
   rm -rf "$tmpdir"
 }
 
