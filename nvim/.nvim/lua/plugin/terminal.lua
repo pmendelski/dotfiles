@@ -15,13 +15,16 @@ local commands = {
 local _M = {}
 local current
 local terms_by_name = {}
+local term_env = {
+	NVIM_TERM = 1,
+}
 
 local function is_opened(terminal)
 	return terminal ~= nil and terminal.buf ~= nil and terminal.win ~= nil and tutils.is_win_valid(terminal.win)
 end
 
 function _M.config()
-	fterm.setup({})
+	-- fterm.setup()
 end
 
 function _M.toggle(name)
@@ -33,7 +36,8 @@ function _M.toggle(name)
 		if is_opened(current) then
 			current:close()
 		end
-		local term = commands[name] ~= "" and fterm:new({ cmd = commands[name] }) or fterm:new({})
+		local term = commands[name] ~= "" and fterm:new({ cmd = commands[name], env = term_env })
+			or fterm:new({ env = term_env })
 		terms_by_name[name] = term
 		term:toggle()
 		current = term

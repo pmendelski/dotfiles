@@ -78,6 +78,14 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
+		["<Down>"] = cmp.mapping(function(fallback)
+			cmp.close()
+			fallback()
+		end, { "i", "s" }),
+		["<Up>"] = cmp.mapping(function(fallback)
+			cmp.close()
+			fallback()
+		end, { "i", "s" }),
 		-- ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item({
 		--   behavior = cmp.SelectBehavior.Select
 		-- }), { 'i', 'c' }),

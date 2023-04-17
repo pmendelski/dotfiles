@@ -68,6 +68,8 @@
   default = simple
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
+  # Automatically setup remote branch to track on the first push
+  autoSetupRemote = true
 
 [apply]
   # Detect whitespace errors when applying a patch

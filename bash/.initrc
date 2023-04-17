@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Init scripts
+# Loaded after .zshrc and .bashrc
+# A good place to source other scripts
+
+# sdkvm - software development kit version manager
+if [ -f "$HOME/.sdkvm/init.sh" ]; then source "$HOME/.sdkvm/init.sh"; fi
+
+# gvm - go version manager
+if [ -f "$HOME/.gvm/scripts/gvm" ]; then source "$HOME/.gvm/scripts/gvm"; fi
+if [ -f "$HOME/.gvm/scripts/completion" ]; then source "$HOME/.gvm/scripts/completion"; fi
+
+# gcloud - GCP command line tool
+if [ -f "$HOME/.gcloud/path.bash.inc" ]; then source "$HOME/.gcloud/path.zsh.inc"; fi
+if [ -f "$HOME/.gcloud/completion.bash.inc" ]; then
+  source "$HOME/.gcloud/completion.zsh.inc"
+elif [ -f "/usr/lib/google-cloud-sdk/completion.bash.inc" ]; then
+  source "/usr/lib/google-cloud-sdk/completion.bash.inc"
+fi

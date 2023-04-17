@@ -50,10 +50,10 @@ packer.startup({
 		-- Icons
 		use("kyazdani42/nvim-web-devicons")
 		-- Profiling
-		use({
-			"dstein64/vim-startuptime",
-			cmd = "StartupTime",
-		})
+		-- use({
+		-- 	"dstein64/vim-startuptime",
+		-- 	cmd = "StartupTime",
+		-- })
 		-- Show indents
 		use({
 			"lukas-reineke/indent-blankline.nvim",

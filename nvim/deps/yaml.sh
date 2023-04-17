@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-npm i -g yaml-language-server
+if command -v npm &>/dev/null; then
+  npm i -g yaml-language-server
+else
+  echo "Missing command: npm" >&2
+  echo "Skipped: yaml-language-server"
+fi

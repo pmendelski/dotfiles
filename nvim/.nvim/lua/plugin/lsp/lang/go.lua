@@ -23,8 +23,6 @@ end
 function _M.setup(config)
 	-- Imports:
 	-- https://github.com/neovim/nvim-lspconfig/issues/115
-	-- https://github.com/neovim/nvim-lspconfig/issues/115
-
 	lspconfig.gopls.setup(config({
 		cmd = { "gopls" },
 		filetypes = { "go", "gomod", "gowork", "gotmpl" },

@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-go install golang.org/x/tools/gopls@latest
-go install mvdan.cc/sh/v3/cmd/shfmt@latest
+if command -v go &>/dev/null; then
+  go install golang.org/x/tools/gopls@latest
+  go install honnef.co/go/tools/cmd/staticcheck@latest
+  go install mvdan.cc/gofumpt@latest
+else
+  echo "Missing command: go" >&2
+  echo "Skipped: gopls, staticcheck, gofumpt"
+fi

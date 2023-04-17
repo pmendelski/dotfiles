@@ -6,13 +6,14 @@ source "$SDIR/../bash/.bash/util/terminal.sh"
 
 installNvimDependencies() {
   printInfo "Installing nvim dependencies"
-  local -r files="$(find "$SDIR/deps" -mindepth 1 -maxdepth 1 -type f | sort | sed -n "s|^.*/||p")"
-  for file in $files; do
+  for file in $(find "$SDIR/deps" -mindepth 1 -maxdepth 1 -type f | sort | sed -n "s|^.*/||p"); do
     printInfo "Installing nvim dependency: $file"
     "$SDIR/deps/$file" &&
       printSuccess "Installed nvim dependency: $file" ||
       printError "Could not install nvim dependency: $file"
   done
+  printInfo "To reinstall nvim dependencies run: nvim-install-deps"
+  printInfo "...or reinstall single nvim dependency with: nvim-install-dep NAME"
 }
 
 installNvimPlugins() {

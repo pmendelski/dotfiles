@@ -129,7 +129,7 @@ set backspace=indent,eol,start
 set expandtab " use spaces for tabs
 set shiftwidth=2
 set softtabstop=2 " number of spaces in tab when editing
-set tabstop=2 " number of visual spaces per TAB
+set tabstop=4 " number of visual spaces per TAB
 " Wrapping options
 set nowrap
 set formatoptions+=tc " wrap text and comments using textwidth
@@ -154,7 +154,8 @@ filetype plugin on "  load filetype-specific plugins
 autocmd FileType text,markdown,xml,json,yaml,html,xhtml,javascript setlocal cc=0
 " 2 spaces for selected filetypes
 autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
-
+# hard tab for selected filetypes
+autocmd FileType go setlocal noexpandtab
 " Tmux
 "-----------------------------------------------------------
 if &term =~ '^screen'

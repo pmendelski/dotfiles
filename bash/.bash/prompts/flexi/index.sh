@@ -183,12 +183,14 @@ function __flexiPromptTimer() {
 
 function __flexiPromptShlvl() {
   local exit=$?
+  local modifier="${#__FLEXI_PROMPT_SHLVL_MODIF}"
   local treshold=$__FLEXI_PROMPT_SHLVL
   local prefix="$__FLEXI_PROMPT_SHLVL_BEFORE"
   local suffix="$__FLEXI_PROMPT_SHLVL_AFTER"
-  [ "$treshold" -lt 0 ] || [ $SHLVL -gt "$treshold" ] &&
+  local lvl=$((SHLVL - modifier))
+  [ "$treshold" -lt 0 ] || [ $lvl -gt "$treshold" ] &&
     [[ ! $TERM =~ ^screen ]] &&
-    echo -ne "$prefix$SHLVL$suffix"
+    echo -ne "$prefix$lvl$suffix"
   return $exit
 }
 

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-npm i -g pyright
+if command -v npm &>/dev/null; then
+  npm i -g pyright
+else
+  echo "Missing command: npm" >&2
+  echo "Skipped: pyright"
+fi

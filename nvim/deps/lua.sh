@@ -4,20 +4,40 @@ set -euf -o pipefail
 installLuaLangServer() {
   local -r dataDir="$(nvim --cmd ":echo stdpath('data')" --cmd "qall" --headless -u NONE 2>&1)"
   local -r luaDir="$dataDir/lang-servers/lua_ls"
-  if [ -d "$luaDir" ]; then
-    cd "$luaDir"
-    git fetch
-    if [ "$(git rev-parse HEAD)" == "$(git rev-parse "@{u}")" ]; then
-      # up to date
-      return
-    fi
-    git pull
-  else
-    git clone --depth=1 https://github.com/luals/lua-language-server "$luaDir"
-    cd "$luaDir"
+  local -r version="$(curl -s "https://api.github.com/repos/LuaLS/lua-language-server/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
+  if [ -z "$version" ]; then
+    echo "Could not locate newest lua version" >&2
+    return 1
   fi
-  ./make.sh
+  local os="linux"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    os="darwin"
+  fi
+  local arch="x64"
+  if [ "$(uname -m)" == "arm64" ]; then
+    arch="arm64"
+  fi
+  tmpdir="$(mktemp -d -t lua-XXXX)"
+  echo "$tmpdir"
+  (
+    cd "$tmpdir" &&
+      curl -Lo lua.tar.gz "https://github.com/LuaLS/lua-language-server/releases/download/$version/lua-language-server-$version-$os-$arch.tar.gz" &&
+      tar xf lua.tar.gz
+  )
+  if [ -d "$luaDir" ]; then
+    rm -rf "${luaDir}_bak"
+    mv "$luaDir" "${luaDir}_bak"
+  fi
+  mkdir -p "$dataDir/lang-servers"
+  mv "$tmpdir" "$luaDir"
 }
 
-cargo install stylua
 installLuaLangServer
+echo "Installed lua language server"
+
+if command -v cargo &>/dev/null; then
+  cargo install stylua
+else
+  echo "Missing command: cargo"
+  echo "Skipped: stylua"
+fi
