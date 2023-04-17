@@ -85,6 +85,7 @@ function _M.config()
 					["<C-h>"] = "which_key",
 					["<C-k>"] = lga.quote_prompt(),
 					["<C-i>"] = lga.quote_prompt({ postfix = " --iglob " }),
+					["<F1>"] = actions.close,
 				},
 				n = {
 					["q"] = actions.close,

@@ -22,6 +22,7 @@ nvim-install() {
   mv "$tmpdir/nvim-$os" "$nvimdir"
   ln -fs "$nvimdir/bin/nvim" ~/.local/bin/nvim
   rm -rf "$tmpdir"
+  ~/.dotfiles/nvim/install.sh
 }
 
 nvim-install-dep() {
@@ -32,7 +33,7 @@ nvim-install-dep() {
     find "$HOME/.dotfiles/nvim/deps" | sed -n "s|^.\+/\([^/.]\+\)\.sh|\1|p" >&2
     return 1
   fi
-  "$HOME/.dotfiles/nvim/deps/$dep"
+  "$HOME/.dotfiles/nvim/deps/$dep.sh"
 }
 
 nvim-install-deps() {
