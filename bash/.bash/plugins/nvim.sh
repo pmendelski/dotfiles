@@ -10,12 +10,17 @@ nvim-install() {
   (
     cd "$tmpdir" &&
       curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-$os.tar.gz" &&
-      tar xf nvim.tar.gz &&
-      mkdir -p ~/.local/app/ &&
-      rm -rf ~/.local/app/nvim &&
-      mv nvim-$os ~/.local/app/nvim &&
-      ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
+      tar xf nvim.tar.gz
   )
+  local -r nvimdir="$HOME/.local/app/nvim"
+  if [ -d "$nvimdir" ]; then
+    rm -rf "${nvimdir}_bak"
+    mv "$nvimdir" "${nvimdir}_bak"
+  fi
+  mkdir -p "$(dirname "$nvimdir")"
+  mkdir -p ~/.local/bin
+  mv "$tmpdir/nvim-$os" "$nvimdir"
+  ln -fs "$nvimdir/bin/nvim" ~/.local/bin/nvim
   rm -rf "$tmpdir"
 }
 
