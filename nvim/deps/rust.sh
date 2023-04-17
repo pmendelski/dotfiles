@@ -7,4 +7,5 @@ if command -v rustup &>/dev/null; then
 else
   echo "Missing command: rustup" >&2
   echo "Skipped: rust-analyzer, rls and more..."
+  exit 1
 fi

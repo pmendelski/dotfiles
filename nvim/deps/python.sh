@@ -6,4 +6,5 @@ if command -v npm &>/dev/null; then
 else
   echo "Missing command: npm" >&2
   echo "Skipped: pyright"
+  exit 1
 fi

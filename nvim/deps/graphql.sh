@@ -6,4 +6,5 @@ if command -v npm &>/dev/null; then
 else
   echo "Missing command: npm" >&2
   echo "Skipped: graphql-language-service-cli"
+  exit 1
 fi

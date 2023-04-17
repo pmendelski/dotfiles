@@ -40,4 +40,5 @@ if command -v cargo &>/dev/null; then
 else
   echo "Missing command: cargo"
   echo "Skipped: stylua"
+  exit 1
 fi

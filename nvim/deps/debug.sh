@@ -7,4 +7,5 @@ if command -v code &>/dev/null; then
 else
   echo "Missing command: code" >&2
   echo "Skipped: vadimcn.vscode-lldb"
+  exit 1
 fi

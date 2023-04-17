@@ -8,4 +8,5 @@ if command -v go &>/dev/null; then
 else
   echo "Missing command: go" >&2
   echo "Skipped: gopls, staticcheck, gofumpt"
+  exit 1
 fi
