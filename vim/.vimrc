@@ -154,7 +154,7 @@ filetype plugin on "  load filetype-specific plugins
 autocmd FileType text,markdown,xml,json,yaml,html,xhtml,javascript setlocal cc=0
 " 2 spaces for selected filetypes
 autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml setlocal shiftwidth=2 tabstop=2
-# hard tab for selected filetypes
+" hard tab for selected filetypes
 autocmd FileType go setlocal noexpandtab
 " Tmux
 "-----------------------------------------------------------

@@ -18,7 +18,6 @@ installLuaLangServer() {
     arch="arm64"
   fi
   tmpdir="$(mktemp -d -t lua-XXXX)"
-  echo "$tmpdir"
   (
     cd "$tmpdir" &&
       curl -Lo lua.tar.gz "https://github.com/LuaLS/lua-language-server/releases/download/$version/lua-language-server-$version-$os-$arch.tar.gz" &&
