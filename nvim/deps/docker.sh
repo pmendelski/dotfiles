@@ -16,7 +16,7 @@ installHadolint() {
     arch="arm64"
   fi
   tmpdir="$(mktemp -d -t hadolint-XXXX)"
-  curl -Lo $tmpdir/hadolint "https://github.com/hadolint/hadolint/releases/download/v$version/hadolint-$version-$os-$arch"
+  curl -Lo $tmpdir/hadolint "https://github.com/hadolint/hadolint/releases/download/v$version/hadolint-$os-$arch"
   local -r appdir="$HOME/.local/app/hadolint"
   if [ -d "$appdir" ]; then
     rm -rf "${appdir}_bak"
@@ -26,6 +26,7 @@ installHadolint() {
   mkdir -p ~/.local/bin
   mv "$tmpdir" "$appdir"
   ln -fs "$appdir/hadolint" ~/.local/bin/hadolint
+  chmod u+x "$appdir/hadolint"
 }
 
 installHadolint
