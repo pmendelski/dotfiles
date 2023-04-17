@@ -81,6 +81,9 @@ sudo apt install -y jq
 wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
   chmod +x ~/.local/bin/yq
 
+echo -e "\n>>> Linters"
+sudo apt intall -y yamllint
+
 echo -e "\n>>> gcloud"
 [ ! -d "$HOME/.gcloud" ] && (
   GCLOUD_VERSION="$(

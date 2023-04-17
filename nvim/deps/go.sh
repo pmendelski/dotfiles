@@ -21,15 +21,15 @@ installGolangciLint() {
       curl -Lo golangci-lint.tar.gz "https://github.com/golangci/golangci-lint/releases/download/v$version/golangci-lint-$version-$os-$arch.tar.gz" &&
       tar xf golangci-lint.tar.gz
   )
-  local -r nvimdir="$HOME/.local/app/golangci-lint"
-  if [ -d "$nvimdir" ]; then
-    rm -rf "${nvimdir}_bak"
-    mv "$nvimdir" "${nvimdir}_bak"
+  local -r appdir="$HOME/.local/app/golangci-lint"
+  if [ -d "$appdir" ]; then
+    rm -rf "${appdir}_bak"
+    mv "$appdir" "${appdir}_bak"
   fi
-  mkdir -p "$(dirname "$nvimdir")"
+  mkdir -p "$(dirname "$appdir")"
   mkdir -p ~/.local/bin
-  mv "$tmpdir/golangci-lint-$version-$os-$arch" "$nvimdir"
-  ln -fs "$nvimdir/golangci-lint" ~/.local/bin/golangci-lint
+  mv "$tmpdir/golangci-lint-$version-$os-$arch" "$appdir"
+  ln -fs "$appdir/golangci-lint" ~/.local/bin/golangci-lint
   rm -rf "$tmpdir"
 }
 
