@@ -13,6 +13,9 @@ alias ~="cd ~"
 alias -- -="cd -"
 alias groot='cd $(git root)'
 
+# cd to tmp directory
+alias cdtmp='cd `mktemp -d /tmp/cdtmp-XXXXXX`'
+
 # Better ls
 alias ls="ls -aFh --color --group-directories-first"
 alias lld='ls -lha --group-directories-first | grep --color="never" "^d"'
