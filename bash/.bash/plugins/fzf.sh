@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -n "${BASH_VERSION}" ] && [ -f ~/.fzf.bash ]; then
-  source ~/.fzf.bash
-else
-  if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
-    source "/usr/share/doc/fzf/examples/key-bindings.bash"
+if [ -n "${BASH_VERSION}" ]; then
+  if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+  else
+    if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
+      source "/usr/share/doc/fzf/examples/key-bindings.bash"
+    fi
   fi
 fi
 
