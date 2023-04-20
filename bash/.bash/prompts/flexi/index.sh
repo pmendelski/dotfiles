@@ -221,6 +221,17 @@ function __flexiPromptSetupDefaults() {
   source "$FLEXI_PROMPT_DIR/defaults.sh"
 }
 
+function __flexiPromptCmdSign() {
+  local cmdstatus=${1:-0}
+  local sign="$__FLEXI_PROMPT_CMD_SUCCESS"
+  if [ "$cmdstatus" != 0 ]; then
+    sign="$__FLEXI_PROMPT_CMD_ERROR"
+  elif [ -n "${SSH_CONNECTION-}" ]; then
+    sign="$__FLEXI_PROMPT_CMD_SUCCESS_SSH"
+  fi
+  echo "$sign"
+}
+
 function __flexiRebuildPrompts() {
 
   function buildPS1() {
@@ -243,7 +254,7 @@ function __flexiRebuildPrompts() {
     [ -n "$__FLEXI_PROMPT_TIMER" ] && PS1+='$(__flexiPromptTimer)'
     [ -n "$__FLEXI_PROMPT_NEWLINE" ] && PS1+='$(__flexiPromptNewLine)'
     # shellcheck disable=SC2154
-    PS1+='$(declare cmdstatus=${?:-0}; [ $cmdstatus != 0 ] && echo "$__FLEXI_PROMPT_CMD_ERROR" || echo "$__FLEXI_PROMPT_CMD_SUCCESS"; exit $cmdstatus)'
+    PS1+='$(declare cmdstatus=${?:-0}; __flexiPromptCmdSign $cmdstatus; exit $cmdstatus)'
     echo "$PS1"
   }
 

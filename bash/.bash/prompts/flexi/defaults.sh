@@ -12,6 +12,7 @@
 : ${__FLEXI_PROMPT_SIGN:="❯"} # or λ
 : ${__FLEXI_PROMPT_CMD_ERROR:="$(__flexiPromptUnprintable "$COLOR_RED_BOLD")$__FLEXI_PROMPT_SIGN$(__flexiPromptUnprintable "$COLOR_RESET") "}
 : ${__FLEXI_PROMPT_CMD_SUCCESS:="$(__flexiPromptUnprintable "$COLOR_MAGENTA")$__FLEXI_PROMPT_SIGN$(__flexiPromptUnprintable "$COLOR_RESET") "}
+: ${__FLEXI_PROMPT_CMD_SSH_SUCCESS:="$(__flexiPromptUnprintable "$COLOR_YELLOW")$__FLEXI_PROMPT_SIGN$(__flexiPromptUnprintable "$COLOR_RESET") "}
 
 ################################################################################
 # Globals
