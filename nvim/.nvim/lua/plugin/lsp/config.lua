@@ -94,9 +94,9 @@ lspconfig.graphql.setup(config())
 -- Groovy
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#groovyls
 -- https://github.com/prominic/groovy-language-server.git
-lspconfig.groovyls.setup(config({
-	cmd = { vim.fn.expand("~/.nvim/lang/groovy/run.sh") },
-}))
+-- lspconfig.groovyls.setup(config({
+-- 	cmd = { vim.fn.expand("~/.nvim/lang/groovy/run.sh") },
+-- }))
 
 -- Go
 require("plugin/lsp/lang/go").setup(config)
@@ -141,9 +141,9 @@ require("plugin/lsp/lang/go").setup(config)
 -- Kotlin
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#kotlin_language_server
 -- https://github.com/fwcd/kotlin-language-server
-lspconfig.kotlin_language_server.setup(config({
-	cmd = { vim.fn.expand("~/.nvim/lang/kotlin/bin/kotlin-language-server") },
-}))
+-- lspconfig.kotlin_language_server.setup(config({
+-- 	cmd = { vim.fn.expand("~/.nvim/lang/kotlin/bin/kotlin-language-server") },
+-- }))
 
 -- Python
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#pyright

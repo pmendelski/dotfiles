@@ -2,7 +2,8 @@ local go = require("plugin/lsp/lang/go")
 local _M = {}
 
 function _M.format()
-	local ft = vim.api.nvim_buf_get_option(0, "filetype")
+	local buf = vim.api.nvim_get_current_buf()
+	local ft = vim.api.nvim_buf_get_option(buf, "filetype")
 	if ft == "go" then
 		go.organizeImports()
 	end

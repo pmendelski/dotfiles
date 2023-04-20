@@ -23,7 +23,7 @@ end
 
 function M.configure_client(client, buf)
 	local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
-	if M.has_formatter(filetype) then
+	if client.server_capabilities.documentFormattingProvider == false and M.has_formatter(filetype) then
 		local enabled = client.name == "null-ls"
 		client.server_capabilities.documentFormattingProvider = enabled
 	end
