@@ -48,3 +48,4 @@ fi
 source "$HOME/.bash/index.sh"
 if [ -f "$HOME/.bashrc_local" ]; then source "$HOME/.bashrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
+if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
