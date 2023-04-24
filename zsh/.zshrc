@@ -22,7 +22,9 @@ fi
 if [ "$USER" != "root" ] &&
   [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
   [ -z "$IDE_MODE" ]; then
-  exec tmux && exit
+  exec tmux new-session -A -s main
+  # tmux new-session -A -s main
+  # echo "Exited TMUX"
 fi
 
 source ~/.zsh/index.zsh

@@ -25,7 +25,7 @@ esac
 
 # Force zsh
 if [ "$USER" != "root" ] && [ "$ZSH_FORCE" == "1" ] && [ -z "$ZSH_VERSION" ]; then
-  exec zsh && exit
+  exec zsh && echo "Exited zsh. Using bash..."
 fi
 
 # Detect ide mode
@@ -41,7 +41,9 @@ fi
 if [ "$USER" != "root" ] &&
   [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
   [ -z "$IDE_MODE" ]; then
-  exec tmux && exit
+  exec tmux new-session -A -s main
+  # tmux new-session -A -s main
+  # echo "Exited TMUX"
 fi
 
 # Init scripts

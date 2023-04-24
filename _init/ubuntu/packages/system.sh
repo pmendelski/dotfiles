@@ -15,7 +15,9 @@ sudo apt install -y \
   tree \
   ripgrep \
   htop \
-  zoxide
+  zoxide \
+  ranger \
+  exa
 
 sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
@@ -67,7 +69,9 @@ sudo apt install -y \
   cabextract \
   file-roller \
   unp \
-  alien
+  alien \
+  gzip \
+  dtrx
 
 echo -e "\n>>> Build tools"
 sudo apt install -y \
@@ -111,6 +115,21 @@ sudo apt install -y \
   )
   rm -rf "$tmpdir"
 ) || echo "lazygit already installed"
+
+# Cheat
+(! command -v cheat &>/dev/null) && (
+  echo "Installing cheat"
+  version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
+  tmpdir="$(mktemp -d -t cheat-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo cheat.gz "https://github.com/cheat/cheat/releases/download/${version}/cheat-linux-amd64.gz" &&
+      gunzip cheat.gz &&
+      chmod u+x cheat &&
+      sudo mv cheat-linux-amd64 /usr/local/bin/cheat
+  )
+  rm -rf "$tmpdir"
+) || echo "cheat already installed"
 
 echo -e "\n>>> Network tools"
 sudo apt install -y \

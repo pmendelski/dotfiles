@@ -61,6 +61,10 @@ brew install htop
 brew install transmission
 brew install shellcheck
 brew install zoxide
+brew install cheat
+brew install ranger
+brew install dtrx
+brew install exa
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer

@@ -15,16 +15,21 @@ alias groot='cd $(git root)'
 
 # cd to tmp directory
 alias cdtmp='cd `mktemp -d /tmp/cdtmp-XXXXXX`'
+# ranger for nice dir traversal
+alias cdr='ranger'
 
 # Better ls
-alias ls="ls -aFh --color --group-directories-first"
-alias lld='ls -lha --group-directories-first | grep --color="never" "^d"'
-alias llf='ls -lha --group-directories-first | grep --color="never" "^[^d]"'
-alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color'
-alias la='ls -A --group-directories-first --color'
-alias l='ls -CF --group-directories-first --color'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
+if command -v exa &>/dev/null; then
+  alias l="exa -aF --icons --group-directories-first"
+  alias ls="exa -aF --icons --group-directories-first"
+  alias lld='exa -la --group-directories-first --only-dirs'
+  alias ll='exa -alF --icons --group-directories-first'
+else
+  alias l="ls -aFh --color --group-directories-first"
+  alias ls="ls -aFh --color --group-directories-first"
+  alias lld='ls -lha --group-directories-first | grep --color="never" "^d"'
+  alias ll='LC_COLLATE=C ls -alhF --group-directories-first --color'
+fi
 
 # Push and pop directories on directory stack
 alias pu='pushd'
@@ -67,6 +72,7 @@ alias tls='tmux ls'
 alias tmux-kill='tmux kill-server'
 alias tmux-kill-windows='tmux kill-window -a'
 alias tmux-kill-sessions='tmux kill-session -a'
+alias tmux-main='tmux new-session -A -s main'
 
 # File/Directory Sizes
 alias ducks='du -cksh * | sort -hr'
