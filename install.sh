@@ -153,6 +153,19 @@ function update() {
   git credential-cache exit
 }
 
+function stashAndUpdate() {
+  git config credential.helper cache
+  git stash --include-untracked
+  local branchName="$(git rev-parse --abbrev-ref HEAD)"
+  git pull --rebase origin "$branchName"
+  updateDotfiles
+  git credential-cache exit
+  if ! git stash pop; then
+    echo "Could not pop stashed changes. Fix manually with: git stash pop"
+    git reset --hard && git clean -df
+  fi
+}
+
 function printHelp() {
   echo "dotfiles"
   echo "Source: https://github.com/pmendelski/dotfiles"
@@ -168,6 +181,7 @@ function printHelp() {
   echo "  -y, --yes      Assume 'yes'. Override all files with new ones."
   echo "  -n, --no       Assume 'no'. Do not override any file with new one."
   echo "  -u, --update   Update dotfiles from the repository."
+  echo "  -t, --stash    Stash local changes and update dotfiles from the repository."
   echo "  -v, --verbose  Print additional logs."
   echo "  -s, --silent   Disable logs. Except confirmations."
   echo "  -d, --dryrun   Run installation without making any changes."
@@ -201,6 +215,10 @@ while (($#)); do
     ;;
   --update | -u)
     update
+    exit 0
+    ;;
+  --stash | -t)
+    stashAndUpdate
     exit 0
     ;;
   --) # End of all options.
