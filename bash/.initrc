@@ -16,8 +16,10 @@ if [ -n "$ZSH_VERSION" ]; then
   _SHL="zsh"
 fi
 if [ -f "$HOME/.gcloud/path.$_SHL.inc" ]; then source "$HOME/.gcloud/path.$_SHL.inc"; fi
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.gcloud/completion.$_SHL.inc" ]; then
+if [ -f "$HOME/.gcloud/completion.$_SHL.inc" ]; then
   source "$HOME/.gcloud/completion.$_SHL.inc"
+elif [ -f "/usr/share/google-cloud-sdk/completion.$_SHL.inc" ]; then
+  source "/usr/share/google-cloud-sdk/completion.$_SHL.inc"
 elif [ -f "/usr/lib/google-cloud-sdk/completion.$_SHL.inc" ]; then
   source "/usr/lib/google-cloud-sdk/completion.$_SHL.inc"
 fi

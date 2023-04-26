@@ -9,7 +9,10 @@ sudo apt install -y \
   tree \
   ripgrep \
   htop \
-  zoxide
+  zoxide \
+  ranger \
+  dtrx \
+  exa
 
 # better find
 sudo apt install -y fd-find
@@ -50,6 +53,20 @@ sudo apt install -y \
   build-essential \
   make \
   shellcheck
+
+(! command -v cheat &>/dev/null) && (
+  echo "Installing cheat"
+  version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
+  tmpdir="$(mktemp -d -t cheat-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo cheat.gz "https://github.com/cheat/cheat/releases/download/${version}/cheat-linux-amd64.gz" &&
+      gunzip cheat.gz &&
+      chmod u+x cheat &&
+      mv cheat ~/.local/bin/cheat
+  )
+  rm -rf "$tmpdir"
+) || echo "cheat already installed"
 
 echo -e "\n>>> GIT"
 # sudo add-apt-repository -y ppa:git-core/ppa

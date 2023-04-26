@@ -126,7 +126,7 @@ sudo apt install -y \
       curl -Lo cheat.gz "https://github.com/cheat/cheat/releases/download/${version}/cheat-linux-amd64.gz" &&
       gunzip cheat.gz &&
       chmod u+x cheat &&
-      sudo mv cheat-linux-amd64 /usr/local/bin/cheat
+      sudo mv cheat /usr/local/bin/cheat
   )
   rm -rf "$tmpdir"
 ) || echo "cheat already installed"

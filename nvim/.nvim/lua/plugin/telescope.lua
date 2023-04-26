@@ -75,6 +75,14 @@ function _M.config()
 
 	telescope.setup({
 		defaults = {
+			path_display = {
+				shorten = {
+					len = 3,
+					exclude = { 1, -1 },
+				},
+				truncate = true,
+			},
+			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
 			mappings = {
 				i = {
