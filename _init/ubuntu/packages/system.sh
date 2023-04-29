@@ -34,18 +34,14 @@ if [ ! -f ~/.local/bin/bat ]; then
 fi
 
 # Install gogh - theme switcher for terminal
-if [ -d "$HOME/.gogh" ]; then
-  cd "$HOME/.gogh"
-  git fetch
-  git reset --hard @{u}
-  cd themes
-else
+if [ ! -d "$HOME/.gogh" ]; then
   cd "$HOME"
   git clone https://github.com/Mayccoll/Gogh.git .gogh
-  cd .gogh/themes
+  cd .gogh/install
+  export TERMINAL=gnome-terminal
+  ./tokyo-night.sh
+  cd "$HOME"
 fi
-# ./atom.sh
-./tokyo-night.sh
 
 echo -e "\n>>> Vim & Neovim"
 sudo apt install -y vim

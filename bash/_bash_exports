@@ -1,6 +1,6 @@
 # Force tmux and zsh
 export TMUX_FORCE="$([ -x "$(command -v tmux)" ] && echo '1' || echo '0')"
-export ZSH_FORCE:="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"
+export ZSH_FORCE="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"
 # Default term
 export TERM="xterm-256color"
 # Setup flexi ZSH prompt
@@ -11,8 +11,3 @@ export NVIM_AUTOUPDATE=1
 export PROMPT_DEFAULT_USERHOST="@PROMPT_DEFAULT_USERHOST@"
 # Enable gpg
 export GPG_TTY="$(tty)"
-# Required by Gogh
-# https://github.com/Mayccoll/Gogh#install-non-interactive-mode
-if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
-  export TERMINAL="gnome-terminal"
-fi

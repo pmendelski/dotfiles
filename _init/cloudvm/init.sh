@@ -42,7 +42,7 @@ sudo apt install -y vim
       tar xf nvim.tar.gz -C ~/.local &&
       mkdir -p ~/.local/app/ &&
       rm -rf ~/.local/app/nvim &&
-      mv ~/.local/app/nvim-linux64 ~/.local/app/nvim &&
+      mv ~/.local/nvim-linux64 ~/.local/app/nvim &&
       ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
   )
   rm -rf "$tmpdir"

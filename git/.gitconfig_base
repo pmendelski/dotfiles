@@ -150,3 +150,9 @@
   custom = format:"%C(reset)%C(bold magenta)%h %C(cyan)%ad %C(blue)%an%C(reset) %C(yellow)(%ar) %C(bold red)%d%C(reset)%n  %C(green)%s%C(reset)"
   custom-oneline = format:"%C(reset)%C(bold magenta)%h %C(cyan)%ad %C(blue)%an%C(reset) %C(yellow)(%ar) %C(bold red)%d%C(reset) %C(green)%s%C(reset)"
   custom-short = format:"%C(reset)%C(bold magenta)%h%C(reset) %C(green)%s%C(reset) %C(bold red)%d"
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true

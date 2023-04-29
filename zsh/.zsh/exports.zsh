@@ -18,9 +18,3 @@ export PROMPT_EOL_MARK=''
 
 # Default PS1
 PS1="%n@%m:%~%# "
-
-# Required by Gogh
-# https://github.com/Mayccoll/Gogh#install-non-interactive-mode
-if [[ "$(uname -a)" == *"Ubuntu"* ]]; then
-  export TERMINAL="gnome-terminal"
-fi
