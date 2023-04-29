@@ -30,15 +30,26 @@ function __loadLocalZshFiles() {
   done
 }
 
+function sourceOptional() {
+  local -r file="${1?Expected file}"
+  if [ -f "$file" ]; then
+    source "$file"
+  fi
+}
+
 function __loadZsh() {
   source "$HOME/.bash/index.sh"
   source "$HOME/.zsh/exports.zsh"
+  sourceOptional "$HOME/.dotfiles-ext/exports.zsh"
   source "$HOME/.zsh/aliases.zsh"
+  sourceOptional "$HOME/.dotfiles-ext/aliases.zsh"
   __loadLocalZshFiles
   __loadZshPlugins "$HOME/.zsh/lib"
+  __loadZshPlugins "$HOME/.dotfiles-ext/zsh/lib"
   # zsh-syntax-highligting must be loaded before others
   __loadZshPlugin "$HOME/.zsh/plugins/zsh-syntax-highlighting.zsh"
   __loadZshPlugins "$HOME/.zsh/plugins"
+  __loadZshPlugins "$HOME/.dotfiles-ext/zsh/plugins"
   __loadZshPlugins "$HOME/.zsh/ohmyzsh"
 }
 

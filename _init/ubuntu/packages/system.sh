@@ -100,7 +100,7 @@ sudo apt install -y \
   gitg
 
 # Lazygit
-(! command -v lazygit &>/dev/null) && (
+if ! command -v lazygit &>/dev/null; then
   echo "Installing lazygit"
   version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
   tmpdir="$(mktemp -d -t lazygit-XXXX)"
@@ -110,10 +110,10 @@ sudo apt install -y \
       tar xf lazygit.tar.gz -C ~/.local/bin lazygit
   )
   rm -rf "$tmpdir"
-) || echo "lazygit already installed"
+fi
 
 # Cheat
-(! command -v cheat &>/dev/null) && (
+if ! command -v cheat &>/dev/null; then
   echo "Installing cheat"
   version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
   tmpdir="$(mktemp -d -t cheat-XXXX)"
@@ -125,7 +125,7 @@ sudo apt install -y \
       sudo mv cheat /usr/local/bin/cheat
   )
   rm -rf "$tmpdir"
-) || echo "cheat already installed"
+fi
 
 echo -e "\n>>> Network tools"
 sudo apt install -y \
@@ -144,7 +144,7 @@ sudo apt install -y \
   macchanger
 
 echo -e ">>> gcloud"
-[ ! -d "$HOME/.gcloud" ] && (
+if [ ! -d "$HOME/.gcloud" ]; then
   GCLOUD_VERSION="$(
     curl -s "https://hub.docker.com/v2/repositories/google/cloud-sdk/tags/?page_size=1000" |
       jq '.results | .[] | .name' -r |
@@ -164,7 +164,7 @@ echo -e ">>> gcloud"
   gcloud components install alpha
   gcloud components install beta
   gcloud components install cloud-run-proxy
-) || echo "Already installed"
+fi
 
 echo -e "\n>>> Rust"
 if ! command -v rustup &>/dev/null; then

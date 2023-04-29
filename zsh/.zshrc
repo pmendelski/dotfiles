@@ -38,4 +38,5 @@ prompt -l | tail -1 | tr ' ' '\n' | grep -q $ZSH_PROMPT &&
 # Init scripts
 if [ -f "$HOME/.zshrc_local" ]; then source "$HOME/.zshrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
+if [ -f "$HOME/.initrc_ext" ]; then source "$HOME/.initrc_ext"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi

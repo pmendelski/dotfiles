@@ -46,13 +46,24 @@ function __loadPath() {
   fi
 }
 
+function sourceOptional() {
+  local -r file="${1?Expected file}"
+  if [ -f "$file" ]; then
+    source "$file"
+  fi
+}
+
 function __loadBash() {
   source "$HOME/.bash/exports.sh"
+  sourceOptional "$HOME/.dotfiles-ext/bash/exports.sh"
   source "$HOME/.bash/aliases.sh"
+  sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
   [ -n "${BASH_VERSION-}" ] && __loadBashPlugins "$HOME/.bash/lib"
+  [ -n "${BASH_VERSION-}" ] && __loadBashPlugins "$HOME/.dotfiles-ext/bash/lib"
   __loadBashPlugins "$HOME/.bash/plugins"
+  __loadBashPlugins "$HOME/.dotfiles-ext/bash/plugins"
   [ -n "${BASH_VERSION-}" ] && bashChangePrompt
 }
 

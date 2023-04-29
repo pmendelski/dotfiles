@@ -33,7 +33,7 @@ sudo apt install -y vim
 # sudo add-apt-repository -y ppa:neovim-ppa/stable
 # sudo apt update
 # sudo apt install -y neovim
-(! command -v nvim &>/dev/null) && (
+if ! command -v nvim &>/dev/null; then
   echo "Installing nvim"
   tmpdir="$(mktemp -d -t nvim-XXXX)"
   (
@@ -46,7 +46,7 @@ sudo apt install -y vim
       ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
   )
   rm -rf "$tmpdir"
-) || echo "nvim already installed"
+fi
 
 echo -e "\n>>> Build tools"
 sudo apt install -y \
@@ -54,7 +54,7 @@ sudo apt install -y \
   make \
   shellcheck
 
-(! command -v cheat &>/dev/null) && (
+if ! command -v cheat &>/dev/null; then
   echo "Installing cheat"
   version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
   tmpdir="$(mktemp -d -t cheat-XXXX)"
@@ -66,7 +66,7 @@ sudo apt install -y \
       mv cheat ~/.local/bin/cheat
   )
   rm -rf "$tmpdir"
-) || echo "cheat already installed"
+fi
 
 echo -e "\n>>> GIT"
 # sudo add-apt-repository -y ppa:git-core/ppa
@@ -74,7 +74,7 @@ echo -e "\n>>> GIT"
 sudo apt install -y git
 
 # Lazygit
-(! command -v lazygit &>/dev/null) && (
+if ! command -v lazygit &>/dev/null; then
   echo "Installing lazygit"
   version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
   tmpdir="$(mktemp -d -t lazygit-XXXX)"
@@ -84,7 +84,7 @@ sudo apt install -y git
       tar xf lazygit.tar.gz -C ~/.local/bin lazygit
   )
   rm -rf "$tmpdir"
-) || echo "lazygit already installed"
+fi
 
 echo -e "\n>>> Network tools"
 sudo apt install -y \
@@ -95,30 +95,38 @@ sudo apt install -y \
 
 echo -e "\n>>> CLI parsers"
 sudo apt install -y jq
-wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
-  chmod +x ~/.local/bin/yq
-
+if ! command -v yq &>/dev/null; then
+  wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
+    chmod +x ~/.local/bin/yq
+fi
 echo -e "\n>>> Linters"
 sudo apt intall -y yamllint
 
-echo -e "\n>>> gcloud"
-[ ! -d "$HOME/.gcloud" ] && (
-  GCLOUD_VERSION="$(
-    curl -s "https://hub.docker.com/v2/repositories/google/cloud-sdk/tags/?page_size=1000" |
-      jq '.results | .[] | .name' -r |
-      sed 's/latest//' |
-      grep -E "^[0-9]+.[0-9]+.[0-9]+$" |
-      sort --version-sort |
-      tail -n 1
-  )"
-  echo "Downloading gcloud v$GCLOUD_VERSION"
-  cd "$(mktemp -d -t gcloud-XXX)" &&
-    wget -O "gcloud.tar.gz" "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION-linux-$(uname -m).tar.gz" &&
-    echo "Extracting gcloud v$GCLOUD_VERSION..." &&
-    tar -xf "gcloud.tar.gz" &&
-    mv ./google-cloud-sdk "$HOME/.gcloud" &&
-    cd "$HOME/.gcloud" &&
-    ./install.sh --usage-reporting false --install-python false --command-completion false --path-update false
-  gcloud components install alpha
-  gcloud components install beta
-) || echo "Already installed"
+echo -e "\n>>> Fzf"
+if [ ! -d "$HOME/.fzf" ]; then
+  cd ~
+  git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
+  ./.fzf/install --no-update-rc --no-key-bindings --no-completion
+fi
+
+# echo -e "\n>>> gcloud"
+# if [ ! -d "$HOME/.gcloud" ]; then
+#   GCLOUD_VERSION="$(
+#     curl -s "https://hub.docker.com/v2/repositories/google/cloud-sdk/tags/?page_size=1000" |
+#       jq '.results | .[] | .name' -r |
+#       sed 's/latest//' |
+#       grep -E "^[0-9]+.[0-9]+.[0-9]+$" |
+#       sort --version-sort |
+#       tail -n 1
+#   )"
+#   echo "Downloading gcloud v$GCLOUD_VERSION"
+#   cd "$(mktemp -d -t gcloud-XXX)" &&
+#     wget -O "gcloud.tar.gz" "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-$GCLOUD_VERSION-linux-$(uname -m).tar.gz" &&
+#     echo "Extracting gcloud v$GCLOUD_VERSION..." &&
+#     tar -xf "gcloud.tar.gz" &&
+#     mv ./google-cloud-sdk "$HOME/.gcloud" &&
+#     cd "$HOME/.gcloud" &&
+#     ./install.sh --usage-reporting false --install-python false --command-completion false --path-update false
+#   gcloud components install alpha
+#   gcloud components install beta
+# fi
