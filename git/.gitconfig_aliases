@@ -245,6 +245,8 @@
     push-fix-main = !git amend-all && git push-force-main
     # Fix Pull Request conflict with main branch
     push-conflict-fix = !git sync-main && git push-force
+    # Forbid push
+    push-forbid = !git remote set-url origin push_forbidden
   # Diff
     # Shorter version
     df = diff
