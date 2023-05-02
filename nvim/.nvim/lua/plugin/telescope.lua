@@ -26,7 +26,7 @@ function _M.keymap()
 	map("n", "<leader>fT", ":Telescope colorscheme preview=true<cr>")
 	map(
 		"n",
-		"<leader>fs",
+		"<leader>fe",
 		":lua require('telescope.builtin').symbols({ sources = {'emoji', 'kaomoji', 'gitmoji'} })<cr>"
 	)
 	-- lsp
@@ -75,15 +75,20 @@ function _M.config()
 
 	telescope.setup({
 		defaults = {
-			path_display = {
-				shorten = {
-					len = 3,
-					exclude = { 1, -1 },
-				},
-				truncate = true,
-			},
-			dynamic_preview_title = true,
 			buffer_previewer_maker = new_maker,
+			-- titles
+			path_display = { "smart" },
+			-- truncate dirnames to 3 chars
+			-- path_display = {
+			-- 	shorten = {
+			-- 		len = 3,
+			-- 		exclude = { 1, -1 },
+			-- 	},
+			-- 	truncate = true,
+			-- },
+			-- Show full path and wrap if too long
+			-- wrap_results = false, -- wrap long results in the search column
+			dynamic_preview_title = true, -- print file path in preview title
 			mappings = {
 				i = {
 					["<esc>"] = actions.close,
@@ -110,6 +115,8 @@ function _M.config()
 				"--line-number",
 				"--column",
 				"--smart-case",
+				-- "--max-columns",
+				-- "100", -- skip lines longer than 100
 				"--trim", -- add this value to remove indentation
 			},
 		},
@@ -119,11 +126,6 @@ function _M.config()
 				filetypes = { "png", "webp", "jpg", "jpeg", "mp4", "webm", "pdf" },
 				-- defaults to `fd`)
 				find_cmd = "rg",
-			},
-			project = {
-				base_dirs = {
-					{ "~/Code", max_depth = 4 },
-				},
 			},
 			["ui-select"] = {
 				require("telescope.themes").get_dropdown({
@@ -144,7 +146,6 @@ function _M.config()
 	telescope.load_extension("ui-select")
 	telescope.load_extension("live_grep_args")
 	telescope.load_extension("fzf")
-	telescope.load_extension("project")
 	telescope.load_extension("media_files")
 	telescope.load_extension("heading")
 end

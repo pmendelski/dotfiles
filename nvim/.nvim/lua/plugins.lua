@@ -101,7 +101,6 @@ packer.startup({
 				"nvim-lua/popup.nvim",
 				"nvim-telescope/telescope-live-grep-args.nvim",
 				{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-				"nvim-telescope/telescope-project.nvim",
 				"nvim-telescope/telescope-media-files.nvim",
 				"crispgm/telescope-heading.nvim",
 				"nvim-telescope/telescope-symbols.nvim",

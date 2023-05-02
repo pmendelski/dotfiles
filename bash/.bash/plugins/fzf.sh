@@ -55,12 +55,12 @@ export FZF_CTRL_T_OPTS="
 
 # ALT-C - cd to directory
 export FZF_ALT_C_COMMAND="$FZF_FIND_DIR"
-export FZF_ALT_C_OPTS_ARR=(
-  "--preview=$FZF_PREVIEW_DIR"
-  "--bind=ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort"
-  "--bind=ctrl-e:become(nvim {+})"
-  "--bind=ctrl-/:change-preview-window(down|hidden|)"
-)
+export FZF_ALT_C_OPTS_ARR="
+  --preview='$FZF_PREVIEW_DIR'
+  --bind='ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --bind='ctrl-e:become(nvim {+})'
+  --bind='ctrl-/:change-preview-window(down|hidden|)'
+"
 export FZF_ALT_C_OPTS="${FZF_ALT_C_OPTS_ARR[*]}"
 
 # CTRL-R - Search history
@@ -139,9 +139,27 @@ fvimrg() {
 }
 
 fcd() {
-  FZF_DEFAULT_COMMAND="$FZF_ALT_C_COMMAND" \
-    FZF_DEFAULT_OPTS="$FZF_ALT_C_OPTS" \
-    fzf --bind 'enter:become(z {})'
+  local -r dir="$(
+    FZF_DEFAULT_COMMAND="$FZF_ALT_C_COMMAND" \
+      FZF_DEFAULT_OPTS="$FZF_ALT_C_OPTS" \
+      fzf
+  )"
+  if [ -n "$dir" ]; then
+    z "$dir"
+  fi
+}
+
+fz() {
+  local -r dir="$(
+    INITIAL_QUERY="${1}"
+    FZF_DEFAULT_COMMAND="zoxide query $(printf %q "$INITIAL_QUERY")" \
+    FZF_DEFAULT_OPTS="$FZF_CTRL_T_OPTS --bind='change:reload:sleep 0.1; zoxide query {q} || true'" \
+      fzf \
+      --disabled --query "$INITIAL_QUERY"
+  )"
+  if [ -n "$dir" ]; then
+    z "$dir"
+  fi
 }
 
 fcde() {

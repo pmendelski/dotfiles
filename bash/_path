@@ -1,4 +1,5 @@
 @HOME@/.local/bin
 @HOME@/.bash/scripts
+@HOME@/.dotfiles-ext/bash/scripts
 @HOME@/go/bin
 @HOME@/Scripts
