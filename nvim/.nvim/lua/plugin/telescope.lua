@@ -93,11 +93,13 @@ function _M.config()
 				i = {
 					["<esc>"] = actions.close,
 					["<C-t>"] = trouble.open_with_trouble,
-					["<C-Down>"] = actions.cycle_history_next,
-					["<C-Up>"] = actions.cycle_history_prev,
+					["<C-o>"] = actions.cycle_history_prev,
+					["<C-i>"] = actions.cycle_history_next,
+					["<C-Up>"] = actions.preview_scrolling_up,
+					["<C-Down>"] = actions.preview_scrolling_down,
 					["<C-h>"] = "which_key",
 					["<C-k>"] = lga.quote_prompt(),
-					["<C-i>"] = lga.quote_prompt({ postfix = " --iglob " }),
+					["<C-g>"] = lga.quote_prompt({ postfix = " --iglob " }),
 					["<F1>"] = actions.close,
 				},
 				n = {
@@ -140,6 +142,11 @@ function _M.config()
 			},
 			live_grep = {
 				only_sort_text = true,
+			},
+			buffers = {
+				i = {
+					["<C-d>"] = actions.delete_buffer + actions.move_to_top,
+				},
 			},
 		},
 	})
