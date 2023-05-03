@@ -77,7 +77,7 @@ function _M.config()
 		defaults = {
 			buffer_previewer_maker = new_maker,
 			-- titles
-			path_display = { "smart" },
+			-- path_display = { "smart" }, -- nice, but too slow
 			-- truncate dirnames to 3 chars
 			-- path_display = {
 			-- 	shorten = {
@@ -87,7 +87,7 @@ function _M.config()
 			-- 	truncate = true,
 			-- },
 			-- Show full path and wrap if too long
-			-- wrap_results = false, -- wrap long results in the search column
+			wrap_results = true,       -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
 			mappings = {
 				i = {
@@ -126,8 +126,6 @@ function _M.config()
 			media_files = {
 				-- defaults to {'png', 'jpg', 'mp4', 'webm', 'pdf'}
 				filetypes = { "png", "webp", "jpg", "jpeg", "mp4", "webm", "pdf" },
-				-- defaults to `fd`)
-				find_cmd = "rg",
 			},
 			["ui-select"] = {
 				require("telescope.themes").get_dropdown({

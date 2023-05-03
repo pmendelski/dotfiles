@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/app
+
 echo -e "\n>>> Terminal"
 sudo apt install -y \
   tmux \
   zsh \
-  fzf \
   tree \
   ripgrep \
   htop \
@@ -17,14 +19,12 @@ sudo apt install -y \
 # better find
 sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
-  mkdir -p ~/.local/bin
   ln -s "$(which fdfind)" ~/.local/bin/fd
 fi
 
 # cat with highlighting
 sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
-  mkdir -p ~/.local/bin
   ln -s "$(which batcat)" ~/.local/bin/bat
 fi
 
@@ -40,7 +40,6 @@ if ! command -v nvim &>/dev/null; then
     cd "$tmpdir" &&
       curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz" &&
       tar xf nvim.tar.gz -C ~/.local &&
-      mkdir -p ~/.local/app/ &&
       rm -rf ~/.local/app/nvim &&
       mv ~/.local/nvim-linux64 ~/.local/app/nvim &&
       ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
@@ -106,7 +105,8 @@ echo -e "\n>>> Fzf"
 if [ ! -d "$HOME/.fzf" ]; then
   cd ~
   git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
-  ./.fzf/install --no-update-rc --no-key-bindings --no-completion
+  ./.fzf/install --no-update-rc --key-bindings --completion
+  ln -s .fzf/binb/fzf .local/bin/fzf
 fi
 
 # echo -e "\n>>> gcloud"
