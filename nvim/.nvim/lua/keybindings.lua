@@ -48,6 +48,8 @@ map("n", "<leader><leader>", "<c-^>")
 map("n", "<leader>q", ":bp<bar>sp<bar>bn<bar>bd<cr>")
 -- Open new file adjacent to current file
 map("n", "<leader>e", ':e <C-R>=expand("%:p:h") . "/" <cr>', { silent = false })
+-- Open current buffer in a vertical split
+map("n", "<leader>w", ":vsp<cr>")
 
 -- Splits
 -----------------------------------------------------------
@@ -169,4 +171,4 @@ map("n", "<leader>s", ":wa<cr>")
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')
 map("n", "Q", ":confirm qall<cr>")
-map("n", "q", "<c-w>q<cr>")
+map("n", "q", "<c-w>q")

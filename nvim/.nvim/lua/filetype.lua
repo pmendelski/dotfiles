@@ -14,7 +14,7 @@ cmd("autocmd FileType text,markdown,xml,json,yaml,yml,html,xhtml,javascript setl
 -- 2 spaces for selected filetypes
 cmd(
 	"autocmd FileType xml,html,xhtml,css,scss,javascript,yaml,yml,vim,lua,nginx "
-		.. "setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab"
+	.. "setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab"
 )
 -- Use tabs instead of spaces
 cmd("autocmd FileType make,lua,go,nasm setlocal shiftwidth=2 softtabstop=0 tabstop=2 noexpandtab")

@@ -52,7 +52,7 @@ return function(client, bufnr)
 	local opts = { noremap = true, silent = true }
 	buf_set_keymap("n", prefix .. "D", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
 	buf_set_keymap("n", prefix .. "d", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-	buf_set_keymap("n", prefix .. "i", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+	buf_set_keymap("n", prefix .. "t", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
 	buf_set_keymap("n", prefix .. "s", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 	buf_set_keymap("n", prefix .. "f", '<cmd>lua require("plugin/lsp/actions").format()<cr>', opts)
 	-- buf_set_keymap('n', prefix .. 'f', '<cmd>lua vim.lsp.buf.format()<cr>', opts)

@@ -36,8 +36,11 @@ function _M.toggle(name)
 		if is_opened(current) then
 			current:close()
 		end
+		-- TODO: make it borderless
+		-- local term = commands[name] ~= "" and fterm:new({ cmd = commands[name], env = term_env, border = "solid" })
+		--   or fterm:new({ env = term_env, border = "solid" })
 		local term = commands[name] ~= "" and fterm:new({ cmd = commands[name], env = term_env })
-			or fterm:new({ env = term_env })
+				or fterm:new({ env = term_env })
 		terms_by_name[name] = term
 		term:toggle()
 		current = term

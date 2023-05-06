@@ -24,23 +24,20 @@ function _M.keymap()
 	map("n", "<leader>fs", ":Telescope spell_suggest<cr>")
 	map("n", "<leader>ft", ":Telescope filetypes<cr>")
 	map("n", "<leader>fT", ":Telescope colorscheme preview=true<cr>")
-	map(
-		"n",
-		"<leader>fe",
-		":lua require('telescope.builtin').symbols({ sources = {'emoji', 'kaomoji', 'gitmoji'} })<cr>"
-	)
+	map("n", "<leader>fe", ":lua require('telescope.builtin').symbols({ sources = {'emoji', 'kaomoji', 'gitmoji'} })<cr>")
 	-- lsp
 	map("n", "<leader>c", "") -- added to not trigger a command by mistake
-	map("n", "<leader>ct", ":Telescope treesitter<cr>")
+	map("n", "<leader>cC", ":Telescope treesitter<cr>")
 	map("n", "<leader>cc", ":Telescope lsp_document_symbols<cr>")
-	map("n", "<leader>cC", ":Telescope lsp_dynamic_workspace_symbols<cr>")
+	map("n", "<leader>cw", ":Telescope lsp_dynamic_workspace_symbols<cr>")
+	-- map("n", "<leader>cw", ":Telescope lsp_workspace_symbols<cr>")
 	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
 	map("n", "<leader>ca", ":Telescope lsp_code_actions<cr>")
 	map("n", "<leader>cx", ":Telescope diagnostics<cr>")
-	map("n", "<leader>cn", ":Telescope lsp_incomming_calls<cr>")
+	map("n", "<leader>ci", ":Telescope lsp_incomming_calls<cr>")
 	map("n", "<leader>co", ":Telescope lsp_outgoing_calls<cr>")
-	map("n", "<leader>ci", ":Telescope lsp_implementations<cr>")
-	map("n", "<leader>cD", ":Telescope lsp_definitions<cr>")
+	map("n", "<leader>ct", ":Telescope lsp_implementations<cr>")
+	map("n", "<leader>cd", ":Telescope lsp_definitions<cr>")
 	-- git
 	map("n", "<leader>g", "") -- added to not trigger a command by mistake
 	map("n", "<leader>gg", ":Telescope git_bcommits<cr>")
@@ -48,6 +45,16 @@ function _M.keymap()
 	map("n", "<leader>gs", ":Telescope git_status<cr>")
 	map("n", "<leader>gb", ":Telescope git_branches<cr>")
 	map("n", "<leader>gt", ":Telescope git_stash<cr>")
+	map(
+		"n",
+		"<leader>gh",
+		":lua require('gitsigns').setqflist(0, { open = false }); require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
+	)
+	map(
+		"n",
+		"<leader>ga",
+		":lua require('gitsigns').setqflist('all', { open = false }); require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
+	)
 end
 
 function _M.config()
@@ -89,6 +96,7 @@ function _M.config()
 			-- Show full path and wrap if too long
 			wrap_results = true,       -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
+			-- selection_caret = " ",
 			mappings = {
 				i = {
 					["<esc>"] = actions.close,
