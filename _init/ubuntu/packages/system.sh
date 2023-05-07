@@ -6,11 +6,13 @@ echo ">>>"
 echo ">>> SYSTEM"
 echo ">>>"
 
+mkdir -p ~/.local/bin
+mkdir -p ~/.local/app
+
 echo -e "\n>>> Terminal"
 sudo apt install -y \
   tmux \
   zsh \
-  fzf \
   fd-find \
   tree \
   ripgrep \
@@ -21,26 +23,13 @@ sudo apt install -y \
 
 sudo apt install -y fd-find
 if [ ! -f ~/.local/bin/fd ]; then
-  mkdir -p ~/.local/bin
   ln -s "$(which fdfind)" ~/.local/bin/fd
 fi
-# sudo apt install -y -o Dpkg::Options::="--force-overwrite" bat ripgrep
 
 # cat with highlighting
 sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
-  mkdir -p ~/.local/bin
   ln -s "$(which batcat)" ~/.local/bin/bat
-fi
-
-# Install gogh - theme switcher for terminal
-if [ ! -d "$HOME/.gogh" ]; then
-  cd "$HOME"
-  git clone https://github.com/Mayccoll/Gogh.git .gogh
-  cd .gogh/install
-  export TERMINAL=gnome-terminal
-  ./tokyo-night.sh
-  cd "$HOME"
 fi
 
 echo -e "\n>>> Vim & Neovim"
@@ -125,6 +114,25 @@ if ! command -v cheat &>/dev/null; then
       sudo mv cheat /usr/local/bin/cheat
   )
   rm -rf "$tmpdir"
+fi
+
+echo -e "\n>>> Fzf"
+if [ ! -d "$HOME/.fzf" ]; then
+  cd
+  git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
+  ./.fzf/install --no-update-rc --key-bindings --completion
+  ln -s .fzf/bin/fzf .local/bin/fzf
+fi
+
+# Install gogh - theme switcher for terminal
+echo -e "\n>>> Gogh"
+if [ ! -d "$HOME/.gogh" ]; then
+  cd "$HOME"
+  git clone https://github.com/Mayccoll/Gogh.git .gogh
+  cd .gogh/install
+  export TERMINAL=gnome-terminal
+  ./tokyo-night.sh
+  cd
 fi
 
 echo -e "\n>>> Network tools"

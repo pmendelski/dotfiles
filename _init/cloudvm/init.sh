@@ -103,10 +103,10 @@ sudo apt intall -y yamllint
 
 echo -e "\n>>> Fzf"
 if [ ! -d "$HOME/.fzf" ]; then
-  cd ~
+  cd
   git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
   ./.fzf/install --no-update-rc --key-bindings --completion
-  ln -s .fzf/binb/fzf .local/bin/fzf
+  ln -s .fzf/bin/fzf .local/bin/fzf
 fi
 
 # echo -e "\n>>> gcloud"
