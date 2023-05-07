@@ -85,8 +85,7 @@ map("t", "<a-5>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle("termin
 map("n", "<a-t>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map("t", "<a-t>", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
 map("t", "<a-x>", '<c-\\><c-n><cmd>lua require("plugin/terminal").close_active()<cr>')
--- map('t', '<esc>', '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
-map("t", "§", '<c-\\><c-n><cmd>lua require("plugin/terminal").toggle_active()<cr>')
+map("t", "<esc>", '<c-\\><c-n><cmd>lua require("plugin/terminal").close_active()<cr>')
 map("t", "<S-Down>", "<c-\\><c-n><c-E>")
 map("t", "<S-Up>", "<c-\\><c-n><c-Y>")
 -- map('t', '<esc>', '<c-\\><c-n>') -- go to normal mode
