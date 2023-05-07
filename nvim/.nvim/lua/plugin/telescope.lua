@@ -97,6 +97,7 @@ function _M.config()
 			wrap_results = true,       -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
 			-- selection_caret = " ",
+			borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 			mappings = {
 				i = {
 					["<esc>"] = actions.close,
@@ -125,9 +126,9 @@ function _M.config()
 				"--line-number",
 				"--column",
 				"--smart-case",
-				-- "--max-columns",
-				-- "100", -- skip lines longer than 100
-				"--trim", -- add this value to remove indentation
+				"--max-columns=30", -- skip lines longer than 100
+				"--max-columns-preview",
+				"--trim",       -- add this value to remove indentation
 			},
 		},
 		extensions = {

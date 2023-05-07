@@ -18,8 +18,5 @@ else
   export EDITOR="vim"
 fi
 
-# Bat defaults
-export BAT_THEME="TwoDark"
-
 # ShellCheck ignore some errors by default
 export SHELLCHECK_OPTS="-e SC2155 -e SC1090 -e SC1091"
