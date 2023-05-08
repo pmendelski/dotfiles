@@ -33,6 +33,7 @@ while (($#)); do
     ;;
   --) # End of all options.
     shift
+    name="${1:-.}"
     break
     ;;
   -?*) # Unidentified option.
@@ -40,11 +41,13 @@ while (($#)); do
     println "Try --help option"
     exit 1
     ;;
+  *)
+    name="${1:-.}"
+    ;;
   esac
   shift
 done
 
-name="${1:-.}"
 flags=(-aC --gitignore --dirsfirst)
 if [ "$(ls -lA "$name" | wc -l)" -lt 10 ]; then
   flags=("${flags[@]}" -L 2 --filelimit=10)

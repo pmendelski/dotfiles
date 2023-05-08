@@ -35,6 +35,10 @@ fi
 alias pu='pushd'
 alias po='popd'
 
+# Facter -r commands
+alias cpd="cp -r"
+alias mvd="mv -r"
+
 # Better grep
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'

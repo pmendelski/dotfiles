@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
 toggle() {
-  name="${1:?Expected scratch name}"
+  name="${1}"
   cmd="${2}"
   eval "$(tmux show-environment | grep TMUX_SCRATCH)"
-  if [ "$(tmux display-message -p -F "#{session_name}")" = "$name" ]; then
+  if [ -z "$name" ] && [ -f "$HOME/.tmux-scratch" ]; then
+    last=$(head -n 1 ~/.tmux-scratch)
+    if tmux list-sessions | grep -q "^$last:"; then
+      name="$last"
+    fi
+  fi
+  if [ $TMUX_SCRATCH == 1 ] && [ -z "$name" ] || [ "$(tmux display-message -p -F "#{session_name}")" = "$name" ]; then
+    echo "$(tmux display-message -p -F "#{session_name}")" >~/.tmux-scratch
     tmux detach-client
   else
-    if [ "$TMUX_SCRATCH" = "1" ]; then
+    if [ $TMUX_SCRATCH == 1 ]; then
+      echo "$(tmux display-message -p -F "#{session_name}")" >~/.tmux-scratch
       tmux detach-client
     fi
+    name="${name:-$TMUX_SCRATCH_LAST}"
+    name="${name:-scratch}"
     export TMUX_SCRATCH=1
     tmux display-popup -d '#{pane_current_path}' -xC -yC -w80% -h80% -E "TMUX_SCRATCH=1 $HOME/.bash/scripts/tmux-scratch popup '$name' '$cmd'"
   fi
@@ -18,17 +28,17 @@ toggle() {
 popup() {
   name="${1:?Expected scratch name}"
   cmd="${2}"
+  echo "$name" >"$HOME/.tmux-scratch"
   if tmux attach -t "$name" 2>/dev/null; then
     return
   fi
+  tmux new -d -s "$name"
+  tmux set-environment -t "$name" TMUX_SCRATCH 1
+  tmux send-keys -t "$name" "export TMUX_SCRATCH=1" C-m
   if [ -n "$cmd" ]; then
-    tmux new -d -s "$name" &&
-      tmux set-environment -t "$name" TMUX_SCRATCH 1 &&
-      tmux send-keys -t "$name" "$cmd" C-m &&
-      tmux attach -t "$name" -c "$cmd"
-  else
-    tmux new -s "$name" \; setenv TMUX_SCRATCH 1
+    tmux send-keys -t "$name" "$cmd" C-m
   fi
+  tmux attach -t "$name" -c "$cmd"
 }
 
 if [ "$1" = "popup" ]; then
