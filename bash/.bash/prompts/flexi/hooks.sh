@@ -28,10 +28,6 @@ function __flexiPromptHandleTimer() {
   [ ! "$__FLEXI_PROMPT_TIMER_START" ] && return
   __FLEXI_PROMPT_TIMER_DIFF=$(($(epoch) - __FLEXI_PROMPT_TIMER_START))
   unset __FLEXI_PROMPT_TIMER_START
-  if [ "$__FLEXI_PROMPT_NOTIFY" != 0 ] && [ "$__FLEXI_PROMPT_NOTIFY" -lt 0 ] || [ $__FLEXI_PROMPT_TIMER_DIFF -gt $((__FLEXI_PROMPT_NOTIFY)) ]; then
-    local -r message="Time: $(formatMsMin $__FLEXI_PROMPT_TIMER_DIFF)"
-    notifyLastCmd "$message"
-  fi
   return "$exit"
 }
 

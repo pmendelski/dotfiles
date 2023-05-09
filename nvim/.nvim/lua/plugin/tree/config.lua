@@ -33,6 +33,9 @@ function _M.config()
 			},
 		},
 		renderer = {
+			root_folder_label = function(path)
+				return vim.fs.basename(path)
+			end,
 			highlight_git = true,
 			special_files = {},
 			-- git_placement = "after",
@@ -47,8 +50,8 @@ function _M.config()
 						staged = "",
 						unmerged = "",
 						renamed = "➜",
-						-- untracked = '★',
-						untracked = "*",
+						untracked = "★",
+						-- untracked = "*",
 						deleted = "",
 						-- ignored = '◌'
 						ignored = "",

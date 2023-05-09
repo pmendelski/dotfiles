@@ -56,7 +56,6 @@
 ################################################################################
 # Timestamp
 ################################################################################
-: ${__FLEXI_PROMPT_NOTIFY:="[ -z \"${SSH_CONNECTION-}\" ] && echo 5000 || echo 0"}
 : ${__FLEXI_PROMPT_TIMESTAMP_BEFORE:="$(__flexiPromptUnprintable "$COLOR_GRAY")["}
 : ${__FLEXI_PROMPT_TIMESTAMP_AFTER:="]$(__flexiPromptUnprintable "$COLOR_RESET")"}
 
