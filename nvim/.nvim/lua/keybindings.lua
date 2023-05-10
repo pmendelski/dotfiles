@@ -48,8 +48,6 @@ map("n", "<leader><leader>", "<c-^>")
 map("n", "<leader>q", ":bp<bar>sp<bar>bn<bar>bd<cr>")
 -- Open new file adjacent to current file
 map("n", "<leader>e", ':e <C-R>=expand("%:p:h") . "/" <cr>', { silent = false })
--- Open current buffer in a vertical split
-map("n", "<leader>w", ":vsp<cr>")
 
 -- Splits
 -----------------------------------------------------------
@@ -63,6 +61,8 @@ map("n", "<c-h>", "<cmd>vertical resize -5<cr>")
 map("n", "<c-j>", "<cmd>resize -5<cr>")
 map("n", "<c-k>", "<cmd>resize +5<cr>")
 map("n", "<c-l>", "<cmd>vertical resize +5<cr>")
+-- Open current buffer in a vertical split
+map("n", "<leader>|", ":vsp<cr>")
 
 -- Search
 -----------------------------------------------------------
@@ -154,13 +154,15 @@ map("i", "<F10>", "<c-o>:set spell!<cr>")
 -- Open link under cursor
 ------------------------------------------------------------
 if vim.fn.has("mac") == 1 then
-	map("n", "gx", '<cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<cr>', {})
+	map("n", "<leader>o", '<cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<cr>', {})
 elseif vim.fn.has("unix") == 1 then
-	map("n", "gx", '<cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<cr>', {})
+	map("n", "<leader>o", '<cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<cr>', {})
 end
 
 -- Others
 -----------------------------------------------------------
+-- Word wrap
+map("n", "<leader>w", ":set wrap!<cr>")
 -- Save
 map("n", "<c-s>", ":w<cr>")
 map("i", "<c-s>", "<esc>:w<cr>")
