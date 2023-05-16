@@ -73,7 +73,13 @@ lspconfig.bashls.setup(config())
 lspconfig.cssls.setup(config())
 lspconfig.html.setup(config())
 lspconfig.jsonls.setup(config())
-lspconfig.yamlls.setup(config())
+lspconfig.yamlls.setup(config({
+	settings = {
+		yaml = {
+			keyOrdering = false,
+		},
+	},
+}))
 
 -- Eslint
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#eslint

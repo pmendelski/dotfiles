@@ -1,0 +1,13 @@
+# Shebang
+snippet #!
+	#!/usr/bin/env bash
+	set -euf -o pipefail
+
+
+snippet ifc
+	if ! command -v $1 &>/dev/null; then
+	  $2
+	fi
+
+snippet echo2
+	echo "$0" >&2
