@@ -63,12 +63,10 @@ for type, icon in pairs(signs) do
 end
 
 -- Bash
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#bashls
 -- npm i -g bash-language-server
 lspconfig.bashls.setup(config())
 
 -- css, scss, less, html, json
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#cssls
 -- npm i -g vscode-langservers-extracted
 lspconfig.cssls.setup(config())
 lspconfig.html.setup(config())
@@ -80,36 +78,60 @@ lspconfig.yamlls.setup(config({
 		},
 	},
 }))
+lspconfig.tailwindcss.setup(config({
+	filetypes = {
+		-- "rust",
+		"aspnetcorerazor",
+		"django-html",
+		"htmldjango",
+		"edge",
+		"eelixir",
+		"elixir",
+		"gohtml",
+		"handlebars",
+		"hbs",
+		"html",
+		"liquid",
+		"markdown",
+		"mdx",
+		"mustache",
+		"njk",
+		"nunjucks",
+		"php",
+		"twig",
+		"css",
+		"less",
+		"postcss",
+		"sass",
+		"scss",
+		"stylus",
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"vue",
+		"svelte",
+	},
+}))
 
 -- Eslint
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#eslint
 -- go install github.com/mattn/efm-langserver@latest
 -- npm install -g eslint_d
 lspconfig.eslint.setup(config())
 
 -- Docker
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#dockerls
 -- npm i -g dockerfile-language-server-nodejs
 lspconfig.dockerls.setup(config())
 
 -- GraphQL
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#graphql
 -- npm i -g graphql-language-service-cli
 lspconfig.graphql.setup(config())
-
--- Groovy
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#groovyls
--- https://github.com/prominic/groovy-language-server.git
--- lspconfig.groovyls.setup(config({
--- 	cmd = { vim.fn.expand("~/.nvim/lang/groovy/run.sh") },
--- }))
 
 -- Go
 require("plugin/lsp/lang/go").setup(config)
 
 -- Rust
 -- Handled by rust-tools
-
 -- lspconfig.rust_analyzer.setup(lsconfig({
 --   settings = {
 --     -- Add clippy warnings to rust-anayzer
@@ -136,53 +158,27 @@ require("plugin/lsp/lang/go").setup(config)
 --   },
 -- }))
 
--- Java
--- java-language-server is unmaintained, migrated to jdtls
--- https://github.com/georgewfraser/java-language-server
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#java_language_server
--- lspconfig.java_language_server.setup(config({
--- 	cmd = { data_dir .. "/lang-servers/java-language-server/dist/lang_server_linux.sh" },
--- }))
-
--- Kotlin
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#kotlin_language_server
--- https://github.com/fwcd/kotlin-language-server
--- lspconfig.kotlin_language_server.setup(config({
--- 	cmd = { vim.fn.expand("~/.nvim/lang/kotlin/bin/kotlin-language-server") },
--- }))
-
 -- Python
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#pyright
--- https://github.com/microsoft/pyright
 -- npm i --global pyright
 lspconfig.pyright.setup(config())
 
 -- SQL
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#sqlls
--- https://github.com/joe-re/sql-language-server
 -- npm i -g sql-language-server
 lspconfig.sqlls.setup(config())
 
 -- Svelte
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#svelte
--- https://github.com/sveltejs/language-tools/tree/master/packages/language-server
 -- npm i -g svelte-language-server
 lspconfig.svelte.setup(config())
 
 -- Typescript
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
--- https://github.com/theia-ide/typescript-language-server
 -- npm i -g typescript typescript-language-server
 lspconfig.tsserver.setup(config())
 
 -- Vue
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#vuels
--- https://github.com/vuejs/vetur/tree/master/server
 -- npm i -g vls
 lspconfig.vuels.setup(config())
 
 -- Stylelint
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#stylelint_lsp
 -- npm i -g stylelint-lsp
 lspconfig.stylelint_lsp.setup(config({
 	filetypes = {
@@ -191,6 +187,10 @@ lspconfig.stylelint_lsp.setup(config({
 		"vue",
 	},
 }))
+
+-- Toml
+-- cargo install --features lsp --locked taplo-cli
+lspconfig.taplo.setup(config())
 
 -- Lua
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls

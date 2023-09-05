@@ -2,7 +2,7 @@
 set -euf -o pipefail
 
 installGolangciLint() {
-  local -r version="$(curl -s "https://api.github.com/repos/golangci/golangci-lint/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
+  local -r version="$(curl -fs "https://api.github.com/repos/golangci/golangci-lint/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
   if [ -z "$version" ]; then
     echo "Could not locate newest lua version" >&2
     return 1
@@ -18,7 +18,7 @@ installGolangciLint() {
   tmpdir="$(mktemp -d -t golangci-lint-XXXX)"
   (
     cd "$tmpdir" &&
-      curl -Lo golangci-lint.tar.gz "https://github.com/golangci/golangci-lint/releases/download/v$version/golangci-lint-$version-$os-$arch.tar.gz" &&
+      curl -fLo golangci-lint.tar.gz "https://github.com/golangci/golangci-lint/releases/download/v$version/golangci-lint-$version-$os-$arch.tar.gz" &&
       tar xf golangci-lint.tar.gz
   )
   local -r appdir="$HOME/.local/app/golangci-lint"

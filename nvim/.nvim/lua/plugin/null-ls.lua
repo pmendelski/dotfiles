@@ -11,7 +11,7 @@ function M.config()
 			-- formatting
 			formatting.stylua,
 			formatting.shfmt,
-			formatting.prettier,
+			formatting.prettier.with({ disabled_filetypes = { "yaml" }, extra_filetypes = { "toml" } }),
 			-- liting
 			diagnostics.golangci_lint,
 			diagnostics.hadolint,

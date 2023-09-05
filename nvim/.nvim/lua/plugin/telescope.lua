@@ -2,7 +2,6 @@ local _M = {}
 
 function _M.keymap()
 	local map = require("util").keymap
-	map("n", "<F1>", "<esc>")
 	map("n", "<leader>fx", ":Telescope<cr>")
 	map("n", "<leader>f;", ":Telescope commands<cr>")
 	map("n", "<leader>f:", ":Telescope command_history<cr>")

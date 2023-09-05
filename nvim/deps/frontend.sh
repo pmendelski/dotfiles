@@ -8,7 +8,8 @@ if command -v npm &>/dev/null; then
     typescript-language-server \
     vls \
     stylelint-lsp \
-    eslint
+    eslint \
+    @tailwindcss/language-server
 else
   echo "Missing command: npm" >&2
   echo "Skipped: typescript, eslint and more..."

@@ -61,7 +61,7 @@ cmp.setup({
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
+			elseif luasnip.expand_or_locally_jumpable() then
 				luasnip.expand_or_jump()
 			elseif has_words_before() then
 				cmp.mapping.complete()
@@ -93,36 +93,21 @@ cmp.setup({
 		--   behavior = cmp.SelectBehavior.Select
 		-- }), { 'i', 'c' }),
 	},
+	sorting = {
+		priority_weight = 10,
+	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "luasnip" },
-	}, { buffersrc }),
+	}),
 })
-
--- Lazy load rust crates completions
-vim.api.nvim_exec(
-	[[
-autocmd FileType toml lua require('cmp').setup.buffer({ sources = { { name = 'crates' } } })
-]],
-	false
-)
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({
 		{ name = "cmp_git" }, -- You can specify the `cmp_git` source if you were installed it.
-	}, {
-		buffersrc,
 	}),
-})
-
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({ "/", "?" }, {
-	mapping = cmp.mapping.preset.cmdline(),
-	sources = {
-		buffersrc,
-	},
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -134,3 +119,17 @@ cmp.setup.cmdline(":", {
 		{ name = "cmdline" },
 	}),
 })
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = { buffersrc },
+})
+
+-- Lazy load rust crates completions
+vim.api.nvim_exec(
+	[[
+autocmd FileType toml lua require('cmp').setup.buffer({ sources = { { name = 'crates' } } })
+]],
+	false
+)

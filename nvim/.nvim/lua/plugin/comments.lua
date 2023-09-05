@@ -29,6 +29,7 @@ local htmlComments = vim.tbl_extend("force", baseConfig, {
 
 config.configure_language("conf", hashComments)
 config.configure_language("makefile", hashComments)
+config.configure_language("make", hashComments)
 config.configure_language("dockerfile", hashComments)
 config.configure_language("yaml", hashComments)
 config.configure_language("tmux", hashComments)

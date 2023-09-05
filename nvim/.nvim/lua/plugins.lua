@@ -192,14 +192,14 @@ packer.startup({
 		use({
 			"hrsh7th/nvim-cmp",
 			requires = {
-				{ "onsails/lspkind-nvim", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-git", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-calc", after = "nvim-cmp" },
+				{ "onsails/lspkind-nvim",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-buffer",       after = "nvim-cmp" },
+				{ "hrsh7th/cmp-cmdline",      after = "nvim-cmp" },
+				{ "hrsh7th/cmp-git",          after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lsp",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-path",         after = "nvim-cmp" },
+				{ "hrsh7th/cmp-calc",         after = "nvim-cmp" },
 				{ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
 			},
 			event = "InsertEnter",
@@ -212,12 +212,6 @@ packer.startup({
 			"kylechui/nvim-surround",
 			tag = "*",
 			config = [[require("plugin/surround")]],
-		})
-		-- Auto pair parenthesis
-		use({
-			"windwp/nvim-autopairs",
-			after = "nvim-cmp",
-			config = [[require("plugin/autopairs")]],
 		})
 		-- Git
 		use({
@@ -241,11 +235,6 @@ packer.startup({
 			"saecki/crates.nvim",
 			ft = "toml",
 			requires = { "nvim-lua/plenary.nvim" },
-		})
-		-- Toml
-		use({
-			"cespare/vim-toml",
-			ft = "toml",
 		})
 		-- CSS
 		use({

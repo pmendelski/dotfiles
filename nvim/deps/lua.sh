@@ -20,7 +20,7 @@ installLuaLangServer() {
   tmpdir="$(mktemp -d -t lua-XXXX)"
   (
     cd "$tmpdir" &&
-      curl -Lo lua.tar.gz "https://github.com/LuaLS/lua-language-server/releases/download/$version/lua-language-server-$version-$os-$arch.tar.gz" &&
+      curl -fLo lua.tar.gz "https://github.com/LuaLS/lua-language-server/releases/download/$version/lua-language-server-$version-$os-$arch.tar.gz" &&
       tar xf lua.tar.gz
   )
   if [ -d "$luaDir" ]; then

@@ -2,7 +2,7 @@
 set -euf -o pipefail
 
 installHadolint() {
-  local -r version="$(curl -s "https://api.github.com/repos/hadolint/hadolint/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
+  local -r version="$(curl -fs "https://api.github.com/repos/hadolint/hadolint/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
   if [ -z "$version" ]; then
     echo "Could not locate newest lua version" >&2
     return 1
@@ -16,7 +16,7 @@ installHadolint() {
     arch="arm64"
   fi
   tmpdir="$(mktemp -d -t hadolint-XXXX)"
-  curl -Lo $tmpdir/hadolint "https://github.com/hadolint/hadolint/releases/download/v$version/hadolint-$os-$arch"
+  curl -fLo $tmpdir/hadolint "https://github.com/hadolint/hadolint/releases/download/v$version/hadolint-$os-$arch"
   local -r appdir="$HOME/.local/app/hadolint"
   if [ -d "$appdir" ]; then
     rm -rf "${appdir}_bak"

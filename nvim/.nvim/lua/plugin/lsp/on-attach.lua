@@ -24,6 +24,11 @@ local function diagnosticsOnHold(bufnr)
 	vim.api.nvim_create_autocmd("CursorHold", {
 		buffer = bufnr,
 		callback = function()
+			for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+				if vim.api.nvim_win_get_config(winid).zindex then
+					return
+				end
+			end
 			vim.diagnostic.open_float(nil, {
 				focusable = false,
 				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
@@ -64,7 +69,7 @@ return function(client, bufnr)
 		"<cmd>lua vim.lsp.buf.clear_references() vim.lsp.buf.document_highlight()<cr>",
 		opts
 	)
-	buf_set_keymap("n", prefix .. "t", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+	buf_set_keymap("n", prefix .. "T", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 	buf_set_keymap("n", prefix .. "n", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	buf_set_keymap("n", prefix .. "a", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	buf_set_keymap("n", prefix .. "r", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
@@ -99,14 +104,11 @@ return function(client, bufnr)
 	-- Save and format
 	null_ls.configure_client(client, bufnr)
 	local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-	local supports_format = client.server_capabilities.documentFormattingProvider or null_ls.has_formatter(filetype)
+	local supports_format = client.server_capabilities.documentFormattingProvider ~= nil
+			or null_ls.has_formatter(filetype)
 	if supports_format == true then
 		buf_set_keymap("n", "<c-s>", ":execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 		buf_set_keymap("i", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 		buf_set_keymap("x", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
-	else
-		buf_set_keymap("n", "<c-s>", "<cmd>:w<cr>", opts)
-		buf_set_keymap("i", "<c-s>", "<esc>:w<cr>", opts)
-		buf_set_keymap("x", "<c-s>", "<esc>:w<cr>", opts)
 	end
 end

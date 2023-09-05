@@ -7,7 +7,8 @@ local liblldb_path = vim.fn.expand(extension_path .. "/lldb/lib/liblldb.*")
 -- local liblldb_path = extension_path .. '/lldb/lib/liblldb.so' -- linux
 
 require("rust-tools").setup({
-	tools = { -- rust-tools options
+	tools = {
+		-- rust-tools options
 		-- Automatically set inlay hints (type hints)
 		autoSetHints = true,
 
@@ -107,15 +108,27 @@ require("rust-tools").setup({
 		flags = { debounce_text_changes = 150 },
 		settings = {
 			["rust-analyzer"] = {
-				assist = {
-					importGranularity = "module",
-					importPrefix = "self",
+				completion = { postfix = { enable = false } },
+				imports = {
+					granularity = {
+						group = "module",
+					},
+					prefix = "self",
 				},
 				cargo = {
 					loadOutDirsFromCheck = true,
+					allFeatures = true,
+					buildScripts = {
+						enable = true,
+					},
 				},
 				procMacro = {
 					enable = true,
+				},
+				diagnostics = {
+					enable = true,
+					disabled = { "unresolved-proc-macro" },
+					experimental = { enable = false },
 				},
 				checkOnSave = {
 					allFeatures = true,
