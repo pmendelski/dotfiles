@@ -13,6 +13,7 @@ expectCommand() {
 checkBashScripts() {
   expectCommand shellcheck
   local -r files="$(find . -type f -name "*.sh" \
+    -not -path "./.install/*" \
     -not -path "*/deps/*" \
     -not -path "*/plugins/*" \
     -not -path "*/tmp/*" \
@@ -27,6 +28,7 @@ checkLuaScripts() {
   expectCommand luacheck
   echo -e "\n>>> Running Luacheck"
   local -r files="$(find . -type f -name "*.lua" \
+    -not -path "./.install/*" \
     -not -path "*/deps/*" \
     -not -path "*/.luarocks/*" \
     -not -path "*/tmp/*")"

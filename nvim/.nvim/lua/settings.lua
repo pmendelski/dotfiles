@@ -81,16 +81,18 @@ opt.expandtab = true -- use spaces for tabs
 opt.shiftwidth = 4
 opt.softtabstop = 4  -- number of spaces in tab when editing
 opt.tabstop = 4      -- number of visual spaces per TAB
+
 -- Wrapping options
 opt.wrap = false
-opt.formatoptions = opt.formatoptions + "tc"                               -- wrap text and comments using textwidth
-opt.formatoptions = opt.formatoptions + "r"                                -- continue comments when pressing ENTER in I mode
-opt.formatoptions = opt.formatoptions + "q"                                -- enable formatting of comments with gq
-opt.formatoptions = opt.formatoptions + "n"                                -- detect lists for formatting
-opt.formatoptions = opt.formatoptions + "b"                                -- auto-wrap in insert mode, and do not wrap old long lines
+opt.formatoptions = opt.formatoptions + "tc" -- wrap text and comments using textwidth
+opt.formatoptions = opt.formatoptions + "r"  -- continue comments when pressing ENTER in I mode
+opt.formatoptions = opt.formatoptions + "q"  -- enable formatting of comments with gq
+opt.formatoptions = opt.formatoptions + "n"  -- detect lists for formatting
+opt.formatoptions = opt.formatoptions + "b"  -- auto-wrap in insert mode, and do not wrap old long lines
+
 -- Whitespace characters
-opt.list = true                                                            -- by default present whitecharacters
-opt.listchars = "space:·,eol:¬,tab:▸ ,nbsp:_,trail:·,extends:»,precedes:«" -- secure mapping for white characters
+opt.list = true                                                            -- present whitecharacters
+opt.listchars = "space:·,eol:¬,tab:▸ ,nbsp:_,trail:·,extends:»,precedes:«" -- white characters
 
 -- Spellcheck
 -----------------------------------------------------------

@@ -47,12 +47,14 @@ function _M.keymap()
 	map(
 		"n",
 		"<leader>gh",
-		":lua require('gitsigns').setqflist(0, { open = false }); require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
+		":lua require('gitsigns').setqflist(0, { open = false });"
+		.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
 	)
 	map(
 		"n",
 		"<leader>ga",
-		":lua require('gitsigns').setqflist('all', { open = false }); require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
+		":lua require('gitsigns').setqflist('all', { open = false });"
+		.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
 	)
 end
 

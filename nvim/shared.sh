@@ -8,9 +8,11 @@ installNvimDependencies() {
   printInfo "Installing nvim dependencies"
   for file in $(find "$SDIR/deps" -mindepth 1 -maxdepth 1 -type f | sort | sed -n "s|^.*/||p"); do
     printInfo "Installing nvim dependency: $file"
-    "$SDIR/deps/$file" &&
-      printSuccess "Installed nvim dependency: $file" ||
+    if "$SDIR/deps/$file"; then
+      printSuccess "Installed nvim dependency: $file"
+    else
       printError "Could not install nvim dependency: $file"
+    fi
   done
   printInfo "To reinstall nvim dependencies run: nvim-install-deps"
   printInfo "...or reinstall single nvim dependency with: nvim-install-dep NAME"

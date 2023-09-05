@@ -12,7 +12,7 @@ declare -i verbose=0
 declare -i force=0
 
 askForConfirmation() {
-  [ $force != 0 ] && return 0
+  [ "$force" != 0 ] && return 0
   printQuestion "$1 [Y/n] "
   read -r response
   case $response in
@@ -47,7 +47,7 @@ printResult() {
 }
 
 print() {
-  [ $silent = 0 ] && printf "$1"
+  [ "$silent" = 0 ] && printf "$1"
 }
 
 println() {
@@ -55,7 +55,7 @@ println() {
 }
 
 printColor() {
-  if [ $nocolor = 0 ]; then
+  if [ "$nocolor" = 0 ]; then
     print "$1$2${COLOR_RESET}"
   else
     print "$2"
@@ -87,5 +87,5 @@ printInfo() {
 }
 
 printDebug() {
-  [ $verbose = 1 ] && println "  $1"
+  [ "$verbose" = 1 ] && println "  $1"
 }

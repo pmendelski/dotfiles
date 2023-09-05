@@ -1,54 +1,54 @@
-local dcolors = require("tokyonight.colors").default
+-- local dcolors = require("tokyonight.colors").default
 
 require("tokyonight").setup({
-	on_highlights = function(hl, c)
-		-- local bg = c.bg
-		-- local prompt_bg = "#2d3149"
-		-- local preview_bg = dcolors.bg
-		-- Telescope - borderless
-		-- hl.TelescopeNormal = {
-		-- 	bg = bg,
-		-- 	fg = c.fg_dark,
-		-- }
-		-- hl.TelescopeBorder = {
-		-- 	bg = bg,
-		-- 	fg = bg,
-		-- }
-		-- -- Prompt (text field)
-		-- hl.TelescopePromptNormal = {
-		-- 	bg = prompt_bg,
-		-- }
-		-- hl.TelescopePromptBorder = {
-		-- 	bg = prompt_bg,
-		-- 	fg = prompt_bg,
-		-- }
-		-- hl.TelescopePromptTitle = {
-		-- 	bg = prompt_bg,
-		-- 	fg = c.comment,
-		-- }
-		-- -- Results (left column)
-		-- hl.TelescopeResultsTitle = {
-		-- 	bg = bg,
-		-- 	fg = bg,
-		-- }
-		-- -- Preview (right column)
-		-- hl.TelescopePreviewNormal = {
-		-- 	bg = preview_bg,
-		-- }
-		-- hl.TelescopePreviewBorder = {
-		-- 	bg = preview_bg,
-		-- 	fg = preview_bg,
-		-- }
-		-- hl.TelescopePreviewTitle = {
-		-- 	fg = c.comment,
-		-- }
-		-- Selection
-		-- hl.TelescopeSelection = { fg = c.magenta_dark, bg = bg_dark }
-		-- hl.TelescopeSelectionCaret = { fg = c.magenta }
-		-- Floats (borderless terminal - WIP)
-		-- hl.Normal = { bg = c.magenta, fg = c.blue }
-		-- hl.FloatBorder = { bg = preview_bg }
-	end,
+	-- on_highlights = function(hl, c)
+	-- local bg = c.bg
+	-- local prompt_bg = "#2d3149"
+	-- local preview_bg = dcolors.bg
+	-- Telescope - borderless
+	-- hl.TelescopeNormal = {
+	-- 	bg = bg,
+	-- 	fg = c.fg_dark,
+	-- }
+	-- hl.TelescopeBorder = {
+	-- 	bg = bg,
+	-- 	fg = bg,
+	-- }
+	-- -- Prompt (text field)
+	-- hl.TelescopePromptNormal = {
+	-- 	bg = prompt_bg,
+	-- }
+	-- hl.TelescopePromptBorder = {
+	-- 	bg = prompt_bg,
+	-- 	fg = prompt_bg,
+	-- }
+	-- hl.TelescopePromptTitle = {
+	-- 	bg = prompt_bg,
+	-- 	fg = c.comment,
+	-- }
+	-- -- Results (left column)
+	-- hl.TelescopeResultsTitle = {
+	-- 	bg = bg,
+	-- 	fg = bg,
+	-- }
+	-- -- Preview (right column)
+	-- hl.TelescopePreviewNormal = {
+	-- 	bg = preview_bg,
+	-- }
+	-- hl.TelescopePreviewBorder = {
+	-- 	bg = preview_bg,
+	-- 	fg = preview_bg,
+	-- }
+	-- hl.TelescopePreviewTitle = {
+	-- 	fg = c.comment,
+	-- }
+	-- Selection
+	-- hl.TelescopeSelection = { fg = c.magenta_dark, bg = bg_dark }
+	-- hl.TelescopeSelectionCaret = { fg = c.magenta }
+	-- Floats (borderless terminal - WIP)
+	-- hl.Normal = { bg = c.magenta, fg = c.blue }
+	-- hl.FloatBorder = { bg = preview_bg }
+	-- end,
 })
 
 -- vim.cmd("colorscheme tokyonight")

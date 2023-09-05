@@ -9,6 +9,7 @@ updatePlugins() {
   local -r dotfileDirs="$(find "$HOME/.zsh/deps" -mindepth 1 -maxdepth 1 -type d | sort)"
   for dir in $dotfileDirs; do
     if [ -d "$dir/.git" ]; then
+      # shellcheck disable=SC1083
       (cd "$dir" && git fetch --all && git reset --hard @{u})
     fi
   done
