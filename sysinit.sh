@@ -8,7 +8,7 @@ if [ "$(bash --version | grep -o -E '[0-9]+' | head -n 1)" -lt 4 ]; then
 fi
 
 # Constant values
-declare -r INIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")/_init"
+declare -r INIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")/_sysinit"
 
 # Make sure we're in the init directory
 cd "$INIT_DIR"
@@ -17,12 +17,12 @@ init() {
   local system="$1"
   if [ -z "$system" ] || [ ! -d "$INIT_DIR/$system" ]; then
     echo "Expected system as a parameter."
-    echo "  Example: init.sh ubuntu-server"
+    echo "  Example: sysinit.sh ubuntu-server"
     echo "  Available system inits: $(ls "$INIT_DIR" | tr '\n' ' ')"
     exit 1
   fi
   cd "$INIT_DIR/$system"
-  echo "Initializing $system"
+  echo "Initializing system: $system"
   bash "./init.sh" &&
     echo -e "\n\nSUCCESS: System initalized successfuly" ||
     echo -e "\n\nFAILURE: Initalizion failure"

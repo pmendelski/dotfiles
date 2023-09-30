@@ -30,6 +30,6 @@ Initialization script installs packages and applies OS configuration.
 
 Run:
 ```
-./init.sh SYSTEM_NAME
+./sysinit.sh SYSTEM_NAME
 ```
-SYSTEM_NAME can be one of: ubuntu, ubuntu-server, macos. See [_init](./_init) for details.
+SYSTEM_NAME can be one of: ubuntu, ubuntu-server, macos. See [_sysinit](./_sysinit) for details.

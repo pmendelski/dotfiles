@@ -18,7 +18,7 @@ checkBashScripts() {
     -not -path "*/plugins/*" \
     -not -path "*/tmp/*" \
     -not -path "*/.luarocks/*" \
-    -not -path "./_init/*/templates/*")"
+    -not -path "./_sysinit/*/templates/*")"
   echo -e "\n>>> Running ShellCheck for bash"
   shellcheck $files
   echo -e "<<< ShellCheck passed\n"
