@@ -28,26 +28,30 @@ function __loadLocalZshFiles() {
   for file in $HOME/.zsh_{exports,aliases,functions,prompt}; do
     [ -r "$file" ] && source "$file"
   done
-}
-
-function sourceOptional() {
-  local -r file="${1?Expected file}"
-  if [ -f "$file" ]; then
-    source "$file"
-  fi
+  for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
+    [ -r "$file" ] && source "$file"
+  done
 }
 
 function __loadZsh() {
   source "$HOME/.bash/index.sh"
+  source "$HOME/.bash/exports.sh"
+  sourceOptional "$HOME/.dotfiles-ext/bash/exports.sh"
   source "$HOME/.zsh/exports.zsh"
-  sourceOptional "$HOME/.dotfiles-ext/exports.zsh"
+  sourceOptional "$HOME/.dotfiles-ext/zsh/exports.zsh"
+  source "$HOME/.bash/aliases.sh"
+  sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   source "$HOME/.zsh/aliases.zsh"
-  sourceOptional "$HOME/.dotfiles-ext/aliases.zsh"
+  sourceOptional "$HOME/.dotfiles-ext/zsh/aliases.zsh"
+  __loadPath
+  __loadLocalBashFiles
   __loadLocalZshFiles
   __loadZshPlugins "$HOME/.zsh/lib"
   __loadZshPlugins "$HOME/.dotfiles-ext/zsh/lib"
   # zsh-syntax-highligting must be loaded before others
   __loadZshPlugin "$HOME/.zsh/plugins/zsh-syntax-highlighting.zsh"
+  __loadBashPlugins "$HOME/.bash/plugins"
+  __loadBashPlugins "$HOME/.dotfiles-ext/bash/plugins"
   __loadZshPlugins "$HOME/.zsh/plugins"
   __loadZshPlugins "$HOME/.dotfiles-ext/zsh/plugins"
   __loadZshPlugins "$HOME/.zsh/ohmyzsh"

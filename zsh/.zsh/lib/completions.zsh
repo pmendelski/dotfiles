@@ -6,7 +6,7 @@ ZSH_COMPCACHE_DIR="$ZSH_COMP_DIR/cache"
 mkdir -p "$ZSH_COMPCACHE_DIR"
 
 # Add zsh-completions
-fpath=($ZSH_DIR/completions $ZSH_DIR/plugins/*/(N) $ZSH_DIR/ohmyzsh/*/(N) $fpath)
+fpath=($ZSH_DIR/completions ~/.dotfiles-ext/zsh/completions $ZSH_DIR/plugins/*/(N) $ZSH_DIR/ohmyzsh/*/(N) $fpath)
 
 
 # Initilize completion mechanism.

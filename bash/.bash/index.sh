@@ -60,11 +60,13 @@ function __loadBash() {
   sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
-  [ -n "${BASH_VERSION-}" ] && __loadBashPlugins "$HOME/.bash/lib"
-  [ -n "${BASH_VERSION-}" ] && __loadBashPlugins "$HOME/.dotfiles-ext/bash/lib"
+  __loadBashPlugins "$HOME/.bash/lib"
+  __loadBashPlugins "$HOME/.dotfiles-ext/bash/lib"
   __loadBashPlugins "$HOME/.bash/plugins"
   __loadBashPlugins "$HOME/.dotfiles-ext/bash/plugins"
-  [ -n "${BASH_VERSION-}" ] && bashChangePrompt
+  bashChangePrompt
 }
 
-__loadBash
+if [ -n "$BASH_VERSION" ]; then
+  __loadBash
+fi
