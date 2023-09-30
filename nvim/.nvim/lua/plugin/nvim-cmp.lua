@@ -24,12 +24,18 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local bordered = cmp.config.window.bordered({ border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" } })
+
 cmp.setup({
 	preselect = cmp.PreselectMode.None,
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
 		end,
+	},
+	window = {
+		completion = bordered,
+		documentation = bordered,
 	},
 	formatting = {
 		format = function(entry, vim_item)
@@ -46,9 +52,7 @@ cmp.setup({
 		end,
 	},
 	mapping = {
-		["<c-p>"] = cmp.mapping.select_prev_item(),
-		["<c-n>"] = cmp.mapping.select_next_item(),
-		["<c-d>"] = cmp.mapping.scroll_docs(-4),
+		["<c-b>"] = cmp.mapping.scroll_docs(-4),
 		["<c-f>"] = cmp.mapping.scroll_docs(4),
 		["<c-Space>"] = cmp.mapping.complete(),
 		["<c-e>"] = cmp.mapping.close(),

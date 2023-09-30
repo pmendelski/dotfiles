@@ -33,9 +33,9 @@ function _M.keymap()
 	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
 	map("n", "<leader>ca", ":Telescope lsp_code_actions<cr>")
 	map("n", "<leader>cx", ":Telescope diagnostics<cr>")
-	map("n", "<leader>ci", ":Telescope lsp_incomming_calls<cr>")
+	map("n", "<leader>cO", ":Telescope lsp_incomming_calls<cr>")
 	map("n", "<leader>co", ":Telescope lsp_outgoing_calls<cr>")
-	map("n", "<leader>ct", ":Telescope lsp_implementations<cr>")
+	map("n", "<leader>ci", ":Telescope lsp_implementations<cr>")
 	map("n", "<leader>cd", ":Telescope lsp_definitions<cr>")
 	-- git
 	map("n", "<leader>g", "") -- added to not trigger a command by mistake
@@ -102,15 +102,15 @@ function _M.config()
 			mappings = {
 				i = {
 					["<esc>"] = actions.close,
+					["<F1>"] = actions.close,
 					["<C-t>"] = trouble.open_with_trouble,
 					["<C-o>"] = actions.cycle_history_prev,
 					["<C-i>"] = actions.cycle_history_next,
+					["<C-b>"] = actions.preview_scrolling_up,
+					["<C-f>"] = actions.preview_scrolling_down,
 					["<C-Up>"] = actions.preview_scrolling_up,
 					["<C-Down>"] = actions.preview_scrolling_down,
 					["<C-h>"] = "which_key",
-					["<C-k>"] = lga.quote_prompt(),
-					["<C-g>"] = lga.quote_prompt({ postfix = " --iglob " }),
-					["<F1>"] = actions.close,
 				},
 				n = {
 					["q"] = actions.close,
@@ -141,6 +141,16 @@ function _M.config()
 				require("telescope.themes").get_dropdown({
 					-- even more opts
 				}),
+			},
+			live_grep_args = {
+				auto_quoting = true, -- enable/disable auto-quoting
+				mappings = {
+					-- extend mappings
+					i = {
+						["<C-k>"] = lga.quote_prompt(),
+						["<C-K>"] = lga.quote_prompt({ postfix = " --iglob *." }),
+					},
+				},
 			},
 		},
 		pickers = {

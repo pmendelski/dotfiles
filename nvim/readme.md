@@ -9,6 +9,9 @@ See [vim readme](../vim) to recall the basics.
 
 ## Movement
 
+Great [post](https://www.barbarianmeetscoding.com/boost-your-coding-fu-with-vscode-and-vim/moving-blazingly-fast-with-the-core-vim-motions/)
+about effective movements in vim.
+
 | Keybinding      | Action                                                                                   |
 | --------------- | ---------------------------------------------------------------------------------------- |
 | `h`/`j`/`k`/`l` | **move** left/down/up/right                                                              |

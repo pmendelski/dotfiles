@@ -121,16 +121,6 @@ packer.startup({
 			"psliwka/vim-dirtytalk",
 			run = ":DirtytalkUpdate",
 		})
-		-- Debugging
-		use({
-			"mfussenegger/nvim-dap",
-			config = [[require("plugin/dap/config")]],
-		})
-		use({
-			"rcarriga/nvim-dap-ui",
-			requires = { "mfussenegger/nvim-dap" },
-			config = [[require("plugin/dap/ui")]],
-		})
 		-- Syntax hightligting
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -154,11 +144,6 @@ packer.startup({
 			"b3nj5m1n/kommentary",
 			event = "BufWinEnter",
 			config = [[require("plugin/comments")]],
-		})
-		-- Argument swapping
-		use({
-			"machakann/vim-swap",
-			event = "BufWinEnter",
 		})
 		-- LSP
 		use({
@@ -241,6 +226,16 @@ packer.startup({
 			"norcalli/nvim-colorizer.lua",
 			ft = { "css", "html", "javascript", "lua", "typescript" },
 			config = [[require("colorizer").setup()]],
+		})
+		-- Debugging
+		use({
+			"mfussenegger/nvim-dap",
+			config = [[require("plugin/dap/config")]],
+		})
+		use({
+			"rcarriga/nvim-dap-ui",
+			requires = { "mfussenegger/nvim-dap" },
+			config = [[require("plugin/dap/ui")]],
 		})
 	end,
 	config = config,

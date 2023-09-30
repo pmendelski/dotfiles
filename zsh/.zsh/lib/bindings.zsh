@@ -67,7 +67,7 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-# file rename magick
+# file rename magic
 bindkey "^[m" copy-prev-shell-word
 
 # Toggle process fg/bg

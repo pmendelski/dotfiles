@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Actions</key>
+	<array/>
 	<key>AdjustWindowForFontSizeChange</key>
 	<false/>
 	<key>Custom Color Presets</key>
@@ -709,7 +711,19 @@
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>GlobalKeyMap</key>
-	<dict/>
+	<dict>
+		<key>0x69-0x40000-0x22</key>
+		<dict>
+			<key>Action</key>
+			<integer>13</integer>
+			<key>Label</key>
+			<string></string>
+			<key>Text</key>
+			<string></string>
+			<key>Version</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideScrollbar</key>
@@ -1302,6 +1316,17 @@
 					<key>Version</key>
 					<integer>1</integer>
 				</dict>
+				<key>0x4b-0x120000-0x28</key>
+				<dict>
+					<key>Action</key>
+					<integer>38</integer>
+					<key>Label</key>
+					<string></string>
+					<key>Text</key>
+					<string>\&lt;C-K&gt;</string>
+					<key>Version</key>
+					<integer>1</integer>
+				</dict>
 				<key>0x5b-0x80000-0x21</key>
 				<dict>
 					<key>Action</key>
@@ -1332,6 +1357,17 @@
 					<string></string>
 					<key>Text</key>
 					<string>\&lt;C-a&gt;</string>
+					<key>Version</key>
+					<integer>1</integer>
+				</dict>
+				<key>0x62-0x100000-0xb</key>
+				<dict>
+					<key>Action</key>
+					<integer>38</integer>
+					<key>Label</key>
+					<string></string>
+					<key>Text</key>
+					<string>\&lt;C-b&gt;</string>
 					<key>Version</key>
 					<integer>1</integer>
 				</dict>
@@ -1409,6 +1445,17 @@
 					<string></string>
 					<key>Text</key>
 					<string>\&lt;M-h&gt;</string>
+					<key>Version</key>
+					<integer>1</integer>
+				</dict>
+				<key>0x69-0x100000-0x22</key>
+				<dict>
+					<key>Action</key>
+					<integer>38</integer>
+					<key>Label</key>
+					<string></string>
+					<key>Text</key>
+					<string>\&lt;C-i&gt;</string>
 					<key>Version</key>
 					<integer>1</integer>
 				</dict>

@@ -11,10 +11,10 @@ if [ -n "${BASH_VERSION}" ]; then
 fi
 
 # FZF finders
-export FZF_FIND_ANY="fd --hidden --exclude .git --strip-cwd-prefix $FZF_PATHS"
+export FZF_FIND_ANY="fd --exclude .git --strip-cwd-prefix $FZF_PATHS"
 if [ -f "$HOME/.fzf-paths" ] && [ -x "$HOME/.fzf-paths" ]; then
   # To limit paths define ~/.fzf-paths
-  export FZF_FIND_ANY="fd --hidden --exclude .git . \$($HOME/.fzf-paths)"
+  export FZF_FIND_ANY="fd --exclude .git . \$($HOME/.fzf-paths)"
 fi
 
 export FZF_FIND_FILE="$FZF_FIND_ANY --type f"
@@ -31,6 +31,8 @@ export FZF_DEFAULT_OPTS='--height 80% --layout=reverse --info=inline --color hea
 export FZF_CTRL_T_COMMAND="$FZF_FIND_ANY"
 export FZF_CTRL_T_OPTS="
   --multi
+  --color header:italic
+  --header='C-f find file / C-d find dir ╱ C-g find any ╱ C-y copy ╱ C-e vim ╱ C-/ preview'
   --bind='ctrl-g:reload($FZF_FIND_ANY)'
   --bind='ctrl-g:+change-prompt()'
   --bind='ctrl-g:+change-preview($FZF_PREVIEW_ANY)'
@@ -57,11 +59,14 @@ export FZF_CTRL_T_OPTS="
 export FZF_ALT_C_COMMAND="$FZF_FIND_DIR"
 export FZF_ALT_C_OPTS_ARR="
   --preview='$FZF_PREVIEW_DIR'
-  --bind='ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header='C-e vim ╱ C-y copy ╱ C-/ preview'
+  --bind='ctrl-y:execute-silent(echo -n {1..} | pbcopy)+abort'
   --bind='ctrl-e:become(nvim {+})'
   --bind='ctrl-/:change-preview-window(down|hidden|)'
 "
 export FZF_ALT_C_OPTS="${FZF_ALT_C_OPTS_ARR[*]}"
+export _ZO_FZF_OPTS="$FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS"
 
 # CTRL-R - Search history
 # CTRL-/ to toggle small preview window to see the full command
@@ -71,7 +76,7 @@ export FZF_CTRL_R_OPTS="
   --bind 'ctrl-/:toggle-preview'
   --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --color header:italic
-  --header 'C-y copy, C-/ preview'"
+  --header 'C-y copy ╱ C-/ preview'"
 
 # https://github.com/junegunn/fzf/blob/master/ADVANCED.md#switching-between-ripgrep-mode-and-fzf-mode
 export FZF_RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
@@ -82,7 +87,6 @@ export FZF_RG_OPTS="
   --bind='ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf > )+enable-search+rebind(ctrl-r)+transform-query(echo {q} > /tmp/rg-fzf-r; cat /tmp/rg-fzf-f)'
   --bind='ctrl-r:unbind(ctrl-r)+change-prompt(rg > )+disable-search+reload($FZF_RG_PREFIX {q} || true)+rebind(change,ctrl-f)+transform-query(echo {q} > /tmp/rg-fzf-f; cat /tmp/rg-fzf-r)'
   --bind='start:unbind(ctrl-r)'
-  --bind='ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --bind='ctrl-e:become(nvim {+})'
   --bind='ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
   --bind='ctrl-a:select-all'
@@ -90,7 +94,7 @@ export FZF_RG_OPTS="
   --bind='ctrl-e:become(nvim {1} +{2})'
   --prompt='rg > '
   --delimiter=':'
-  --header='C-r (ripgrep mode) ╱ C-f (fzf mode) ╱'
+  --header='C-r ripgrep ╱ C-f fzf mode'
   --preview='bat --color=always {1} --highlight-line {2}'
   --preview-window='up,60%,border-bottom,+{2}+3/3,~3'
 "
@@ -152,21 +156,41 @@ fcd() {
 fz() {
   local -r dir="$(
     INITIAL_QUERY="${1}"
-    FZF_DEFAULT_COMMAND="zoxide query $(printf %q "$INITIAL_QUERY")" \
-    FZF_DEFAULT_OPTS="$FZF_CTRL_T_OPTS --bind='change:reload:sleep 0.1; zoxide query {q} || true'" \
+    FZF_DEFAULT_COMMAND="zoxide query $(printf %q "$INITIAL_QUERY") -l | grep -v \"^\$(pwd)/$\" | sed \"s|\$(pwd)/|./|\" " \
+    FZF_DEFAULT_OPTS="
+    --multi
+    --color header:italic
+    --header='C-y copy ╱ C-e vim ╱ C-/ preview'
+    --bind='ctrl-y:execute-silent(echo -n {1..} | pbcopy)+abort'
+    --bind='ctrl-a:select-all'
+    --bind='ctrl-n:deselect-all'
+    --bind='ctrl-e:become(echo @nvim@{1})'
+    --bind='ctrl-/:change-preview-window(down|hidden|right)'
+    --preview='$FZF_PREVIEW_ANY'
+    --height='50%'
+    --layout='reverse'
+    --bind='change:reload:sleep 0.1; zoxide query {q} -l | grep -v \"^\$(pwd)$\" | sed \"s|\$(pwd)/|./|\" || true'
+    " \
       fzf \
       --disabled --query "$INITIAL_QUERY"
   )"
-  if [ -n "$dir" ]; then
+  if [ "${dir:0:6}" = "@nvim@" ]; then
+    nvim "${dir:6}"
+  elif [ -n "$dir" ]; then
     z "$dir"
   fi
 }
 
+# Fzf file traversal with preview
 fcde() {
   selection="$(
-    FZF_DEFAULT_COMMAND="echo .. && $FZF_FIND_ANY --exact-depth 1" \
+    FZF_DEFAULT_COMMAND="$FZF_FIND_ANY --exact-depth 1" \
       FZF_DEFAULT_OPTS="$FZF_CTRL_T_OPTS" \
       fzf \
+      --color header:italic \
+      --header=$'C-c cd ╱ C-o out ╱ C-i in ╱ C-e vim\n' \
+      --bind='ctrl-c:become(echo @cd@{1})' \
+      --bind='ctrl-c:become(echo @nvim@{1})' \
       --bind='ctrl-o:become(echo ..)' \
       --bind='ctrl-i:become(echo {1})'
   )"
@@ -179,11 +203,16 @@ fcde() {
   fi
   if [ "$n" = 1 ] && [ -d "$selection" ]; then
     cd "$selection" && fcde
+  elif [ "${selection:0:6}" = "@nvim@" ]; then
+    nvim "${selection:6}"
+  elif [ "$n" = 1 ] && [ "${selection:0:4}" = "@cd@" ]; then
+    cd "${selection:4}"
   else
     nvim "$selection"
   fi
 }
 
+# Fzf file
 frg() {
   INITIAL_QUERY="${*:-}"
   FZF_DEFAULT_COMMAND="$FZF_RG_PREFIX $(printf %q "$INITIAL_QUERY")" \
@@ -191,6 +220,7 @@ frg() {
     fzf --disabled --query "$INITIAL_QUERY"
 }
 
+# Fzf file content
 fgrepp() {
   local -r name="${1:?Expected file name}"
   INITIAL_QUERY=""
@@ -208,6 +238,7 @@ fgrepp() {
     fzf --disabled --query "$INITIAL_QUERY"
 }
 
+# Fzf all processes
 fproc() {
   procs="ps -ef"
   killcmd="for d in {+}; do echo \"\$d\" | awk '{ print \$2 }' | xargs kill -9; done"
@@ -220,6 +251,7 @@ fproc() {
       --bind="ctrl-r:reload(date; $procs)" \
       --bind="enter:become($killcmd)" \
       --bind="ctrl-x:execute-silent($killcmd)+reload(date; $procs)" \
+      --color header:italic \
       --header=$'C-r reload / C-x kill\n' \
       --header-lines=2 \
       --preview='echo {}' \
@@ -227,6 +259,7 @@ fproc() {
       --layout=reverse --height=80%
 }
 
+# Fzf network processes
 fnproc() {
   procs="lsof -i -P -n | head -n 1 && lsof -i -P -n | grep IPv4 | grep LISTEN"
   killcmd="for d in {+}; do echo \"\$d\" | awk '{ print \$2 }' | xargs kill -9; done"
@@ -239,6 +272,7 @@ fnproc() {
       --bind="ctrl-r:reload(date; $procs)" \
       --bind="enter:become($killcmd)" \
       --bind="ctrl-x:execute-silent($killcmd)+reload(date; $procs)" \
+      --color header:italic \
       --header=$'C-r reload / C-x kill\n' \
       --header-lines=2 \
       --preview='echo {}' \

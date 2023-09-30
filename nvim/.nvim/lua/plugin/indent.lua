@@ -1,4 +1,4 @@
-require("indent_blankline").setup({
+require("ibl").setup({
 	char = "|",
 	buftype_exclude = { "terminal", "dashboard", "help", "lspinfo", "lspsaga", "NvimTree" },
 	filetype_exclude = { "help", "dashboard", "packer" },

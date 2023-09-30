@@ -12,3 +12,7 @@ if [[ $(echotc Co) -gt 8 ]];then
 else
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
 fi
+
+# Fix autosuggestions on paste
+# https://github.com/zsh-users/zsh-autosuggestions/issues/511#issuecomment-1005375484
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)

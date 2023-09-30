@@ -21,7 +21,7 @@ map("x", "§", "<esc>")
 -- ]c - next change
 -- [c - previous change
 map("n", "<leader>ml", ":diffget LOCAL")
-map("n", "<leader>mr", ":diffget BASE")
+map("n", "<leader>mb", ":diffget BASE")
 map("n", "<leader>mr", ":diffget REMOTE")
 
 -- Movement
@@ -96,7 +96,7 @@ map("i", "<a-j>", "<esc>:m .+1<cr>gi")
 map("i", "<a-k>", "<esc>:m .-2<cr>gi")
 map("x", "<a-j>", ":m '>+1<cr>gv")
 map("x", "<a-k>", ":m '<-2<cr>gv")
--- -- Skip buffer on delete - controversial
+-- Skip buffer on delete - controversial
 -- map("n", "d", '"_d')
 -- map("n", "D", '"_D')
 -- map("x", "d", '"_d')
@@ -173,4 +173,9 @@ map("n", "<leader>s", ":wa<cr>")
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')
 map("n", "Q", ":confirm qall<cr>")
-map("n", "q", "<c-w>q")
+map("n", "q", function()
+	local win = vim.api.nvim_get_current_win()
+	local jump_back = vim.api.nvim_replace_termcodes("<C-o>", true, false, true)
+	vim.api.nvim_feedkeys(jump_back, "n", false)
+	vim.api.nvim_win_close(win, false)
+end)
