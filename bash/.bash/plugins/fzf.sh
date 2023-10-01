@@ -15,6 +15,9 @@ export FZF_FIND_ANY="fd --exclude .git --strip-cwd-prefix $FZF_PATHS"
 if [ -f "$HOME/.fzf-paths" ] && [ -x "$HOME/.fzf-paths" ]; then
   # To limit paths define ~/.fzf-paths
   export FZF_FIND_ANY="fd --exclude .git . \$($HOME/.fzf-paths)"
+elif [ -f "$HOME/.dotfiles-ext/bash/.fzf-paths" ] && [ -x "$HOME/.dotfiles-ext/bash/.fzf-paths" ]; then
+  # To limit paths define ~/.fzf-paths
+  export FZF_FIND_ANY="fd --exclude .git . \$($HOME/.dotfiles-ext/bash/.fzf-paths)"
 fi
 
 export FZF_FIND_FILE="$FZF_FIND_ANY --type f"
