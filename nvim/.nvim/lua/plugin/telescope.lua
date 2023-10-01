@@ -148,7 +148,7 @@ function _M.config()
 					-- extend mappings
 					i = {
 						["<C-k>"] = lga.quote_prompt(),
-						["<C-K>"] = lga.quote_prompt({ postfix = " --iglob *." }),
+						["<C-j>"] = lga.quote_prompt({ postfix = " --iglob *." }),
 					},
 				},
 			},
