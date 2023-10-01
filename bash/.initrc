@@ -23,3 +23,5 @@ elif [ -f "/usr/share/google-cloud-sdk/completion.$_SHL.inc" ]; then
 elif [ -f "/usr/lib/google-cloud-sdk/completion.$_SHL.inc" ]; then
   source "/usr/lib/google-cloud-sdk/completion.$_SHL.inc"
 fi
+
+if [ -f "$HOME/.dotfiles-ext/bash/.initrc" ]; then source "$HOME/.dotfiles-ext/bash/.initrc"; fi
