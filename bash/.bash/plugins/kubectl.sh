@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-alias k='kubectl
-  "--context=${KUBECTL_CONTEXT:-$(kubectl config current-context)}"
-  ${KUBECTL_NAMESPACE/[[:alnum:]-]*/--namespace=${KUBECTL_NAMESPACE}}'
+alias k='kubectl "--context=${KUBECTL_CONTEXT:-$(kubectl config current-context)}" ${KUBECTL_NAMESPACE/[[:alnum:]-]*/--namespace=${KUBECTL_NAMESPACE}}'
 
 kc() {
   local contexts="$(kubectl config get-contexts --output='name')"
@@ -12,6 +10,9 @@ kc() {
   fi
   if [ $# -eq 0 ]; then
     echo -n "$contexts"
+    echo -e "\n\nActive contexts:" >&2
+    echo "kubectl: $(kubectl config current-context)" >&2
+    echo "      k: $KUBECTL_CONTEXT" >&2
     return 0
   fi
   local context="$1"
@@ -25,7 +26,7 @@ kc() {
     echo "No contexts available" >&2
     return 1
   fi
-  if echo "$contexts" | grep -qv "$context"; then
+  if ! echo "$contexts" | grep -q "$context"; then
     echo -n "Context '$context' not found. Available contexts:\n$contexts" >&2
     return 1
   fi
@@ -47,6 +48,9 @@ kn() {
   fi
   if [ $# -eq 0 ]; then
     echo -n "$namespaces"
+    echo -e "\n\nActive namepsaces:" >&2
+    echo "kubectl: $(kubectl config view --minify -o jsonpath='{..namespace}')" >&2
+    echo "      k: $KUBECTL_NAMESPACE" >&2
     return 0
   fi
   local namespace="$1"
@@ -59,7 +63,7 @@ kn() {
     echo "Unset kubectl namespace" >&2
     return 0
   fi
-  if echo "$namespaces" | grep -qv "$namespace"; then
+  if ! echo "$namespaces" | grep -q "$namespace"; then
     echo -n "Namespace '$namespace' not found. Available namespaces:\n$namespaces" >&2
     return 1
   fi
@@ -69,22 +73,22 @@ kn() {
 
 if [ -n "$ZSH_VERSION" ]; then
   _kc() {
-    compadd -J args -o nosort -- $(kc)
+    compadd -J args -o nosort -- $(kc 2>/dev/null)
   }
   compdef _kc kc
   _kn() {
-    compadd -J args -o nosort -- $(kn)
+    compadd -J args -o nosort -- $(kn 2>/dev/null)
   }
   compdef _kn kn
 elif [ -n "$BASH_VERSION" ]; then
   _kc() {
     local curr_arg=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=($(compgen -W "$(kc)" -- $curr_arg))
+    COMPREPLY=($(compgen -W "$(kc 2>/dev/null)" -- $curr_arg))
   }
   complete -F _kc kc
   _kn() {
     local curr_arg=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=($(compgen -W "$(kn)" -- $curr_arg))
+    COMPREPLY=($(compgen -W "$(kn 2/dev/null)" -- $curr_arg))
   }
   complete -F _kn kn
 fi
