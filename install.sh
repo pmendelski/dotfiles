@@ -136,8 +136,8 @@ function install() {
   git credential-cache exit
 }
 
-function updateDotfiles() {
-  printInfo "Updating dotfiles"
+function updateDependencies() {
+  printInfo "Updating dependencies"
   for dir in $(dotfileDirs); do
     if [ -f "$dir/update.sh" ]; then
       runInstallScript "$dir/update.sh"
@@ -146,19 +146,20 @@ function updateDotfiles() {
 }
 
 function update() {
+  printInfo "Updating dotfiles"
   git config credential.helper cache
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin "$branchName"
-  updateDotfiles
+  updateDependencies
   git credential-cache exit
 }
 
 function stashAndUpdate() {
+  printInfo "Stashing changes and updating dotfiles"
   git config credential.helper cache
   git stash --include-untracked
   local branchName="$(git rev-parse --abbrev-ref HEAD)"
   git pull --rebase origin "$branchName"
-  updateDotfiles
   git credential-cache exit
   if ! git stash pop; then
     echo "Could not pop stashed changes. Fix manually with: git stash pop"
@@ -180,11 +181,12 @@ function printHelp() {
   echo "  -h, --help     Print help."
   echo "  -y, --yes      Assume 'yes'. Override all files with new ones."
   echo "  -n, --no       Assume 'no'. Do not override any file with new one."
-  echo "  -u, --update   Update dotfiles from the repository."
-  echo "  -t, --stash    Stash local changes and update dotfiles from the repository."
+  echo "  -u, --update   Update dotfiles and dependencies."
+  echo "  -t, --stash    Stash local changes and update dotfiles (no dependency update)."
+  echo "  -d, --deps     Update dependencies only."
   echo "  -v, --verbose  Print additional logs."
   echo "  -s, --silent   Disable logs. Except confirmations."
-  echo "  -d, --dryrun   Run installation without making any changes."
+  echo "  -r, --dryrun   Run installation without making any changes."
   echo "  -c, --nocolor  Disable colors."
   echo ""
 }
@@ -200,7 +202,7 @@ while (($#)); do
   --silent | -s)
     silent=1
     ;;
-  --dryrun | -d)
+  --dryrun | -r)
     dryrun=1
     ;;
   --nocolor | -c)
@@ -219,6 +221,10 @@ while (($#)); do
     ;;
   --stash | -t)
     stashAndUpdate
+    exit 0
+    ;;
+  --deps | -d)
+    updateDependencies
     exit 0
     ;;
   --) # End of all options.
