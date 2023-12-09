@@ -173,9 +173,12 @@ map("n", "<leader>s", ":wa<cr>")
 -- Quit
 -- map('n', 'Q', ':qall!<cr>')
 map("n", "Q", ":confirm qall<cr>")
+-- map("n", "q", ":confirm q<cr>")
 map("n", "q", function()
 	local win = vim.api.nvim_get_current_win()
-	local jump_back = vim.api.nvim_replace_termcodes("<C-o>", true, false, true)
-	vim.api.nvim_feedkeys(jump_back, "n", false)
 	vim.api.nvim_win_close(win, false)
+	if vim.bo.filetype == "NvimTree" then
+		local jump_right = vim.api.nvim_replace_termcodes("<C-w>l", true, false, true)
+		vim.api.nvim_feedkeys(jump_right, "n", false)
+	end
 end)

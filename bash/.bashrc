@@ -29,10 +29,10 @@ if [ "$USER" != "root" ] && [ "$ZSH_FORCE" == "1" ] && [ -z "$ZSH_VERSION" ]; th
 fi
 
 # Detect ide mode
-if [ -n "$INTELLIJ_ENVIRONMENT_READER" ] ||
-  [ -n "$NVIM_TERM" ] ||
+if [ -n "$NVIM_TERM" ] ||
   [ -n "$VSCODE_PID" ] ||
-  [ -n "$VSCODE_INJECTION" ]; then
+  [ -n "$VSCODE_INJECTION" ] ||
+  [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
   export IDE_MODE=1
   export __FLEXI_PROMPT_SHLVL_MODIF="1$__FLEXI_PROMPT_SHLVL_MODIF"
 fi
@@ -41,9 +41,9 @@ fi
 if [ "$USER" != "root" ] &&
   [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
   [ -z "$IDE_MODE" ]; then
-  exec tmux new-session -A -s main
-  # tmux new-session -A -s main
-  # echo "Exited TMUX"
+  tmux new-session -A -s main
+  # exec tmux new-session -A -s main
+  echo "Exited TMUX. To reattach use: tmux new-session -A -s main"
 fi
 
 # Init scripts

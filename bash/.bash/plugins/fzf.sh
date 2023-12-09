@@ -136,6 +136,31 @@ fvim() {
     fzf --bind 'enter:become(nvim {+})'
 }
 
+fzvim() {
+  local -r dir="$(
+    INITIAL_QUERY="${1}"
+    FZF_DEFAULT_COMMAND="zoxide query $(printf %q "$INITIAL_QUERY") -l | grep -v \"^\$(pwd)/$\" | sed \"s|\$(pwd)/|./|\" " \
+    FZF_DEFAULT_OPTS="
+    --multi
+    --color header:italic
+    --header='C-y copy ╱ C-/ preview'
+    --bind='ctrl-y:execute-silent(echo -n {1..} | pbcopy)+abort'
+    --bind='ctrl-a:select-all'
+    --bind='ctrl-n:deselect-all'
+    --bind='ctrl-/:change-preview-window(down|hidden|right)'
+    --preview='$FZF_PREVIEW_ANY'
+    --height='50%'
+    --layout='reverse'
+    --bind='change:reload:sleep 0.1; zoxide query {q} -l | grep -v \"^\$(pwd)$\" | sed \"s|\$(pwd)/|./|\" || true'
+    " \
+      fzf \
+      --disabled --query "$INITIAL_QUERY"
+  )"
+  if [ -n "$dir" ]; then
+    nvim "$dir"
+  fi
+}
+
 fvimrg() {
   INITIAL_QUERY="${*:-}"
   FZF_DEFAULT_COMMAND="$FZF_RG_PREFIX $(printf %q "$INITIAL_QUERY")" \

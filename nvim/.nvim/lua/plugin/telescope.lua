@@ -48,13 +48,13 @@ function _M.keymap()
 		"n",
 		"<leader>gh",
 		":lua require('gitsigns').setqflist(0, { open = false });"
-		.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
+			.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
 	)
 	map(
 		"n",
 		"<leader>ga",
 		":lua require('gitsigns').setqflist('all', { open = false });"
-		.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
+			.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
 	)
 end
 
@@ -87,15 +87,15 @@ function _M.config()
 			-- titles
 			-- path_display = { "smart" }, -- nice, but too slow
 			-- truncate dirnames to 3 chars
-			-- path_display = {
-			-- 	shorten = {
-			-- 		len = 3,
-			-- 		exclude = { 1, -1 },
-			-- 	},
-			-- 	truncate = true,
-			-- },
+			path_display = {
+				shorten = {
+					len = 3,
+					exclude = { 1, -1 },
+				},
+				truncate = true,
+			},
 			-- Show full path and wrap if too long
-			wrap_results = true,       -- wrap long results in the search column
+			wrap_results = true, -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
 			-- selection_caret = " ",
 			borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
@@ -110,6 +110,8 @@ function _M.config()
 					["<C-f>"] = actions.preview_scrolling_down,
 					["<C-Up>"] = actions.preview_scrolling_up,
 					["<C-Down>"] = actions.preview_scrolling_down,
+					["<C-Left>"] = actions.preview_scrolling_left,
+					["<C-Right>"] = actions.preview_scrolling_right,
 					["<C-h>"] = "which_key",
 				},
 				n = {
@@ -129,7 +131,7 @@ function _M.config()
 				"--smart-case",
 				"--max-columns=30", -- skip lines longer than 100
 				"--max-columns-preview",
-				"--trim",       -- add this value to remove indentation
+				"--trim", -- add this value to remove indentation
 			},
 		},
 		extensions = {
@@ -165,6 +167,21 @@ function _M.config()
 				i = {
 					["<C-d>"] = actions.delete_buffer + actions.move_to_top,
 				},
+			},
+			lsp_references = {
+				show_line = false,
+			},
+			lsp_implementations = {
+				show_line = false,
+			},
+			lsp_definitions = {
+				show_line = false,
+			},
+			lsp_incoming_calls = {
+				show_line = false,
+			},
+			lsp_outgoing_calls = {
+				show_line = false,
 			},
 		},
 	})
