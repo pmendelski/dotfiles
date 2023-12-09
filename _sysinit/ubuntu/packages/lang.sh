@@ -17,4 +17,4 @@ fi
 #   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
 
 echo -e "\n>>> Linters"
-sudo apt intall -y yamllint
+sudo apt install -y yamllint

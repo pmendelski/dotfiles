@@ -32,7 +32,7 @@ sudo chmod +x /bin/hadolint
 echo -e "\n>>> Dive - docker image inspector"
 installDive() {
   echo "Installing Docker dive"
-  local version="$(curl -s "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  local version="$(curl -s "https://api.github.com/repos/wagoodman/dive/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')"
   local tmpdir="$(mktemp -d -t dive-XXXX)"
   (
     cd "$tmpdir" &&
@@ -48,7 +48,7 @@ fi
 echo -e "\n>>> ctop - docker version of htop"
 installCtop() {
   echo "Installing Docker ctop"
-  local version="$(curl -s "https://api.github.com/repos/bcicen/ctop/releases/latest" | grep -Po '"tag_name": "v\K[0-35.]+')"
+  local version="$(curl -s "https://api.github.com/repos/bcicen/ctop/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')"
   sudo wget "https://github.com/bcicen/ctop/releases/download/v${version}/ctop-${version}-linux-amd64" -O /usr/local/bin/ctop &&
     sudo chmod +x /usr/local/bin/ctop
 }
