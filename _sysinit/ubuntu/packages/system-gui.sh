@@ -6,9 +6,6 @@ echo ">>>"
 echo ">>> SYSTEM GUI"
 echo ">>>"
 
-echo -e "\n>>> Conky"
-sudo apt-get install -y conky conky-all
-
 echo -e "\n>>> Password manager"
 sudo snap install keepassxc
 
@@ -107,3 +104,18 @@ echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ 
   sudo tee -a /etc/apt/sources.list.d/insomnia.list
 sudo apt-get update
 sudo apt-get install insomnia
+
+# Install gogh - theme switcher for terminal
+echo -e "\n>>> Gogh"
+if [ ! -d "$HOME/.gogh" ]; then
+  cd "$HOME"
+  git clone https://github.com/Mayccoll/Gogh.git .gogh
+  cd .gogh/install
+  export TERMINAL=gnome-terminal
+  ./tokyo-night.sh
+  cd
+fi
+
+echo -e "\n>>> Others"
+# GUI for GnuPG
+sudo apt install -y seahorse seahorse-nautilus
