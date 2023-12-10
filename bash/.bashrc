@@ -34,13 +34,14 @@ if [ -n "$NVIM_TERM" ] ||
   [ -n "$VSCODE_INJECTION" ] ||
   [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
   export IDE_MODE=1
-  export __FLEXI_PROMPT_SHLVL_MODIF="1$__FLEXI_PROMPT_SHLVL_MODIF"
+  export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
 fi
 
 # Force tmux
 if [ "$USER" != "root" ] &&
   [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
   [ -z "$IDE_MODE" ]; then
+  export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
   tmux new-session -A -s main
   # exec tmux new-session -A -s main
   echo "Exited TMUX. To reattach use: tmux new-session -A -s main"

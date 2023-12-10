@@ -183,7 +183,7 @@ function __flexiPromptTimer() {
 
 function __flexiPromptShlvl() {
   local exit=$?
-  local modifier="${#__FLEXI_PROMPT_SHLVL_MODIF}"
+  local modifier=$__FLEXI_PROMPT_SHLVL_MODIF
   local treshold=$__FLEXI_PROMPT_SHLVL
   local prefix="$__FLEXI_PROMPT_SHLVL_BEFORE"
   local suffix="$__FLEXI_PROMPT_SHLVL_AFTER"
