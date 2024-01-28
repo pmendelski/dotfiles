@@ -68,7 +68,13 @@ lspconfig.bashls.setup(config())
 
 -- css, scss, less, html, json
 -- npm i -g vscode-langservers-extracted
-lspconfig.cssls.setup(config())
+lspconfig.cssls.setup(config({
+	settings = {
+		css = {
+			validate = false,
+		},
+	},
+}))
 lspconfig.html.setup(config())
 lspconfig.jsonls.setup(config())
 lspconfig.yamlls.setup(config({

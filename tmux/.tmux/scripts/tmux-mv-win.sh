@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function moveWindow() {
   local index="${1:?Expected window index}"

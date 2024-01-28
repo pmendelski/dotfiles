@@ -9,6 +9,7 @@ if command -v npm &>/dev/null; then
     vls \
     stylelint-lsp \
     eslint \
+    vscode-langservers-extracted \
     @tailwindcss/language-server
 else
   echo "Missing command: npm" >&2
