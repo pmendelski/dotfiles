@@ -33,7 +33,6 @@ brew install neovim
 brew install httpie
 brew install iperf3
 brew install openssh
-brew install git
 brew install vim
 brew install git-lfs
 brew install imagemagick
@@ -66,6 +65,12 @@ brew install ranger
 brew install dtrx
 brew install exa
 
+# Git
+brew install git
+# Disable credential helper to enable multi-accounts
+# https://stackoverflow.com/questions/11067818
+git config --system --unset credential.helper
+
 # Mpeg thumnails
 brew install ffmpegthumbnailer
 
@@ -79,6 +84,9 @@ rustup-init -y --no-modify-path
 # Haskell
 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org |
   BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_NONINTERACTIVE=1 sh
+
+# Kotlin
+brew install ktlint
 
 # Docker
 brew install --cask docker

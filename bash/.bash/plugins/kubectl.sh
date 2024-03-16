@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
-alias k='kubectl "--context=${KUBECTL_CONTEXT:-$(kubectl config current-context)}" ${KUBECTL_NAMESPACE/[[:alnum:]-]*/--namespace=${KUBECTL_NAMESPACE}}'
+if [[ $- == *i* ]]; then
+  alias k='kubectl "--context=${KUBECTL_CONTEXT:-$(kubectl config current-context)}" ${KUBECTL_NAMESPACE/[[:alnum:]-]*/--namespace=${KUBECTL_NAMESPACE}}'
+else
+  k() {
+    kubectl "--context=${KUBECTL_CONTEXT:-$(kubectl config current-context)}" ${KUBECTL_NAMESPACE/[[:alnum:]-]*/--namespace=${KUBECTL_NAMESPACE}}
+  }
+fi
 
 kc() {
   local contexts="$(kubectl config get-contexts --output='name')"
@@ -71,7 +77,7 @@ kn() {
   echo "Context namespace: '$namespace'" >&2
 }
 
-if [ -n "$ZSH_VERSION" ]; then
+if [ -n "${ZSH_VERSION-}" ]; then
   _kc() {
     compadd -J args -o nosort -- $(kc 2>/dev/null)
   }

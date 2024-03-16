@@ -11,7 +11,7 @@ if [ -n "${BASH_VERSION}" ]; then
 fi
 
 # FZF finders
-export FZF_FIND_ANY="fd --exclude .git --strip-cwd-prefix $FZF_PATHS"
+export FZF_FIND_ANY="fd --exclude .git --strip-cwd-prefix ${FZF_PATHS-}"
 if [ -f "$HOME/.fzf-paths" ] && [ -x "$HOME/.fzf-paths" ]; then
   # To limit paths define ~/.fzf-paths
   export FZF_FIND_ANY="fd --exclude .git . \$($HOME/.fzf-paths)"

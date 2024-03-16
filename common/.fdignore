@@ -1,5 +1,4 @@
 .git
 .idea
 .gradle
-vendor
 node_modules

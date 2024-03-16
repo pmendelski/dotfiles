@@ -99,6 +99,10 @@ return function(client, bufnr)
 	local supports_format = client.server_capabilities.documentFormattingProvider ~= nil
 		or null_ls.has_formatter(filetype)
 	if supports_format == true then
+		-- if filetype == "typescript" then
+		-- 	-- run prettier instead
+		-- 	client.server_capabilities.documentFormattingProvider = false
+		-- end
 		buf_set_keymap("n", "<c-s>", ":execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 		buf_set_keymap("i", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)
 		buf_set_keymap("x", "<c-s>", "<esc>:execute 'lua require(\"plugin/lsp/actions\").format()' | :w<cr>", opts)

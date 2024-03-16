@@ -11,7 +11,9 @@ function __loadBashPlugins() {
 
 function __loadLocalBashFiles() {
   for file in $HOME/.bash_{exports,aliases,functions,prompt}; do
-    [ -r "$file" ] && source "$file"
+    if [ -r "$file" ]; then
+      source "$file"
+    fi
   done
 }
 
@@ -60,11 +62,17 @@ function __loadBash() {
   sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   __loadPath
   __loadLocalBashFiles
-  __loadBashPlugins "$HOME/.bash/lib"
+  if [[ $- == *i* ]]; then
+    # Interactive mode
+    __loadBashPlugins "$HOME/.bash/lib"
+  fi
   __loadBashPlugins "$HOME/.dotfiles-ext/bash/lib"
   __loadBashPlugins "$HOME/.bash/plugins"
   __loadBashPlugins "$HOME/.dotfiles-ext/bash/plugins"
-  bashChangePrompt
+  if [[ $- == *i* ]]; then
+    # Interactive mode
+    bashChangePrompt
+  fi
 }
 
 if [ -n "$BASH_VERSION" ]; then

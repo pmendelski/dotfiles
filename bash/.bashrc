@@ -14,37 +14,35 @@
 # 1. /etc/bash.bashrc
 # 2. ~/.bashrc
 
-# If not running interactively just exit
-case $- in
-*i*) ;;
-*) return ;;
-esac
-
 # Local variables
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
 
-# Force zsh
-if [ "$USER" != "root" ] && [ "$ZSH_FORCE" == "1" ] && [ -z "$ZSH_VERSION" ]; then
-  exec zsh && echo "Exited zsh. Using bash..."
-fi
+if [[ $- == *i* ]]; then
+  # Interactive mode
 
-# Detect ide mode
-if [ -n "$NVIM_TERM" ] ||
-  [ -n "$VSCODE_PID" ] ||
-  [ -n "$VSCODE_INJECTION" ] ||
-  [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
-  export IDE_MODE=1
-  export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
-fi
+  # Force zsh
+  if [ "$USER" != "root" ] && [ "$ZSH_FORCE" == "1" ] && [ -z "$ZSH_VERSION" ]; then
+    exec zsh && echo "Exited zsh. Using bash..."
+  fi
 
-# Force tmux
-if [ "$USER" != "root" ] &&
-  [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
-  [ -z "$IDE_MODE" ]; then
-  export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
-  tmux new-session -A -s main
-  # exec tmux new-session -A -s main
-  echo "Exited TMUX. To reattach use: tmux new-session -A -s main"
+  # Detect ide mode
+  if [ -n "$NVIM_TERM" ] ||
+    [ -n "$VSCODE_PID" ] ||
+    [ -n "$VSCODE_INJECTION" ] ||
+    [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
+    export IDE_MODE=1
+    export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
+  fi
+
+  # Force tmux
+  if [ "$USER" != "root" ] &&
+    [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
+    [ -z "$IDE_MODE" ]; then
+    export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
+    tmux new-session -A -s main
+    # exec tmux new-session -A -s main
+    echo "Exited TMUX. To reattach use: tmux new-session -A -s main"
+  fi
 fi
 
 # Init scripts
