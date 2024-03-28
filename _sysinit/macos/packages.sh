@@ -123,6 +123,10 @@ brew install --cask hiddenbar
 brew tap homebrew/cask && brew install --cask gimp
 brew install --cask inkscape
 
+# DB Clients
+brew install --cask mongodb-compass
+brew install --cask dbeaver-community
+
 # gcloud
 # https://cloud.google.com/sdk/docs/install#mac
 [ ! -d "$HOME/.gcloud" ] && (

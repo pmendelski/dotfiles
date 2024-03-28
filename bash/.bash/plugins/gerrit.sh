@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 function gerrit-init() {
-  local host="${1:$GERRIT_HOST}"
-  if [ -z "$host" ]; then
-    echo "Expected gerrit host as command argument or gloabal variable GERRIT_HOST" >&2
+  local host="${1:-$GERRIT_HOST}"
+  if [ -n "$host" ]; then
+    echo "Expected gerrit host as command argument or env variable GERRIT_HOST" >&2
     return 1
   fi
   local gitdir="$(git rev-parse --show-toplevel --git-dir | tail -n 1)"

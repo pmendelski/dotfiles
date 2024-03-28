@@ -237,6 +237,7 @@ packer.startup({
 			requires = { "mfussenegger/nvim-dap" },
 			config = [[require("plugin/dap/ui")]],
 		})
+		use({ "nvim-neotest/nvim-nio" })
 	end,
 	config = config,
 })
