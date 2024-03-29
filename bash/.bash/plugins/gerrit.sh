@@ -2,7 +2,7 @@
 
 function gerrit-init() {
   local host="${1:-$GERRIT_HOST}"
-  if [ -n "$host" ]; then
+  if [ -z "$host" ]; then
     echo "Expected gerrit host as command argument or env variable GERRIT_HOST" >&2
     return 1
   fi
@@ -11,6 +11,7 @@ function gerrit-init() {
     echo "Not in a git repository" >&2
     return 1
   fi
+  echo "Using gerrit host: $host"
   curl -Lo "$gitdir/hooks/commit-msg" "$host/tools/hooks/commit-msg" 2>/dev/null
   chmod u+x "$gitdir/hooks/commit-msg"
   echo "Gerrit repo initialized"
