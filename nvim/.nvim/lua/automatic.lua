@@ -47,7 +47,7 @@ vim.cmd([[
 augroup TrimWhitespaces
   autocmd!
   autocmd BufWritePre * %s/\s\+$//e
-  autocmd BufWritePre * %s/\n\+\%$//e
+  autocmd BufWritePre * %s/\n\n\+\%$/\n/e
 augroup END
 ]])
 

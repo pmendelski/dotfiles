@@ -6,10 +6,14 @@ nvim-install() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
     os="macos"
   fi
+  local arch="x86_64"
+  if [ "$(uname -m)" = "arm64" ]; then
+    arch="arm64"
+  fi
   tmpdir="$(mktemp -d -t nvim-XXXX)"
   (
     cd "$tmpdir" &&
-      curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-$os.tar.gz" &&
+      curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-$os-$arch.tar.gz" &&
       tar xf nvim.tar.gz
   )
   local -r nvimdir="$HOME/.local/app/nvim"
@@ -19,7 +23,7 @@ nvim-install() {
   fi
   mkdir -p "$(dirname "$nvimdir")"
   mkdir -p ~/.local/bin
-  mv "$tmpdir/nvim-$os" "$nvimdir"
+  mv "$tmpdir/nvim-$os-$arch" "$nvimdir"
   ln -fs "$nvimdir/bin/nvim" ~/.local/bin/nvim
   rm -rf "$tmpdir"
   ~/.dotfiles/nvim/install.sh

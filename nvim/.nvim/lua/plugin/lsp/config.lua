@@ -43,8 +43,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 	virtual_text = {
 		spacing = 4,
 		prefix = "●",
-		severity_limit = "Warning",
 	},
+	severity = { min = vim.diagnostic.severity.WARN },
 	signs = true,
 	severity_sort = true,
 	update_in_insert = true,
@@ -75,7 +75,12 @@ lspconfig.cssls.setup(config({
 		},
 	},
 }))
-lspconfig.html.setup(config())
+lspconfig.html.setup(config({
+	filetypes = {
+		"html",
+		"handlebars",
+	},
+}))
 lspconfig.jsonls.setup(config())
 lspconfig.yamlls.setup(config({
 	settings = {
@@ -117,6 +122,7 @@ lspconfig.tailwindcss.setup(config({
 		"typescriptreact",
 		"vue",
 		"svelte",
+		"freemarker",
 	},
 }))
 
@@ -178,7 +184,7 @@ lspconfig.svelte.setup(config())
 
 -- Typescript
 -- npm i -g typescript typescript-language-server
-lspconfig.tsserver.setup(config())
+lspconfig.ts_ls.setup(config())
 
 -- Vue
 -- npm i -g vls

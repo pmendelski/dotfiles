@@ -17,3 +17,4 @@ tmux/.tmux/deps
 !.gitkeep
 .DS_Store
 .netrwhist
+/_tmp

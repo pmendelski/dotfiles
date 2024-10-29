@@ -8,6 +8,9 @@ cmd([[
 
 -- File type related
 -----------------------------------------------------------
+-- render Freemarker, Handlebars templates as HTML
+cmd("autocmd BufRead,BufNewFile *.ftl,*.hbs set filetype=html")
+
 -- remove line lenght marker for selected filetypes
 cmd("autocmd FileType text,markdown,xml,json,yaml,yml,html,xhtml,javascript setlocal cc=0")
 

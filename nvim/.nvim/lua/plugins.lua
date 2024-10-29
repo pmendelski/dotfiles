@@ -138,6 +138,7 @@ packer.startup({
 		use({
 			"windwp/nvim-ts-autotag",
 			after = "nvim-treesitter",
+			config = [[require("plugin/autotag")]],
 		})
 		-- Comments
 		use({
@@ -177,14 +178,14 @@ packer.startup({
 		use({
 			"hrsh7th/nvim-cmp",
 			requires = {
-				{ "onsails/lspkind-nvim", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-git", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
-				{ "hrsh7th/cmp-calc", after = "nvim-cmp" },
+				{ "onsails/lspkind-nvim",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-buffer",       after = "nvim-cmp" },
+				{ "hrsh7th/cmp-cmdline",      after = "nvim-cmp" },
+				{ "hrsh7th/cmp-git",          after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lsp",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
+				{ "hrsh7th/cmp-path",         after = "nvim-cmp" },
+				{ "hrsh7th/cmp-calc",         after = "nvim-cmp" },
 				{ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
 			},
 			event = "InsertEnter",
@@ -224,7 +225,7 @@ packer.startup({
 		-- CSS
 		use({
 			"norcalli/nvim-colorizer.lua",
-			ft = { "css", "html", "javascript", "lua", "typescript" },
+			ft = { "css", "html", "javascript", "lua", "typescript", "yaml", "toml", "json" },
 			config = [[require("colorizer").setup()]],
 		})
 		-- Debugging

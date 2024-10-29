@@ -48,18 +48,18 @@ function _M.keymap()
 		"n",
 		"<leader>gh",
 		":lua require('gitsigns').setqflist(0, { open = false });"
-		.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
+			.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
 	)
 	map(
 		"n",
 		"<leader>ga",
 		":lua require('gitsigns').setqflist('all', { open = false });"
-		.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
+			.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
 	)
 end
 
 function _M.config()
-	local trouble = require("trouble.providers.telescope")
+	local trouble = require("trouble.sources.telescope")
 	local actions = require("telescope.actions")
 	local telescope = require("telescope")
 	local previewers = require("telescope.previewers")
@@ -95,7 +95,7 @@ function _M.config()
 				truncate = true,
 			},
 			-- Show full path and wrap if too long
-			wrap_results = true,       -- wrap long results in the search column
+			wrap_results = true, -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
 			-- selection_caret = " ",
 			borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
@@ -103,7 +103,7 @@ function _M.config()
 				i = {
 					["<esc>"] = actions.close,
 					["<F1>"] = actions.close,
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = trouble.open,
 					["<C-o>"] = actions.cycle_history_prev,
 					["<C-i>"] = actions.cycle_history_next,
 					["<C-b>"] = actions.preview_scrolling_up,
@@ -117,7 +117,7 @@ function _M.config()
 				n = {
 					["q"] = actions.close,
 					["<F1>"] = actions.close,
-					["<C-t>"] = trouble.open_with_trouble,
+					["<C-t>"] = trouble.open,
 				},
 			},
 			vimgrep_arguments = {
@@ -131,7 +131,7 @@ function _M.config()
 				"--smart-case",
 				"--max-columns=30", -- skip lines longer than 100
 				"--max-columns-preview",
-				"--trim",       -- add this value to remove indentation
+				"--trim", -- add this value to remove indentation
 			},
 		},
 		extensions = {

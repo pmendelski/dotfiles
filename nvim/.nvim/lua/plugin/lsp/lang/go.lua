@@ -34,23 +34,24 @@ function _M.setup(config)
 				gofumpt = true, -- A stricter gofmt
 				["local"] = goModuleName(),
 				codelenses = {
-					gc_details = true, -- Toggle the calculation of gc annotations
-					generate = true, -- Runs go generate for a given directory
+					gc_details = true,    -- Toggle the calculation of gc annotations
+					generate = true,      -- Runs go generate for a given directory
 					regenerate_cgo = true, -- Regenerates cgo definitions
-					tidy = true, -- Runs go mod tidy for a module
+					tidy = true,          -- Runs go mod tidy for a module
 					upgrade_dependency = true, -- Upgrades a dependency in the go.mod file for a module
-					vendor = true, -- Runs go mod vendor for a module
+					vendor = true,        -- Runs go mod vendor for a module
 				},
 				diagnosticsDelay = "300ms",
 				symbolMatcher = "fuzzy",
 				completeUnimported = true,
 				staticcheck = true,
+				analysisProgressReporting = true,
 				matcher = "Fuzzy",
 				usePlaceholders = true, -- enables placeholders for function parameters or struct fields in completion responses
 				analyses = {
 					fieldalignment = false, -- find structs that would use less memory if their fields were sorted
-					nilness = true, -- check for redundant or impossible nil comparisons
-					shadow = true, -- check for possible unintended shadowing of variables
+					nilness = true,    -- check for redundant or impossible nil comparisons
+					shadow = true,     -- check for possible unintended shadowing of variables
 					unusedparams = true,
 					unusedwrite = true,
 				},

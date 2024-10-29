@@ -27,6 +27,12 @@ local htmlComments = vim.tbl_extend("force", baseConfig, {
 	multi_line_comment_strings = { "<!--", "-->" },
 })
 
+local cssComments = vim.tbl_extend("force", baseConfig, {
+	prefer_single_line_comments = false,
+	prefer_multi_line_comments = true,
+	multi_line_comment_strings = { "/*", "*/" },
+})
+
 config.configure_language("conf", hashComments)
 config.configure_language("makefile", hashComments)
 config.configure_language("make", hashComments)
@@ -38,6 +44,7 @@ config.configure_language("bash", hashComments)
 config.configure_language("zsh", hashComments)
 config.configure_language("vim", quoteComments)
 config.configure_language("template", htmlComments)
+config.configure_language("css", cssComments)
 
 -- Keybindings
 -------------------------

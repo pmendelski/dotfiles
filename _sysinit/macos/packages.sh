@@ -63,7 +63,7 @@ brew install zoxide
 brew install cheat
 brew install ranger
 brew install dtrx
-brew install exa
+brew install eza
 
 # Git
 brew install git
@@ -108,8 +108,6 @@ brew install --cask dropbox
 brew install --cask keepassx
 brew install --cask spotify
 brew install --cask transmission
-brew install --cask robo-3t
-brew install --cask opera
 brew install --cask intellij-idea
 brew install --cask intellij-idea-ce
 brew install --cask insomnia
@@ -120,6 +118,7 @@ brew install --cask dbeaver-community
 brew install --cask unnaturalscrollwheels
 brew install --cask rectangle
 brew install --cask hiddenbar
+brew install --cask betterdisplay
 brew tap homebrew/cask && brew install --cask gimp
 brew install --cask inkscape
 

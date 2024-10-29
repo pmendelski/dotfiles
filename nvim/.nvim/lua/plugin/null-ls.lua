@@ -5,17 +5,24 @@ local FORMATTING = null_ls.methods.FORMATTING
 
 local M = {}
 
+local yamllint_config = "{extends: relaxed, rules: { "
+		.. "line-length: disable, "
+		.. "indentation: { spaces: consistent, indent-sequences: consistent }, "
+		.. "empty-lines: { max: 2, max-start: 0, max-end: 1 }"
+		.. "}}"
+
 function M.config()
 	null_ls.setup({
 		sources = {
 			-- formatting
 			formatting.stylua,
 			formatting.shfmt,
+			formatting.xmllint,
 			formatting.prettier.with({ disabled_filetypes = { "yaml" }, extra_filetypes = { "toml" } }),
-			-- liting
+			-- linting
 			diagnostics.golangci_lint,
 			diagnostics.hadolint,
-			diagnostics.yamllint.with({ extra_args = { "-d", "{extends: relaxed, rules: {line-length: {max: 120}}}" } }),
+			diagnostics.yamllint.with({ extra_args = { "-d", yamllint_config } }),
 			diagnostics.zsh,
 		},
 	})

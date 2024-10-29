@@ -19,11 +19,11 @@ alias cdtmp='cd `mktemp -d /tmp/cdtmp-XXXXXX`'
 alias cdr='ranger'
 
 # Better ls
-if command -v exa &>/dev/null; then
-  alias l="exa -aF --icons --group-directories-first"
-  alias ls="exa -aF --icons --group-directories-first"
-  alias lld='exa -la --group-directories-first --only-dirs'
-  alias ll='exa -alF --icons --group-directories-first'
+if command -v eza &>/dev/null; then
+  alias l="eza -aF --icons --group-directories-first"
+  alias ls="eza -aF --icons --group-directories-first"
+  alias lld='eza -la --group-directories-first --only-dirs'
+  alias ll='eza -alF --icons --group-directories-first'
 else
   alias l="ls -aFh --color --group-directories-first"
   alias ls="ls -aFh --color --group-directories-first"

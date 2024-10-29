@@ -170,7 +170,8 @@ local lsp_client = {
 
 require("lualine").setup({
 	options = {
-		theme = "tokyonight",
+		theme = "auto",
+		-- theme = "tokyonight",
 	},
 	sections = {
 		lualine_a = { mode },
