@@ -94,7 +94,7 @@ if ! command -v eza &>/dev/null; then
   (
     cd "$tmpdir" &&
       curl -Lo eza.tar.gz "https://github.com/eza-community/eza/releases/download/${version}/eza_x86_64-unknown-linux-gnu.tar.gz" &&
-      tar xf exa.tar.gz &&
+      tar xf eza.tar.gz &&
       mv eza ~/.local/bin/eza
   )
   rm -rf "$tmpdir"

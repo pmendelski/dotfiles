@@ -108,14 +108,14 @@ if [ ! -d "$HOME/.fzf" ]; then
   ln -s .fzf/bin/fzf .local/bin/fzf
 fi
 
+echo -e "\n>>> Eza"
 if ! command -v eza &>/dev/null; then
-  echo "Installing: eza"
   version="$(curl -s "https://api.github.com/repos/eza-community/eza/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
   tmpdir="$(mktemp -d -t eza-XXXX)"
   (
     cd "$tmpdir" &&
       curl -Lo eza.tar.gz "https://github.com/eza-community/eza/releases/download/${version}/eza_x86_64-unknown-linux-gnu.tar.gz" &&
-      tar xf exa.tar.gz &&
+      tar xf eza.tar.gz &&
       mv eza ~/.local/bin/eza
   )
   rm -rf "$tmpdir"
