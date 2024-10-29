@@ -30,19 +30,10 @@
   submoduleSummary = true
 
 [merge]
-  tool = vimdiff
+  tool = nvimdiff
   conflictstyle = diff3
-
-[mergetool]
-  keepBackup = false
-  prompt = false
-
-# [merge]
-#   tool = nvimdiff
-# [mergetool "nvimdiff"]
-#   cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
-#   prompt = false
-#   keepBackup = false
+[mergetool "nvimdiff"]
+  cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd L\"
 
 [diff]
   tool = nvimdiff

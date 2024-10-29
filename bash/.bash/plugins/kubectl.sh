@@ -19,6 +19,7 @@ kc() {
     echo -e "\n\nActive contexts:" >&2
     echo "kubectl: $(kubectl config current-context)" >&2
     echo "      k: $KUBECTL_CONTEXT" >&2
+    echo "$KUBECTL_CONTEXT"
     return 0
   fi
   local context="$1"

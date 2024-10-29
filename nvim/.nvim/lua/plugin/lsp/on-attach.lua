@@ -72,7 +72,7 @@ return function(client, bufnr)
 	buf_set_keymap("n", prefix .. "t", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 	buf_set_keymap("n", prefix .. "n", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	buf_set_keymap("n", prefix .. "a", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	buf_set_keymap("n", prefix .. "r", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
+	buf_set_keymap("n", prefix .. "r", "<cmd>lua vim.lsp.buf.references({ includeDeclaration = false })<cr>", opts)
 	-- Diagnostic
 	buf_set_keymap("n", prefix .. "p", "<cmd>lua vim.diagnostic.open_float({ focusable = false })<cr>", opts)
 	buf_set_keymap("n", "[" .. prefix, "<cmd>lua vim.diagnostic.goto_prev({ float = { border = 'single' }})<cr>", opts)
@@ -97,7 +97,7 @@ return function(client, bufnr)
 	null_ls.configure_client(client, bufnr)
 	local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
 	local supports_format = client.server_capabilities.documentFormattingProvider ~= nil
-		or null_ls.has_formatter(filetype)
+			or null_ls.has_formatter(filetype)
 	if supports_format == true then
 		-- if filetype == "typescript" then
 		-- 	-- run prettier instead

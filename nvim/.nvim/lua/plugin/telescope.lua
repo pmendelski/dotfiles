@@ -30,7 +30,8 @@ function _M.keymap()
 	map("n", "<leader>cc", ":Telescope lsp_document_symbols<cr>")
 	map("n", "<leader>cw", ":Telescope lsp_dynamic_workspace_symbols<cr>")
 	-- map("n", "<leader>cw", ":Telescope lsp_workspace_symbols<cr>")
-	map("n", "<leader>cr", ":Telescope lsp_references<cr>")
+	-- map("n", "<leader>cr", ":Telescope lsp_references<cr>")
+	map("n", "<leader>cr", ":lua require('telescope.builtin').lsp_references({ include_declaration = false })<cr>")
 	map("n", "<leader>ca", ":Telescope lsp_code_actions<cr>")
 	map("n", "<leader>cx", ":Telescope diagnostics<cr>")
 	map("n", "<leader>cO", ":Telescope lsp_incomming_calls<cr>")
@@ -48,13 +49,13 @@ function _M.keymap()
 		"n",
 		"<leader>gh",
 		":lua require('gitsigns').setqflist(0, { open = false });"
-			.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
+		.. "require('telescope.builtin').quickfix({ prompt_title='Git hunks' })<cr>"
 	)
 	map(
 		"n",
 		"<leader>ga",
 		":lua require('gitsigns').setqflist('all', { open = false });"
-			.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
+		.. "require('telescope.builtin').quickfix({ prompt_title='Git workspace hunks' })<cr>"
 	)
 end
 
@@ -95,7 +96,7 @@ function _M.config()
 				truncate = true,
 			},
 			-- Show full path and wrap if too long
-			wrap_results = true, -- wrap long results in the search column
+			wrap_results = true,       -- wrap long results in the search column
 			dynamic_preview_title = true, -- print file path in preview title
 			-- selection_caret = " ",
 			borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
@@ -131,7 +132,7 @@ function _M.config()
 				"--smart-case",
 				"--max-columns=30", -- skip lines longer than 100
 				"--max-columns-preview",
-				"--trim", -- add this value to remove indentation
+				"--trim",       -- add this value to remove indentation
 			},
 		},
 		extensions = {

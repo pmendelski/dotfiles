@@ -159,6 +159,16 @@ elseif vim.fn.has("unix") == 1 then
 	map("n", "<leader>o", '<cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<cr>', {})
 end
 
+-- Git mergetool
+-----------------------------------------------------------
+-- ]c - next change
+-- [c - previous change
+if vim.opt.diff:get() then
+	map("n", "<leader>ml", ":diffget LOCAL<cr>")
+	map("n", "<leader>mb", ":diffget BASE<cr>")
+	map("n", "<leader>mr", ":diffget REMOTE<cr>")
+end
+
 -- Others
 -----------------------------------------------------------
 -- Word wrap
