@@ -20,7 +20,7 @@ function M.config()
 			formatting.xmllint,
 			formatting.prettier.with({ disabled_filetypes = { "yaml" }, extra_filetypes = { "toml" } }),
 			-- linting
-			-- diagnostics.golangci_lint, -- work
+			diagnostics.golangci_lint,
 			diagnostics.hadolint,
 			diagnostics.yamllint.with({ extra_args = { "-d", yamllint_config } }),
 			diagnostics.zsh,
