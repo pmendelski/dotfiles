@@ -88,14 +88,16 @@ if ! command -v cheat &>/dev/null; then
 fi
 
 if ! command -v eza &>/dev/null; then
-  # TODO: Migrate to binary install
-  # https://github.com/eza-community/eza/blob/main/INSTALL.md#manual-linux
-  sudo mkdir -p /etc/apt/keyrings
-  wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-  sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-  sudo apt update
-  sudo apt install -y eza
+  echo "Installing: eza"
+  version="$(curl -s "https://api.github.com/repos/eza-community/eza/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
+  tmpdir="$(mktemp -d -t eza-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo eza.tar.gz "https://github.com/eza-community/eza/releases/download/${version}/eza_x86_64-unknown-linux-gnu.tar.gz" &&
+      tar xf exa.tar.gz &&
+      mv eza ~/.local/bin/eza
+  )
+  rm -rf "$tmpdir"
 fi
 
 if [ ! -d "$HOME/.fzf" ]; then
@@ -104,20 +106,6 @@ if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
   ./.fzf/install --no-update-rc --key-bindings --completion
   ln -s .fzf/bin/fzf .local/bin/fzf
-fi
-
-if ! command -v cheat &>/dev/null; then
-  echo "Installing: cheat"
-  version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
-  tmpdir="$(mktemp -d -t cheat-XXXX)"
-  (
-    cd "$tmpdir" &&
-      curl -Lo cheat.gz "https://github.com/cheat/cheat/releases/download/${version}/cheat-linux-amd64.gz" &&
-      gunzip cheat.gz &&
-      chmod u+x cheat &&
-      sudo mv cheat /usr/local/bin/cheat
-  )
-  rm -rf "$tmpdir"
 fi
 
 echo -e "\n>>> Vim & Neovim"

@@ -13,8 +13,7 @@ sudo apt install -y \
   htop \
   zoxide \
   ranger \
-  dtrx \
-  exa
+  dtrx
 
 # better find
 sudo apt install -y fd-find
@@ -107,6 +106,19 @@ if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
   ./.fzf/install --no-update-rc --key-bindings --completion
   ln -s .fzf/bin/fzf .local/bin/fzf
+fi
+
+if ! command -v eza &>/dev/null; then
+  echo "Installing: eza"
+  version="$(curl -s "https://api.github.com/repos/eza-community/eza/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
+  tmpdir="$(mktemp -d -t eza-XXXX)"
+  (
+    cd "$tmpdir" &&
+      curl -Lo eza.tar.gz "https://github.com/eza-community/eza/releases/download/${version}/eza_x86_64-unknown-linux-gnu.tar.gz" &&
+      tar xf exa.tar.gz &&
+      mv eza ~/.local/bin/eza
+  )
+  rm -rf "$tmpdir"
 fi
 
 # echo -e "\n>>> gcloud"
