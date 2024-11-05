@@ -31,9 +31,9 @@
 
 [merge]
   tool = nvimdiff
-  conflictstyle = diff3
+  conflictstyle = zdiff3
 [mergetool "nvimdiff"]
-  cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd L\"
+  cmd = nvim -d \"$LOCAL\" \"$MERGED\" \"$BASE\" \"$REMOTE\" -c \"wincmd w\" -c \"wincmd J\"
 
 [diff]
   tool = nvimdiff
