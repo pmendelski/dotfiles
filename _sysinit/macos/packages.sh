@@ -101,6 +101,7 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-complet
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
+brew install --cask ghostty
 brew install --cask iterm2
 brew install --cask github
 brew install --cask visual-studio-code

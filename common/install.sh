@@ -22,5 +22,6 @@ linkFile() {
 
 linkFile "bat.conf" "$HOME/.config/bat/config"
 linkFile "ranger.conf" "$HOME/.config/ranger/rc.conf"
+linkFile "ghostty.conf" "$HOME/.config/ghostty/config"
 
 printSuccess "Installed: common"
