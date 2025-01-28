@@ -34,6 +34,9 @@ if [[ $- == *i* ]]; then
     export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
   fi
 
+  # Default TERM
+  : ${TERM:="xterm-256color"}
+
   # Force tmux
   if [ "$USER" != "root" ] &&
     [ "$TMUX_FORCE" = 1 ] && [ -z "$TMUX" ] && [ -z "$SSH_TTY" ] &&
