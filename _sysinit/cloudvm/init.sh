@@ -121,6 +121,13 @@ if ! command -v eza &>/dev/null; then
   rm -rf "$tmpdir"
 fi
 
+if command -v toe &>/dev/null && command -v tic &>/dev/null; then
+  echo -e "\n>>> Ghostty terminfo"
+  if ! toe -a | cut -f1 | grep -q ghostty; then
+    tic xterm-ghostty.terminfo
+  fi
+fi
+
 # echo -e "\n>>> gcloud"
 # if [ ! -d "$HOME/.gcloud" ]; then
 #   GCLOUD_VERSION="$(
