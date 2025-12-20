@@ -24,6 +24,7 @@ if command -v eza &>/dev/null; then
   alias ls="eza -aF --icons --group-directories-first"
   alias lld='eza -la --group-directories-first --only-dirs'
   alias ll='eza -alF --icons --group-directories-first'
+  alias tree='eza --tree'
 else
   alias l="ls -aFh --color --group-directories-first"
   alias ls="ls -aFh --color --group-directories-first"
@@ -35,7 +36,7 @@ fi
 alias pu='pushd'
 alias po='popd'
 
-# Facter -r commands
+# Faster -r commands
 alias cpd="cp -r"
 alias mvd="mv -r"
 
@@ -66,9 +67,6 @@ alias hosts="sudo \$EDITOR /etc/hosts"
 alias v="vim"
 alias editor="\$EDITOR"
 alias e="\$EDITOR"
-
-# Nvim
-alias nvim-update="nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'"
 
 # Tmux
 alias ta='tmux attach'

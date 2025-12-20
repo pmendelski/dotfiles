@@ -55,13 +55,27 @@ return function(client, bufnr)
 	local prefix = "g"
 	local prefix_upper = "G"
 	local opts = { noremap = true, silent = true }
-	buf_set_keymap("n", prefix .. "D", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-	buf_set_keymap("n", prefix .. "d", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-	buf_set_keymap("n", prefix .. "i", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-	buf_set_keymap("n", prefix .. "s", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
+	-- Use telescope for basic navigation instead
+	buf_set_keymap(
+		"n",
+		prefix .. "r",
+		"<cmd>lua require('telescope.builtin').lsp_references({ include_declaration = false })<cr>",
+		opts
+	)
+	buf_set_keymap("n", prefix .. "O", "<cmd>Telescope lsp_incomming_calls<cr>", opts)
+	buf_set_keymap("n", prefix .. "o", "<cmd>Telescope lsp_outgoing_calls<cr>", opts)
+	buf_set_keymap("n", prefix .. "i", "<cmd>Telescope lsp_implementations<cr>", opts)
+	buf_set_keymap("n", prefix .. "d", "<cmd>Telescope lsp_definitions<cr>", opts)
+	-- buf_set_keymap("n", prefix .. "r", "<cmd>lua vim.lsp.buf.references({ includeDeclaration = false })<cr>", opts)
+	-- buf_set_keymap("n", prefix .. "D", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
+	-- buf_set_keymap("n", prefix .. "d", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+	-- buf_set_keymap("n", prefix .. "i", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+
+	-- Use customized formatting
 	buf_set_keymap("n", prefix .. "f", '<cmd>lua require("plugin/lsp/actions").format()<cr>', opts)
 	-- buf_set_keymap('n', prefix .. 'f', '<cmd>lua vim.lsp.buf.format()<cr>', opts)
 	buf_set_keymap("x", prefix .. "f", "<cmd>lua vim.lsp.buf.range_format()<cr>", opts)
+	buf_set_keymap("n", prefix .. "s", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 	buf_set_keymap("n", prefix .. "h", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
 	buf_set_keymap(
 		"n",
@@ -72,7 +86,6 @@ return function(client, bufnr)
 	buf_set_keymap("n", prefix .. "t", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 	buf_set_keymap("n", prefix .. "n", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	buf_set_keymap("n", prefix .. "a", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	buf_set_keymap("n", prefix .. "r", "<cmd>lua vim.lsp.buf.references({ includeDeclaration = false })<cr>", opts)
 	-- Diagnostic
 	buf_set_keymap("n", prefix .. "p", "<cmd>lua vim.diagnostic.open_float({ focusable = false })<cr>", opts)
 	buf_set_keymap("n", "[" .. prefix, "<cmd>lua vim.diagnostic.goto_prev({ float = { border = 'single' }})<cr>", opts)

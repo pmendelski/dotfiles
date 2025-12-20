@@ -24,7 +24,11 @@ export FZF_FIND_FILE="$FZF_FIND_ANY --type f"
 export FZF_FIND_DIR="$FZF_FIND_ANY --type d"
 # FZF previews
 export FZF_PREVIEW_FILE='bat -n --color=always --line-range=:500 {}'
-export FZF_PREVIEW_DIR='tree -C {} | head -200'
+if command -v eza &>/dev/null; then
+  export FZF_PREVIEW_DIR='eza --tree --color=always {} | head -200'
+else
+  export FZF_PREVIEW_DIR='tree -C {} | head -200'
+fi
 export FZF_PREVIEW_ANY="if [ -d {} ]; then $FZF_PREVIEW_DIR; else $FZF_PREVIEW_FILE; fi"
 # FZF defaults
 export FZF_DEFAULT_COMMAND="$FZF_FIND_FILE"

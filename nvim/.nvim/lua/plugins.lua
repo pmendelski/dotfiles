@@ -157,7 +157,7 @@ packer.startup({
 		})
 		-- External formatters with diagnostics
 		use({
-			"jose-elias-alvarez/null-ls.nvim",
+			"nvimtools/none-ls.nvim",
 			config = [[require("plugin/null-ls").config()]],
 			requires = { "nvim-lua/plenary.nvim" },
 		})

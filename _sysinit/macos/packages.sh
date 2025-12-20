@@ -15,7 +15,6 @@ brew install findutils
 brew install binutils
 brew install diffutils
 brew install watch
-brew install ninja
 brew install wget
 brew install wdiff
 brew install gawk
@@ -23,25 +22,22 @@ brew install gnu-indent
 brew install gnu-sed
 brew install gnu-tar
 brew install gnu-which
+brew install ninja
 brew install cmake
 brew install grep
 brew install gzip
 brew install zlib
 brew install less
 brew install gnupg
-brew install neovim
 brew install httpie
-brew install iperf3
 brew install openssh
+brew install neovim
 brew install vim
-brew install git-lfs
-brew install imagemagick
 brew install lua
 brew install lynx
 brew install p7zip
 brew install pv
 brew install ssh-copy-id
-brew install tree
 brew install vbindiff
 brew install cowsay
 brew install figlet
@@ -54,10 +50,8 @@ brew install bash-completion2
 brew install fd
 brew install ripgrep
 brew install bat
-brew install git-delta
 brew install lazygit
 brew install htop
-brew install transmission
 brew install shellcheck
 brew install zoxide
 brew install cheat
@@ -67,15 +61,18 @@ brew install eza
 
 # Git
 brew install git
+brew install git-delta
+brew install git-lfs
 # Disable credential helper to enable multi-accounts
 # https://stackoverflow.com/questions/11067818
 git config --system --unset credential.helper
 
+# Performance test tools
+brew install iperf3
+brew install nghttp2
+
 # Mpeg thumnails
 brew install ffmpegthumbnailer
-
-# PDF
-brew install poppler
 
 # Rust
 brew install rustup-init
@@ -101,6 +98,8 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-complet
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
+brew install transmission
+brew install imagemagick
 brew install --cask ghostty
 brew install --cask iterm2
 brew install --cask github
@@ -173,9 +172,6 @@ installNerdFonts() {
   cd "$dir"
 }
 installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
-
-# Performance test tools
-brew install nghttp2
 
 # Remove outdated versions from the cellar.
 brew cleanup
