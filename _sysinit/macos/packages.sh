@@ -156,6 +156,8 @@ brew install font-inconsolata
 brew install font-fira-code
 brew install font-fira-mono
 brew install font-fira-sans
+brew install font-jetbrains-mono
+brew install font-jetbrains-mono-nerd-font
 installNerdFonts() {
   mkdir -p ~/Library/Fonts
   local -r version="$(curl -sL https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest |
