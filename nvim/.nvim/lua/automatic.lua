@@ -3,6 +3,17 @@ vim.cmd([[
   autocmd BufRead,BufNewFile */node_modules/* lua vim.diagnostic.disable(0)
 ]])
 
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.hl.on_yank()`
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("dot-highlight-yank", { clear = true }),
+	callback = function()
+		vim.hl.on_yank()
+	end,
+})
+
 -- Automatically refresh buffers on file change
 vim.cmd([[
   augroup AutoRefreshBuffersOnFileChange

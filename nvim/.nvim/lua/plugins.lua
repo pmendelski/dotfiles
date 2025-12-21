@@ -30,14 +30,14 @@ if not present then
 end
 
 -- Snapshots for rolling bug unhealthy update
-local snapshots = require("snapshots")
-local config = {
-	snapshot_path = snapshots.path(),
-	autoremove = true,
-	display = {
-		open_fn = require("packer.util").float,
-	},
-}
+-- local snapshots = require("snapshots")
+-- local config = {
+-- 	snapshot_path = snapshots.path(),
+-- 	autoremove = true,
+-- 	display = {
+-- 		open_fn = require("packer.util").float,
+-- 	},
+-- }
 
 packer.startup({
 	function(use)
@@ -174,14 +174,14 @@ packer.startup({
 		use({
 			"hrsh7th/nvim-cmp",
 			requires = {
-				{ "onsails/lspkind-nvim",     after = "nvim-cmp" },
-				{ "hrsh7th/cmp-buffer",       after = "nvim-cmp" },
-				{ "hrsh7th/cmp-cmdline",      after = "nvim-cmp" },
-				{ "hrsh7th/cmp-git",          after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lsp",     after = "nvim-cmp" },
-				{ "hrsh7th/cmp-nvim-lua",     after = "nvim-cmp" },
-				{ "hrsh7th/cmp-path",         after = "nvim-cmp" },
-				{ "hrsh7th/cmp-calc",         after = "nvim-cmp" },
+				{ "onsails/lspkind-nvim", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-git", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-calc", after = "nvim-cmp" },
 				{ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" },
 			},
 			event = "InsertEnter",
@@ -239,21 +239,21 @@ packer.startup({
 	config = config,
 })
 
-if require("os").getenv("NVIM_AUTOUPDATE") == "1" then
-	vim.defer_fn(function()
-		-- Check if there is only packer installed so we can decide if we should
-		-- use PackerInstall or PackerSync, useful for generating the
-		-- `plugin/packer_compiled.lua` on first doom launch
-		local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
-		if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
-			snapshots.create_snapshot()
-			packer.sync()
-		elseif installed == 0 then
-			packer.clean()
-			packer.install()
-			vim.cmd(':exe "normal \\<c-w>w"')
-			-- vim.cmd(':exe "normal \\<c-w>w"')
-			-- vim.cmd(':exe "normal \\<c-w>w"')
-		end
-	end, 200)
-end
+-- if require("os").getenv("NVIM_AUTOUPDATE") == "1" then
+-- 	vim.defer_fn(function()
+-- 		-- Check if there is only packer installed so we can decide if we should
+-- 		-- use PackerInstall or PackerSync, useful for generating the
+-- 		-- `plugin/packer_compiled.lua` on first doom launch
+-- 		local installed = vim.tbl_count(vim.fn.globpath(vim.fn.stdpath("data") .. "/site/pack/packer/opt", "*", 0, 1))
+-- 		if installed > 0 and snapshots.is_locked() == false and snapshots.has_snapshot() == false then
+-- 			-- snapshots.create_snapshot()
+-- 			packer.sync()
+-- 		elseif installed == 0 then
+-- 			packer.clean()
+-- 			packer.install()
+-- 			vim.cmd(':exe "normal \\<c-w>w"')
+-- 			-- vim.cmd(':exe "normal \\<c-w>w"')
+-- 			-- vim.cmd(':exe "normal \\<c-w>w"')
+-- 		end
+-- 	end, 200)
+-- end

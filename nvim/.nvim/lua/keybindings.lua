@@ -203,9 +203,9 @@ map("n", "<leader>R", function()
 	-- Reload all unmodified buffers
 	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
 		if
-				vim.api.nvim_buf_is_loaded(buf)
-				and vim.api.nvim_buf_get_option(buf, "buftype") == ""
-				and not vim.api.nvim_buf_get_option(buf, "modified")
+			vim.api.nvim_buf_is_loaded(buf)
+			and vim.api.nvim_get_option_value("buftype", { buf = buf }) == ""
+			and not vim.api.nvim_get_option_value("modified", { buf = buf })
 		then
 			vim.api.nvim_buf_call(buf, function()
 				vim.cmd("edit")
