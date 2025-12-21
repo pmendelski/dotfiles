@@ -31,7 +31,7 @@ function _M.contains(list, x)
 end
 
 function _M.get_buf_lsp_clients()
-	local buf_clients = vim.lsp.buf_get_clients()
+	local buf_clients = vim.lsp.get_clients()
 	if next(buf_clients) == nil then
 		return {}
 	end

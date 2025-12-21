@@ -136,11 +136,6 @@ packer.startup({
 			"nvim-treesitter/nvim-treesitter-refactor",
 			after = "nvim-treesitter",
 		})
-		use({
-			"windwp/nvim-ts-autotag",
-			after = "nvim-treesitter",
-			config = [[require("plugin/autotag")]],
-		})
 		-- Comments
 		use({
 			"b3nj5m1n/kommentary",
