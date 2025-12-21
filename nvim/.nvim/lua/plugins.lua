@@ -29,6 +29,7 @@ if not present then
 	end
 end
 
+-- Snapshots for rolling bug unhealthy update
 local snapshots = require("snapshots")
 local config = {
 	snapshot_path = snapshots.path(),

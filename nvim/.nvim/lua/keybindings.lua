@@ -192,3 +192,25 @@ map("n", "q", function()
 		vim.api.nvim_feedkeys(jump_right, "n", false)
 	end
 end)
+
+-- Reload
+map("n", "<leader>R", function()
+	-- Refresh nvim-tree if available
+	local ok, api = pcall(require, "nvim-tree.api")
+	if ok then
+		api.tree.reload()
+	end
+	-- Reload all unmodified buffers
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if
+				vim.api.nvim_buf_is_loaded(buf)
+				and vim.api.nvim_buf_get_option(buf, "buftype") == ""
+				and not vim.api.nvim_buf_get_option(buf, "modified")
+		then
+			vim.api.nvim_buf_call(buf, function()
+				vim.cmd("edit")
+			end)
+		end
+	end
+	vim.notify("NvimTree and buffers reloaded", vim.log.levels.INFO)
+end, { desc = "Refresh nvim-tree and reload buffers" })
