@@ -79,7 +79,7 @@ installNerdFonts() {
   cd "$dir"
 }
 if [ ! -f "$HOME/.local/share/fonts/Fira Code Retina Nerd Font Complete.ttf" ]; then
-  installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata'
+  installNerdFonts 'DroidSansMono' 'FiraCode' 'Hack' 'Inconsolata' 'JetBrainsMono'
   fc-cache -fv
 fi
 
