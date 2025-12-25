@@ -3,6 +3,7 @@ set -euf -o pipefail
 
 declare -r DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
 source "$DIR/../bash/.bash/util/terminal.sh"
+source "$DIR/../bash/.bash/plugins/systype.sh"
 
 linkFile() {
   local -r file="$HOME/.dotfiles/common/$1"
@@ -23,5 +24,10 @@ linkFile() {
 linkFile "bat.conf" "$HOME/.config/bat/config"
 linkFile "ranger.conf" "$HOME/.config/ranger/rc.conf"
 linkFile "ghostty.conf" "$HOME/.config/ghostty/config"
+linkFile "lazygit.yml" "$HOME/.config/lazygit/config.yml"
+
+if [ "$SYSTYPE" == "macos" ]; then
+  linkFile "lazygit.yml" "$HOME/Library/Application\ Support/jesseduffield/lazygit/config.yml"
+fi
 
 printSuccess "Installed: common"
