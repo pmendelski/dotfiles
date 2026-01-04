@@ -14,7 +14,13 @@ return {
       ghost_text = { enabled = false },
     },
     sources = {
-      default = { "lsp", "path", "snippets" },
+      -- default = { "lsp", "path", "snippets" },
+      providers = {
+        lsp = { fallbacks = {}, score_offset = 2 },
+        path = { fallbacks = {}, score_offset = 1 },
+        snippets = { fallbacks = {} },
+        buffer = { fallbacks = {}, enabled = false },
+      },
     },
   },
 }
