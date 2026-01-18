@@ -1,0 +1,12 @@
+{
+  "strict_shebang": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -euf -o pipefail",
+      "",
+      "$0"
+    ],
+    "description": "Strict Bash shebang with safety flags"
+  }
+}

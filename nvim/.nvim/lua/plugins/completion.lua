@@ -18,7 +18,14 @@ return {
       providers = {
         lsp = { fallbacks = {}, score_offset = 2 },
         path = { fallbacks = {}, score_offset = 1 },
-        snippets = { fallbacks = {} },
+        snippets = {
+          fallbakcs = {},
+          override = {
+            get_trigger_characters = function()
+              return { "#", "!" }
+            end,
+          },
+        },
         buffer = { fallbacks = {}, enabled = false },
       },
     },

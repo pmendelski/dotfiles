@@ -9,13 +9,12 @@ function linkConfig() {
   mkdir -p "$(dirname "$configDir")"
   if [ ! -L "$configDir" ]; then
     ln -fs ~/.nvim "$configDir"
-    printSuccess "Installed: nvim"
   else
-    printInfo "Skipped installation: nvim. Command not found."
+    printInfo "nvim config already installed"
   fi
 }
 
-if command -v nvim &>/dev/null; then
+if command -v nvim &>/dev/null && nvim --version &>/dev/null; then
   linkConfig
   printSuccess "Installed: nvim"
 else
