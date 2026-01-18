@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+sudo apt update -y &&
+  sudo apt full-upgrade -y &&
+  sudo apt autoremove -y &&
+  sudo apt autoclean -y
+
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/app
 
@@ -48,15 +53,15 @@ sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.lis
 sudo apt update
 sudo apt install -y eza
 
-echo -e "\n>>> Nvim"
-sudo apt install cmake gettext ninja-build unzip curl git build-essential -y
-(
-  NVIM_BUILD_DIR="$(mktemp -d -t nvim-XXX)"
-  cd "$NVIM_BUILD_DIR"
-  git clone https://github.com/neovim/neovim
-  cd neovim
-  git checkout stable
-  make CMAKE_BUILD_TYPE=RelWithDebInfo
-  sudo make install
-  rm -rf "$NVIM_BUILD_DIR"
-)
+# echo -e "\n>>> Nvim"
+# sudo apt install cmake gettext ninja-build unzip curl git build-essential -y
+# (
+#   NVIM_BUILD_DIR="$(mktemp -d -t nvim-XXX)"
+#   cd "$NVIM_BUILD_DIR"
+#   git clone https://github.com/neovim/neovim
+#   cd neovim
+#   git checkout stable
+#   make CMAKE_BUILD_TYPE=RelWithDebInfo
+#   sudo make install
+#   rm -rf "$NVIM_BUILD_DIR"
+# )
