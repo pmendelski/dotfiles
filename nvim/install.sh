@@ -15,4 +15,9 @@ function linkConfig() {
   fi
 }
 
-linkConfig
+if command -v nvim &>/dev/null; then
+  linkConfig
+  printSuccess "Installed: nvim"
+else
+  printInfo "Skipped installation: nvim. Command not found."
+fi

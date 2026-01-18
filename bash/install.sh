@@ -26,9 +26,11 @@ appendFile() {
   local -r file="bash/_$1"
   local -r target="$HOME/.$1"
   local -r host="${HOST:-$HOSTNAME}"
+  # don't hide user@host on raspberry pi
+  local -r defaultUserHost="$(if [ "$host" == "raspberrypi" ]; then echo ""; else echo "$USER@$host"; fi)"
   local -r content="$(
     sed \
-      -e "s|@PROMPT_DEFAULT_USERHOST@|$USER@$host|" \
+      -e "s|@PROMPT_DEFAULT_USERHOST@|$defaultUserHost|" \
       -e "s|@HOME@|$HOME|" \
       "$file"
   )"
