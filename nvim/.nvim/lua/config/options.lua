@@ -29,3 +29,20 @@ vim.o.directory = vim.fn.expand("~/.nvim/tmp/swap")
 vim.o.backupdir = vim.fn.expand("~/.nvim/tmp/backup")
 vim.o.undodir = vim.fn.expand("~/.nvim/tmp/undo")
 vim.o.viewdir = vim.fn.expand("~/.nvim/tmp/view")
+
+-- Make clipboard work on SSH
+-----------------------------------------------------------
+if vim.env.SSH_TTY then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
+vim.opt.clipboard = "unnamedplus"

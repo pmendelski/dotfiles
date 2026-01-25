@@ -19,7 +19,6 @@ return {
         lsp = { fallbacks = {}, score_offset = 2 },
         path = { fallbacks = {}, score_offset = 1 },
         snippets = {
-          fallbakcs = {},
           override = {
             get_trigger_characters = function()
               return { "#", "!" }
