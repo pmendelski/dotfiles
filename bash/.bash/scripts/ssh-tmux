@@ -3,7 +3,7 @@
 sleep=5
 alive_interval=10
 attempts=100
-ssh_opts="-Y -oCompression=yes -oServerAliveInterval=$alive_interval"
+ssh_opts="-oCompression=yes -oServerAliveInterval=$alive_interval"
 
 host="${1?Missing host argument}"
 session="${2:-ssh}"
