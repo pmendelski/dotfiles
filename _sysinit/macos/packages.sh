@@ -115,7 +115,7 @@ brew install --cask sublime-text
 brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask dbeaver-community
-brew install --cask unnaturalscrollwheels
+brew install --cask linearmouse
 brew install --cask rectangle
 brew install --cask hiddenbar
 brew install --cask betterdisplay
