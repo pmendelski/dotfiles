@@ -25,10 +25,10 @@ linkOhMyZshPlugins() {
 
 installPlugins() {
   mkdir -p "$HOME/.zsh/deps"
-  installPlugin "zsh-autosuggestions" "git@github.com:zsh-users/zsh-autosuggestions.git"
-  installPlugin "zsh-completions" "git@github.com:zsh-users/zsh-completions.git"
-  installPlugin "zsh-syntax-highlighting" "git@github.com:zsh-users/zsh-syntax-highlighting.git"
-  installPlugin "zsh-history-substring-search" "git@github.com:zsh-users/zsh-history-substring-search.git"
-  installPlugin "ohmyzsh" "git@github.com:ohmyzsh/ohmyzsh.git"
+  installPlugin "zsh-autosuggestions" "https://github.com:zsh-users/zsh-autosuggestions.git"
+  installPlugin "zsh-completions" "https://github.com:zsh-users/zsh-completions.git"
+  installPlugin "zsh-syntax-highlighting" "https://github.com:zsh-users/zsh-syntax-highlighting.git"
+  installPlugin "zsh-history-substring-search" "https://github.com:zsh-users/zsh-history-substring-search.git"
+  installPlugin "ohmyzsh" "https://github.com:ohmyzsh/ohmyzsh.git"
   linkOhMyZshPlugins
 }

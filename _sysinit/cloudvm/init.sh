@@ -13,7 +13,8 @@ sudo apt install -y \
   htop \
   zoxide \
   ranger \
-  dtrx
+  dtrx \
+  shellcheck
 
 # better find
 sudo apt install -y fd-find
@@ -27,62 +28,18 @@ if [ ! -f ~/.local/bin/bat ]; then
   ln -s "$(which batcat)" ~/.local/bin/bat
 fi
 
-echo -e "\n>>> Vim & Neovim"
+echo -e "\n>>> Vim"
 sudo apt install -y vim
-# sudo add-apt-repository -y ppa:neovim-ppa/stable
-# sudo apt update
-# sudo apt install -y neovim
-if ! command -v nvim &>/dev/null; then
-  echo "Installing nvim"
-  tmpdir="$(mktemp -d -t nvim-XXXX)"
-  (
-    cd "$tmpdir" &&
-      curl -Lo nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz" &&
-      tar xf nvim.tar.gz -C ~/.local &&
-      rm -rf ~/.local/app/nvim &&
-      mv ~/.local/nvim-linux64 ~/.local/app/nvim &&
-      ln -fs ~/.local/app/nvim/bin/nvim ~/.local/bin/nvim
-  )
-  rm -rf "$tmpdir"
-fi
 
 echo -e "\n>>> Build tools"
 sudo apt install -y \
   build-essential \
-  make \
-  shellcheck
-
-if ! command -v cheat &>/dev/null; then
-  echo "Installing cheat"
-  version="$(curl -s "https://api.github.com/repos/cheat/cheat/releases/latest" | grep -Po '"tag_name": "\K[^"]*')"
-  tmpdir="$(mktemp -d -t cheat-XXXX)"
-  (
-    cd "$tmpdir" &&
-      curl -Lo cheat.gz "https://github.com/cheat/cheat/releases/download/${version}/cheat-linux-amd64.gz" &&
-      gunzip cheat.gz &&
-      chmod u+x cheat &&
-      mv cheat ~/.local/bin/cheat
-  )
-  rm -rf "$tmpdir"
-fi
+  make
 
 echo -e "\n>>> GIT"
 # sudo add-apt-repository -y ppa:git-core/ppa
 # sudo apt update
-sudo apt install -y git
-
-# Lazygit
-if ! command -v lazygit &>/dev/null; then
-  echo "Installing lazygit"
-  version="$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')"
-  tmpdir="$(mktemp -d -t lazygit-XXXX)"
-  (
-    cd "$tmpdir" &&
-      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${version}_Linux_x86_64.tar.gz" &&
-      tar xf lazygit.tar.gz -C ~/.local/bin lazygit
-  )
-  rm -rf "$tmpdir"
-fi
+sudo apt install -y git lazygit
 
 echo -e "\n>>> Network tools"
 sudo apt install -y \
@@ -97,8 +54,6 @@ if ! command -v yq &>/dev/null; then
   wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O ~/.local/bin/yq &&
     chmod +x ~/.local/bin/yq
 fi
-echo -e "\n>>> Linters"
-sudo apt intall -y yamllint
 
 echo -e "\n>>> Fzf"
 if [ ! -d "$HOME/.fzf" ]; then

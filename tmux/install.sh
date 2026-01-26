@@ -17,12 +17,12 @@ installPlugin() {
 
 installPlugins() {
   mkdir -p ".tmux/deps"
-  installPlugin "tmux-logging" "git@github.com:tmux-plugins/tmux-logging.git"
-  installPlugin "tmux-prefix-highlight" "git@github.com:tmux-plugins/tmux-prefix-highlight.git"
-  installPlugin "tmux-open" "git@github.com:tmux-plugins/tmux-open.git"
-  installPlugin "tmux-copycat" "git@github.com:tmux-plugins/tmux-copycat.git"
-  installPlugin "tmux-yank" "git@github.com:tmux-plugins/tmux-yank.git"
-  installPlugin "tmux-fzf-url" "git@github.com:junegunn/tmux-fzf-url.git"
+  installPlugin "tmux-logging" "https://github.com:tmux-plugins/tmux-logging.git"
+  installPlugin "tmux-prefix-highlight" "https://github.com:tmux-plugins/tmux-prefix-highlight.git"
+  installPlugin "tmux-open" "https://github.com:tmux-plugins/tmux-open.git"
+  installPlugin "tmux-copycat" "https://github.com:tmux-plugins/tmux-copycat.git"
+  installPlugin "tmux-yank" "https://github.com:tmux-plugins/tmux-yank.git"
+  installPlugin "tmux-fzf-url" "https://github.com:junegunn/tmux-fzf-url.git"
 }
 
 if command -v tmux &>/dev/null; then

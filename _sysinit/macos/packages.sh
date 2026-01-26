@@ -58,6 +58,7 @@ brew install cheat
 brew install ranger
 brew install dtrx
 brew install eza
+brew install tree-sitter-cli
 
 # Git
 brew install git
