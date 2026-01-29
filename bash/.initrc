@@ -3,6 +3,9 @@
 # Loaded after .zshrc and .bashrc
 # A good place to source other scripts
 
+# sdkvm - software development kit version manager
+if [ -f "$HOME/.sdkvm/init.sh" ]; then source "$HOME/.sdkvm/init.sh"; fi
+
 # gcloud - GCP command line tool
 _SHL="bash"
 if [ -n "${ZSH_VERSION-}" ]; then
