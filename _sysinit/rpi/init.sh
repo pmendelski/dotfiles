@@ -20,8 +20,7 @@ sudo apt install -y \
   fzf \
   dtrx \
   jq \
-  gnupg2 \
-  tree-sitter-cli
+  gnupg2
 
 # better find
 sudo apt install -y fd-find

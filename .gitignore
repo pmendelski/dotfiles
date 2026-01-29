@@ -7,7 +7,6 @@ vim/.vim/.netrwhist
 nvim/.nvim/plugin
 nvim/.nvim/tmp
 nvim/.nvim/spell/*.spl
-nvim/.nvim/lazy-lock.json
 nvim/.nvim/.netrwhist
 bash/.bash/tmp
 zsh/.zsh/tmp
