@@ -11,6 +11,10 @@ insert_final_newline = true
 [*.{sh,json,yml,yaml,md,xml,html,xhtml,js}]
 indent_size = 2
 
+[*.{go,lua}]
+indent_style = tab
+indent_size = 2
+
 [Makefile]
 indent_style = tab
-indent_size = 1
+indent_size = 2

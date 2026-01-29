@@ -15,12 +15,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
-
--- Additional formatting for some file types
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.go" },
-  callback = function(_)
-    vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" }, diagnostics = {} }, apply = true })
-    -- vim.lsp.buf.format()
-  end,
-})

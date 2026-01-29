@@ -5,7 +5,13 @@ return {
       ["*"] = {
         keys = {
           -- gI - uppercase "I" is inconvenient, but leave it to stay compatible with LazyVim
-          { "gi", vim.lsp.buf.implementation, desc = "Goto Implementation" },
+          {
+            "gi",
+            function()
+              Snacks.picker.lsp_implementations()
+            end,
+            desc = "Goto Implementation",
+          },
         },
       },
     },

@@ -9,7 +9,7 @@ sudo apt update -y &&
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/app
 
-echo -e "\n>>> Terminal"
+echo -e "\n>>> Basics"
 sudo apt install -y \
   tmux \
   zsh \
@@ -34,6 +34,11 @@ sudo apt install -y bat
 if [ ! -f ~/.local/bin/bat ]; then
   ln -s "$(which batcat)" ~/.local/bin/bat
 fi
+
+echo -e "\n>>> Build tools"
+sudo apt install -y \
+  build-essential \
+  make
 
 echo -e "\n>>> Vim"
 sudo apt install -y vim
