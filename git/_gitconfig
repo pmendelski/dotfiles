@@ -10,8 +10,6 @@
 #   path = .gitconfig_personal
 # [includeIf "gitdir:~/.dotfiles/"]
 #   path = .gitconfig_personal
-# [includeIf "gitdir:~/.sdkvm/"]
-#   path = .gitconfig_personal
 #
 # === Content of .gitconfig_personal ===
 # [user]

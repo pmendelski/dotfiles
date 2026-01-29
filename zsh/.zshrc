@@ -48,3 +48,5 @@ if [ -f "$HOME/.dotfiles-ext/zsh/.zshrc" ]; then source "$HOME/.dotfiles-ext/zsh
 if [ -f "$HOME/.zshrc_local" ]; then source "$HOME/.zshrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
+if command -v mise &>/dev/null; then eval "$(mise activate zsh)"; fi
+

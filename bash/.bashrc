@@ -54,3 +54,4 @@ if [ -f "$HOME/.dotfiles-ext/bash/.bashrc" ]; then source "$HOME/bash/.bashrc"; 
 if [ -f "$HOME/.bashrc_local" ]; then source "$HOME/.bashrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
+if command -v mise &>/dev/null; then eval "$(mise activate bash)"; fi

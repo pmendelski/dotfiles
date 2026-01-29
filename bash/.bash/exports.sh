@@ -32,30 +32,3 @@ fi
 
 # ShellCheck ignore some errors by default
 export SHELLCHECK_OPTS="-e SC2155 -e SC1090 -e SC1091"
-
-export SDKVM_NODE_PACKAGES="
-pyright
-bash-language-server
-sql-language-server
-yaml-language-server
-graphql-language-service-cli
-vscode-langservers-extracted
-prettier
-diagnostic-languageserver
-svelte-language-server
-typescript
-typescript-language-server
-vls
-stylelint-lsp
-eslint
-vscode-langservers-extracted
-@tailwindcss/language-server
-graphql-language-service-cli
-"
-
-export SDKVM_GO_PACKAGES="
-mvdan.cc/sh/v3/cmd/shfmt
-golang.org/x/tools/gopls
-honnef.co/go/tools/cmd/staticcheck
-mvdan.cc/gofumpt
-"
