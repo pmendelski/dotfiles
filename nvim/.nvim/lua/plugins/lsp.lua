@@ -3,18 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       inlay_hints = { enabled = false },
-      setup = {
-        ["*"] = function(_, opts)
-          local on_attach = opts.on_attach
-          opts.on_attach = function(client, bufnr)
-            if on_attach then
-              on_attach(client, bufnr)
-            end
-            -- WYŁĄCZAMY Semantic Tokens, zostawiamy podświetlanie tylko dla Treesittera
-            client.server_capabilities.semanticTokensProvider = nil
-          end
-        end,
-      },
       servers = {
         ["*"] = {
           keys = {

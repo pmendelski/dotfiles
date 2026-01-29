@@ -1,12 +1,13 @@
 return {
   {
     "folke/lazydev.nvim",
-    ft = "lua", -- ładuj tylko dla plików lua
+    ft = "lua",
     opts = {
       library = {
-        -- Załaduj typy dla pluginów (np. "lazy.nvim")
-        { path = "luvit-meta/library", words = { "vim%.uv" } },
+        "~/.dotfiles",
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
   },
+  { "folke/neodev.nvim", enabled = false },
 }

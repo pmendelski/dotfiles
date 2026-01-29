@@ -15,3 +15,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
+
+-- Sometimes on RaspberryPi there is a race condition caused by slow I/O
+-- that breaks file type detection.
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+  callback = function()
+    if vim.bo.filetype == "" or vim.bo.filetype == nil then
+      vim.api.nvim_command("filetype detect")
+    end
+  end,
+})
