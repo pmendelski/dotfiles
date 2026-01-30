@@ -16,6 +16,8 @@ return {
             },
           },
         },
+        bashls = {},
+        gopls = {},
       },
     },
   },
