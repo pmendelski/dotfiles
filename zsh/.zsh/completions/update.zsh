@@ -23,6 +23,7 @@ if command -v kubectl &>/dev/null; then
   kubectl completion zsh >"$DIR/_kubectl" && echo "Installed kubectl completion"
 fi
 
-if command -v gh &>/dev/null; then
-  gh completion --shell zsh >"$DIR/_gh" && echo "Installed gh completion"
+if command -v mise &>/dev/null; then
+  mise completion zsh  >"$DIR/_mise" && echo "Installed mise completion"
 fi
+
