@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "gemini-agent": {
+      "command": "gemini",
+      "args": [
+        "--mcp"
+      ],
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  }
+}

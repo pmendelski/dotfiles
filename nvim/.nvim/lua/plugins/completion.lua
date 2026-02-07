@@ -55,6 +55,13 @@ return {
               return { "#", "!" }
             end,
           },
+          opts = {
+            -- disable friendly-snippets globals
+            -- See: https://github.com/rafamadriz/friendly-snippets/tree/main/snippets
+            filter_snippets = function(_, file)
+              return not (string.match(file, "friendly.snippets") and string.match(file, "global"))
+            end,
+          },
         },
         buffer = { fallbacks = {}, enabled = false },
       },
