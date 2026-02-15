@@ -122,6 +122,10 @@ brew install --cask betterdisplay
 brew tap homebrew/cask && brew install --cask gimp
 brew install --cask inkscape
 
+# Mise
+brew install mise
+mise use -g usage
+
 # DB Clients
 brew install --cask mongodb-compass
 brew install --cask dbeaver-community

@@ -19,7 +19,7 @@ vim.opt.whichwrap:append("<,>,h,l,[,],<>") -- move between line from the end an 
 
 -- Spellcheck
 -----------------------------------------------------------
-vim.o.spelllang = "en,cjk,programming"
+vim.o.spelllang = "en,cjk"
 
 -- Temporary files
 -----------------------------------------------------------

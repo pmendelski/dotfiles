@@ -1,0 +1,11 @@
+# By default, enable all rules provided by the linter
+default: true
+
+# MD013: Line length
+MD013:
+  # Set the maximum allowed line length
+  line_length: 120
+  # Disable the check for specific elements that frequently exceed the limit
+  code_blocks: false
+  tables: false
+  headings: false

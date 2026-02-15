@@ -69,4 +69,5 @@ if ! command -v mise &>/dev/null; then
   echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
   sudo apt update -y
   sudo apt install -y mise
+  mise use -g usage
 fi
