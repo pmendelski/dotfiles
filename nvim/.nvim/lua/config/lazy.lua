@@ -17,13 +17,30 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-  spec = {
-    -- add LazyVim and import its plugins
+local lazyspec = function()
+  local spec = {
+    -- Import the core LazyVim plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
-    { import = "plugins" },
-  },
+  }
+
+  -- ALWAYS include these (Base requirements)
+  table.insert(spec, { import = "lazyvim.plugins.extras.lang.go" })
+  table.insert(spec, { import = "lazyvim.plugins.extras.lang.yaml" })
+
+  -- ONLY include these if NVIM_LIGHT is NOT set
+  if not vim.g.nvim_light then
+    table.insert(spec, { import = "lazyvim.plugins.extras.lang.python" })
+    table.insert(spec, { import = "lazyvim.plugins.extras.lang.docker" })
+    table.insert(spec, { import = "lazyvim.plugins.extras.lang.terraform" })
+  end
+
+  -- Import your custom plugins
+  table.insert(spec, { import = "plugins" })
+  return spec
+end
+
+require("lazy").setup({
+  spec = lazyspec(),
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

@@ -1,6 +1,6 @@
 local config = {}
 
-if vim.env.NVIM_AI_ENABLED == "true" then
+if vim.g.nvim_ai_enabled then
   config = {
     {
       "ravitemer/mcphub.nvim",

@@ -8,6 +8,9 @@ vim.g.term_nerd_font_enabled = (os.getenv("TERM_NERD_FONT_ENABLED") or "true") =
 vim.g.term_unicodes_enabled = (os.getenv("TERM_UNICODES_ENABLED") or "true") == "true"
 vim.g.term_colors = tonumber(os.getenv("TERM_COLORS") or "256")
 
+vim.g.nvim_light = (os.getenv("NVIM_LIGHT") or "false") == "true"
+vim.g.nvim_ai_enabled = not vim.g.is_light and (os.getenv("NVIM_AI_ENABLED") or "false") == "true"
+
 -- Whitespace characters
 -----------------------------------------------------------
 vim.o.list = true -- present whitecharacters
