@@ -6,6 +6,7 @@ vim/.vim/plugins
 vim/.vim/.netrwhist
 nvim/.nvim/plugin
 nvim/.nvim/tmp
+nvim/.nvim/lazyvim.json
 nvim/.nvim/spell/*.spl
 nvim/.nvim/.netrwhist
 bash/.bash/tmp
