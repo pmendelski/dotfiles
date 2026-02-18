@@ -1,3 +1,20 @@
+-- Get the value of the module name from go.mod in PWD
+local goModuleName = function()
+  local f = io.open("go.mod", "rb")
+  if f then
+    f:close()
+  else
+    return nil
+  end
+  for line in io.lines("go.mod") do
+    if vim.startswith(line, "module") then
+      local items = vim.split(line, " ")
+      return vim.trim(items[2])
+    end
+  end
+  return nil
+end
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -17,7 +34,9 @@ return {
           },
         },
         bashls = {},
-        gopls = {},
+        gopls = {
+          ["local"] = goModuleName(),
+        },
       },
     },
   },
@@ -26,9 +45,7 @@ return {
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       -- Enforce installing tree-sitter-cli for faster treesitter
-      vim.list_extend(opts.ensure_installed, {
-        "tree-sitter-cli",
-      })
+      vim.list_extend(opts.ensure_installed, { "tree-sitter-cli" })
     end,
   },
 }

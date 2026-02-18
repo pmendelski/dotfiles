@@ -58,6 +58,7 @@ brew install cheat
 brew install ranger
 brew install dtrx
 brew install eza
+brew install ipcalc
 
 # Git
 brew install git
@@ -70,6 +71,10 @@ git config --system --unset credential.helper
 # Performance test tools
 brew install iperf3
 brew install nghttp2
+
+# Wireguard
+brew install wireguard-tools
+brew install qrencode
 
 # Mpeg thumnails
 brew install ffmpegthumbnailer
