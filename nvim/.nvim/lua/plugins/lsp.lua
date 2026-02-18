@@ -21,6 +21,17 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
+        ["*"] = {
+          keys = {
+            {
+              "gi",
+              function()
+                Snacks.picker.lsp_implementations()
+              end,
+              desc = "Goto Implementation",
+            },
+          },
+        },
         bashls = {},
         gopls = {
           settings = {
@@ -42,32 +53,13 @@ return {
           },
         },
       },
-      setup = {
-        ["*"] = function(_, opts)
-          opts.keys = opts.keys or {}
-          vim.list_extend(opts.keys, {
-            {
-              "gi",
-              function()
-                Snacks.picker.lsp_implementations()
-              end,
-              desc = "Goto Implementation",
-            },
-          })
-        end,
-      },
     },
   },
   {
-    "mason-org/mason-lspconfig.nvim",
-    dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
-      "neovim/nvim-lspconfig",
-    },
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, { "tree-sitter-cli" })
-      opts.automatic_installation = true
     end,
   },
 }
