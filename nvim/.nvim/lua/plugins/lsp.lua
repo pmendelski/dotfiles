@@ -21,9 +21,15 @@ return {
     opts = {
       inlay_hints = { enabled = false },
       servers = {
-        ["*"] = {
-          keys = {
-            -- gI - uppercase "I" is inconvenient, but leave it to stay compatible with LazyVim
+        bashls = {},
+        gopls = {
+          ["local"] = goModuleName(),
+        },
+      },
+      setup = {
+        ["*"] = function(_, opts)
+          opts.keys = opts.keys or {}
+          vim.list_extend(opts.keys, {
             {
               "gi",
               function()
@@ -31,12 +37,8 @@ return {
               end,
               desc = "Goto Implementation",
             },
-          },
-        },
-        bashls = {},
-        gopls = {
-          ["local"] = goModuleName(),
-        },
+          })
+        end,
       },
     },
   },
