@@ -62,4 +62,10 @@ return {
       vim.list_extend(opts.ensure_installed, { "tree-sitter-cli" })
     end,
   },
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      automatic_enable = true,
+    },
+  },
 }
