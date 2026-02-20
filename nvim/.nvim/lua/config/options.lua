@@ -4,12 +4,20 @@
 
 -- Propagate globals
 -----------------------------------------------------------
-vim.g.term_nerd_font_enabled = (os.getenv("TERM_NERD_FONT_ENABLED") or "true") == "true"
-vim.g.term_unicodes_enabled = (os.getenv("TERM_UNICODES_ENABLED") or "true") == "true"
+local envflag = function(name, default)
+  local raw = os.getenv(name)
+  if raw == nil then
+    return default
+  end
+  return raw == "true" or raw == "1"
+end
+
+vim.g.term_nerd_font_enabled = envflag("TERM_NERD_FONT_ENABLED", true)
+vim.g.term_unicodes_enabled = envflag("TERM_UNICODES_ENABLED", true)
 vim.g.term_colors = tonumber(os.getenv("TERM_COLORS") or "256")
 
-vim.g.nvim_light = (os.getenv("NVIM_LIGHT") or "false") == "true"
-vim.g.nvim_ai_enabled = not vim.g.is_light and (os.getenv("NVIM_AI_ENABLED") or "false") == "true"
+vim.g.nvim_light = envflag("NVIM_LIGHT", false)
+vim.g.nvim_ai_enabled = not vim.g.is_light and envflag("NVIM_AI_ENABLED", false)
 
 -- Whitespace characters
 -----------------------------------------------------------

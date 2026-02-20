@@ -5,6 +5,8 @@ export ZSH_FORCE="$([ -x "$(command -v zsh)" ] && echo '1' || echo '0')"
 export ZSH_PROMPT=flexi
 # Automatically update nvim plugins
 export NVIM_AUTOUPDATE=1
+# Lighter nvim version
+export NVIM_LIGHT=1
 # Do not print the default use@host in prompt
 export PROMPT_DEFAULT_USERHOST="@PROMPT_DEFAULT_USERHOST@"
 # Disable homebrew hints
