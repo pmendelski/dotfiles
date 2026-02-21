@@ -32,6 +32,11 @@ vim.opt.whichwrap:append("<,>,h,l,[,],<>") -- move between line from the end an 
 -----------------------------------------------------------
 vim.o.spelllang = "en,cjk"
 
+-- Use absolute line numbers
+-----------------------------------------------------------
+vim.opt.number = true -- Enable line numbers
+vim.opt.relativenumber = false -- Disable relative numbers
+
 -- Temporary files
 -----------------------------------------------------------
 vim.o.swapfile = false -- don't use swapfile
