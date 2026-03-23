@@ -449,3 +449,74 @@
     # Github aliases
     github-fetch-pr = "!bash -c 'git fetch origin pull/$0/head:pr/$0'"
     github-pr = "!bash -c 'git github-fetch-pr $0 && git checkout pr/$0 && git pull'"
+  # Worktrees
+    wt-create = "!f() { \
+        if [ \"$#\" -lt 1 ]; then echo 'Usage: git wt-create <feature-name>'; exit 1; fi; \
+        FEATURE=$1; \
+        mkdir -p .worktrees; \
+        if ! git check-ignore -q .worktrees/; then \
+            echo 'Error: .worktrees/ is not ignored. Add it to .gitignore first.'; \
+            if [ -z \"$(ls -A .worktrees 2>/dev/null)\" ]; then \
+                rmdir .worktrees 2>/dev/null; \
+            fi; \
+            exit 1; \
+        fi; \
+        CURRENT=$(git branch --show-current); \
+        git worktree add -b \"$FEATURE\" \".worktrees/$FEATURE\" \"$CURRENT\"; \
+    }; f"
+
+    wt-merge = "!f() { \
+        if [ \"$#\" -ne 1 ]; then echo 'Usage: git wt-merge <feature-name>'; exit 1; fi; \
+        if git rev-parse --absolute-git-dir | grep -q '/\\.git/worktrees/'; then \
+            echo 'Error: Execute wt-merge from the main repository.'; exit 1; \
+        fi; \
+        FEATURE=$1; \
+        WT_DIR=\".worktrees/$FEATURE\"; \
+        if [ ! -d \"$WT_DIR\" ]; then echo \"Error: $WT_DIR not found.\"; exit 1; fi; \
+        if [ -n \"$(git -C \"$WT_DIR\" status --porcelain)\" ]; then \
+            echo \"Error: Uncommitted changes in $WT_DIR.\"; exit 1; \
+        fi; \
+        CURRENT=$(git branch --show-current); \
+        echo \"Merging $FEATURE into $CURRENT...\"; \
+        git merge --squash \"$FEATURE\"; \
+        if [ $? -eq 0 ]; then \
+            GIT_EDITOR=vim git commit -m \"Merge feature: $FEATURE\" --edit; \
+        else \
+            echo 'Merge failed due to conflicts.'; exit 1; \
+        fi; \
+    }; f"
+
+    wt-remove = "!f() { \
+        if [ \"$#\" -ne 1 ]; then echo 'Usage: git wt-remove <feature-name>'; exit 1; fi; \
+        if git rev-parse --absolute-git-dir | grep -q '/\\.git/worktrees/'; then \
+            echo 'Error: Execute wt-remove from the main repository.'; exit 1; \
+        fi; \
+        FEATURE=$1; \
+        WT_DIR=\".worktrees/$FEATURE\"; \
+        if [ ! -d \"$WT_DIR\" ]; then echo \"Error: $WT_DIR not found.\"; exit 1; fi; \
+        git worktree remove \"$WT_DIR\" --force; \
+        echo \"Removed worktree for $FEATURE (branch kept).\"; \
+    }; f"
+
+    wt-remove-all = "!f() { \
+        if [ \"$#\" -ne 1 ]; then echo 'Usage: git wt-remove-all <feature-name>'; exit 1; fi; \
+        if git rev-parse --absolute-git-dir | grep -q '/\\.git/worktrees/'; then \
+            echo 'Error: Execute wt-remove-all from the main repository.'; exit 1; \
+        fi; \
+        FEATURE=$1; \
+        WT_DIR=\".worktrees/$FEATURE\"; \
+        if [ -d \"$WT_DIR\" ]; then git worktree remove \"$WT_DIR\" --force; fi; \
+        git branch -D \"$FEATURE\" 2>/dev/null || true; \
+        echo \"Removed worktree and branch for $FEATURE.\"; \
+    }; f"
+
+    wt-apply = "!f() { \
+        if [ \"$#\" -ne 1 ]; then echo 'Usage: git wt-apply <feature-name>'; exit 1; fi; \
+        FEATURE=$1; \
+        git wt-merge \"$FEATURE\" && git wt-remove-all \"$FEATURE\"; \
+    }; f"
+
+    wt-list = "!f() { \
+        echo 'Active feature worktrees:'; \
+        git worktree list | grep '.worktrees/' || echo 'No active feature worktrees found.'; \
+    }; f"

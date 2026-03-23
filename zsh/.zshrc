@@ -50,3 +50,6 @@ if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
 if command -v mise &>/dev/null; then eval "$(mise activate zsh)"; fi
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/mc mc

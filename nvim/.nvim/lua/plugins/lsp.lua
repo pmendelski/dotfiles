@@ -52,6 +52,25 @@ return {
             },
           },
         },
+        taplo = {
+          settings = {
+            root_dir = { ".git", "*.toml" },
+          },
+        },
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              checkOnSave = {
+                command = "clippy", -- Optional: use clippy for better linting
+              },
+              diagnostics = {
+                enable = true,
+                disabled = {},
+                enableExperimental = true,
+              },
+            },
+          },
+        },
       },
     },
   },

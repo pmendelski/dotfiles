@@ -1,8 +1,17 @@
 return {
   "folke/snacks.nvim",
   opts = {
+    styles = {
+      -- Wrap text in notifications
+      notifications = {
+        wo = {
+          wrap = true,
+        },
+      },
+    },
     picker = {
       sources = {
+        -- Show notifications picker with a preview and option to show full message on enter
         notifications = {
           win = {
             preview = {

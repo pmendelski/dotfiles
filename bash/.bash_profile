@@ -8,3 +8,5 @@
 # 3. ~/.bash_logout
 
 [[ -s "$HOME/.bashrc" ]] && source "$HOME/.bashrc"
+
+complete -C /usr/local/bin/mc mc

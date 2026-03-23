@@ -64,6 +64,8 @@ defaults write -g AppleReduceDesktopTinting -bool yes
 defaults write .GlobalPreferences com.apple.mouse.scaling -1
 # Make fonts less blurry
 defaults -currentHost write -g AppleFontSmoothing -int 1
+# Disable small language switch popup
+defaults write kCFPreferencesAnyApplication TSMLanguageIndicatorEnabled 0
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #

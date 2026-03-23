@@ -3,6 +3,10 @@
 .idea/*
 .vscode
 
+# Worktrees #
+#############
+.worktrees/
+
 # Logs and databases #
 ######################
 *.log
