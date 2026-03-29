@@ -17,7 +17,6 @@ vim.g.term_unicodes_enabled = envflag("TERM_UNICODES_ENABLED", true)
 vim.g.term_colors = tonumber(os.getenv("TERM_COLORS") or "256")
 
 vim.g.nvim_light = envflag("NVIM_LIGHT", true)
-vim.g.nvim_ai_enabled = not vim.g.is_light and envflag("NVIM_AI_ENABLED", false)
 vim.g.nvim_basic_formatting_enabled = envflag("NVIM_BASIC_FORMATTING_ENABLED", false)
 
 -- Whitespace characters
