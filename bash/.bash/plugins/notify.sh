@@ -1,57 +1,130 @@
 #!/usr/bin/env bash
 
+# notify [message] [flags...]
+# notify <title> <message> [flags...]
+# notify <title> <subtitle> <message> [flags...]
+#
+# Positional args (leading non-flag args):
+#   1 arg  → message
+#   2 args → title, message
+#   3 args → title, subtitle, message
+#   0 args → message defaults to "Notification"
+#
+# Custom flags (not passed to terminal-notifier):
+#   --mobile       send to Telegram chat as well (requires TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+#   --mobile-only  skip terminal-notifier, send to Telegram only
+#   --level <lvl>  prepend emoji: success=✅  info=ℹ️  warn=⚠️  error=❌
+#
+# All other flags are forwarded verbatim to terminal-notifier (single-dash form).
+# Flags -title/-subtitle/-message (and their -- variants) are intercepted to populate
+# the corresponding variables instead of being double-passed.
+
 notify() {
-  local title=""
-  local subtitle=""
-  local message=""
-  local error=0
-  if [[ "$1" == -* ]]; then
-    while (($#)); do
-      case $1 in
-      --title | -t)
-        title="$2"
-        shift
-        ;;
-      --subtitle | -s)
-        subtitle="$2"
-        shift
-        ;;
-      --help | -h)
-        echo "Notify user"
-        echo "Sample: notify --title 'Lorem' --subtitle 'ipsum' \"Loferm Ipsum\" "
-        return
-        ;;
-      --error | -e)
-        error=1
-        ;;
-      *)
-        message="$*"
-        break
-        ;;
-      esac
+  local title="" subtitle="" message=""
+  local mobile=0 mobile_only=0 level=""
+  local -a tn_extra=()
+  local pos_count=0
+
+  # Collect leading positional args (anything not starting with -)
+  # Use title/subtitle/message as temporary slots to avoid array index differences
+  # between bash (0-indexed) and zsh (1-indexed).
+  while [[ "${1:-}" != -* && -n "${1:-}" ]]; do
+    ((pos_count++)) || true
+    case $pos_count in
+    1) title="$1" ;;
+    2) subtitle="$1" ;;
+    3) message="$1" ;;
+    esac
+    shift
+  done
+
+  # Re-map slots: 1 arg = message, 2 args = title+message, 3+ = title+subtitle+message
+  case $pos_count in
+  1)
+    message="$title"
+    title=""
+    ;;
+  2)
+    message="$subtitle"
+    subtitle=""
+    ;;
+  esac
+
+  while (($#)); do
+    case $1 in
+    --mobile) mobile=1 ;;
+    --mobile-only) mobile_only=1 ;;
+    --level | -level)
+      level="$2"
       shift
-    done
-  else
-    message="$*"
+      ;;
+    # Intercept title/subtitle/message so they don't get double-passed
+    -title | --title)
+      title="$2"
+      shift
+      ;;
+    -subtitle | --subtitle)
+      subtitle="$2"
+      shift
+      ;;
+    -message | --message)
+      message="$2"
+      shift
+      ;;
+    # Everything else goes straight to terminal-notifier
+    *) tn_extra+=("$1") ;;
+    esac
+    shift
+  done
+
+  local emoji=""
+  case "$level" in
+  success) emoji="✅ " ;;
+  info) emoji="ℹ️ " ;;
+  warn) emoji="⚠️ " ;;
+  error) emoji="❌ " ;;
+  esac
+
+  local full_message="${emoji}${message:-Notification}"
+
+  # --- terminal-notifier (macOS) ---
+  if [[ $mobile_only -eq 0 ]]; then
+    if command -v terminal-notifier &>/dev/null; then
+      local -a cmd=(terminal-notifier)
+      [[ -n "$title" ]] && cmd+=(-title "$title")
+      [[ -n "$subtitle" ]] && cmd+=(-subtitle "$subtitle")
+      [[ -n "$full_message" ]] && cmd+=(-message "$full_message")
+      cmd+=("${tn_extra[@]}")
+      "${cmd[@]}" 2>/dev/null
+    elif command -v notify-send &>/dev/null; then
+      # Linux fallback: collapse subtitle into message
+      local ns_title="${title:-${subtitle}}"
+      local ns_msg
+      if [[ -n "$subtitle" && -n "$title" && -n "$full_message" ]]; then
+        ns_msg="$subtitle | $full_message"
+      elif [[ -n "$subtitle" && -n "$title" ]]; then
+        ns_msg="$subtitle"
+      else
+        ns_msg="$full_message"
+      fi
+      local icon
+      icon="$([ "$level" = error ] && echo error || echo terminal)"
+      notify-send --urgency=low -i "$icon" "$ns_title" "$ns_msg"
+    fi
   fi
-  if [ -x "$(command -v notify-send)" ]; then
-    if [ -z "$title" ]; then
-      title="$subtitle"
-      subtitle=""
+
+  # --- Telegram ---
+  if [[ $mobile -eq 1 || $mobile_only -eq 1 ]]; then
+    if [[ -n "$TELEGRAM_BOT_TOKEN" && -n "$TELEGRAM_CHAT_ID" ]]; then
+      local tg="" nl=$'\n'
+      [[ -n "$title" ]] && tg="*${title}*"
+      [[ -n "$subtitle" ]] && tg+="${tg:+${nl}}_${subtitle}_"
+      [[ -n "$full_message" ]] && tg+="${tg:+${nl}}${full_message}"
+      curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+        -d chat_id="${TELEGRAM_CHAT_ID}" \
+        -d parse_mode="Markdown" \
+        --data-urlencode "text=${tg}" &>/dev/null || true
     fi
-    if [ -z "$title" ]; then
-      title="$message"
-      message=""
-    fi
-    if [ -n "$subtitle" ] && [ -n "$message" ]; then
-      message="$subtitle | $message"
-    elif [ -n "$subtitle" ]; then
-      message="$subtitle"
-    fi
-    notify-send --urgency=low -i "$([ $error = 1 ] && echo error || echo terminal)" "$title" "$message"
-  elif [ -x "$(command -v osascript)" ]; then
-    local type="$([ $error = 1 ] && echo 'Error: ' || echo '')"
-    osascript -e "display notification \"${message//\"/\\\"}\" with title \"$type${title//\"/\\\"}\" subtitle \"${subtitle//\"/\\\"}\""
   fi
 }
 
@@ -68,9 +141,9 @@ notifyLastCmd() {
     fi
   done < <(echo "${NOTIFY_LAST_CMD_BLACKLIST:-nvim vim gitk}" | tr ' ' '\n')
   if [ $lastStatus = 0 ]; then
-    notify -t "$lastCmd" -s "Status: Success" "$@"
+    notify "$lastCmd" "Status: Success" "$@"
   else
-    notify -e -t "$lastCmd" -s "Status: Failure" "$@"
+    notify "$lastCmd" "Status: Failure" --level error "$@"
   fi
 }
 

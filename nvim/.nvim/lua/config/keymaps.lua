@@ -93,7 +93,7 @@ map("n", "Q", ":confirm qall<cr>", "Quit all")
 map("n", "q", ":confirm q<cr>", "Quit buffer")
 
 -- Reload
-map("n", "<leader>R", function()
+map("n", "<leader>rb", function()
   -- Reload all unmodified buffers
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if
@@ -108,3 +108,12 @@ map("n", "<leader>R", function()
   end
   vim.notify("Reloaded all", vim.log.levels.INFO)
 end, "Refresh reload all buffers")
+
+vim.keymap.set("n", "<leader>rr", function()
+  -- Sync buffers with disk
+  vim.cmd("checktime")
+  -- Wipe all current diagnostics (clear the "ghosts" immediately)
+  vim.diagnostic.reset()
+  -- Restart LSP Clients
+  vim.cmd("LspRestart")
+end, { desc = "Full LSP & Buffer Reload" })

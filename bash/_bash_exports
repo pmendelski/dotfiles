@@ -13,3 +13,10 @@ export PROMPT_DEFAULT_USERHOST="@PROMPT_DEFAULT_USERHOST@"
 HOMEBREW_NO_ENV_HINTS=1
 # Enable gpg
 export GPG_TTY="$(tty)"
+# Disable homebrew hints
+export HOMEBREW_NO_ENV_HINTS=1
+# Telegram
+# For mobile notifications
+# export TELEGRAM_BOT_TOKEN="..."
+# export TELEGRAM_CHAT_ID="..."
+

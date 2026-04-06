@@ -8,6 +8,10 @@ source "$DIR/../bash/.bash/plugins/systype.sh"
 linkFile() {
   local -r file="$HOME/.dotfiles/common/$1"
   local -r target="$2"
+  if [ "$file" -ef "$target" ]; then
+    printInfo "Symlink already exists: $file"
+    return 0
+  fi
   if [ -f "$target" ] || [ -L "$target" ]; then
     if [ -f "$target.bak" ] || [ -L "$target.bak" ]; then
       rm "$target.bak"
