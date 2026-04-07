@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude -p 'x')",
+      "Bash(echo \"exit: $?\")",
+      "Bash(TZ=\"Europe/Warsaw\" date -j -f \"%H:%M\" \"02:00\" +%s)",
+      "Bash(/bin/date -j -f \"%H:%M\" \"02:00\" +%s)"
+    ]
+  }
+}
