@@ -88,9 +88,9 @@ function claude-wait() {
   done
 
   if [[ -n "$session_id" ]]; then
-    CLAUDE_REMOTE=1 claude --permission-mode acceptEdits --resume "$session_id" "$message"
+    claude --permission-mode acceptEdits --resume "$session_id" "$message"
   else
-    CLAUDE_REMOTE=1 claude --permission-mode acceptEdits -c "$message"
+    claude --permission-mode acceptEdits -c "$message"
   fi
 }
 

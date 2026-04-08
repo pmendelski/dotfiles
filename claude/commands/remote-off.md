@@ -1,7 +1,7 @@
 Disable remote Telegram notifications for the current session by running this bash command:
 
 ```bash
-session=$(cat ~/.claude/current-session 2>/dev/null)
+session=$(cat ~/.claude/session-pids/$PPID 2>/dev/null || cat ~/.claude/current-session 2>/dev/null)
 if [[ -z "$session" ]]; then
   echo "Error: could not determine current session ID"
   exit 1
