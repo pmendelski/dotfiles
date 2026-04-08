@@ -21,7 +21,7 @@
 
 notify() {
   local title="" subtitle="" message=""
-  local mobile=0 mobile_only=0 level=""
+  local mobile=0 mobile_only=0 level="" sound=""
   local -a tn_extra=()
   local pos_count=0
 
@@ -54,6 +54,14 @@ notify() {
     case $1 in
     --mobile) mobile=1 ;;
     --mobile-only) mobile_only=1 ;;
+    --sound | -sound)
+      if [[ -n "${2:-}" && "${2:-}" != -* ]]; then
+        sound="$2"
+        shift
+      else
+        sound="Hero.aiff"
+      fi
+      ;;
     --level | -level)
       level="$2"
       shift
@@ -86,6 +94,11 @@ notify() {
   esac
 
   local full_message="${emoji}${message:-Notification}"
+
+  # --- sound ---
+  if [[ -n "$sound" ]] && command -v afplay &>/dev/null; then
+    (afplay "/System/Library/Sounds/${sound}" 2>/dev/null &)
+  fi
 
   # --- terminal-notifier (macOS) ---
   if [[ $mobile_only -eq 0 ]]; then
