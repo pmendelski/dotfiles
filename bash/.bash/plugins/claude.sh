@@ -29,33 +29,41 @@ _claude_reset_epoch() {
   echo "$ts"
 }
 
-function claude-wait() {
-  # Usage: claude-wait ["Your custom message"]
-  # Waits until Claude rate limit resets, then resumes the current session.
-  # Uses a polling loop so system suspend/resume doesn't break the wait.
-  local message="${1:-go on}"
+function claude-remote() {
+  CLAUDE_REMOTE=1 claude remote-control --spawn=same-dir "$@"
+}
+
+function claude2() {
+  CLAUDE_CONFIG_DIR=~/.claude2 claude "$@"
+}
+
+function claude2-remote() {
+  CLAUDE_REMOTE=1 CLAUDE_CONFIG_DIR=~/.claude2 claude remote-control --spawn=same-dir "$@"
+}
+
+# _claude_wait_impl <cmd> <config_dir> [message]
+#   cmd        — the claude command to invoke (e.g. "claude" or "claude2")
+#   config_dir — path to the config dir used by that command (for current-session)
+_claude_wait_impl() {
+  local cmd="$1" config_dir="$2" message="${3:-go on}"
 
   local session_id
-  session_id=$(cat ~/.claude/current-session 2>/dev/null)
+  session_id=$(cat "$config_dir/current-session" 2>/dev/null)
   [[ -n "$session_id" ]] && echo "Will resume session: $session_id" \
     || echo "No current session found, will continue most recent"
 
-  # Exit code is the reliable availability signal (0 = ok, non-zero = rate limited).
-  # Reset time parsed from output drives the countdown; rechecked every 5 min in case
-  # extra tokens were purchased or the estimate shifts.
   local check_interval=300
   local reset_ts=0
 
   while true; do
     local output
-    output=$(claude -p 'x' 2>&1)
+    output=$("$cmd" -p 'x' 2>&1)
     if [[ $? -eq 0 ]]; then
       printf '\r\033[K'
       echo "Tokens available!"
       break
     fi
 
-    # Parse "resets 2am (Europe/Warsaw)" from the error output
     local lower_output time_part tz_part
     lower_output=$(printf '%s' "$output" | tr '[:upper:]' '[:lower:]')
     time_part=$(printf '%s\n' "$lower_output" | grep -o 'resets [0-9:]*[ap]m' | grep -o '[0-9:]*[ap]m')
@@ -88,16 +96,11 @@ function claude-wait() {
   done
 
   if [[ -n "$session_id" ]]; then
-    claude --permission-mode acceptEdits --resume "$session_id" "$message"
+    "$cmd" --permission-mode acceptEdits --resume "$session_id" "$message"
   else
-    claude --permission-mode acceptEdits -c "$message"
+    "$cmd" --permission-mode acceptEdits -c "$message"
   fi
 }
 
-function claude-remote() {
-  CLAUDE_REMOTE=1 claude remote-control --spawn=same-dir "$@"
-}
-
-function claude2() {
-  CLAUDE_CONFIG_DIR=~/.claude2 claude "$@"
-}
+function claude-wait()  { _claude_wait_impl claude  ~/.claude  "$@"; }
+function claude2-wait() { _claude_wait_impl claude2 ~/.claude2 "$@"; }
