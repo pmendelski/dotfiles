@@ -82,13 +82,11 @@ _claude_wait_impl() {
       [[ $now -ge $next_check ]] && break
       local until_check=$(( next_check - now ))
       if [[ $reset_ts -gt $now ]]; then
-        local until_reset=$(( reset_ts - now ))
-        printf '\rRate limited — resets in %d:%02d:%02d  (recheck in %d:%02d)  ' \
-          "$((until_reset / 3600))" "$(( (until_reset % 3600) / 60 ))" "$((until_reset % 60))" \
-          "$((until_check / 60))" "$((until_check % 60))"
+        local reset_time
+        reset_time=$(date -r "$reset_ts" +"%I:%M%p" 2>/dev/null || date -d "@$reset_ts" +"%I:%M%p" 2>/dev/null)
+        printf '\rRate limited — resets at %s  ' "$reset_time"
       else
-        printf '\rRate limited — rechecking in %d:%02d...  ' \
-          "$((until_check / 60))" "$((until_check % 60))"
+        printf '\rRate limited — rechecking...  '
       fi
       sleep 1
     done
