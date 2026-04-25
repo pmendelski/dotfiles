@@ -35,7 +35,13 @@ return {
         bashls = {},
         gopls = {
           settings = {
-            ["local"] = goModuleName(),
+            gopls = {
+              ["local"] = goModuleName(),
+              analyses = {
+                ST1000 = false,
+                ST1003 = false,
+              },
+            },
           },
         },
         yamlls = {

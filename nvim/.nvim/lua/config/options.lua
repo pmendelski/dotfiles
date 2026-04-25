@@ -2,6 +2,12 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
+-- Ensure mise-managed tools (go, node, etc.) are visible to vim.fn.system() and LSPs
+local mise_shims = vim.fn.expand("~/.local/share/mise/shims")
+if vim.fn.isdirectory(mise_shims) == 1 then
+  vim.env.PATH = mise_shims .. ":" .. vim.env.PATH
+end
+
 -- Propagate globals
 -----------------------------------------------------------
 local envflag = function(name, default)

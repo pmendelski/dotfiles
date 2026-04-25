@@ -20,3 +20,6 @@
 ehthumbs.db
 Thumbs.db
 
+# AIs #
+#############
+.claude/settings.local.json
