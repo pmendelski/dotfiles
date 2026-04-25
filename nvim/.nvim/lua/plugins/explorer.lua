@@ -54,7 +54,7 @@ return {
             },
           },
           actions = {
-            run_tests = function(picker, item)
+            run_tests = function(_, item)
               if not item or not item.file then
                 vim.notify("Test runner: no item under cursor", vim.log.levels.WARN)
                 return
