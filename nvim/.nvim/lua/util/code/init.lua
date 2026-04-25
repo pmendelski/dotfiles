@@ -13,6 +13,21 @@ local function run(cmd)
     last_term = nil
   end
   last_term = require("snacks").terminal(cmd, { win = { style = "split" }, auto_close = false })
+  if last_term and last_term.buf then
+    vim.api.nvim_create_autocmd("TermClose", {
+      buffer = last_term.buf,
+      once = true,
+      callback = function()
+        vim.schedule(function()
+          if last_term and vim.api.nvim_buf_is_valid(last_term.buf) then
+            for _, win in ipairs(vim.fn.win_findbuf(last_term.buf)) do
+              vim.api.nvim_win_call(win, function() vim.cmd("stopinsert") end)
+            end
+          end
+        end)
+      end,
+    })
+  end
 end
 
 local function lang()
