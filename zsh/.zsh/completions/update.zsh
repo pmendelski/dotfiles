@@ -24,6 +24,9 @@ if command -v kubectl &>/dev/null; then
 fi
 
 if command -v mise &>/dev/null; then
-  mise completion zsh  >"$DIR/_mise" && echo "Installed mise completion"
+  mise completion zsh >"$DIR/_mise" && echo "Installed mise completion"
 fi
 
+if command -v mise &>/dev/null; then
+  just --completions zsh >"$DIR/_just" && echo "Installed just completion"
+fi

@@ -109,6 +109,13 @@ map("n", "<leader>rb", function()
   vim.notify("Reloaded all", vim.log.levels.INFO)
 end, "Refresh reload all buffers")
 
+-- Test running (Rust / Go)
+-----------------------------------------------------------
+local code = require("util.code")
+
+map("n", "<leader>t", code.run_test_at_cursor, "Test: Run test under cursor")
+map("n", "<leader>T", code.run_tests_in_file, "Test: Run all tests in file")
+
 vim.keymap.set("n", "<leader>rr", function()
   -- Sync buffers with disk
   vim.cmd("checktime")

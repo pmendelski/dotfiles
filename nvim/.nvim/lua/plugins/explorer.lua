@@ -24,6 +24,8 @@ local function toggle()
   explorer.open()
 end
 
+local code = require("util.code")
+
 return {
   "folke/snacks.nvim",
   opts = {
@@ -47,8 +49,18 @@ return {
             list = {
               keys = {
                 ["<ESC>"] = false,
+                ["t"] = "run_tests",
               },
             },
+          },
+          actions = {
+            run_tests = function(picker, item)
+              if not item or not item.file then
+                vim.notify("Test runner: no item under cursor", vim.log.levels.WARN)
+                return
+              end
+              code.run_tests_at_path(item.file)
+            end,
           },
         },
       },
