@@ -1,51 +1,93 @@
 #!/usr/bin/env bash
 
-toggle() {
-  name="${1}"
-  cmd="${2}"
-  eval "$(tmux show-environment | grep TMUX_SCRATCH)"
-  if [ -z "$name" ] && [ -f "$HOME/.tmux-scratch" ]; then
-    last=$(head -n 1 ~/.tmux-scratch)
-    if tmux list-sessions | grep -q "^$last:"; then
-      name="$last"
-    fi
-  fi
-  if [ $TMUX_SCRATCH == 1 ] && [ -z "$name" ] || [ "$(tmux display-message -p -F "#{session_name}")" = "$name" ]; then
-    echo "$(tmux display-message -p -F "#{session_name}")" >~/.tmux-scratch
-    tmux detach-client
-  else
-    if [ $TMUX_SCRATCH == 1 ]; then
-      echo "$(tmux display-message -p -F "#{session_name}")" >~/.tmux-scratch
-      tmux detach-client
-    fi
-    name="${name:-$TMUX_SCRATCH_LAST}"
-    name="${name:-scratch}"
-    export TMUX_SCRATCH=1
-    tmux display-popup -d '#{pane_current_path}' -xC -yC -w80% -h80% -E "TMUX_SCRATCH=1 $HOME/.bash/scripts/tmux-scratch popup '$name' '$cmd'"
-  fi
+SCRATCH_SESSION="_scratch"
+
+_win() { echo "w${1}"; }
+
+_is_open() {
+  local wid="$1" win
+  win="$(_win "$wid")"
+  tmux list-clients -F '#{session_name}:#{window_name}' 2>/dev/null \
+    | grep -qxF "${SCRATCH_SESSION}:${win}"
 }
 
-popup() {
-  name="${1:?Expected scratch name}"
-  cmd="${2}"
-  echo "$name" >"$HOME/.tmux-scratch"
-  if tmux attach -t "$name" 2>/dev/null; then
+_close_popup() {
+  local wid="$1" win client
+  win="$(_win "$wid")"
+  client=$(tmux list-clients -F '#{client_name} #{session_name} #{window_name}' 2>/dev/null \
+    | awk -v s="$SCRATCH_SESSION" -v w="$win" '$2==s && $3==w {print $1; exit}')
+  [ -n "$client" ] && tmux detach-client -t "$client"
+}
+
+_ensure_window() {
+  local wid="$1" path="$2" win
+  win="$(_win "$wid")"
+  if ! tmux has-session -t "=$SCRATCH_SESSION" 2>/dev/null; then
+    tmux new-session -d -s "$SCRATCH_SESSION" -n "$win" -c "$path"
+  fi
+  if ! tmux list-windows -t "$SCRATCH_SESSION" -F '#{window_name}' 2>/dev/null | grep -qx "$win"; then
+    tmux new-window -t "$SCRATCH_SESSION" -n "$win" -c "$path"
+  fi
+  tmux set-option -t "$SCRATCH_SESSION" prefix None
+  tmux set-option -t "$SCRATCH_SESSION" status off
+  tmux set-option -t "$SCRATCH_SESSION" detach-on-destroy on
+}
+
+_open() {
+  local wid="$1" path="$2" win
+  win="$(_win "$wid")"
+  _ensure_window "$wid" "$path"
+  tmux display-popup -d "$path" -xC -yC -w80% -h80% -E \
+    "tmux attach-session -t '${SCRATCH_SESSION}:${win}'"
+}
+
+toggle() {
+  local wid="${1#@}" path="$2" cur_session="$3"
+  if [ "$cur_session" = "$SCRATCH_SESSION" ]; then
+    tmux detach-client
     return
   fi
-  tmux new -d -s "$name"
-  tmux set-environment -t "$name" TMUX_SCRATCH 1
-  tmux send-keys -t "$name" "export TMUX_SCRATCH=1" C-m
-  if [ -n "$cmd" ]; then
-    tmux send-keys -t "$name" "$cmd" C-m
+  if _is_open "$wid"; then
+    _close_popup "$wid"
+  else
+    _open "$wid" "$path"
   fi
-  tmux attach -t "$name" -c "$cmd"
 }
 
-if [ "$1" = "popup" ]; then
-  popup "$2" "$3"
-elif [ "$1" = "toggle" ]; then
-  toggle "$2" "$3"
-else
-  echo "Expected first argument to be one of: popup|toggle" 1>&2
-  exit 1
-fi
+kill_scratch() {
+  local wid="${1#@}" path="$2" cur_session="$3"
+  if [ "$cur_session" = "$SCRATCH_SESSION" ]; then
+    local cur_win outer_wid my_path
+    cur_win=$(tmux display-message -p '#{window_name}')
+    outer_wid="${cur_win#w}"
+    my_path=$(tmux display-message -p '#{pane_current_path}')
+    tmux detach-client
+    tmux kill-window -t "${SCRATCH_SESSION}:${cur_win}" 2>/dev/null
+    sleep 0.1
+    _open "$outer_wid" "$my_path"
+    return
+  fi
+  local win
+  win="$(_win "$wid")"
+  _close_popup "$wid"
+  tmux kill-window -t "${SCRATCH_SESSION}:${win}" 2>/dev/null
+  sleep 0.1
+  _open "$wid" "$path"
+}
+
+gc() {
+  local win wid live_windows
+  live_windows=$(tmux list-windows -a -F '#{window_id}' 2>/dev/null)
+  while IFS= read -r win; do
+    wid="${win#w}"
+    echo "$live_windows" | grep -q "^@${wid}$" ||
+      tmux kill-window -t "${SCRATCH_SESSION}:${win}" 2>/dev/null
+  done < <(tmux list-windows -t "$SCRATCH_SESSION" -F '#{window_name}' 2>/dev/null)
+}
+
+case "$1" in
+  toggle) toggle       "$2" "$3" "$4" ;;
+  kill)   kill_scratch "$2" "$3" "$4" ;;
+  gc)     gc ;;
+  *)      echo "Usage: $(basename "$0") toggle|kill <window_id> <path> <session_name>" >&2; exit 1 ;;
+esac

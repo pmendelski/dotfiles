@@ -103,11 +103,8 @@ ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.zsh-complet
 ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.zsh-completion /usr/local/share/zsh/site-functions/_docker-compose || echo "Completion file _docker-compose exists"
 
 # UI apps
-brew install transmission
 brew install imagemagick
 brew install --cask ghostty
-brew install --cask iterm2
-brew install --cask github
 brew install --cask visual-studio-code
 brew install --cask dropbox
 brew install --cask keepassx
@@ -115,11 +112,8 @@ brew install --cask spotify
 brew install --cask transmission
 brew install --cask intellij-idea
 brew install --cask intellij-idea-ce
-brew install --cask insomnia
 brew install --cask sublime-text
 brew install --cask google-chrome
-brew install --cask firefox
-brew install --cask dbeaver-community
 brew install --cask linearmouse
 brew install --cask rectangle
 brew install --cask hiddenbar
@@ -160,7 +154,6 @@ brew install --cask dbeaver-community
 ) || echo "Already installed"
 
 # Fonts
-brew tap homebrew/cask-fonts
 brew install font-inconsolata
 brew install font-fira-code
 brew install font-fira-mono
