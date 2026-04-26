@@ -117,10 +117,23 @@ map("n", "<leader>t", code.run_test_at_cursor, "Test: Run test under cursor")
 map("n", "<leader>T", code.run_tests_in_file, "Test: Run all tests in file")
 
 vim.keymap.set("n", "<leader>rr", function()
-  -- Sync buffers with disk
   vim.cmd("checktime")
-  -- Wipe all current diagnostics (clear the "ghosts" immediately)
   vim.diagnostic.reset()
-  -- Restart LSP Clients
-  vim.cmd("LspRestart")
+  -- Stop all clients via their method (works with the vim.lsp.enable() native system).
+  -- LspRestart/LspStart are lspconfig commands that don't integrate with vim.lsp.enable().
+  for _, client in ipairs(vim.lsp.get_clients()) do
+    client.stop()
+  end
+  -- Re-trigger FileType autocmds so vim.lsp.enable() re-attaches servers on each buffer.
+  vim.defer_fn(function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+        local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+        if ft ~= "" then
+          vim.api.nvim_exec_autocmds("FileType", { buffer = buf })
+        end
+      end
+    end
+    vim.notify("LSP restarted", vim.log.levels.INFO)
+  end, 500)
 end, { desc = "Full LSP & Buffer Reload" })
