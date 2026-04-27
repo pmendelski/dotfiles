@@ -156,7 +156,7 @@ git_status_flags() {
       [[ "$x" != ' ' ]] && staged=1
       [[ "$y" != ' ' && "$y" != '?' ]] && unstaged=1
     fi
-  done < <(git status --porcelain=v1 -u normal 2>/dev/null)
+  done < <(git status --porcelain=v1 -unormal 2>/dev/null)
   echo "$staged $unstaged $untracked"
 }
 
