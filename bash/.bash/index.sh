@@ -3,10 +3,9 @@
 function __loadBashPlugins() {
   local -r DIR="$1"
   [ ! -d "$DIR" ] && return
-  # shellcheck disable=SC2044
-  for file in $(find "$DIR" -mindepth 1 -type f -name "*.sh"); do
+  while IFS= read -r -d '' file; do
     source "$file"
-  done
+  done < <(find "$DIR" -mindepth 1 -type f -name "*.sh" -print0)
 }
 
 function __loadLocalBashFiles() {

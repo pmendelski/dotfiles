@@ -13,7 +13,14 @@ fpath=($ZSH_DIR/completions ~/.dotfiles-ext/zsh/completions $ZSH_DIR/plugins/*/(
 # http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fcomplist-Module
 zmodload -i zsh/complist  # Import complist module
 autoload -U compinit      # Source compinit function
-compinit -i -d "$ZSH_COMP_DIR/.zcompdump-${HOST}-${ZSH_VERSION}"  # Initialize and save the location of the completion dump file.
+local _zdump="$ZSH_COMP_DIR/.zcompdump-${HOST}-${ZSH_VERSION}"
+# Rebuild at most once per day; use cached dump otherwise (-C skips security check)
+if [[ -n ${_zdump}(N.mh+24) ]]; then
+  compinit -i -d "$_zdump"
+else
+  compinit -C -d "$_zdump"
+fi
+unset _zdump
 
 # Completion options
 # http://zsh.sourceforge.net/Doc/Release/Options.html#Completion-2
@@ -42,8 +49,6 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 # disable sorting - order is responsibility of particular completion
 zstyle ':completion:*' sort false
 
-# Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns adm amanda apache at avahi avahi-autoipd
 # Don't complete uninteresting users
 zstyle ':completion:*:*:*:users' ignored-patterns \
   adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \

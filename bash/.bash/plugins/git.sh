@@ -145,6 +145,21 @@ git_upstream_name() {
   git rev-parse --abbrev-ref "@{upstream}" 2>/dev/null
 }
 
+git_status_flags() {
+  # Returns "staged unstaged untracked" as 0/1 values via a single git call
+  local staged=0 unstaged=0 untracked=0 x y
+  while IFS= read -r line; do
+    x="${line:0:1}" y="${line:1:1}"
+    if [[ "$x" == '?' && "$y" == '?' ]]; then
+      untracked=1
+    else
+      [[ "$x" != ' ' ]] && staged=1
+      [[ "$y" != ' ' && "$y" != '?' ]] && unstaged=1
+    fi
+  done < <(git status --porcelain=v1 -u normal 2>/dev/null)
+  echo "$staged $unstaged $untracked"
+}
+
 git_has_unstaged_changes() {
   ! git diff --no-ext-diff --quiet
   return $?
@@ -166,40 +181,29 @@ git_has_stashed_changes() {
 }
 
 git_stash_size() {
-  local lines="$(git --no-pager stash list -n 100 2>/dev/null)" || return
-  local count=0
-  if [ "${#lines}" -gt 0 ]; then
-    count=$(echo "$lines" | wc -l | sed 's/^[ \t]*//') # strip tabs
-  fi
-  echo "${count#}"
+  git rev-list --walk-reflogs --count refs/stash 2>/dev/null
 }
 
 git_prompt() {
-  # branch status
   local branchStatus="$(git_branch_status)"
-  [ -z "$branchStatus" ] && return # no git repository
+  [ -z "$branchStatus" ] && return
 
-  # dirty status
+  local staged unstaged untracked
+  read -r staged unstaged untracked <<< "$(git_status_flags)"
+
   local dirtyStatus=""
-  git_has_staged_changes && dirtyStatus="$dirtyStatus+"
-  git_has_unstaged_changes && dirtyStatus="$dirtyStatus*"
-  if [ -n "${ZSH_VERSION-}" ]; then
-    git_has_untracked_files && dirtyStatus="$dirtyStatus%${ZSH_VERSION+%}"
-  else
-    git_has_untracked_files && dirtyStatus="$dirtyStatus%"
+  [ "$staged" = 1 ]   && dirtyStatus="$dirtyStatus+"
+  [ "$unstaged" = 1 ] && dirtyStatus="$dirtyStatus*"
+  if [ "$untracked" = 1 ]; then
+    [ -n "${ZSH_VERSION-}" ] && dirtyStatus="$dirtyStatus%%" || dirtyStatus="$dirtyStatus%"
   fi
 
-  # stash status
   local stashStatus="$(git_stash_size)"
-  if [ -z "$stashStatus" ] || [ ! "$stashStatus" -gt 0 ]; then
-    stashStatus=""
-  fi
+  [ -z "$stashStatus" ] || [ ! "$stashStatus" -gt 0 ] && stashStatus=""
 
-  # upstream status
   local upstreamStatus="$(git_upstream_status)"
   [ "$upstreamStatus" = "=" ] && upstreamStatus=""
 
-  # result
   local result="$branchStatus"
   [ "${dirtyStatus}" != "" ] && result="${result}${dirtyStatus}"
   [ "${stashStatus}" != "" ] && result="${result} S${stashStatus}"

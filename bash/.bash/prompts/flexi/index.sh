@@ -15,9 +15,7 @@ export FLEXI_PROMPT_DIR="$BASH_DIR/prompts/flexi"
 source "$FLEXI_PROMPT_DIR/switches.sh"
 
 function __flexiPromptIsRoot() {
-  [[ "${USER}" == *"root" ]] &&
-    return 0 ||
-    return 1
+  (( EUID == 0 ))
 }
 
 function __flexiPromptUnprintable() {
@@ -59,7 +57,7 @@ function __flexiPromptUserAtHostText() {
   local exit=$?
   local user="$USER"
   local host="${HOSTNAME:-$HOST}"
-  local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
+  local isRoot=0; __flexiPromptIsRoot && isRoot=1
   local userhost="$user@$host"
 
   [ "$user" = "${PROMPT_DEFAULT_USERHOST%%@*}" ] && user=""
@@ -81,7 +79,7 @@ function __flexiPromptUserAtHost() {
   local prefix="$__FLEXI_PROMPT_USERHOST_BEFORE"
   local suffix="$__FLEXI_PROMPT_USERHOST_AFTER"
   local userAtHost="$(__flexiPromptUserAtHostText)"
-  local isRoot=$(__flexiPromptIsRoot && echo 1 || echo 0)
+  local isRoot=0; __flexiPromptIsRoot && isRoot=1
 
   if [ "$isRoot" = 1 ]; then
     prefix="$__FLEXI_PROMPT_USERHOST_ROOT_BEFORE"
@@ -119,11 +117,13 @@ function __flexiPromptGitStatus() {
   local branchStatus="$(git_branch_status)"
   [ -z "$branchStatus" ] && return $exit # no git repository
 
-  # dirty status
+  # dirty status — single git call for all three flags
+  local staged unstaged untracked
+  read -r staged unstaged untracked <<< "$(git_status_flags)"
   local dirtyStatus=""
-  git_has_staged_changes && dirtyStatus+="$__FLEXI_PROMPT_GIT_STAGED_CHANGES"
-  git_has_unstaged_changes && dirtyStatus+="$__FLEXI_PROMPT_GIT_UNSTAGED_CHANGES"
-  git_has_untracked_files && dirtyStatus+="$__FLEXI_PROMPT_GIT_UNTRACKED_FILES"
+  [ "$staged" = 1 ]   && dirtyStatus+="$__FLEXI_PROMPT_GIT_STAGED_CHANGES"
+  [ "$unstaged" = 1 ] && dirtyStatus+="$__FLEXI_PROMPT_GIT_UNSTAGED_CHANGES"
+  [ "$untracked" = 1 ] && dirtyStatus+="$__FLEXI_PROMPT_GIT_UNTRACKED_FILES"
 
   # stash status
   local stashStatus="$(git_stash_size)"

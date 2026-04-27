@@ -54,7 +54,7 @@ function __loadZsh() {
     # Interactive mode
     __loadZshPlugins "$HOME/.zsh/lib"
     __loadZshPlugins "$HOME/.dotfiles-ext/zsh/lib"
-    # zsh-syntax-highligting must be loaded before others
+    # zsh-syntax-highlighting must be loaded before zsh-history-substring-search
     __loadZshPlugin "$HOME/.zsh/plugins/zsh-syntax-highlighting.zsh"
   fi
   __loadBashPlugins "$HOME/.bash/plugins"
