@@ -63,20 +63,6 @@ return {
             root_dir = { ".git", "*.toml" },
           },
         },
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              checkOnSave = {
-                command = "clippy", -- Optional: use clippy for better linting
-              },
-              diagnostics = {
-                enable = true,
-                disabled = {},
-                enableExperimental = true,
-              },
-            },
-          },
-        },
       },
     },
   },
@@ -91,6 +77,20 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       automatic_enable = true,
+    },
+  },
+  {
+    "mrcjkb/rustaceanvim",
+    opts = {
+      server = {
+        settings = {
+          ["rust-analyzer"] = {
+            rustfmt = {
+              overrideCommand = { "rustup", "run", "nightly", "rustfmt", "--edition", "2024" },
+            },
+          },
+        },
+      },
     },
   },
 }
