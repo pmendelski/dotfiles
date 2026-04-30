@@ -62,3 +62,122 @@ flexiPromptTheme
 autoload -U add-zsh-hook
 add-zsh-hook preexec __flexiPromptPreExec
 add-zsh-hook precmd __flexiPromptPreCmd
+
+# ── Async git status ──────────────────────────────────────────────────────────
+# &! background job computes git status and writes the result atomically to a
+# temp file, then sends SIGWINCH to the parent shell. TRAPWINCH reads the file
+# and calls `zle reset-prompt` for an immediate live redraw — no Enter needed.
+#
+# TRAPWINCH is re-registered on every precmd because startup scripts
+# (mise, ext dotfiles) clear it after the prompt is loaded.
+# Re-defining a small function costs <1ms and is safe.
+#
+# The drain (_flexi_update_git_cache called at precmd start) handles the case
+# where SIGWINCH fires while a command is running — the next Enter picks it up.
+
+# Preserve the original sync implementation before overriding it.
+functions[__flexiPromptGitStatusSync]=$functions[__flexiPromptGitStatus]
+
+typeset -g _FLEXI_GIT_STATUS_CACHED=""
+typeset -g _FLEXI_GIT_RESULT_FILE="${TMPDIR:-/tmp}/.flexi_git_${$}"
+
+# Replaces the sync version — returns cached result, or falls back to sync when FLEXI_GIT_SYNC=1.
+__flexiPromptGitStatus() {
+  [[ "${FLEXI_GIT_SYNC:-0}" = "1" ]] && { __flexiPromptGitStatusSync; return; }
+  echo -n "$_FLEXI_GIT_STATUS_CACHED"
+}
+
+# Runs in a &! subshell — inherits all parent functions without emulate -R.
+# $1=dir  $2=result_file  $3=parent_pid (for SIGWINCH notification)
+_flexi_git_compute() {
+  local dir="$1" result_file="$2" ppid="$3"
+  cd "$dir" 2>/dev/null || { kill -WINCH "$ppid" 2>/dev/null; return; }
+  local branch; branch="$(git_branch_status 2>/dev/null)"
+  if [[ -z "$branch" ]]; then
+    : > "${result_file}.tmp" 2>/dev/null && mv "${result_file}.tmp" "$result_file" 2>/dev/null
+    kill -WINCH "$ppid" 2>/dev/null
+    return
+  fi
+  local staged=0 unstaged=0 untracked=0
+  read -r staged unstaged untracked <<< "$(git_status_flags 2>/dev/null)"
+  local stash; stash="$(git_stash_size 2>/dev/null)"
+  [[ -z "$stash" || "$stash" = "0" ]] && stash=""
+  local upstream; upstream="$(git_upstream_status 2>/dev/null)"
+  [[ "$upstream" = "=" ]] && upstream=""
+  local out="${branch}|${staged}|${unstaged}|${untracked}|${stash}|${upstream}"
+  printf '%s' "$out" > "${result_file}.tmp" 2>/dev/null \
+    && mv "${result_file}.tmp" "$result_file" 2>/dev/null
+  kill -WINCH "$ppid" 2>/dev/null
+}
+
+# Parse pipe-delimited result and update the cache.
+_flexi_parse_git_output() {
+  local output="$1"
+  if [[ -z "$output" ]]; then
+    _FLEXI_GIT_STATUS_CACHED=""
+    return
+  fi
+  local branch staged unstaged untracked stash upstream
+  IFS='|' read -r branch staged unstaged untracked stash upstream <<< "$output"
+  local dirty=""
+  [[ "$staged" = 1 ]]    && dirty+="$__FLEXI_PROMPT_GIT_STAGED_CHANGES"
+  [[ "$unstaged" = 1 ]]  && dirty+="$__FLEXI_PROMPT_GIT_UNSTAGED_CHANGES"
+  [[ "$untracked" = 1 ]] && dirty+="$__FLEXI_PROMPT_GIT_UNTRACKED_FILES"
+  local markers=""
+  [[ -n "$dirty" ]]    && markers+="$dirty"
+  [[ -n "$stash" ]]    && markers+=" s${stash}"
+  [[ -n "$upstream" ]] && markers+=" u${upstream}"
+  _FLEXI_GIT_STATUS_CACHED="${__FLEXI_PROMPT_GIT_BEFORE}${branch}${markers}${__FLEXI_PROMPT_GIT_AFTER}"
+}
+
+# Drain: pick up any result the previous job wrote to the file.
+_flexi_update_git_cache() {
+  [[ -f "$_FLEXI_GIT_RESULT_FILE" ]] || return
+  local output; output=$(< "$_FLEXI_GIT_RESULT_FILE")
+  rm -f "$_FLEXI_GIT_RESULT_FILE"
+  _flexi_parse_git_output "$output"
+}
+
+# Read .git/HEAD directly — no subprocess, no fork, instant.
+# Only checks $PWD/.git (no tree traversal); subdirs get the branch via background job.
+_flexi_show_branch_fast() {
+  local gitdir="$PWD/.git"
+  [[ -f "$gitdir" ]] && { local line; read -r line < "$gitdir" 2>/dev/null; gitdir="${line#gitdir: }"; [[ "$gitdir" != /* ]] && gitdir="$PWD/$gitdir"; }
+  [[ ! -f "$gitdir/HEAD" ]] && return 1
+  local head; read -r head < "$gitdir/HEAD" 2>/dev/null || return 1
+  local branch
+  if [[ "$head" == ref:* ]]; then
+    branch="${head#ref: refs/heads/}"
+  else
+    branch="(${head:0:7}...)"
+  fi
+  _FLEXI_GIT_STATUS_CACHED="${__FLEXI_PROMPT_GIT_BEFORE}${branch}${__FLEXI_PROMPT_GIT_AFTER}"
+  return 0
+}
+
+_flexi_async_git_refresh() {
+  [[ "${FLEXI_GIT_SYNC:-0}" = "1" ]] && return
+  # Re-register every precmd so startup scripts can't permanently clear it.
+  TRAPWINCH() {
+    _flexi_update_git_cache
+    zle && zle reset-prompt
+  }
+  _flexi_update_git_cache
+  # If cache is empty (first prompt after cd), show branch instantly from HEAD file.
+  [[ -z "$_FLEXI_GIT_STATUS_CACHED" ]] && _flexi_show_branch_fast
+  local ppid=$$
+  _flexi_git_compute "$PWD" "$_FLEXI_GIT_RESULT_FILE" "$ppid" &!
+}
+
+_flexi_async_git_chpwd() {
+  _FLEXI_GIT_STATUS_CACHED=""
+  rm -f "$_FLEXI_GIT_RESULT_FILE" "${_FLEXI_GIT_RESULT_FILE}.tmp"
+}
+
+_flexi_git_cleanup() {
+  rm -f "$_FLEXI_GIT_RESULT_FILE" "${_FLEXI_GIT_RESULT_FILE}.tmp"
+}
+
+add-zsh-hook precmd  _flexi_async_git_refresh
+add-zsh-hook chpwd   _flexi_async_git_chpwd
+add-zsh-hook zshexit _flexi_git_cleanup
