@@ -3,6 +3,7 @@
 # Directories
 export BASH_DIR="$HOME/.bash"
 export BASH_TMP_DIR="$BASH_DIR/tmp"
+export BASH_ENV="$BASH_DIR/scripts/bash_env.sh"
 
 # Internationalization
 # Prefer US English and use UTF-8
