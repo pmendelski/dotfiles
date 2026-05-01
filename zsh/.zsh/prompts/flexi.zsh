@@ -181,3 +181,56 @@ _flexi_git_cleanup() {
 add-zsh-hook precmd  _flexi_async_git_refresh
 add-zsh-hook chpwd   _flexi_async_git_chpwd
 add-zsh-hook zshexit _flexi_git_cleanup
+
+# ── epoch override: zsh builtin instead of gdate subprocess ──────────────────
+# __flexiPromptStartTimer and __flexiPromptHandleTimer each call $(epoch) which
+# forks a subshell and spawns gdate (~5-10ms each). EPOCHREALTIME is a zsh
+# special parameter — no fork, no process.
+zmodload zsh/datetime 2>/dev/null
+
+__flexiPromptStartTimer() {
+  [[ -z "${__FLEXI_PROMPT_TIMER_START-}" ]] && typeset -g __FLEXI_PROMPT_TIMER_START=$EPOCHREALTIME
+  [[ -z "${__FLEXI_PROMPT_TIMER_DIFF-}" ]] && unset __FLEXI_PROMPT_TIMER_DIFF
+}
+
+__flexiPromptHandleTimer() {
+  local exit=$1
+  unset __FLEXI_PROMPT_TIMER_DIFF
+  [[ -z "${__FLEXI_PROMPT_TIMER_START-}" ]] && return $exit
+  typeset -gi __FLEXI_PROMPT_TIMER_DIFF=$(( (EPOCHREALTIME - __FLEXI_PROMPT_TIMER_START) * 1000 ))
+  unset __FLEXI_PROMPT_TIMER_START
+  return $exit
+}
+
+# ── PS1 pre-computation ───────────────────────────────────────────────────────
+# Prompt components are built once per precmd and stored in two variables.
+# PS1 is three variable lookups — zero subshells at render time.
+# SIGWINCH-triggered redraws (async git update) are instant: only
+# _FLEXI_GIT_STATUS_CACHED changes, pre/post are already in place.
+
+typeset -g _FLEXI_PS1_PRE=""
+typeset -g _FLEXI_PS1_POST=""
+
+_flexi_build_ps1() {
+  local exit=$?
+  local pre="" post=""
+  [[ -n "${__FLEXI_PROMPT_NEWLINE_PRECMD-}" ]] && pre+="$(__flexiPromptNewLinePreCmd)"
+  [[ -n "${__FLEXI_PROMPT_SHLVL-}" ]]          && pre+="$(__flexiPromptShlvl)"
+  [[ -n "${__FLEXI_PROMPT_TIMESTAMP-}" ]]       && pre+="$(__flexiPromptTimestamp)"
+  pre+="$(__flexiPromptDebianChroot)"
+  pre+="$(__flexiPromptUserAtHost)"
+  pre+="$(__flexiPromptPwd)"
+  if [[ "${FLEXI_GIT_SYNC:-0}" = "1" && -n "${__FLEXI_PROMPT_GIT-}" ]]; then
+    pre+="$(__flexiPromptGitStatusSync)"
+    _FLEXI_GIT_STATUS_CACHED=""
+  fi
+  [[ -n "${__FLEXI_PROMPT_TIMER-}" ]]   && post+="$(__flexiPromptTimer)"
+  [[ -n "${__FLEXI_PROMPT_NEWLINE-}" ]] && post+="$(__flexiPromptNewLine)"
+  post+="$(__flexiPromptCmdSign $exit)"
+  _FLEXI_PS1_PRE="$pre"
+  _FLEXI_PS1_POST="$post"
+  PS1='${_FLEXI_PS1_PRE}${_FLEXI_GIT_STATUS_CACHED}${_FLEXI_PS1_POST}'
+  return $exit
+}
+
+add-zsh-hook precmd _flexi_build_ps1
