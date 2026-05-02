@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+# Pane navigation history for tmux — browser-style back/forward across sessions
+#
+# Usage: tmux-history push <pane_id> | back | forward
+#
+# State is stored in tmux global options:
+#   @pane_history      space-separated list of pane IDs (e.g. "%0 %3 %5")
+#   @pane_history_pos  current position index (0-based)
+#   @pane_history_skip pane ID to skip recording (set before a history jump)
+
+readonly HISTORY_OPT="@pane_history"
+readonly POS_OPT="@pane_history_pos"
+readonly SKIP_OPT="@pane_history_skip"
+readonly MAX_HISTORY=50
+
+_get() { tmux show-option -gqv "$1" 2>/dev/null; }
+_set() { tmux set-option -g "$1" "$2"; }
+
+_pane_exists() {
+  tmux display-message -p -t "$1" '1' 2>/dev/null | grep -q '^1$'
+}
+
+_load() {
+  local raw len
+  raw=$(_get "$HISTORY_OPT")
+  if [ -z "$raw" ]; then
+    HIST=()
+  else
+    IFS=' ' read -ra HIST <<< "$raw"
+  fi
+
+  len=${#HIST[@]}
+  POS=$(_get "$POS_OPT")
+  POS="${POS:-0}"
+
+  # Clamp position to valid range
+  if [ "$len" -eq 0 ]; then
+    POS=0
+  elif [ "$POS" -ge "$len" ]; then
+    POS=$(( len - 1 ))
+  elif [ "$POS" -lt 0 ]; then
+    POS=0
+  fi
+}
+
+_save() {
+  local str=""
+  [ "${#HIST[@]}" -gt 0 ] && str="${HIST[*]}"
+  _set "$HISTORY_OPT" "$str"
+  _set "$POS_OPT" "$POS"
+}
+
+_goto() {
+  local pid="$1" sess win
+  sess=$(tmux display-message -p -t "$pid" '#{session_name}' 2>/dev/null) || return 1
+  win=$(tmux display-message -p -t "$pid" '#{window_id}' 2>/dev/null) || return 1
+  tmux switch-client -t "$sess" 2>/dev/null
+  tmux select-window -t "$win" 2>/dev/null
+  tmux select-pane -t "$pid" 2>/dev/null
+}
+
+do_push() {
+  local pid="$1" skip i
+
+  # Suppress recording when this push is triggered by a history jump
+  skip=$(_get "$SKIP_OPT")
+  if [ -n "$skip" ] && [ "$skip" = "$pid" ]; then
+    _set "$SKIP_OPT" ""
+    return 0
+  fi
+
+  _load
+
+  # Discard forward history (everything after current position)
+  local trimmed=()
+  for (( i = 0; i <= POS && i < ${#HIST[@]}; i++ )); do
+    trimmed+=("${HIST[$i]}")
+  done
+  HIST=()
+  [ "${#trimmed[@]}" -gt 0 ] && HIST=("${trimmed[@]}")
+
+  # Skip consecutive duplicate
+  local last=$(( ${#HIST[@]} - 1 ))
+  [ "${#HIST[@]}" -gt 0 ] && [ "${HIST[$last]}" = "$pid" ] && return 0
+
+  HIST+=("$pid")
+
+  # Trim oldest entries to respect the limit
+  local len=${#HIST[@]}
+  if [ "$len" -gt "$MAX_HISTORY" ]; then
+    HIST=("${HIST[@]:$(( len - MAX_HISTORY ))}")
+  fi
+
+  POS=$(( ${#HIST[@]} - 1 ))
+  _save
+}
+
+do_back() {
+  _load
+
+  local i target=""
+  for (( i = POS - 1; i >= 0; i-- )); do
+    if _pane_exists "${HIST[$i]}"; then
+      target="${HIST[$i]}"
+      POS=$i
+      break
+    fi
+  done
+
+  if [ -z "$target" ]; then
+    tmux display-message "pane history: at beginning"
+    return 0
+  fi
+
+  _set "$SKIP_OPT" "$target"
+  _save
+  _goto "$target"
+}
+
+do_forward() {
+  _load
+
+  local len=${#HIST[@]} i target=""
+  for (( i = POS + 1; i < len; i++ )); do
+    if _pane_exists "${HIST[$i]}"; then
+      target="${HIST[$i]}"
+      POS=$i
+      break
+    fi
+  done
+
+  if [ -z "$target" ]; then
+    tmux display-message "pane history: at latest"
+    return 0
+  fi
+
+  _set "$SKIP_OPT" "$target"
+  _save
+  _goto "$target"
+}
+
+case "${1:-}" in
+  push)    do_push    "${2:?usage: $(basename "$0") push <pane_id>}" ;;
+  back)    do_back ;;
+  forward) do_forward ;;
+  *)
+    printf 'Usage: %s push <pane_id> | back | forward\n' "$(basename "$0")" >&2
+    exit 1
+    ;;
+esac

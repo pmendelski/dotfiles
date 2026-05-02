@@ -88,6 +88,10 @@ return {
             rustfmt = {
               overrideCommand = { "rustup", "run", "nightly", "rustfmt", "--edition", "2024" },
             },
+            procMacro = {
+              enable = true,
+              attributes = { enable = true },
+            },
           },
         },
       },
