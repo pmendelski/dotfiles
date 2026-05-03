@@ -116,6 +116,17 @@ local code = require("util.code")
 map("n", "<leader>t", code.run_test_at_cursor, "Test: Run test under cursor")
 map("n", "<leader>T", code.run_tests_in_file, "Test: Run all tests in file")
 
+-- Block LazyVim AI and GitHub integration keymaps
+-----------------------------------------------------------
+-- GitHub (snacks_picker auto-loaded by LazyVim when snacks.nvim is detected)
+for _, key in ipairs({ "<leader>gi", "<leader>gI", "<leader>gp", "<leader>gP" }) do
+  pcall(vim.keymap.del, "n", key)
+end
+-- AI group (defensive: copilot, avante, claudecode, etc.)
+for _, mode in ipairs({ "n", "v", "x" }) do
+  pcall(vim.keymap.del, mode, "<leader>a")
+end
+
 vim.keymap.set("n", "<leader>rr", function()
   vim.cmd("checktime")
   vim.diagnostic.reset()
