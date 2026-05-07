@@ -110,6 +110,19 @@ _flexi_git_compute() {
   kill -WINCH "$ppid" 2>/dev/null
 }
 
+# Drain: pick up any result the previous job wrote to the file.
+# If the result is empty (no git when job ran) but we're now in a git dir
+# (e.g. git init just ran), fall back to the fast HEAD read instead of clearing.
+_flexi_update_git_cache() {
+  [[ -f "$_FLEXI_GIT_RESULT_FILE" ]] || return
+  local output; output=$(< "$_FLEXI_GIT_RESULT_FILE")
+  rm -f "$_FLEXI_GIT_RESULT_FILE"
+  if [[ -z "$output" ]] && _flexi_show_branch_fast; then
+    return
+  fi
+  _flexi_parse_git_output "$output"
+}
+
 # Parse pipe-delimited result and update the cache.
 _flexi_parse_git_output() {
   local output="$1"
@@ -128,14 +141,6 @@ _flexi_parse_git_output() {
   [[ -n "$stash" ]]    && markers+=" s${stash}"
   [[ -n "$upstream" ]] && markers+=" u${upstream}"
   _FLEXI_GIT_STATUS_CACHED="${__FLEXI_PROMPT_GIT_BEFORE}${branch}${markers}${__FLEXI_PROMPT_GIT_AFTER}"
-}
-
-# Drain: pick up any result the previous job wrote to the file.
-_flexi_update_git_cache() {
-  [[ -f "$_FLEXI_GIT_RESULT_FILE" ]] || return
-  local output; output=$(< "$_FLEXI_GIT_RESULT_FILE")
-  rm -f "$_FLEXI_GIT_RESULT_FILE"
-  _flexi_parse_git_output "$output"
 }
 
 # Read .git/HEAD directly — no subprocess, no fork, instant.
