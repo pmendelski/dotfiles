@@ -161,3 +161,5 @@ sudo apt install -y cowsay
 # Ascii art
 # figlet -f slant <Some Text>
 sudo apt install -y figlet
+# Image manipulation library
+sudo apt install -y libvips-dev

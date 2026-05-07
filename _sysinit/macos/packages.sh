@@ -59,6 +59,7 @@ brew install ranger
 brew install dtrx
 brew install eza
 brew install ipcalc
+brew install vips
 
 # Git
 brew install git
