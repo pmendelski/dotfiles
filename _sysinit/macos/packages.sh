@@ -60,6 +60,7 @@ brew install dtrx
 brew install eza
 brew install ipcalc
 brew install vips
+brew install fzf
 
 # Git
 brew install git

@@ -11,7 +11,7 @@ _claude_reset_epoch() {
   m=${m:-0}
 
   [[ -z "$h" || -z "$ap" ]] && return 1
-  [[ "$ap" == "pm" && "$h" != "12" ]] && h=$(( h + 12 ))
+  [[ "$ap" == "pm" && "$h" != "12" ]] && h=$((h + 12))
   [[ "$ap" == "am" && "$h" == "12" ]] && h=0
   local hhmm
   hhmm=$(printf '%02d:%02d' "$h" "$m")
@@ -25,39 +25,36 @@ _claude_reset_epoch() {
     ts=$(TZ="$tz" date -j -f "%H:%M:%S" "${hhmm}:00" +%s 2>/dev/null) || return 1
   fi
   # If the time already passed today in that timezone, it must mean tomorrow
-  [[ "$ts" -le "$now" ]] && ts=$(( ts + 86400 ))
+  [[ "$ts" -le "$now" ]] && ts=$((ts + 86400))
   echo "$ts"
 }
 
-function claude-remote() {
-  CLAUDE_REMOTE=1 claude remote-control --spawn=same-dir "$@"
+# Invoke claude, setting CLAUDE_CONFIG_DIR only for non-default config dirs.
+# Explicitly setting it to ~/.claude confuses Claude's own default resolution.
+_claude_invoke() {
+  local config_dir="$1"; shift
+  if [[ "$config_dir" != "${HOME}/.claude" ]]; then
+    CLAUDE_CONFIG_DIR="$config_dir" claude "$@"
+  else
+    claude "$@"
+  fi
 }
 
-function claude2() {
-  CLAUDE_CONFIG_DIR=~/.claude2 claude "$@"
-}
-
-function claude2-remote() {
-  CLAUDE_REMOTE=1 CLAUDE_CONFIG_DIR=~/.claude2 claude remote-control --spawn=same-dir "$@"
-}
-
-# _claude_wait_impl <cmd> <config_dir> [message]
-#   cmd        — the claude command to invoke (e.g. "claude" or "claude2")
-#   config_dir — path to the config dir used by that command (for current-session)
+# _claude_wait_impl <config_dir> [message]
 _claude_wait_impl() {
-  local cmd="$1" config_dir="$2" message="${3:-go on}"
+  local config_dir="$1" message="${2:-go on}"
 
   local session_id
   session_id=$(cat "$config_dir/current-session" 2>/dev/null)
-  [[ -n "$session_id" ]] && echo "Will resume session: $session_id" \
-    || echo "No current session found, will continue most recent"
+  [[ -n "$session_id" ]] && echo "Will resume session: $session_id" ||
+    echo "No current session found, will continue most recent"
 
   local check_interval=300
   local reset_ts=0
 
   while true; do
     local output
-    output=$("$cmd" -p 'x' 2>&1)
+    output=$(_claude_invoke "$config_dir" -p 'x' 2>&1)
     if [[ $? -eq 0 ]]; then
       printf '\r\033[K'
       echo "Tokens available!"
@@ -75,12 +72,11 @@ _claude_wait_impl() {
 
     local now next_check
     now=$(date +%s)
-    next_check=$(( now + check_interval ))
+    next_check=$((now + check_interval))
 
     while true; do
       now=$(date +%s)
       [[ $now -ge $next_check ]] && break
-      local until_check=$(( next_check - now ))
       if [[ $reset_ts -gt $now ]]; then
         local reset_time
         reset_time=$(date -r "$reset_ts" +"%I:%M%p" 2>/dev/null || date -d "@$reset_ts" +"%I:%M%p" 2>/dev/null)
@@ -94,11 +90,63 @@ _claude_wait_impl() {
   done
 
   if [[ -n "$session_id" ]]; then
-    "$cmd" --permission-mode acceptEdits --resume "$session_id" "$message"
+    _claude_invoke "$config_dir" --permission-mode acceptEdits --resume "$session_id" "$message"
   else
-    "$cmd" --permission-mode acceptEdits -c "$message"
+    _claude_invoke "$config_dir" --permission-mode acceptEdits -c "$message"
   fi
 }
 
-function claude-wait()  { _claude_wait_impl claude  ~/.claude  "$@"; }
-function claude2-wait() { _claude_wait_impl claude2 ~/.claude2 "$@"; }
+# claudex — unified Claude launcher
+#
+# Usage: claudex [-u N] [-r] [-e] [-w] [args...]
+#   -u N, --user N   config dir ~/.claudeN  (N>=1; N=1 → ~/.claude, the default)
+#   -r,   --remote   remote-control spawn (CLAUDE_REMOTE=1)
+#   -e,   --env      source .env before launching
+#   -w,   --wait     poll until rate limit clears, then resume current session
+#
+# Flags are combinable: claudex -u 2 -r -e
+function claudex() {
+  local user_num=1 do_remote=0 do_env=0 do_wait=0
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -u|--user)
+        [[ $# -lt 2 ]] && { echo "claudex: --user requires an argument" >&2; return 1; }
+        user_num="$2"; shift 2 ;;
+      -r|--remote) do_remote=1; shift ;;
+      -e|--env)    do_env=1;    shift ;;
+      -w|--wait)   do_wait=1;   shift ;;
+      --) shift; break ;;
+      *) break ;;
+    esac
+  done
+
+  if ! [[ "$user_num" =~ ^[1-9][0-9]*$ ]]; then
+    echo "claudex: --user requires a positive integer (got: '$user_num')" >&2
+    return 1
+  fi
+
+  local config_dir
+  [[ "$user_num" -eq 1 ]] \
+    && config_dir="${HOME}/.claude" \
+    || config_dir="${HOME}/.claude${user_num}"
+
+  [[ "$do_env" -eq 1 && -f .env ]] && source .env
+
+  if [[ "$do_wait" -eq 1 ]]; then
+    _claude_wait_impl "$config_dir" "$@"
+  elif [[ "$do_remote" -eq 1 ]]; then
+    CLAUDE_REMOTE=1 _claude_invoke "$config_dir" remote-control --spawn=same-dir "$@"
+  else
+    _claude_invoke "$config_dir" "$@"
+  fi
+}
+
+# Backward-compatible wrappers
+function claude-remote()  { claudex --remote "$@"; }
+function claude-env()     { claudex --env "$@"; }
+function claude2()        { claudex --user 2 "$@"; }
+function claude2-remote() { claudex --user 2 --remote "$@"; }
+function claude2-env()    { claudex --user 2 --env "$@"; }
+function claude-wait()    { claudex --wait "$@"; }
+function claude2-wait()   { claudex --user 2 --wait "$@"; }

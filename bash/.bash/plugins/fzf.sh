@@ -3,10 +3,10 @@
 if [ -n "${BASH_VERSION}" ]; then
   if [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
-  else
-    if [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
-      source "/usr/share/doc/fzf/examples/key-bindings.bash"
-    fi
+  elif command -v fzf >/dev/null 2>&1; then
+    eval "$(fzf --bash 2>/dev/null)"
+  elif [ -f "/usr/share/doc/fzf/examples/key-bindings.bash" ]; then
+    source "/usr/share/doc/fzf/examples/key-bindings.bash"
   fi
 fi
 

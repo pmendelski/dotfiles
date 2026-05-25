@@ -54,5 +54,15 @@
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
+  },
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "editorMode": "vim",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.dotfiles/claude/statusline.sh"
+  },
+  "permissions": {
+    "defaultMode": "acceptEdits"
   }
 }

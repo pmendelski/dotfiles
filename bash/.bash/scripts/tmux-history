@@ -114,7 +114,7 @@ do_back() {
 
   _set "$SKIP_OPT" "$target"
   _save
-  _goto "$target"
+  _goto "$target" || true
 }
 
 do_forward() {
@@ -136,7 +136,7 @@ do_forward() {
 
   _set "$SKIP_OPT" "$target"
   _save
-  _goto "$target"
+  _goto "$target" || true
 }
 
 case "${1:-}" in
