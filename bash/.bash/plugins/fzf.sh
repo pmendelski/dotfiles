@@ -63,7 +63,7 @@ export FZF_CTRL_T_OPTS="
 "
 
 # ALT-C - cd to directory
-export FZF_ALT_C_COMMAND="$FZF_FIND_DIR"
+export FZF_ALT_C_COMMAND="zoxide query -l"
 export FZF_ALT_C_OPTS_ARR="
   --preview='$FZF_PREVIEW_DIR'
   --color header:italic
