@@ -31,7 +31,8 @@ _claude_reset_epoch() {
 # Invoke claude, setting CLAUDE_CONFIG_DIR only for non-default config dirs.
 # Explicitly setting it to ~/.claude confuses Claude's own default resolution.
 _claude_invoke() {
-  local config_dir="$1"; shift
+  local config_dir="$1"
+  shift
   if [[ "$config_dir" != "${HOME}/.claude" ]]; then
     CLAUDE_CONFIG_DIR="$config_dir" claude "$@"
   else
@@ -53,10 +54,9 @@ _claude_save_session() {
 }
 
 # Poll until rate limit clears. Prints in-place status to /dev/tty. Returns 0 when done.
+# Callers must invoke as: _claude_poll "$dir" 2>/dev/null  (sinks xtrace noise)
 _claude_poll() {
   local config_dir="$1"
-  # Suppress xtrace — variable assignments would produce unwanted noise on the terminal
-  local _xt; _xt=${-//[^x]/}; set +x 2>/dev/null
   local check_interval=300 reset_ts=0
 
   while true; do
@@ -64,7 +64,6 @@ _claude_poll() {
     output=$(_claude_invoke "$config_dir" -p 'x' 2>&1)
     if [[ $? -eq 0 ]]; then
       printf '\r\033[KTokens available!\n' >/dev/tty
-      [[ -n "$_xt" ]] && set -x 2>/dev/null
       return 0
     fi
 
@@ -83,7 +82,7 @@ _claude_poll() {
     while true; do
       now=$(date +%s)
       [[ $now -ge $next_check ]] && break
-      remaining=$(( next_check - now ))
+      remaining=$((next_check - now))
       if [[ $reset_ts -gt $now ]]; then
         reset_disp=$(date -r "$reset_ts" +"%H:%M %Z" 2>/dev/null || date -d "@$reset_ts" +"%H:%M %Z" 2>/dev/null)
         status_msg="Rate limited — resets ~${reset_disp}  (retry in ${remaining}s)"
@@ -127,7 +126,7 @@ _claude_resolve_session() {
 #
 # Actions (all implicitly wait for rate-limit before acting):
 #   --wait                           Poll until tokens available, exit 0
-#   --continue [SESSION]             Resume SESSION (or last pane session) with 'go on'
+#   --continue [SESSION]             Resume SESSION (or last pane session) with 'continue'
 #   --continue [SESSION] --prompt P  Resume SESSION with prompt P
 #   --prompt P                       Start a new session with prompt P
 #
@@ -139,8 +138,8 @@ function claudex() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -h|--help)
-        cat <<'EOF'
+    -h | --help)
+      cat <<'EOF'
 claudex — unified Claude launcher
 
 Usage: claudex [OPTIONS] [ACTION] [-- ARGS...]
@@ -154,7 +153,7 @@ Options:
 
 Actions (all wait for rate-limit before acting):
   --wait                            Poll until tokens available, exit 0
-  --continue [SESSION]              Resume SESSION (or last pane session) with 'go on'
+  --continue [SESSION]              Resume SESSION (or last pane session) with 'continue'
   --continue [SESSION] --prompt P   Resume SESSION with prompt P
   --prompt P                        Start a new session with prompt P
 
@@ -170,27 +169,55 @@ Examples:
   claudex -u 2 --prompt 'review this PR'
   claudex --helpx
 EOF
-        return 0 ;;
-      --helpx)
-        claude --help; return ;;
-      -u|--user)
-        [[ $# -lt 2 ]] && { echo "claudex: --user requires an argument" >&2; return 1; }
-        user_num="$2"; shift 2 ;;
-      -r|--remote) do_remote=1; shift ;;
-      -e|--env)    do_env=1;    shift ;;
-      --wait)      do_wait=1;   shift ;;
-      --continue)
-        do_continue=1
-        if [[ $# -ge 2 && "$2" != -* ]]; then
-          continue_session="$2"; shift 2
-        else
-          shift
-        fi ;;
-      --prompt)
-        [[ $# -lt 2 ]] && { echo "claudex: --prompt requires an argument" >&2; return 1; }
-        do_prompt=1; prompt="$2"; shift 2 ;;
-      --) shift; break ;;
-      *) break ;;
+      return 0
+      ;;
+    --helpx)
+      claude --help
+      return
+      ;;
+    -u | --user)
+      [[ $# -lt 2 ]] && {
+        echo "claudex: --user requires an argument" >&2
+        return 1
+      }
+      user_num="$2"
+      shift 2
+      ;;
+    -r | --remote)
+      do_remote=1
+      shift
+      ;;
+    -e | --env)
+      do_env=1
+      shift
+      ;;
+    --wait)
+      do_wait=1
+      shift
+      ;;
+    --continue)
+      do_continue=1
+      if [[ $# -ge 2 && "$2" != -* ]]; then
+        continue_session="$2"
+        shift 2
+      else
+        shift
+      fi
+      ;;
+    --prompt)
+      [[ $# -lt 2 ]] && {
+        echo "claudex: --prompt requires an argument" >&2
+        return 1
+      }
+      do_prompt=1
+      prompt="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *) break ;;
     esac
   done
 
@@ -200,27 +227,34 @@ EOF
   fi
 
   local config_dir
-  [[ "$user_num" -eq 1 ]] \
-    && config_dir="${HOME}/.claude" \
-    || config_dir="${HOME}/.claude${user_num}"
+  [[ "$user_num" -eq 1 ]] &&
+    config_dir="${HOME}/.claude" ||
+    config_dir="${HOME}/.claude${user_num}"
 
   [[ "$do_env" -eq 1 && -f .env ]] && source .env
 
   # --wait alone: poll until tokens clear, exit 0
   if [[ "$do_wait" -eq 1 && "$do_continue" -eq 0 && "$do_prompt" -eq 0 ]]; then
-    _claude_poll "$config_dir"
+    _claude_poll "$config_dir" 2>/dev/null
     return
   fi
 
   # --continue and/or --prompt: wait then act
   if [[ "$do_continue" -eq 1 || "$do_prompt" -eq 1 ]]; then
-    _claude_poll "$config_dir" || return 1
-
     local session_id
-    session_id=$(_claude_resolve_session "$config_dir" "$continue_session")
+    if [[ "$do_continue" -eq 1 ]]; then
+      session_id=$(_claude_resolve_session "$config_dir" "$continue_session")
+      if [[ -n "$session_id" ]]; then
+        echo "Resuming session: $session_id" >/dev/tty
+      else
+        echo "Resuming last session (-c)" >/dev/tty
+      fi
+    fi
+
+    _claude_poll "$config_dir" 2>/dev/null || return 1
 
     if [[ "$do_continue" -eq 1 ]]; then
-      local msg="${prompt:-go on}"
+      local msg="${prompt:-continue}"
       if [[ -n "$session_id" ]]; then
         _claude_invoke "$config_dir" --permission-mode acceptEdits --resume "$session_id" "$msg"
       else
@@ -242,4 +276,3 @@ EOF
     _claude_save_session "$config_dir"
   fi
 }
-
