@@ -123,6 +123,10 @@ brew install --cask betterdisplay
 brew tap homebrew/cask && brew install --cask gimp
 brew install --cask inkscape
 
+# Yazi - file explorer
+brew install yazi ffmpeg-full sevenzip jq poppler fd ripgrep fzf zoxide resvg imagemagick-full font-symbols-only-nerd-font
+brew link ffmpeg-full imagemagick-full -f --overwrite
+
 # Mise
 brew install mise
 mise use -g usage

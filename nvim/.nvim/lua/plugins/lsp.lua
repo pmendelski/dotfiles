@@ -83,8 +83,23 @@ return {
     "mrcjkb/rustaceanvim",
     opts = {
       server = {
+        -- Resolve via `rustup` so the toolchain pinned in rust-toolchain.toml
+        -- (and its bundled rust-analyzer) is used instead of whatever
+        -- `rust-analyzer` happens to be first on PATH.
+        cmd = function()
+          local toolchain_bin = vim.trim(vim.fn.system("rustup which rust-analyzer 2>/dev/null"))
+          local bin = "rust-analyzer"
+          if vim.v.shell_error == 0 and vim.fn.executable(toolchain_bin) == 1 then
+            bin = toolchain_bin
+          end
+          local config = require("rustaceanvim.config.internal")
+          return { bin, "--log-file", config.server.logfile }
+        end,
         settings = {
           ["rust-analyzer"] = {
+            files = {
+              watcher = "server",
+            },
             rustfmt = {
               overrideCommand = { "rustup", "run", "nightly", "rustfmt", "--edition", "2024" },
             },

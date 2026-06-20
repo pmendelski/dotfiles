@@ -13,14 +13,14 @@ return {
         grep = {
           hidden = true,
         },
-        -- lines = {
-        --   finder = "lines",
-        --   format = "lines",
-        --   layout = {
-        --     preset = "default",
-        --     preview = "preview",
-        --   },
-        -- },
+        lines = {
+          finder = "lines",
+          format = "lines",
+          layout = {
+            preset = "default",
+            preview = "preview",
+          },
+        },
       },
       win = {
         -- input window

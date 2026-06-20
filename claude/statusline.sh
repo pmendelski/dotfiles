@@ -31,15 +31,33 @@ color_pct() {
 five_pct=$(printf '%s' "$input" | jq -r '.rate_limits.five_hour.used_percentage  // empty')
 week_pct=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.used_percentage  // empty')
 ctx_pct=$(printf '%s'  "$input" | jq -r '.context_window.used_percentage         // empty')
+model=$(printf '%s'    "$input" | jq -r '.model.id // empty' | sed 's/^claude-//')
+
+# Rate limits aren't reported by Claude Code until the first API response.
+# Cache the last known values so the statusline shows usage from the very
+# first prompt (marked with "~" while stale).
+cache_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/cache"
+cache_file="$cache_dir/statusline-rate-limits"
+five_stale=""
+week_stale=""
+if [ -n "$five_pct" ] && [ -n "$week_pct" ]; then
+  mkdir -p "$cache_dir" 2>/dev/null
+  printf '%s %s\n' "$five_pct" "$week_pct" > "$cache_file" 2>/dev/null
+elif [ -f "$cache_file" ]; then
+  read -r cached_five cached_week < "$cache_file"
+  [ -z "$five_pct" ] && [ -n "$cached_five" ] && { five_pct="$cached_five"; five_stale="~"; }
+  [ -z "$week_pct" ] && [ -n "$cached_week" ] && { week_pct="$cached_week"; week_stale="~"; }
+fi
 
 right=""
 append_right() {
-  [ -n "$right" ] && right="${right}  "
-  right="${right}${GREY}${1}:${RESET}$(color_pct "$2")"
+  [ -n "$right" ] && right="${right} "
+  right="${right}${GREY}${2}${1}:${RESET}$(color_pct "$3")"
 }
-[ -n "$five_pct" ] && append_right "5h"  "$five_pct"
-[ -n "$week_pct" ] && append_right "7d"  "$week_pct"
-[ -n "$ctx_pct"  ] && append_right "ctx" "$ctx_pct"
+[ -n "$five_pct" ] && append_right "5h"  "$five_stale" "$five_pct"
+[ -n "$week_pct" ] && append_right "7d"  "$week_stale" "$week_pct"
+[ -n "$ctx_pct"  ] && append_right "ctx" ""             "$ctx_pct"
+[ -n "$model"    ] && { [ -n "$right" ] && right="${right} "; right="${right}${GREY}${model}${RESET}"; }
 
 # Config dir indicator — shown only when not the default ~/.claude
 claude_cfg="${CLAUDE_CONFIG_DIR:-}"
@@ -47,7 +65,7 @@ if [ -n "$claude_cfg" ] && [ "$claude_cfg" != "$HOME/.claude" ]; then
   cfg_suffix="${claude_cfg#"$HOME/.claude"}"
   if [ -n "$cfg_suffix" ]; then
     cfg_label="${VIOLET}[c${cfg_suffix}]${RESET}"
-    [ -n "$right" ] && right="${right}  ${cfg_label}" || right="$cfg_label"
+    [ -n "$right" ] && right="${right} ${cfg_label}" || right="$cfg_label"
   fi
 fi
 
@@ -118,7 +136,7 @@ fi
 # Assemble: dir git  -  usage
 # ---------------------------------------------------------------------------
 if [ -n "$right" ]; then
-  printf '%s' "${left}${DIM}  -  ${RESET}${right}"
+  printf '%s' "${left}${DIM} - ${RESET}${right}"
 else
   printf '%s' "$left"
 fi

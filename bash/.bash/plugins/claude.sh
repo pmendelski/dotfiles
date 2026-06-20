@@ -40,42 +40,31 @@ _claude_invoke() {
   fi
 }
 
-# Save the current-session ID into a tmux pane-local variable immediately after
-# claude exits, before any other pane can overwrite the global current-session file.
-# Variable is keyed by config dir basename (e.g. @claude_session_claude2) so
-# multiple accounts in the same pane don't clobber each other.
-_claude_save_session() {
-  local config_dir="$1"
-  [[ -n "${TMUX:-}" ]] || return 0
-  local sid varname
-  sid=$(cat "$config_dir/current-session" 2>/dev/null) || return 0
-  varname="@claude_session_$(basename "$config_dir")"
-  [[ -n "$sid" ]] && tmux set-option -p "$varname" "$sid" 2>/dev/null || true
-}
-
 # Poll until rate limit clears. Prints in-place status to /dev/tty. Returns 0 when done.
-# Callers must invoke as: _claude_poll "$dir" 2>/dev/null  (sinks xtrace noise)
+#
+# All locals are declared ONCE here, up-front. They must NOT be re-declared inside
+# the loop: in zsh a bare `local NAME` for an already-set parameter re-displays it
+# as `NAME=value` on stdout, which on every iteration after the first leaks the
+# poll's variables to the terminal (a caller-side `2>/dev/null` can't catch it —
+# it's stdout, not stderr). Declare here, assign in the loop.
 _claude_poll() {
   local config_dir="$1"
   local check_interval=300 reset_ts=0
+  local output time_part tz_part new_ts now next_check remaining reset_disp status_msg
 
   while true; do
-    local output
     output=$(_claude_invoke "$config_dir" -p 'x' 2>&1)
     if [[ $? -eq 0 ]]; then
       printf '\r\033[KTokens available!\n' >/dev/tty
       return 0
     fi
 
-    local time_part tz_part
     time_part=$(printf '%s' "$output" | grep -oiE 'resets [0-9:]+[ap]m' | grep -oiE '[0-9:]+[ap]m' | tr '[:upper:]' '[:lower:]' | head -1)
     tz_part=$(printf '%s' "$output" | grep -oiE 'resets [0-9:]+[ap]m \([^)]+\)' | grep -oE '\([^)]+\)' | tr -d '()' | head -1)
     if [[ -n "$time_part" && -n "$tz_part" ]]; then
-      local new_ts
       new_ts=$(_claude_reset_epoch "$time_part" "$tz_part") && reset_ts=$new_ts
     fi
 
-    local now next_check remaining reset_disp status_msg
     now=$(date +%s)
     next_check=$((now + check_interval))
 
@@ -96,21 +85,26 @@ _claude_poll() {
   done
 }
 
-# Resolve session ID for --continue: explicit arg > tmux pane var > current-session file
+# Resolve session ID for --continue: explicit arg, else the most-recently-active
+# session for the *current directory*. Claude stores each session as a .jsonl under
+# <config>/projects/<cwd>, where <cwd> is the path with '/' and '.' replaced by '-'.
+# The newest .jsonl by mtime is the session that last ran here — far more reliable
+# than the global current-session file (stale) or a tmux pane var (goes stale when a
+# session is started outside claudex). Empty result => caller falls back to `claude -c`.
 _claude_resolve_session() {
   local config_dir="$1" explicit="$2"
   if [[ -n "$explicit" ]]; then
     printf '%s' "$explicit"
     return
   fi
-  local sid=""
-  if [[ -n "${TMUX:-}" ]]; then
-    local varname="@claude_session_$(basename "$config_dir")"
-    sid=$(tmux display-message -p "#{$varname}" 2>/dev/null)
-    [[ "$sid" == "#{$varname}" ]] && sid=""
-  fi
-  [[ -z "$sid" ]] && sid=$(cat "$config_dir/current-session" 2>/dev/null)
-  printf '%s' "$sid"
+  local proj newest
+  proj=$(printf '%s' "$PWD" | sed 's,[/.],-,g')
+  # List the dir (no glob — an unmatched glob errors under zsh's nomatch and
+  # bypasses 2>/dev/null); -t sorts by mtime, newest first. `command ls` avoids
+  # any `ls` alias (e.g. eza, whose -t flag means something else).
+  # shellcheck disable=SC2012,SC2010  # ls -t = portable mtime sort; names are UUID.jsonl
+  newest=$(command ls -t "$config_dir/projects/$proj" 2>/dev/null | grep '\.jsonl$' | head -1)
+  [[ -n "$newest" ]] && printf '%s' "${newest%.jsonl}"
 }
 
 # claudex — unified Claude launcher
@@ -126,7 +120,7 @@ _claude_resolve_session() {
 #
 # Actions (all implicitly wait for rate-limit before acting):
 #   --wait                           Poll until tokens available, exit 0
-#   --continue [SESSION]             Resume SESSION (or last pane session) with 'continue'
+#   --continue [SESSION]             Resume SESSION (newest in cwd) in auto permission mode
 #   --continue [SESSION] --prompt P  Resume SESSION with prompt P
 #   --prompt P                       Start a new session with prompt P
 #
@@ -153,7 +147,7 @@ Options:
 
 Actions (all wait for rate-limit before acting):
   --wait                            Poll until tokens available, exit 0
-  --continue [SESSION]              Resume SESSION (or last pane session) with 'continue'
+  --continue [SESSION]              Resume SESSION (newest in cwd) in auto permission mode
   --continue [SESSION] --prompt P   Resume SESSION with prompt P
   --prompt P                        Start a new session with prompt P
 
@@ -254,17 +248,20 @@ EOF
     _claude_poll "$config_dir" 2>/dev/null || return 1
 
     if [[ "$do_continue" -eq 1 ]]; then
+      # auto mode: a classifier auto-approves routine actions (edits, tests,
+      # lockfile installs, git on the current branch) and only blocks dangerous
+      # ones (curl|bash, prod deploys, force-push to main). acceptEdits would
+      # still prompt on every non-edit Bash command, defeating unattended resume.
       local msg="${prompt:-continue}"
       if [[ -n "$session_id" ]]; then
-        _claude_invoke "$config_dir" --permission-mode acceptEdits --resume "$session_id" "$msg"
+        _claude_invoke "$config_dir" --permission-mode auto --resume "$session_id" "$msg"
       else
-        _claude_invoke "$config_dir" --permission-mode acceptEdits -c "$msg"
+        _claude_invoke "$config_dir" --permission-mode auto -c "$msg"
       fi
     else
       # --prompt alone: new session
       _claude_invoke "$config_dir" "$prompt" "$@"
     fi
-    _claude_save_session "$config_dir"
     return
   fi
 
@@ -273,6 +270,83 @@ EOF
     CLAUDE_REMOTE=1 _claude_invoke "$config_dir" remote-control --spawn=same-dir "$@"
   else
     _claude_invoke "$config_dir" "$@"
-    _claude_save_session "$config_dir"
   fi
 }
+
+# --- completion helpers (plain sh; usable from both bash and zsh) ----------------
+
+# Available user numbers: 1, plus any existing ~/.claudeN config dirs.
+# Lists $HOME (no glob — an unmatched glob errors under zsh's nomatch).
+_claudex_complete_users() {
+  printf '%s\n' 1
+  command ls -1A "$HOME" 2>/dev/null | grep -E '^\.claude[0-9]+$' | sed 's/^\.claude//'
+}
+
+# Session IDs (newest first) for the given user number, scoped to the cwd's
+# project dir — same encoding as _claude_resolve_session.
+_claudex_complete_sessions() {
+  local n="${1:-1}" config_dir proj
+  [[ "$n" == 1 ]] && config_dir="$HOME/.claude" || config_dir="$HOME/.claude$n"
+  proj=$(printf '%s' "$PWD" | sed 's,[/.],-,g')
+  # shellcheck disable=SC2012,SC2010  # ls -t = portable mtime sort; names are UUID.jsonl
+  command ls -t "$config_dir/projects/$proj" 2>/dev/null | grep '\.jsonl$' | sed 's/\.jsonl$//'
+}
+
+# --- completion registration -----------------------------------------------------
+
+if [ -n "${ZSH_VERSION-}" ]; then
+  if [[ $- == *i* ]]; then
+    _claudex() {
+      local curcontext="$curcontext" state line unum=1 i
+      typeset -A opt_args
+      for ((i = 1; i <= $#words; i++)); do
+        if [ "${words[i]}" = "-u" ] || [ "${words[i]}" = "--user" ]; then
+          unum=${words[i + 1]:-1}
+        fi
+      done
+      _arguments -C \
+        '(-u --user)'{-u,--user}'[config dir ~/.claudeN]:user number:->users' \
+        '(-r --remote)'{-r,--remote}'[remote-control spawn]' \
+        '(-e --env)'{-e,--env}'[source .env before launching]' \
+        '(-h --help)'{-h,--help}'[show claudex help]' \
+        '--helpx[pass --help through to claude]' \
+        '--wait[poll until tokens available, then exit]' \
+        '--continue[resume newest session in cwd]::session:->sessions' \
+        '--prompt[start/resume with a prompt]:prompt:' \
+        '*::claude args:_default'
+      case "$state" in
+      users) compadd -- $(_claudex_complete_users) ;;
+      sessions) compadd -o nosort -- $(_claudex_complete_sessions "$unum") ;;
+      esac
+    }
+    compdef _claudex claudex
+  fi
+elif [ -n "${BASH_VERSION-}" ]; then
+  if [[ $- == *i* ]]; then
+    _claudex() {
+      local cur prev unum=1 i
+      cur="${COMP_WORDS[COMP_CWORD]}"
+      prev="${COMP_WORDS[COMP_CWORD - 1]}"
+      for ((i = 1; i < COMP_CWORD; i++)); do
+        case "${COMP_WORDS[i]}" in
+        -u | --user) unum="${COMP_WORDS[i + 1]:-1}" ;;
+        esac
+      done
+      # shellcheck disable=SC2207  # values are flags/UUIDs (no spaces); bash 3.2 has no mapfile
+      case "$prev" in
+      -u | --user)
+        COMPREPLY=($(compgen -W "$(_claudex_complete_users)" -- "$cur"))
+        return
+        ;;
+      --continue)
+        COMPREPLY=($(compgen -W "$(_claudex_complete_sessions "$unum")" -- "$cur"))
+        return
+        ;;
+      --prompt) return ;; # free-form text
+      esac
+      COMPREPLY=($(compgen -W \
+        "-u --user -r --remote -e --env -h --help --helpx --wait --continue --prompt" -- "$cur"))
+    }
+    complete -F _claudex claudex
+  fi
+fi

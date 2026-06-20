@@ -8,6 +8,12 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 --
 
+-- Reload buffers changed externally (e.g. by Claude Code or git)
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  command = "checktime",
+})
+
 -- Disable autoformat for some file types
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "html", "markdown" },
