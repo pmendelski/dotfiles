@@ -105,12 +105,20 @@ fi
 #   gcloud components install beta
 # fi
 
+# When external repos allowed
+# if ! command -v mise &>/dev/null; then
+#   sudo apt install -y extrepo
+#   sudo extrepo enable mise
+#   sudo apt update
+#   sudo apt install -y mise
+# fi
+# ...when external repos disallowed
 if ! command -v mise &>/dev/null; then
-  echo -e "\n>>> Mise"
-  sudo install -dm 755 /etc/apt/keyrings
-  curl -fSs https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc 1>/dev/null
-  echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-  sudo apt update -y
-  sudo apt install -y mise
-  mise use -g usage
+  mkdir -p ~/.local/bin
+  ARCH=$(uname -m)
+  [ "$ARCH" = "x86_64" ] && ARCH="x64"
+  [ "$ARCH" = "aarch64" ] && ARCH="arm64"
+  VERSION=$(curl -fsSL https://api.github.com/repos/jdx/mise/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+  curl -fLo ~/.local/bin/mise "https://github.com/jdx/mise/releases/download/v${VERSION}/mise-v${VERSION}-linux-${ARCH}"
+  chmod +x ~/.local/bin/mise
 fi
