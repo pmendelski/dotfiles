@@ -82,6 +82,9 @@ return {
   {
     "mrcjkb/rustaceanvim",
     opts = {
+      config = function(_, opts)
+        vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+      end,
       server = {
         -- Resolve via `rustup` so the toolchain pinned in rust-toolchain.toml
         -- (and its bundled rust-analyzer) is used instead of whatever
