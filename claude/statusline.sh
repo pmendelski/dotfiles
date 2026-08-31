@@ -25,13 +25,24 @@ color_pct() {
   fi
 }
 
+# Format a Unix epoch as local HH:MM; empty for junk or already-past times.
+reset_time() {
+  local epoch=$1
+  case "$epoch" in '' | *[!0-9]*) return 0 ;; esac
+  [ "$epoch" -gt "$(date +%s)" ] || return 0
+  # BSD date uses -r for epoch, GNU date uses -d @epoch (and -r for files)
+  date -r "$epoch" +%H:%M 2>/dev/null || date -d "@$epoch" +%H:%M 2>/dev/null
+}
+
 # ---------------------------------------------------------------------------
 # Right side: usage labels + colored percentages
 # ---------------------------------------------------------------------------
-five_pct=$(printf '%s' "$input" | jq -r '.rate_limits.five_hour.used_percentage  // empty')
-week_pct=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.used_percentage  // empty')
-ctx_pct=$(printf '%s'  "$input" | jq -r '.context_window.used_percentage         // empty')
-model=$(printf '%s'    "$input" | jq -r '.model.id // empty' | sed 's/^claude-//')
+five_pct=$(printf '%s'   "$input" | jq -r '.rate_limits.five_hour.used_percentage  // empty')
+week_pct=$(printf '%s'   "$input" | jq -r '.rate_limits.seven_day.used_percentage  // empty')
+five_reset=$(printf '%s' "$input" | jq -r '.rate_limits.five_hour.resets_at        // empty')
+week_reset=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.resets_at        // empty')
+ctx_pct=$(printf '%s'    "$input" | jq -r '.context_window.used_percentage         // empty')
+model=$(printf '%s'      "$input" | jq -r '.model.id // empty' | sed 's/^claude-//')
 
 # Rate limits aren't reported by Claude Code until the first API response.
 # Cache the last known values so the statusline shows usage from the very
@@ -42,20 +53,32 @@ five_stale=""
 week_stale=""
 if [ -n "$five_pct" ] && [ -n "$week_pct" ]; then
   mkdir -p "$cache_dir" 2>/dev/null
-  printf '%s %s\n' "$five_pct" "$week_pct" > "$cache_file" 2>/dev/null
+  printf '%s %s %s %s\n' "$five_pct" "$week_pct" \
+    "${five_reset:-0}" "${week_reset:-0}" > "$cache_file" 2>/dev/null
 elif [ -f "$cache_file" ]; then
-  read -r cached_five cached_week < "$cache_file"
-  [ -z "$five_pct" ] && [ -n "$cached_five" ] && { five_pct="$cached_five"; five_stale="~"; }
-  [ -z "$week_pct" ] && [ -n "$cached_week" ] && { week_pct="$cached_week"; week_stale="~"; }
+  read -r cached_five cached_week cached_five_reset cached_week_reset < "$cache_file"
+  [ -z "$five_pct" ] && [ -n "$cached_five" ] && {
+    five_pct="$cached_five"; five_stale="~"; five_reset="$cached_five_reset"
+  }
+  [ -z "$week_pct" ] && [ -n "$cached_week" ] && {
+    week_pct="$cached_week"; week_stale="~"; week_reset="$cached_week_reset"
+  }
 fi
 
 right=""
+# append_right <label> <stale-marker> <pct> [reset-epoch]
+# The reset time is only worth screen space once the window is over half spent.
 append_right() {
+  local label=$1 stale=$2 pct=$3 reset=${4:-} at=""
+  if [ -n "$reset" ] && [ "$(printf '%.0f' "$pct")" -gt 50 ]; then
+    at=$(reset_time "$reset")
+    [ -n "$at" ] && at="${GREY}@${at}${RESET}"
+  fi
   [ -n "$right" ] && right="${right} "
-  right="${right}${GREY}${2}${1}:${RESET}$(color_pct "$3")"
+  right="${right}${GREY}${stale}${label}:${RESET}$(color_pct "$pct")${at}"
 }
-[ -n "$five_pct" ] && append_right "5h"  "$five_stale" "$five_pct"
-[ -n "$week_pct" ] && append_right "7d"  "$week_stale" "$week_pct"
+[ -n "$five_pct" ] && append_right "5h"  "$five_stale" "$five_pct" "$five_reset"
+[ -n "$week_pct" ] && append_right "7d"  "$week_stale" "$week_pct" "$week_reset"
 [ -n "$ctx_pct"  ] && append_right "ctx" ""             "$ctx_pct"
 [ -n "$model"    ] && { [ -n "$right" ] && right="${right} "; right="${right}${GREY}${model}${RESET}"; }
 

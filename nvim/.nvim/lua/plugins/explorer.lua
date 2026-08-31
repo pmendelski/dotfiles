@@ -50,6 +50,9 @@ return {
               keys = {
                 ["<ESC>"] = false,
                 ["t"] = "run_tests",
+                ["<leader>s"] = "lsp_symbols_dir",
+                ["<leader>f"] = "picker_files",
+                ["<leader>g"] = "picker_grep",
               },
             },
           },
@@ -60,6 +63,20 @@ return {
                 return
               end
               code.run_tests_at_path(item.file)
+            end,
+            -- workspace/symbol has no path scope in the LSP spec, so filter
+            -- results client-side instead of via the (unavailable) filter.cwd
+            lsp_symbols_dir = function(_, item)
+              if not item then
+                return
+              end
+              local dir = Snacks.picker.util.dir(item)
+              Snacks.picker.lsp_workspace_symbols({
+                transform = function(it)
+                  local file = it.file and vim.fs.normalize(it.file)
+                  return file ~= nil and (file == dir or file:find(dir .. "/", 1, true) == 1)
+                end,
+              })
             end,
           },
         },

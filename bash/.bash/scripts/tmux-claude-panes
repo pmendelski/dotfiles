@@ -4,8 +4,6 @@
 # Within each tier panes sort by most recent activity (newest first).
 # Designed to run inside a tmux display-popup.
 #
-# --jump        Skip the picker: switch to the first [WAIT] pane, or if none,
-#               to the most recently finished idle pane.
 # --list-recent Output display TAB target lines, sorted by recency.
 # --list-alpha  Output display TAB target lines, sorted alphabetically.
 
@@ -95,22 +93,6 @@ case "${1:-}" in
   --list-alpha)   _list_alpha;   exit ;;
   --list-waiting) _list_waiting; exit ;;
 esac
-
-# --jump: switch to first [WAIT] pane; show status message if none is waiting
-if [ "${1:-}" = "--jump" ]; then
-  panes=$(_collect_panes)
-  if [ -z "$panes" ]; then
-    tmux display-message "no AI panes"
-    exit 0
-  fi
-  target=$(printf '%s\n' "$panes" | awk -F'\t' '$1 == 0 { print $4; exit }')
-  if [ -z "$target" ]; then
-    tmux display-message "no AI panes waiting"
-    exit 0
-  fi
-  tmux switch-client -t "$target" 2>/dev/null || tmux select-pane -t "$target" || true
-  exit 0
-fi
 
 # --jump-modal: popup for [WAIT] panes.
 # Single pane: shows content inline, Enter to switch / any key to dismiss.
