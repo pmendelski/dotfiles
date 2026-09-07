@@ -78,6 +78,64 @@ local function with_path_title(opts)
   return opts
 end
 
+--- Columns per press when scrolling the preview sideways. The built-in
+--- `preview_scroll_left`/`preview_scroll_right` move a single column, which is
+--- nothing next to the half-page `<c-f>`/`<c-b>` they sit beside.
+local preview_hscroll_columns = 10
+
+--- Scroll the preview sideways. Inert in previews that wrap their lines
+--- (diffs, git log), the same as `zh`/`zl` anywhere else.
+---@param picker snacks.Picker
+---@param left boolean
+local function preview_hscroll(picker, left)
+  local win = picker.preview.win
+  if win:valid() then
+    vim.api.nvim_win_call(win.win, function()
+      vim.cmd(("normal! %d%s"):format(preview_hscroll_columns, left and "zh" or "zl"))
+    end)
+  end
+end
+
+--- How much of a maximized picker the preview gets. The list only needs room
+--- for paths, so `<a-m>` is worth more as a reading pane than as a bigger copy
+--- of the same 50/50 split.
+local maximized_preview_width = 0.7
+
+--- Call `cb` on every preview that sits in a horizontal box. Vertical layouts
+--- (`vertical`, `sidebar`, `dropdown`) split on height, so their preview width
+--- is not the ratio to touch.
+---@param box snacks.layout.Box
+---@param cb fun(win: snacks.layout.Win)
+local function each_side_preview(box, cb)
+  for _, child in ipairs(box) do
+    if child.box then
+      each_side_preview(child, cb)
+    elseif child.win == "preview" and box.box == "horizontal" then
+      cb(child)
+    end
+  end
+end
+
+--- Fullscreen, but with a narrower result list. `layout:maximize()` only flips
+--- the fullscreen flag and keeps the preset ratio, so set the widths first:
+--- `layout:update()` re-reads them from `opts.layout` on every call.
+---@param picker snacks.Picker
+local function toggle_maximize(picker)
+  local layout = picker.layout
+  local maximized = not layout.opts.fullscreen
+  local preset_widths = layout.preset_widths or {}
+  each_side_preview(layout.opts.layout, function(win)
+    if maximized then
+      preset_widths[win] = win.width
+      win.width = maximized_preview_width
+    else
+      win.width = preset_widths[win]
+    end
+  end)
+  layout.preset_widths = preset_widths
+  layout:maximize()
+end
+
 --- LSP sources that may still jump straight to a lone result. `gd`/`gD`/`gy`
 --- name a single target, so a picker for one item is only in the way.
 --- References, implementations and calls are lists: those always show.
@@ -102,6 +160,14 @@ return {
         return with_path_title(filters.apply(opts))
       end,
       actions = {
+        -- override built-in actions, so the keys mapped to them pick these up
+        toggle_maximize = toggle_maximize,
+        preview_scroll_left = function(picker)
+          preview_hscroll(picker, true)
+        end,
+        preview_scroll_right = function(picker)
+          preview_hscroll(picker, false)
+        end,
         toggle_tests = function(picker)
           toggle(picker, { "hide_tests" }, "test files")
         end,
@@ -139,6 +205,13 @@ return {
             ["<a-q>"] = { "toggle_noise", mode = { "i", "n" } },
             ["<a-t>"] = { "toggle_tests", mode = { "i", "n" } },
             ["<a-u>"] = { "toggle_imports", mode = { "i", "n" } },
+            -- Move around the preview without leaving the input. Plain arrows
+            -- move the list and the cursor in the query, so ctrl moves the
+            -- preview; `<c-f>`/`<c-b>` keep scrolling it up and down as well.
+            ["<c-Left>"] = { "preview_scroll_left", mode = { "i", "n" } },
+            ["<c-Down>"] = { "preview_scroll_down", mode = { "i", "n" } },
+            ["<c-Up>"] = { "preview_scroll_up", mode = { "i", "n" } },
+            ["<c-Right>"] = { "preview_scroll_right", mode = { "i", "n" } },
             -- Easy exit
             ["<Esc>"] = { "close", mode = { "n", "i" } },
             ["<F1>"] = { "close", mode = { "i", "n" } },
@@ -153,6 +226,10 @@ return {
             ["<a-q>"] = "toggle_noise",
             ["<a-t>"] = "toggle_tests",
             ["<a-u>"] = "toggle_imports",
+            ["<c-Left>"] = "preview_scroll_left",
+            ["<c-Down>"] = "preview_scroll_down",
+            ["<c-Up>"] = "preview_scroll_up",
+            ["<c-Right>"] = "preview_scroll_right",
           },
         },
       },

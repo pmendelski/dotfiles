@@ -52,12 +52,22 @@ jumping straight there, since they name one target anyway.
 | `<c-s>` / `<c-v>` | open in **split** / **vsplit** |
 | `<c-q>`       | send results to **quickfix** |
 | `<a-p>`       | toggle **preview** |
+| `<a-m>`       | **maximize** — fullscreen, list narrowed to ~30% (custom ratio) |
 | `<a-h>` / `<a-i>` | toggle **hidden** / **ignored** files |
+| `<c-f>` / `<c-b>` | scroll preview **down** / **up**, half a screen |
+| `<c-Down>` / `<c-Up>` | the same, on the arrows (custom) |
+| `<c-Right>` / `<c-Left>` | scroll preview **right** / **left**, 10 columns (custom) |
 | `<c-g>`       | **print path** of the item (result list) |
 | `<Esc>`, `<F1>`–`<F4>` | **close** (custom) |
 
 The preview window title shows the project-relative path, shortened in the
 middle when it does not fit (custom).
+
+Plain arrows move the result list and the cursor in the query, so ctrl-arrows
+move the preview instead. The sideways keys are inert in previews that wrap
+their lines (diffs, git log) — there is nothing off-screen to scroll to.
+`<a-w>` cycles the focus into the preview itself, where every normal motion
+works; `i` goes back.
 
 ### Filtering noise out of results
 

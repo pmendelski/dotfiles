@@ -24,6 +24,23 @@ local function toggle()
   explorer.open()
 end
 
+--- The directory an explorer action is scoped to, and a label naming it.
+--- Scoped pickers otherwise look identical to unscoped ones -- a bare `Files`
+--- covers one directory or the whole tree with no way to tell -- which also
+--- hides the case where the cursor sat on the root (or on a top-level file,
+--- whose parent *is* the root) and nothing actually got narrowed.
+---@param explorer snacks.Picker
+---@param item snacks.picker.Item
+---@return string dir, string label
+local function scope(explorer, item)
+  local dir = Snacks.picker.util.dir(item)
+  local root = explorer:cwd()
+  -- `math.huge` makes truncpath relativize (cwd / git root / ~) without truncating
+  local label = dir == root and "<root>"
+    or Snacks.picker.util.truncpath(dir, math.huge, { cwd = root }) .. "/"
+  return dir, label
+end
+
 local code = require("util.code")
 
 return {
@@ -49,14 +66,40 @@ return {
             list = {
               keys = {
                 ["<ESC>"] = false,
+                -- Single letters, not `<leader>x`: a `<leader>` map here shadows
+                -- the global `<leader>x…` group for `timeoutlen`, so a moment's
+                -- hesitation fires this instead of the global keymap you meant.
+                -- `g` is deliberately not used -- it is the prefix of `gg`.
+                -- Scoped grep already lives on the built-in `<leader>/`.
                 ["t"] = "run_tests",
-                ["<leader>s"] = "lsp_symbols_dir",
-                ["<leader>f"] = "picker_files",
-                ["<leader>g"] = "picker_grep",
+                ["f"] = "picker_files",
+                ["s"] = "lsp_symbols_dir",
               },
             },
           },
           actions = {
+            -- `Snacks.picker.actions.picker` (the built-in `picker_files`) passes
+            -- `on_show = function() explorer:close() end`, so drilling into a
+            -- directory closes the sidebar -- behind the new picker's float, so
+            -- you only notice once you confirm a file and the float goes away.
+            -- Scope the picker the way the built-in `picker_grep` already does
+            -- instead, and leave the explorer alone.
+            picker_files = function(explorer, item)
+              if not item then
+                return
+              end
+              local dir, label = scope(explorer, item)
+              Snacks.picker.files({ cwd = dir, title = "Files: " .. label })
+            end,
+            -- the built-in `picker_grep` already leaves the explorer alone;
+            -- overridden only to name the directory it is scoped to
+            picker_grep = function(explorer, item)
+              if not item then
+                return
+              end
+              local dir, label = scope(explorer, item)
+              Snacks.picker.grep({ cwd = dir, title = "Grep: " .. label })
+            end,
             run_tests = function(_, item)
               if not item or not item.file then
                 vim.notify("Test runner: no item under cursor", vim.log.levels.WARN)
@@ -66,17 +109,25 @@ return {
             end,
             -- workspace/symbol has no path scope in the LSP spec, so filter
             -- results client-side instead of via the (unavailable) filter.cwd
-            lsp_symbols_dir = function(_, item)
+            lsp_symbols_dir = function(explorer, item)
               if not item then
                 return
               end
-              local dir = Snacks.picker.util.dir(item)
-              Snacks.picker.lsp_workspace_symbols({
-                transform = function(it)
-                  local file = it.file and vim.fs.normalize(it.file)
-                  return file ~= nil and (file == dir or file:find(dir .. "/", 1, true) == 1)
-                end,
-              })
+              local dir, label = scope(explorer, item)
+              -- `snacks.picker.core.filter` takes its LSP context from
+              -- `nvim_get_current_buf()` and offers no way to override it. Here
+              -- that is the explorer's own `nofile` list buffer, which has no
+              -- client attached, so no server is ever asked and the picker comes
+              -- up empty. Open it from the main window, which holds a real file.
+              vim.api.nvim_win_call(explorer.main, function()
+                Snacks.picker.lsp_workspace_symbols({
+                  title = "Symbols: " .. label,
+                  transform = function(it)
+                    local file = it.file and vim.fs.normalize(it.file)
+                    return file ~= nil and (file == dir or file:find(dir .. "/", 1, true) == 1)
+                  end,
+                })
+              end)
             end,
           },
         },
