@@ -145,11 +145,14 @@ _flexi_parse_git_output() {
 
 # Read .git/HEAD directly — no subprocess, no fork, instant.
 # Only checks $PWD/.git (no tree traversal); subdirs get the branch via background job.
+# With the reftable backend the HEAD file is only a placeholder, so this path
+# gives up and lets the background job resolve the branch through git.
 _flexi_show_branch_fast() {
   local gitdir="$PWD/.git"
   [[ -f "$gitdir" ]] && { local line; read -r line < "$gitdir" 2>/dev/null; gitdir="${line#gitdir: }"; [[ "$gitdir" != /* ]] && gitdir="$PWD/$gitdir"; }
   [[ ! -f "$gitdir/HEAD" ]] && return 1
   local head; read -r head < "$gitdir/HEAD" 2>/dev/null || return 1
+  [[ "$head" == "ref: refs/heads/.invalid" ]] && return 1
   local branch
   if [[ "$head" == ref:* ]]; then
     branch="${head#ref: refs/heads/}"

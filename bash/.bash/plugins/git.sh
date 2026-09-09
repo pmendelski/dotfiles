@@ -79,6 +79,12 @@ git_branch_status() {
       if ! __git_eread "$g/HEAD" head; then
         return
       fi
+      if [ "$head" = "ref: refs/heads/.invalid" ]; then
+        # reftable backend (extensions.refstorage=reftable): the HEAD file is
+        # only a placeholder, so ask git for the ref it actually points at.
+        head="$(git symbolic-ref HEAD 2>/dev/null)"
+        [ -n "$head" ] && head="ref: $head"
+      fi
       # is it a symbolic ref?
       rebaseBranch="${head#ref: }"
       if [ "$head" = "$rebaseBranch" ]; then
