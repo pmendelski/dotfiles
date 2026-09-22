@@ -39,9 +39,25 @@ map("n", "<leader>mr", ":diffget REMOTE", "Diff: Use REMOTE")
 -----------------------------------------------------------
 --ctrl-arrow to navigate splits
 map("n", "<c-Left>", "<cmd>wincmd h<cr>", "Splits: Go to left split")
-map("n", "<c-Down>", "<cmd>wincmd j<cr>", "Splits: Go to right split")
-map("n", "<c-Up>", "<cmd>wincmd k<cr>", "Splits: Go to above split")
-map("n", "<c-Right>", "<cmd>wincmd l<cr>", "Splits: Go to below split")
+map("n", "<c-Right>", "<cmd>wincmd l<cr>", "Splits: Go to right split")
+-- ...but scroll the LSP hover / signature popup first, when one is open, the
+-- same as `<c-f>`/`<c-b>` (and ctrl-arrows in picker previews)
+local function scroll_popup_or(delta, wincmd, key)
+  return function()
+    if require("noice.lsp").scroll(delta) then
+      return ""
+    end
+    return vim.fn.mode() == "n" and ("<cmd>wincmd " .. wincmd .. "<cr>") or key
+  end
+end
+map_opts({ "n", "i", "s" }, "<c-Down>", scroll_popup_or(4, "j", "<c-Down>"), {
+  expr = true,
+  desc = "Scroll popup down / Go to split below",
+})
+map_opts({ "n", "i", "s" }, "<c-Up>", scroll_popup_or(-4, "k", "<c-Up>"), {
+  expr = true,
+  desc = "Scroll popup up / Go to split above",
+})
 -- Open current buffer in a vertical split
 map("n", "<leader>|", ":vsp<cr>", "Splits: Split vertically")
 

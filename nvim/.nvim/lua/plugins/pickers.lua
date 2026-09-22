@@ -116,25 +116,73 @@ local function each_side_preview(box, cb)
   end
 end
 
+--- The preset ratios, kept the first time a layout is widened so the split can
+--- be put back. Keyed by the win spec in the layout config, weakly: a closed
+--- picker's layout should not be held alive by this.
+---@type table<snacks.layout.Win, number>
+local preset_widths = setmetatable({}, { __mode = "k" })
+
+--- Give the preview `maximized_preview_width`, or hand the preset ratio back.
+--- Reports whether the layout had a side preview to resize at all.
+---@param layout snacks.picker.layout.Config
+---@param maximized boolean
+---@return boolean
+local function set_preview_width(layout, maximized)
+  local found = false
+  each_side_preview(layout.layout, function(win)
+    found = true
+    if maximized then
+      -- `or win.width` so a second pass over an already-wide layout keeps the
+      -- preset rather than recording 0.7 as the thing to restore
+      preset_widths[win] = preset_widths[win] or win.width
+      win.width = maximized_preview_width
+    else
+      win.width = preset_widths[win] or win.width
+    end
+  end)
+  return found
+end
+
 --- Fullscreen, but with a narrower result list. `layout:maximize()` only flips
 --- the fullscreen flag and keeps the preset ratio, so set the widths first:
 --- `layout:update()` re-reads them from `opts.layout` on every call.
 ---@param picker snacks.Picker
 local function toggle_maximize(picker)
   local layout = picker.layout
-  local maximized = not layout.opts.fullscreen
-  local preset_widths = layout.preset_widths or {}
-  each_side_preview(layout.opts.layout, function(win)
-    if maximized then
-      preset_widths[win] = win.width
-      win.width = maximized_preview_width
-    else
-      win.width = preset_widths[win]
-    end
-  end)
-  layout.preset_widths = preset_widths
+  set_preview_width(layout.opts, not layout.opts.fullscreen)
   layout:maximize()
 end
+
+--- Open in the shape `<a-m>` produces, so the preview is a reading pane from
+--- the start and `<a-m>` becomes "shrink back to the preset".
+--- Only for floats with a preview beside the list: `select` (`vim.ui.select`)
+--- and the explorer sidebar have nothing to gain from fullscreen, and splits
+--- are not floats to begin with.
+--- Decided once per picker -- `config` runs again on every refresh, and forcing
+--- the flag there would undo `<a-m>` on the next keystroke.
+---@param opts snacks.picker.Config
+---@return snacks.picker.Config
+local function maximize_by_default(opts)
+  if opts.maximized_default then
+    return opts
+  end
+  opts.maximized_default = true
+  -- resolve the preset into a concrete layout, so there are widths to set
+  local layout = Snacks.picker.config.layout(opts)
+  if (layout.layout.position or "float") == "float" and set_preview_width(layout, true) then
+    layout.fullscreen = true
+    opts.layout = layout
+  end
+  return opts
+end
+
+--- How long a picker waits for results before showing itself empty. The 5s
+--- default exists so a picker that may auto-confirm a lone result can close
+--- again without ever flashing on screen. Everywhere else it just means an
+--- unchanged screen while a cold LSP server gets around to answering `gr`.
+--- Still long enough that a quick finder finishes first and keeps its
+--- "No results" notification, since a shown picker no longer emits one.
+local show_delay = 200
 
 --- LSP sources that may still jump straight to a lone result. `gd`/`gD`/`gy`
 --- name a single target, so a picker for one item is only in the way.
@@ -157,7 +205,13 @@ return {
         -- Set here rather than per source: the source layer merges *over* the
         -- user config, so `sources = { lsp_references = ... }` alone would lose.
         opts.auto_confirm = auto_confirm_sources[opts.source] == true
-        return with_path_title(filters.apply(opts))
+        -- Only for pickers that are going to be shown anyway: a picker that is
+        -- already on screen never auto-confirms, so shortening the wait for
+        -- `gd` would turn every jump into a one-item list to confirm by hand.
+        if not opts.auto_confirm then
+          opts.show_delay = show_delay
+        end
+        return maximize_by_default(with_path_title(filters.apply(opts)))
       end,
       actions = {
         -- override built-in actions, so the keys mapped to them pick these up

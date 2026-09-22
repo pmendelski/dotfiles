@@ -23,7 +23,13 @@ the rest come from [LazyVim](https://www.lazyvim.org/).
 | `<leader>ss`    | **symbols** in the current file |
 | `<leader>sS`    | **symbols** in the workspace |
 | `K`             | **hover** documentation |
+| `<c-f>` / `<c-b>` | scroll hover, signature or completion docs **down** / **up** |
+| `<c-Down>` / `<c-Up>` | the same, on the arrows (custom) |
 | `<a-n>` / `<a-p>` | **next/prev reference** in the current file |
+
+With no popup open, `<c-Down>`/`<c-Up>` keep moving between splits. In the
+which-key popup (`<leader>?`, or a pending `<leader>`) they scroll it, next to
+the built-in `<c-d>`/`<c-u>` (custom).
 
 `gr`, `gI` and the call pickers always open the list, even for a single result
 (custom) — one hit is still worth seeing in context. `gd`, `gD` and `gy` keep
