@@ -110,6 +110,9 @@ function __flexiPromptDebianChroot() {
 
 function __flexiPromptGitStatus() {
   local exit=$?
+  if type is_remote_fs &>/dev/null && is_remote_fs; then
+    return $exit
+  fi
   local prefix="$__FLEXI_PROMPT_GIT_BEFORE"
   local suffix="$__FLEXI_PROMPT_GIT_AFTER"
 

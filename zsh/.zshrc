@@ -1,8 +1,12 @@
 #!/bin/zsh
 
 # Local variables
+[ -r "$HOME/.bash/exports.sh" ] && source "$HOME/.bash/exports.sh"
+[ -r "$HOME/.zsh/exports.zsh" ] && source "$HOME/.zsh/exports.zsh"
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
 [ -r "$HOME/.zsh_exports" ] && source "$HOME/.zsh_exports"
+[ -r "$HOME/.dotfiles-ext/bash/exports.sh" ] && source "$HOME/.dotfiles-ext/bash/exports.sh"
+[ -r "$HOME/.dotfiles-ext/zsh/exports.zsh" ] && source "$HOME/.dotfiles-ext/zsh/exports.zsh"
 
 if [ -t 0 ]; then
   # Interactive mode
@@ -13,11 +17,7 @@ if [ -t 0 ]; then
   : ${ZSH_PROMPT:="flexi"}
 
   # Detect ide mode
-  if [ -n "$NVIM_TERM" ] ||
-    [ -n "$VSCODE_PID" ] ||
-    [ -n "$VSCODE_INJECTION" ] ||
-    [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
-    export IDE_MODE=1
+  if [ -n "$IDE_MODE" ]; then
     export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
   fi
 
@@ -48,7 +48,13 @@ if [ -f "$HOME/.dotfiles-ext/zsh/.zshrc" ]; then source "$HOME/.dotfiles-ext/zsh
 if [ -f "$HOME/.zshrc_local" ]; then source "$HOME/.zshrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
-if command -v mise &>/dev/null; then eval "$(mise activate zsh)"; fi
+if command -v mise &>/dev/null; then
+  eval "$(mise activate --shims zsh)"
+
+  mise-env() {
+    eval "$(command mise env -s zsh "$@")"
+  }
+fi
 
 
 autoload -U +X bashcompinit && bashcompinit

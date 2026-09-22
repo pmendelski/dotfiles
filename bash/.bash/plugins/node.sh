@@ -15,9 +15,6 @@ function npmbin {
   )
 }
 
-# Use binaries from local node_modules
-export PATH="./node_modules/.bin:$PATH"
-
 # Set NODE_ENV to development
 export NODE_ENV="development"
 

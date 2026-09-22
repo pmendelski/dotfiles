@@ -15,7 +15,9 @@
 # 2. ~/.bashrc
 
 # Local variables
+[ -r "$HOME/.bash/exports.sh" ] && source "$HOME/.bash/exports.sh"
 [ -r "$HOME/.bash_exports" ] && source "$HOME/.bash_exports"
+[ -r "$HOME/.dotfiles-ext/bash/exports.sh" ] && source "$HOME/.dotfiles-ext/bash/exports.sh"
 
 if [[ $- == *i* ]]; then
   # Interactive mode
@@ -26,11 +28,7 @@ if [[ $- == *i* ]]; then
   fi
 
   # Detect ide mode
-  if [ -n "$NVIM_TERM" ] ||
-    [ -n "$VSCODE_PID" ] ||
-    [ -n "$VSCODE_INJECTION" ] ||
-    [ "$TERMINAL_EMULATOR" = "JetBrains-JediTerm" ]; then
-    export IDE_MODE=1
+  if [ -n "$IDE_MODE" ]; then
     export __FLEXI_PROMPT_SHLVL_MODIF=$((1 + __FLEXI_PROMPT_SHLVL_MODIF))
   fi
 
@@ -54,4 +52,10 @@ if [ -f "$HOME/.dotfiles-ext/bash/.bashrc" ]; then source "$HOME/bash/.bashrc"; 
 if [ -f "$HOME/.bashrc_local" ]; then source "$HOME/.bashrc_local"; fi
 if [ -f "$HOME/.initrc" ]; then source "$HOME/.initrc"; fi
 if [ -f "$HOME/.initrc_local" ]; then source "$HOME/.initrc_local"; fi
-if command -v mise &>/dev/null; then eval "$(mise activate bash)"; fi
+if command -v mise &>/dev/null; then
+  eval "$(mise activate --shims bash)"
+
+  mise-env() {
+    eval "$(command mise env -s bash "$@")"
+  }
+fi

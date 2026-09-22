@@ -40,11 +40,46 @@ function bashChangePrompt() {
   fi
 }
 
+function __cleanPath() {
+  local rem=":$PATH:"
+  local dir cleaned=""
+  while [ -n "$rem" ] && [ "$rem" != ":" ]; do
+    rem="${rem#:}"
+    dir="${rem%%:*}"
+    rem="${rem#"$dir"}"
+    # Skip empty entries (which represent current directory '.')
+    [ -z "$dir" ] && continue
+    # Skip relative paths (e.g. '.' or './node_modules/.bin')
+    [[ "$dir" != /* ]] && continue
+    # Deduplicate (preserve first occurrence)
+    case ":$cleaned:" in
+      *":$dir:"*) ;;
+      *) cleaned="${cleaned:+$cleaned:}$dir" ;;
+    esac
+  done
+  export PATH="$cleaned"
+}
+
 function __loadPath() {
   if [ -f "$HOME/.path" ]; then
-    local -r paths="$(grep '^[^#]' "$HOME/.path" | sort -u | tr '\n' ':')"
-    export PATH="$paths:$PATH"
+    local new_paths=""
+    local dir
+    while IFS= read -r dir || [ -n "$dir" ]; do
+      dir="${dir%%#*}"
+      dir="$(echo "$dir" | xargs)"
+      [ -z "$dir" ] && continue
+      [[ "$dir" != /* ]] && continue
+      case ":$new_paths:" in
+        *":$dir:"*) ;;
+        *) new_paths="${new_paths:+$new_paths:}$dir" ;;
+      esac
+    done < "$HOME/.path"
+
+    if [ -n "$new_paths" ]; then
+      export PATH="$new_paths:$PATH"
+    fi
   fi
+  __cleanPath
 }
 
 function sourceOptional() {
@@ -55,8 +90,7 @@ function sourceOptional() {
 }
 
 function __loadBash() {
-  source "$HOME/.bash/exports.sh"
-  sourceOptional "$HOME/.dotfiles-ext/bash/exports.sh"
+  [ -z "${BASH_DIR-}" ] && sourceOptional "$HOME/.bash/exports.sh"
   source "$HOME/.bash/aliases.sh"
   sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   __loadPath
@@ -68,6 +102,7 @@ function __loadBash() {
   __loadBashPlugins "$HOME/.dotfiles-ext/bash/lib"
   __loadBashPlugins "$HOME/.bash/plugins"
   __loadBashPlugins "$HOME/.dotfiles-ext/bash/plugins"
+  __cleanPath
   if [[ $- == *i* ]]; then
     # Interactive mode
     bashChangePrompt

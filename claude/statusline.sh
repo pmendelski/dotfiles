@@ -115,7 +115,23 @@ left="${BLUE_BOLD}${pwd_display}${RESET}"
 # ---------------------------------------------------------------------------
 # Left side: git status (bold magenta, matching PS1 git color, no parens)
 # ---------------------------------------------------------------------------
-if command -v git >/dev/null 2>&1 \
+_skip_git=0
+if [ -n "${REMOTE_FS-}" ]; then
+  _rem=":$REMOTE_FS:"
+  while [ -n "$_rem" ] && [ "$_rem" != ":" ]; do
+    _rem="${_rem#:}"
+    _fs="${_rem%%:*}"
+    _rem="${_rem#"$_fs"}"
+    [ -z "$_fs" ] && continue
+    _clean_fs="${_fs%/}"
+    if [[ "$cwd" == "$_clean_fs" || "$cwd" == "$_clean_fs/"* ]]; then
+      _skip_git=1
+      break
+    fi
+  done
+fi
+
+if [ "$_skip_git" = 0 ] && command -v git >/dev/null 2>&1 \
     && git_out=$(git -C "$cwd" rev-parse --is-inside-work-tree --short HEAD 2>/dev/null); then
   inside=$(printf '%s' "$git_out" | awk 'NR==1')
   sha=$(printf '%s'    "$git_out" | awk 'NR==2')

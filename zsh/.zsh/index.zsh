@@ -39,10 +39,8 @@ function __loadLocalZshFiles() {
 
 function __loadZsh() {
   source "$HOME/.bash/index.sh"
-  source "$HOME/.bash/exports.sh"
-  sourceOptional "$HOME/.dotfiles-ext/bash/exports.sh"
-  source "$HOME/.zsh/exports.zsh"
-  sourceOptional "$HOME/.dotfiles-ext/zsh/exports.zsh"
+  [ -z "${BASH_DIR-}" ] && sourceOptional "$HOME/.bash/exports.sh"
+  [ -z "${ZSH_DIR-}" ] && sourceOptional "$HOME/.zsh/exports.zsh"
   source "$HOME/.bash/aliases.sh"
   sourceOptional "$HOME/.dotfiles-ext/bash/aliases.sh"
   source "$HOME/.zsh/aliases.zsh"
@@ -64,6 +62,8 @@ function __loadZsh() {
   if [[ $- == *i* ]]; then
     __loadZshPlugins "$HOME/.zsh/ohmyzsh"
   fi
+  typeset -U path PATH 2>/dev/null
+  __cleanPath
 }
 
 __loadZsh

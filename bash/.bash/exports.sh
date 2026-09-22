@@ -19,6 +19,16 @@ else
   export EDITOR="vim"
 fi
 
+# Detect IDE mode
+if [ -z "${IDE_MODE-}" ]; then
+  if [ -n "${NVIM_TERM-}" ] ||
+    [ -n "${VSCODE_PID-}" ] ||
+    [ -n "${VSCODE_INJECTION-}" ] ||
+    [ "${TERMINAL_EMULATOR-}" = "JetBrains-JediTerm" ]; then
+    export IDE_MODE=1
+  fi
+fi
+
 # Terminal capabilities
 if [ "$TERM" != "linux" ]; then
   export TERM_NERD_FONT_ENABLED="true"

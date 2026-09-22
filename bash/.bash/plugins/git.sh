@@ -1,6 +1,31 @@
 #!/usr/bin/env bash
 
+# Check if a path (default: $PWD) is on a remote filesystem (e.g. NFS, cloud workspaces)
+# where VCS/Git operations and deep directory traversals should be skipped.
+is_remote_fs() {
+  local target="${1:-$PWD}"
+  [ -z "${REMOTE_FS-}" ] && return 1
+
+  local rem=":$REMOTE_FS:"
+  local fs clean_fs
+  while [ -n "$rem" ] && [ "$rem" != ":" ]; do
+    rem="${rem#:}"
+    fs="${rem%%:*}"
+    rem="${rem#"$fs"}"
+    [ -z "$fs" ] && continue
+    clean_fs="${fs%/}"
+    if [[ "$target" == "$clean_fs" || "$target" == "$clean_fs/"* ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
 git_branch_status() {
+  if is_remote_fs; then
+    return
+  fi
+
   local repo_info rev_parse_exit_code
   repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
     --is-bare-repository --is-inside-work-tree \
@@ -152,6 +177,10 @@ git_upstream_name() {
 }
 
 git_status_flags() {
+  if is_remote_fs; then
+    echo "0 0 0"
+    return
+  fi
   # Returns "staged unstaged untracked" as 0/1 values via a single git call
   local staged=0 unstaged=0 untracked=0 x y
   while IFS= read -r line; do
@@ -191,6 +220,7 @@ git_stash_size() {
 }
 
 git_prompt() {
+  is_remote_fs && return
   local branchStatus="$(git_branch_status)"
   [ -z "$branchStatus" ] && return
 

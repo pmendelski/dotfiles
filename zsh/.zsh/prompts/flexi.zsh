@@ -78,11 +78,34 @@ add-zsh-hook precmd __flexiPromptPreCmd
 # Preserve the original sync implementation before overriding it.
 functions[__flexiPromptGitStatusSync]=$functions[__flexiPromptGitStatus]
 
+if ! typeset -f is_remote_fs >/dev/null 2>&1; then
+  is_remote_fs() {
+    local target="${1:-$PWD}"
+    [ -z "${REMOTE_FS-}" ] && return 1
+    local rem=":$REMOTE_FS:"
+    local fs clean_fs
+    while [ -n "$rem" ] && [ "$rem" != ":" ]; do
+      rem="${rem#:}"
+      fs="${rem%%:*}"
+      rem="${rem#"$fs"}"
+      [ -z "$fs" ] && continue
+      clean_fs="${fs%/}"
+      if [[ "$target" == "$clean_fs" || "$target" == "$clean_fs/"* ]]; then
+        return 0
+      fi
+    done
+    return 1
+  }
+fi
+
 typeset -g _FLEXI_GIT_STATUS_CACHED=""
 typeset -g _FLEXI_GIT_RESULT_FILE="${TMPDIR:-/tmp}/.flexi_git_${$}"
 
 # Replaces the sync version — returns cached result, or falls back to sync when FLEXI_GIT_SYNC=1.
 __flexiPromptGitStatus() {
+  if is_remote_fs; then
+    return
+  fi
   [[ "${FLEXI_GIT_SYNC:-0}" = "1" ]] && { __flexiPromptGitStatusSync; return; }
   echo -n "$_FLEXI_GIT_STATUS_CACHED"
 }
@@ -91,6 +114,11 @@ __flexiPromptGitStatus() {
 # $1=dir  $2=result_file  $3=parent_pid (for SIGWINCH notification)
 _flexi_git_compute() {
   local dir="$1" result_file="$2" ppid="$3"
+  if is_remote_fs "$dir"; then
+    : > "${result_file}.tmp" 2>/dev/null && mv "${result_file}.tmp" "$result_file" 2>/dev/null
+    kill -WINCH "$ppid" 2>/dev/null
+    return
+  fi
   cd "$dir" 2>/dev/null || { kill -WINCH "$ppid" 2>/dev/null; return; }
   local branch; branch="$(git_branch_status 2>/dev/null)"
   if [[ -z "$branch" ]]; then
@@ -148,6 +176,9 @@ _flexi_parse_git_output() {
 # With the reftable backend the HEAD file is only a placeholder, so this path
 # gives up and lets the background job resolve the branch through git.
 _flexi_show_branch_fast() {
+  if is_remote_fs; then
+    return 1
+  fi
   local gitdir="$PWD/.git"
   [[ -f "$gitdir" ]] && { local line; read -r line < "$gitdir" 2>/dev/null; gitdir="${line#gitdir: }"; [[ "$gitdir" != /* ]] && gitdir="$PWD/$gitdir"; }
   [[ ! -f "$gitdir/HEAD" ]] && return 1
@@ -165,6 +196,10 @@ _flexi_show_branch_fast() {
 
 _flexi_async_git_refresh() {
   [[ "${FLEXI_GIT_SYNC:-0}" = "1" ]] && return
+  if is_remote_fs; then
+    _FLEXI_GIT_STATUS_CACHED=""
+    return
+  fi
   # Re-register every precmd so startup scripts can't permanently clear it.
   TRAPWINCH() {
     _flexi_update_git_cache
